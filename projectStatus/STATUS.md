@@ -15,7 +15,7 @@
 | **Phase 1: Architecture & Specs** | PRD, System Design, Database Design, API Design | ✅ Completed | All 4 design specs documented & committed. |
 | **Phase 2: Monorepo & Scaffold** | Workspaces, Express server, Next.js App Router, Tailwind, Redux, Zod | ✅ Completed | Fully verified and compiling without errors (`5fb7525`). |
 | **Phase 2.5: Stitch AI Design** | Google Stitch MCP integration & UI screen generation | ✅ Completed | Screens & design tokens imported into `docs/stitch_designs/` (`2826fd5`). |
-| **Phase 3: Database & Auth** | MongoDB Atlas connection, JWT Auth cookies, Guest passcode unlock | 🟡 Ready for Wiring | Schemas & controllers implemented; waiting for Atlas URI. |
+| **Phase 3: Database & Auth** | MongoDB Atlas connection, JWT Auth cookies, Guest passcode unlock | ✅ Completed | Live Atlas cluster connected, GridFS bucket initialized, auth endpoints tested and verified live. |
 | **Phase 4: Admin Portal** | Dual-view dashboard, wedding creation, event itinerary editor | ✅ Completed | Fully implemented matching Stitch design (`/admin/dashboard`). |
 | **Phase 5: Guest QR Upload** | Attribution (Name/Email), image compression, batch GridFS upload | ✅ Completed | Mobile-friendly upload portal implemented (`/guest/upload`). |
 | **Phase 6: Timeline & Media Gallery** | 6-event tabs, photo/video segregation, stream pipes, live stream embed | ✅ Completed | Implemented matching Stitch design (`/marriage/[id]`). |
@@ -106,24 +106,22 @@
 | `c2149e9` | `feat(ui): sync and implement updated Google Stitch AI designs for landing page and guest dashboard` | Nov 1, 2026 |
 | `9c5aca5` | `docs: sync git log in STATUS.md for commit c2149e9` | Nov 1, 2026 |
 | `9e02769` | `feat(auth): implement full end-to-end admin registration, login, session rehydration, and guest passcode unlock` | Nov 1, 2026 |
+| `75ea5b7` | `docs: sync git log in STATUS.md for commit 9e02769` | Nov 1, 2026 |
+| `pending` | `feat(db): connect MongoDB Atlas cluster, configure GridFS bucket, and verify live auth API endpoints` | Nov 1, 2026 |
 
 ---
 
 ## 5. Recommended Next Steps (Implementation Roadmap)
 
-1. **Step 1: MongoDB Connection Setup (`backend/.env`)**
-   * Create `backend/.env` with MongoDB Atlas connection string (`MONGO_URI`) and JWT secret.
-   * Verify live database connectivity and GridFS bucket initialization.
+1. **Step 1: Wire Wedding Management to Live Database**
+   * Connect `/admin/dashboard` creation modal (`POST /api/v1/marriages`) to persist new weddings in MongoDB Atlas.
+   * Auto-generate the 6-event timeline in the `events` collection upon wedding creation.
 
-2. **Step 2: Connect Frontend to Live Backend Endpoints**
-   * Wire `frontend/src/lib/api.ts` with backend routes (`/api/v1/auth`, `/api/v1/marriages`, `/api/v1/media`, `/api/v1/events`).
-   * Replace mock demo state in `/admin/dashboard` and `/marriage/[id]` with real dynamic queries and mutation hooks.
+2. **Step 2: Connect Live Media GridFS Upload Pipeline**
+   * Wire `/guest/upload` and in-page modal uploader (`POST /api/v1/media/upload`) to stream compressed photos into MongoDB GridFS.
+   * Pipe stored images to `/marriage/[id]` photo dump gallery using GridFS binary streams.
 
-3. **Step 3: Verification of Media Upload Pipeline**
-   * Test client-side image compression (`browser-image-compression`) via `/guest/upload` and in-page modal uploader.
-   * Verify GridFS binary streaming storage and retrieval.
-
-4. **Step 4: Cloud Deployment Preparation (₹0 Architecture)**
+3. **Step 3: Cloud Deployment Preparation (₹0 Architecture)**
    * Deploy Express backend to Render with cold-start banner support.
    * Deploy Next.js frontend to Vercel with environment variable configuration.
 
