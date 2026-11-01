@@ -8,6 +8,17 @@ const api = axios.create({
   }
 });
 
+// Request interceptor: attach bearer token fallback if present in localStorage
+api.interceptors.request.use((config) => {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('mmm_token');
+    if (token && config.headers && !config.headers.Authorization) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
+
 // Response interceptor to format errors gracefully
 api.interceptors.response.use(
   (response) => response,
@@ -22,4 +33,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-

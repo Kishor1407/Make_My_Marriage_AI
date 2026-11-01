@@ -3,9 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const user = useSelector((state: RootState) => state.auth.user);
 
   // If on admin dashboard or guest upload, keep header minimal or hide
   if (pathname?.startsWith('/admin/dashboard')) {
@@ -79,13 +82,25 @@ export default function Navbar() {
             <span className="hidden sm:inline">Upload Shot</span>
           </Link>
 
-          <Link
-            href="/admin/login"
-            className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:opacity-95 shadow-sm transition-all"
-          >
-            <span className="material-symbols-outlined text-[16px]">admin_panel_settings</span>
-            <span>Host Portal</span>
-          </Link>
+          {user?.role === 'ADMIN' ? (
+            <Link
+              href="/admin/dashboard"
+              className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:opacity-95 shadow-sm transition-all"
+            >
+              <div className="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">
+                {user.name.slice(0, 1).toUpperCase()}
+              </div>
+              <span>{user.name.split(' ')[0]} (Host)</span>
+            </Link>
+          ) : (
+            <Link
+              href="/admin/login"
+              className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:opacity-95 shadow-sm transition-all"
+            >
+              <span className="material-symbols-outlined text-[16px]">admin_panel_settings</span>
+              <span>Host Portal</span>
+            </Link>
+          )}
         </div>
       </div>
     </header>

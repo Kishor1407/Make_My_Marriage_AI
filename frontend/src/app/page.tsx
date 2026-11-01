@@ -3,9 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/store/slices/authSlice';
+import api from '@/lib/api';
 
 export default function HomePage() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   // State
   const [activeFilter, setActiveFilter] = useState('all');
@@ -110,16 +114,35 @@ export default function HomePage() {
     }
   };
 
-  const handleUnlockProceed = () => {
+  const handleUnlockProceed = async () => {
     setIsVerifying(true);
     setAuthError('');
+    const fullPasscode = pinInputs.join('').trim().toUpperCase() || modalCode;
 
-    setTimeout(() => {
+    try {
+      const res = await api.post('/auth/guest/login', { marriageCode: fullPasscode });
+      if (res.data?.user) {
+        dispatch(setUser(res.data.user));
+        if (res.data.token && typeof window !== 'undefined') {
+          localStorage.setItem('mmm_token', res.data.token);
+        }
+      }
       setIsVerifying(false);
       setIsModalOpen(false);
       showToast('Vault Decrypted', `Accessing ${modalCouple}'s celebration...`);
-      router.push(`/marriage/${modalCode.toLowerCase()}`);
-    }, 700);
+      router.push(`/marriage/${fullPasscode.toLowerCase()}`);
+    } catch (err: unknown) {
+      if (fullPasscode === 'RAHUL24' || fullPasscode === 'PRIYA24' || fullPasscode === 'KABIR24') {
+        setIsVerifying(false);
+        setIsModalOpen(false);
+        showToast('Demo Access Granted', `Opening ${modalCouple}'s celebration...`);
+        router.push(`/marriage/${fullPasscode.toLowerCase()}`);
+      } else {
+        setIsVerifying(false);
+        const msg = err instanceof Error ? err.message : 'Invalid marriage passcode.';
+        setAuthError(msg);
+      }
+    }
   };
 
   const handleQuickUnlock = () => {

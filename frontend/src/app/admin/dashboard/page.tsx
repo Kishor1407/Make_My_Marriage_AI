@@ -1,7 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { setUser, logout } from '@/store/slices/authSlice';
+import api from '@/lib/api';
 
 interface WeddingRecord {
   id: string;
@@ -18,12 +23,44 @@ interface WeddingRecord {
 }
 
 export default function AdminDashboardPage() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const [currentView, setCurrentView] = useState<'dashboard' | 'manage'>('dashboard');
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'live' | 'upcoming' | 'archived'>('all');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedMarriageForManage, setSelectedMarriageForManage] = useState<string>('RAHUL24');
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+
+  // Check active session on initial load if user state is empty
+  useEffect(() => {
+    if (!user) {
+      api.get('/auth/me')
+        .then((res) => {
+          if (res.data?.user) {
+            dispatch(setUser(res.data.user));
+          }
+        })
+        .catch(() => {
+          // Unauthenticated or expired session
+        });
+    }
+  }, [user, dispatch]);
+
+  const handleLogout = async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch {
+      // ignore
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('mmm_token');
+    }
+    dispatch(logout());
+    router.push('/admin/login');
+  };
 
   // New marriage form state
   const [newPartnerOne, setNewPartnerOne] = useState('');
@@ -205,17 +242,23 @@ export default function AdminDashboardPage() {
         {/* Host Profile */}
         <div className="px-4 pt-4 border-t border-outline-variant/30 flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
-            KH
+            {user?.name ? user.name.slice(0, 2).toUpperCase() : 'KH'}
           </div>
           <div className="flex-1 truncate">
             <p className="font-label-sm text-label-sm font-semibold text-on-surface truncate">
-              Kishor Hegge
+              {user?.name || 'Kishor Hegge'}
             </p>
-            <p className="text-[11px] text-on-surface-variant truncate">Master Admin (Host)</p>
+            <p className="text-[11px] text-on-surface-variant truncate">
+              {user?.email || 'Master Admin (Host)'}
+            </p>
           </div>
-          <Link href="/" className="p-1 text-on-surface-variant hover:text-error transition-colors" title="Exit to Home">
+          <button
+            onClick={handleLogout}
+            className="p-1 text-on-surface-variant hover:text-error transition-colors"
+            title="Sign Out"
+          >
             <span className="material-symbols-outlined text-[18px]">logout</span>
-          </Link>
+          </button>
         </div>
       </aside>
 
