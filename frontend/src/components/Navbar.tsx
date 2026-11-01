@@ -21,12 +21,13 @@ export default function Navbar() {
         {/* Brand */}
         <div className="flex items-center gap-3 shrink-0">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-secondary text-white flex items-center justify-center font-display font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
-              M
+            <div className="h-9 w-auto flex items-center">
+              <img
+                src="https://lh3.googleusercontent.com/aida/AEtjO1UfPBbeSlAkCyq5-pwjaoaiq0GGpx9YgfLpbzEKjeU8HM5Y8ehV4mZ3hN9b8oEQ7K_rcAQ-yO2uq1XaJmWEfZsBuvBQmnlaV_fWKmPNEQJUMZLB9gPtINBkxn6l9hgXAYhvkoQYLisIGb_HxY3VWLCXI3Yb92ApcvGN63zmWHogPr_d1hInLCR1Qrvwep7703oifn_jb6M_73mu021zIYharFGt6UjFTUm6eZTHNRL8"
+                alt="Make My Marriage"
+                className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
+              />
             </div>
-            <span className="font-headline-sm text-headline-sm tracking-tight text-on-surface font-bold">
-              Make My Marriage
-            </span>
           </Link>
           <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-caption text-[11px] font-semibold">
             ₹0 Cloud
@@ -78,8 +79,8 @@ export default function Navbar() {
             href="/guest/upload?code=RAHUL24"
             className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors"
           >
-            <span className="material-symbols-outlined text-[16px] text-primary">add_a_photo</span>
-            <span className="hidden sm:inline">Upload Shot</span>
+            <span className="material-symbols-outlined text-[16px] text-primary">qr_code_scanner</span>
+            <span className="hidden sm:inline">Scan Table QR</span>
           </Link>
 
           {user?.role === 'ADMIN' ? (
@@ -97,8 +98,8 @@ export default function Navbar() {
               href="/admin/login"
               className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:opacity-95 shadow-sm transition-all"
             >
-              <span className="material-symbols-outlined text-[16px]">admin_panel_settings</span>
-              <span>Host Portal</span>
+              <span className="material-symbols-outlined text-[16px]">lock_person</span>
+              <span>Planner Portal</span>
             </Link>
           )}
         </div>

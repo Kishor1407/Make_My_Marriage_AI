@@ -1,0 +1,1034 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="web_standard" name="shell-type">
+<title>Make My Marriage - Private Wedding Cloud</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "inverse-on-surface": "#eef0ff",
+          "error": "#ba1a1a",
+          "on-secondary-container": "#005d7b",
+          "surface-container": "#eaedff",
+          "on-background": "#131b2e",
+          "surface-dim": "#d2d9f4",
+          "on-primary": "#ffffff",
+          "surface": "#faf8ff",
+          "outline": "#71787f",
+          "secondary": "#006687",
+          "tertiary-container": "#cca72f",
+          "surface-container-lowest": "#ffffff",
+          "error-container": "#ffdad6",
+          "tertiary-fixed": "#ffe088",
+          "tertiary-fixed-dim": "#e9c349",
+          "secondary-fixed": "#c1e8ff",
+          "on-surface": "#131b2e",
+          "on-tertiary-fixed-variant": "#574500",
+          "primary": "#004b6f",
+          "on-tertiary-container": "#4e3d00",
+          "on-primary-fixed": "#001e2f",
+          "on-error": "#ffffff",
+          "surface-container-high": "#e2e7ff",
+          "inverse-primary": "#91cdfb",
+          "secondary-fixed-dim": "#82d0f7",
+          "secondary-container": "#88d6fd",
+          "surface-variant": "#dae2fd",
+          "on-primary-container": "#b3dcff",
+          "surface-tint": "#1e648d",
+          "on-secondary-fixed-variant": "#004d66",
+          "on-tertiary": "#ffffff",
+          "background": "#faf8ff",
+          "primary-fixed": "#cae6ff",
+          "surface-bright": "#faf8ff",
+          "on-error-container": "#93000a",
+          "on-tertiary-fixed": "#241a00",
+          "tertiary": "#735c00",
+          "on-secondary": "#ffffff",
+          "primary-container": "#1d638c",
+          "on-primary-fixed-variant": "#004b70",
+          "on-surface-variant": "#41484e",
+          "inverse-surface": "#283044",
+          "surface-container-highest": "#dae2fd",
+          "on-secondary-fixed": "#001e2b",
+          "outline-variant": "#c0c7cf",
+          "primary-fixed-dim": "#91cdfb",
+          "surface-container-low": "#f2f3ff"
+        },
+        borderRadius: {
+          DEFAULT: "0.25rem",
+          lg: "0.5rem",
+          xl: "0.75rem",
+          full: "9999px"
+        },
+        spacing: {
+          "space-xs": "0.25rem",
+          "space-lg": "1.5rem",
+          "gutter": "1.5rem",
+          "margin": "2rem",
+          "space-sm": "0.5rem",
+          "gutter-mobile": "1rem",
+          "space-xl": "2.5rem",
+          "margin-mobile": "1rem",
+          "space-md": "1rem"
+        },
+        fontFamily: {
+          "headline-lg": ["Plus Jakarta Sans"],
+          "label-sm": ["Inter"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "body-lg": ["Inter"],
+          "display": ["Plus Jakarta Sans"],
+          "body-sm": ["Inter"],
+          "body-md": ["Inter"],
+          "label-md": ["Inter"],
+          "caption": ["Inter"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"]
+        },
+        fontSize: {
+          "headline-lg": ["2.25rem", { lineHeight: "1.2", letterSpacing: "-0.025em", fontWeight: "600" }],
+          "label-sm": ["0.75rem", { lineHeight: "1.2", letterSpacing: "0.02em", fontWeight: "500" }],
+          "headline-md": ["1.5rem", { lineHeight: "1.3", letterSpacing: "-0.02em", fontWeight: "600" }],
+          "body-lg": ["1.125rem", { lineHeight: "1.6", letterSpacing: "-0.01em", fontWeight: "400" }],
+          "display": ["3.5rem", { lineHeight: "1.1", letterSpacing: "-0.03em", fontWeight: "700" }],
+          "body-sm": ["0.8125rem", { lineHeight: "1.5", letterSpacing: "0em", fontWeight: "400" }],
+          "body-md": ["0.9375rem", { lineHeight: "1.55", letterSpacing: "-0.005em", fontWeight: "400" }],
+          "label-md": ["0.875rem", { lineHeight: "1.2", letterSpacing: "0em", fontWeight: "500" }],
+          "caption": ["0.6875rem", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "600" }],
+          "headline-sm": ["1.125rem", { lineHeight: "1.4", letterSpacing: "-0.01em", fontWeight: "600" }],
+          "headline-lg-mobile": ["1.75rem", { lineHeight: "1.25", letterSpacing: "-0.02em", fontWeight: "600" }]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body { overscroll-behavior: none; }
+    main > :first-child { margin-top: 0 !important; }
+    main > :last-child { margin-bottom: 0 !important; }
+  }
+  ::-webkit-scrollbar { display: none; }
+
+  /* Dark mode tailored overrides */
+  .dark {
+    color-scheme: dark;
+  }
+  .dark body {
+    background-color: #0b1120 !important;
+    color: #f1f5f9 !important;
+  }
+  .dark header {
+    background-color: rgba(15, 23, 42, 0.88) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .dark footer {
+    background-color: #0b1329 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .dark .bg-surface {
+    background-color: #0b1120 !important;
+  }
+  .dark .bg-surface-container {
+    background-color: #1e293b !important;
+  }
+  .dark .bg-surface-container-low {
+    background-color: #131d33 !important;
+  }
+  .dark .bg-surface-container-lowest {
+    background-color: #131d33 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .dark .bg-surface-container-high {
+    background-color: #24324d !important;
+  }
+  .dark .text-on-surface {
+    color: #f8fafc !important;
+  }
+  .dark .text-on-surface-variant {
+    color: #94a3b8 !important;
+  }
+  .dark .filter-pill.active {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+  }
+  .dark .celebration-card {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  .dark .pin-box {
+    background-color: #1e293b !important;
+    color: #ffffff !important;
+    border: 1px solid #334155;
+  }
+  .dark .pin-box:focus {
+    border-color: #60a5fa !important;
+    background-color: #0f172a !important;
+  }
+</style>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased transition-colors duration-300">
+<!-- GLOBAL TOAST NOTIFICATION CONTAINER -->
+<div class="fixed bottom-6 right-6 z-[100] transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 text-white shadow-2xl border border-slate-700" id="toast">
+<span class="material-symbols-outlined text-secondary text-[20px]" id="toast-icon">check_circle</span>
+<div class="flex flex-col">
+<span class="font-headline-sm text-sm font-semibold" id="toast-title">Success</span>
+<span class="font-body-sm text-xs text-slate-300" id="toast-desc">Action performed</span>
+</div>
+</div>
+<!-- HEADER NAVIGATION -->
+<header class="fixed top-0 left-0 w-full z-40 bg-surface/85 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-colors duration-300">
+<div class="h-16 max-w-[1440px] mx-auto px-margin-mobile lg:px-margin flex items-center justify-between gap-space-md">
+<!-- Brand -->
+<div class="flex items-center gap-space-md shrink-0">
+<a class="flex items-center gap-space-sm group" data-path="explore-marriages" href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+<img alt="Make My Marriage" class="h-9 w-auto object-contain transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/AEtjO1WGr1l_mcgu_oGu-GXpVoXQBUPwfQ70Mmc2jo7osn_mtV0m3Tv0lD_f2t4QM68rHcc2FCxU8AsMf-ksBMdPVNhTEMfKFCHRjxNKSlJMldMW6ZAxJU_L2vcsQXFLgIYDMI-5wnphvAHJ3Gq_DT0IzhS3pGPpTxDj1jpGFExh2o1yRVMB9gZ-eAUGyN-PFyYxM8Q_aODSlyzYtLU-YtqcpMAL6Id9gzRfx-Cxq1-vTTJC">
+<span class="font-headline-sm text-headline-sm tracking-tight text-on-surface font-semibold">Make My Marriage</span>
+</a>
+<span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-caption text-caption uppercase font-semibold">SaaS v2.4</span>
+</div>
+<!-- Main Nav -->
+<nav class="hidden lg:flex items-center gap-space-xs" id="desktop-nav">
+<a aria-current="page" class="nav-link px-3.5 py-2 transition-all bg-primary-container text-on-primary font-label-md text-label-md rounded-lg shadow-sm" data-path="explore-marriages" href="#" onclick="activateNav(this, 'explore'); return false;">Explore Marriages</a>
+<a class="nav-link px-3.5 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" data-path="live-events" href="#" onclick="openQuickDrawer('Live Events Feed', 'realtime'); return false;">Live Events</a>
+<a class="nav-link px-3.5 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" data-path="guest-experience" href="#" onclick="openQuickDrawer('Guest Experience Hub', 'guest'); return false;">Guest Experience</a>
+<a class="nav-link px-3.5 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" data-path="admin-portal" href="#" onclick="openQuickDrawer('Host &amp; Planner Portal', 'admin'); return false;">Admin Portal</a>
+</nav>
+<!-- Header Actions -->
+<div class="flex items-center gap-space-sm sm:gap-space-md shrink-0">
+<!-- Dark/Light Theme Toggle -->
+<button aria-label="Toggle Color Scheme" class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all duration-200" id="theme-toggle" onclick="toggleDarkMode()" title="Switch Theme" type="button">
+<span class="material-symbols-outlined text-[20px] dark:hidden" id="moon-icon">dark_mode</span>
+<span class="material-symbols-outlined text-[20px] hidden dark:inline-block text-amber-300" id="sun-icon">light_mode</span>
+</button>
+<!-- Enter Code Quick Button -->
+<button class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors active:scale-95" onclick="openModal('RAHUL24', 'Rahul &amp; Anjali')" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">key</span>
+<span class="hidden sm:inline">Enter Code</span>
+</button>
+<!-- Host Profile Preview -->
+<button class="flex items-center rounded-full ring-2 ring-transparent hover:ring-primary-fixed transition-all" onclick="openQuickDrawer('Wedding Concierge Profile', 'admin')" title="User Profile">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsuZcSmvPOnIHI-AIBoJdXcK4WjK5lALRhAArHk190HFZ0dLtfFdk5k21kpQLu8QleKGfrWPvxU7Yop2Q4vzZt_hyLkhm39mJhzmTgJNp48ImeLxEvBje-hzevRa1S8XzmRGsSsx8Kd6pJyknqGqbVc6P-QHvPP_n1cpCTzJRhARrpCZ_z_0CMDgswb_8Cb0LdBQjO0KOyfhqlXu-QGUpOoc_R_zgTKS_COgda7Dc">
+</button>
+<!-- Mobile Menu Toggle -->
+<button aria-label="Open Mobile Navigation" class="lg:hidden p-2 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container transition-colors" onclick="toggleMobileNav()" type="button">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+</div>
+</div>
+<!-- Mobile Drawer Menu Dropdown -->
+<div class="hidden lg:hidden border-t border-surface-container bg-surface px-4 py-4 space-y-2 transition-all" id="mobile-menu">
+<a class="block px-3 py-2 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary" href="#" onclick="toggleMobileNav(); window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Explore Marriages</a>
+<a class="block px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container" href="#" onclick="toggleMobileNav(); openQuickDrawer('Live Events Feed', 'realtime'); return false;">Live Events</a>
+<a class="block px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container" href="#" onclick="toggleMobileNav(); openQuickDrawer('Guest Experience Hub', 'guest'); return false;">Guest Experience</a>
+<a class="block px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container" href="#" onclick="toggleMobileNav(); openQuickDrawer('Host &amp; Planner Portal', 'admin'); return false;">Admin Portal</a>
+</div>
+</header>
+<!-- MAIN CONTENT -->
+<main class="w-full pt-16 bg-surface min-h-[calc(100vh-4rem)] transition-colors duration-300">
+<div class="flex flex-col w-full">
+<!-- Subtle decorative ambient glow backdrops -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[480px] bg-gradient-to-b from-primary/10 via-secondary-container/20 to-transparent blur-3xl pointer-events-none -z-10 rounded-full dark:from-primary/20 dark:via-blue-900/20"></div>
+<div class="absolute top-96 right-10 w-96 h-96 bg-tertiary-fixed/15 blur-3xl pointer-events-none -z-10 rounded-full dark:bg-amber-600/10"></div>
+<!-- 1. HERO SECTION -->
+<section class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin pt-8 pb-16 lg:pb-24 w-full">
+<div class="flex flex-col items-center text-center max-w-4xl mx-auto space-y-6">
+<!-- Eyebrow Badge -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high shadow-sm cursor-pointer hover:scale-105 transition-transform" onclick="showToast('Cloud Architecture', 'Protected by 256-bit encryption &amp; edge streaming nodes')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">arrow_back_ios_new</span>
+<span class="font-caption text-caption uppercase tracking-wider text-primary font-bold">The Next-Gen Private Wedding Cloud</span>
+</div>
+<!-- Headline -->
+<h1 class="font-display text-headline-lg lg:text-display text-on-surface tracking-tight font-bold max-w-3xl leading-[1.1]">
+            Celebrate, Stream &amp; Preserve Wedding Memories in Real Time.
+          </h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl font-normal">
+            A trustable, high-fidelity platform engineered for modern couples and guests. Zero compression, private access codes, and live streams across every ceremony.
+          </p>
+<!-- CTAs -->
+<div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+<button class="h-11 px-5 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm hover:opacity-95 active:scale-[0.98] transition-all" onclick="openModal('RAHUL24', 'Rahul &amp; Anjali')" type="button">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span class="">Enter Marriage Code</span>
+</button>
+<button class="h-11 px-5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-high active:scale-[0.98] transition-colors" onclick="openDemoShowcase()" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">explore</span>
+<span class="">Explore Demo Celebration</span>
+</button>
+</div>
+<!-- Floating Quick Code Unlock Bar -->
+<div class="w-full max-w-xl mt-6 p-2 rounded-xl bg-surface-container-lowest shadow-md flex flex-col sm:flex-row items-center gap-2 border border-black/5 dark:border-white/10 transition-colors">
+<div class="flex items-center gap-2 px-3 w-full sm:w-auto flex-1">
+<span class="material-symbols-outlined text-secondary text-[20px]">pin</span>
+<input class="w-full bg-transparent font-label-md text-label-md text-on-surface uppercase tracking-wider placeholder:normal-case placeholder:text-outline focus:outline-none" id="quick-code-input" maxlength="8" oninput="this.value = this.value.toUpperCase()" onkeydown="if(event.key === 'Enter') handleQuickUnlock()" placeholder="Enter 6-digit Code (e.g. RAHUL24)" type="text" value="">
+</div>
+<button class="w-full sm:w-auto h-10 px-5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm hover:opacity-95 active:scale-95 transition-all" onclick="handleQuickUnlock()" type="button">
+<span class="">Unlock Gallery</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Fast Presets chips -->
+<div class="flex items-center gap-2 text-xs text-on-surface-variant flex-wrap justify-center pt-1">
+<span class="font-medium">Try instant test vaults:</span>
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-primary font-mono font-semibold transition-colors" onclick="quickFillAndOpen('RAHUL24', 'Rahul &amp; Anjali')">RAHUL24</button>
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-primary font-mono font-semibold transition-colors" onclick="quickFillAndOpen('VIKPRI24', 'Vikram &amp; Priya')">VIKPRI24</button>
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-primary font-mono font-semibold transition-colors" onclick="quickFillAndOpen('SAMTAN24', 'Sameer &amp; Tanvi')">SAMTAN24</button>
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-primary font-mono font-semibold transition-colors" onclick="quickFillAndOpen('ARJMEE24', 'Arjun &amp; Meera')">ARJMEE24</button>
+</div>
+</div>
+<!-- Trust Metrics Bar -->
+<div class="mt-14 pt-8 bg-surface-container-low rounded-xl px-6 py-6 shadow-sm border border-black/5 dark:border-white/5 transition-colors">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+<div class="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-surface-container/50 transition-colors" onclick="showToast('Broadcast SLA', 'Continuous WebRTC latency under 200ms globally')">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[20px]">stream</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">99.98%</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant uppercase mt-1">Live Stream Uptime</span>
+</div>
+<div class="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-surface-container/50 transition-colors" onclick="showToast('Hardware Vault', 'AES-256 GCM authenticated military grade encryption')">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[20px]">security</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">256-Bit</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant uppercase mt-1">Encrypted Vaults</span>
+</div>
+<div class="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-surface-container/50 transition-colors" onclick="showToast('Zero Compression', 'Raw camera DNG &amp; full 4K Dolby Vision supported')">
+<div class="flex items-center gap-1.5 text-tertiary">
+<span class="material-symbols-outlined text-[20px]">photo_library</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">50,000+</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant uppercase mt-1">High-Res Memories</span>
+</div>
+<div class="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-surface-container/50 transition-colors" onclick="showToast('Global CDN', 'Local caching points across Goa, Udaipur, Bali, &amp; Lake Como')">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[20px]">location_on</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">120+</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant uppercase mt-1">Destination Weddings</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. CURATED GRID OF MARRIAGE CARDS -->
+<section class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-12 lg:py-16 w-full" id="active-celebrations">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<div class="inline-flex items-center gap-1.5 text-primary font-caption text-caption uppercase mb-1 font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary inline-block animate-ping"></span>
+              Private Cloud Archives
+            </div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">
+              Featured Active Celebrations
+            </h2>
+</div>
+<!-- Filter Pill Controls -->
+<div class="inline-flex p-1 bg-surface-container rounded-full overflow-x-auto max-w-full">
+<button class="filter-pill active px-4 py-1.5 rounded-full font-label-sm text-label-sm bg-surface-container-lowest text-on-surface shadow-sm transition-all whitespace-nowrap font-medium" onclick="filterCelebrations('all', this)" type="button">
+              All Couples
+            </button>
+<button class="filter-pill px-4 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap font-medium" onclick="filterCelebrations('beachfront', this)" type="button">
+              Beachfront Luxury
+            </button>
+<button class="filter-pill px-4 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap font-medium" onclick="filterCelebrations('royal', this)" type="button">
+              Royal Palace
+            </button>
+<button class="filter-pill px-4 py-1.5 rounded-full font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-all whitespace-nowrap font-medium" onclick="filterCelebrations('intimate', this)" type="button">
+              Intimate Coastal
+            </button>
+</div>
+</div>
+<!-- Grid Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="celebrations-grid">
+<!-- Card 1: Rahul & Anjali -->
+<div class="celebration-card group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-black/5 dark:border-white/5 cursor-pointer" data-category="beachfront" onclick="openModal('RAHUL24', 'Rahul &amp; Anjali')">
+<div class="relative h-64 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Joyful bride and groom smiling barefoot during beach sunset wedding at coastal Goa" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrrJp8H5k4Kn9lsGcBSJkIvsyJ0WaekgNeXIJlRo8becUl0yxex3uelYPo8SCGer_N6xS0iKWc0WCpnXo59Eg70UhVYjNdmNaRIPxeQdSzuQBEs2vlCDd-msm3JtTpVwt4jwaqXaVd3EOQSr_foYp6ygVqlNf7E2y1mmzNrvJF6ECLO8U1JkWRb9Eu0Dd6qUh0_eNBjRA-_tB9XnFCUNtrkHV4eKGEp1ZoJEDihBk">
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-black/20"></div>
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-caption text-caption shadow-sm">
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+<span class="font-bold">HALDI STREAM</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-primary">lock</span>
+<span class="font-mono font-bold">RAHUL24</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 text-surface">
+<span class="font-caption text-caption uppercase text-surface-variant">Coastal Goa Celebration</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-primary">Rahul &amp; Anjali</h3>
+</div>
+</div>
+<div class="p-4 flex flex-col justify-between flex-1 space-y-4">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">photo_camera</span>
+<span class="">420 Photos</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-error">videocam</span>
+<span class="">8 Live Streams</span>
+</div>
+</div>
+<button class="w-full h-10 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]" onclick="event.stopPropagation(); openModal('RAHUL24', 'Rahul &amp; Anjali')" type="button">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span class="">Enter Code to View</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Vikram & Priya -->
+<div class="celebration-card group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-black/5 dark:border-white/5 cursor-pointer" data-category="royal" onclick="openModal('VIKPRI24', 'Vikram &amp; Priya')">
+<div class="relative h-64 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Vibrant outdoor Indian haldi ceremony overlooking turquoise water in Udaipur" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoWB-VLDfrThPPxnllFL5MhYAjbGirUSK5IrNJ2opW92LBMQo2KS0uguSPF4ayFX4jxtJRNJaoUVZ3nrQ6vGFyaMlWJUGJ8M4zCssFa09cce3cokCD_swrh7iOmneYUZPGKhsPThqKwkygQK3LXTXRC3Q0lbruEF04qgFdYi-5Ih4n5_V48UdP_uestpxRCocUpt5iqvRakiKo9Iv5n-7eSFSdzFkp78qUDgYPq24">
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-black/20"></div>
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error text-on-error font-caption text-caption shadow-sm">
+<span class="w-2 h-2 rounded-full bg-on-error animate-pulse"></span>
+<span class="font-bold">LIVE NOW • SANGEET</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-primary">lock</span>
+<span class="font-mono font-bold">VIKPRI24</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 text-surface">
+<span class="font-caption text-caption uppercase text-surface-variant">Udaipur Lake Palace</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-primary">Vikram &amp; Priya</h3>
+</div>
+</div>
+<div class="p-4 flex flex-col justify-between flex-1 space-y-4">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">photo_camera</span>
+<span class="">650 Photos</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">videocam</span>
+<span class="">12 Videos</span>
+</div>
+</div>
+<button class="w-full h-10 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]" onclick="event.stopPropagation(); openModal('VIKPRI24', 'Vikram &amp; Priya')" type="button">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span class="">Enter Code to View</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Sameer & Tanvi -->
+<div class="celebration-card group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-black/5 dark:border-white/5 cursor-pointer" data-category="intimate" onclick="openModal('SAMTAN24', 'Sameer &amp; Tanvi')">
+<div class="relative h-64 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Chic intimate beachfront lawn wedding banquet in Alibaug" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWJccZA13DdqBZUU5cIjXtljFmPORVHN8HjpsXBRewnhfBvJ3NwW-dpYOibjzDC5PBkNfu_OXQRhWzXuUkLi-Pa7hXS--6qYzsg6DlxL_TFw1loKXCgCp4mRrmVGE-hHdYlHoSQAIL2AXNR7Q2pS_USmCvIdO-S3PqSm4FTR_hmGarQMxc4zQK6TzOipu3uf5Js6WK2AQMvSqnmVqpRGpvaFk0Eq1_5jSo7tYArdE">
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-black/20"></div>
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-caption text-caption shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">lock</span>
+<span class="font-bold">VAULT SECURED</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-primary">lock</span>
+<span class="font-mono font-bold">SAMTAN24</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 text-surface">
+<span class="font-caption text-caption uppercase text-surface-variant">Alibaug Beach Retreat</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-primary">Sameer &amp; Tanvi</h3>
+</div>
+</div>
+<div class="p-4 flex flex-col justify-between flex-1 space-y-4">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">photo_camera</span>
+<span class="">310 Photos</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">videocam</span>
+<span class="">4 Videos</span>
+</div>
+</div>
+<button class="w-full h-10 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]" onclick="event.stopPropagation(); openModal('SAMTAN24', 'Sameer &amp; Tanvi')" type="button">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span class="">Enter Code to View</span>
+</button>
+</div>
+</div>
+<!-- Card 4: Arjun & Meera -->
+<div class="celebration-card group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-black/5 dark:border-white/5 cursor-pointer" data-category="beachfront" onclick="openModal('ARJMEE24', 'Arjun &amp; Meera')">
+<div class="relative h-64 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Destination seaside resort wedding stage in Rayong Thailand" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6g9Pz_yA_3bO7VnQfrBKKc2cf_qvRFiogh7nVHa9o-2y0SerT2MSs1iABIo6Wkg-P63KMFe9aLuJx6bfSDIPxawUrNYuniGKo0aimH-bAVHDchzetMF-XWG_t6GcVy4yJuWINZwYQCtUUkQUBXsm-h2QOnOwoa4Xzvx7lzCh1qRx70R6bnH_ci7DLJa16NUayzAMh-YIDDfbDAzPSIqZU09hX5r6zVPycW4tB0Ww">
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-black/20"></div>
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-caption text-caption shadow-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-bold">MEHNDI VAULT</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-primary">lock</span>
+<span class="font-mono font-bold">ARJMEE24</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 text-surface">
+<span class="font-caption text-caption uppercase text-surface-variant">Rayong Seaside Resort</span>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-primary">Arjun &amp; Meera</h3>
+</div>
+</div>
+<div class="p-4 flex flex-col justify-between flex-1 space-y-4">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">photo_camera</span>
+<span class="">540 Photos</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-error">live_tv</span>
+<span class="">Active Replay</span>
+</div>
+</div>
+<button class="w-full h-10 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]" onclick="event.stopPropagation(); openModal('ARJMEE24', 'Arjun &amp; Meera')" type="button">
+<span class="material-symbols-outlined text-[18px]">key</span>
+<span class="">Enter Code to View</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. FEATURE ARCHITECTURE HIGHLIGHT SECTION -->
+<section class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-12 lg:py-16 w-full">
+<div class="bg-surface-container rounded-2xl p-6 lg:p-12 shadow-sm border border-black/5 dark:border-white/5 transition-colors">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="flex flex-col justify-between space-y-4">
+<div class="space-y-2">
+<span class="font-caption text-caption text-secondary uppercase font-semibold">Zero Quality Loss</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Engineered for Destination Scale</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  Every photograph, 4K reel, and drone capture uploaded by guests or official photographers is saved in uncompressed raw quality.
+                </p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-4 hover:border-primary/50 transition-colors cursor-pointer" onclick="showToast('Infrastructure Report', '36 globally synchronized storage buckets active')">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[28px]">speed</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Sub-Second Delivery</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Edge CDN nodes at all major resort destinations.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-between space-y-4">
+<div class="space-y-2">
+<span class="font-caption text-caption text-tertiary uppercase font-semibold">Privacy First</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Guest-Level Permissions</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  Keep Haldi rituals, bridal suites, and evening afterparties contained to specific friend circles and families.
+                </p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-4 hover:border-tertiary/50 transition-colors cursor-pointer" onclick="showToast('Permission Config', 'Custom segmented access tiers enabled')">
+<div class="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[28px]">shield_person</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Passcode Enforced</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">No indexed public search. Only authorized guests enter.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-between space-y-4">
+<div class="space-y-2">
+<span class="font-caption text-caption text-primary uppercase font-semibold">Live Real-Time Sync</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Instant Guest Broadcasts</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                  Broadcast live ceremony streams to overseas elders and relatives who couldn't fly in.
+                </p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-4 hover:border-secondary/50 transition-colors cursor-pointer" onclick="showToast('Streaming Server', 'Adaptive bitrate WebRTC engine operating smoothly')">
+<div class="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[28px]">broadcast_on_personal</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Ultra-Low Latency</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Crystal clear WebRTC interactive streaming.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- 4. MARRIAGE CODE UNLOCK MODAL -->
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-on-surface/50 backdrop-blur-md hidden transition-all duration-300" id="code-modal" role="dialog">
+<div class="relative w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl p-6 sm:p-8 flex flex-col space-y-6 border border-black/10 dark:border-white/10" onclick="event.stopPropagation()">
+<!-- Close Button -->
+<button aria-label="Close modal" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="closeModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<!-- Modal Header -->
+<div class="flex flex-col items-center text-center space-y-2">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined text-[24px]">key</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-secondary font-caption text-caption uppercase font-semibold">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+<span id="modal-couple-tag" class="">Private Guest Access</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface" id="modal-headline">
+          Enter Marriage Code
+        </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Enter the invitation passkey provided on your wedding invite card or WhatsApp message.
+        </p>
+</div>
+<!-- 6 Individual PIN/Character Boxes -->
+<div class="flex items-center justify-center gap-2 sm:gap-2.5" id="pin-container">
+<input class="pin-box w-11 h-12 text-center font-display text-headline-sm font-bold uppercase rounded-lg bg-surface-container-low text-on-surface focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:outline-none transition-all" maxlength="1" oninput="handlePinInput(this, 0)" onkeydown="handlePinBackspace(event, 0)" type="text" value="R">
+<input class="pin-box w-11 h-12 text-center font-display text-headline-sm font-bold uppercase rounded-lg bg-surface-container-low text-on-surface focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:outline-none transition-all" maxlength="1" oninput="handlePinInput(this, 1)" onkeydown="handlePinBackspace(event, 1)" type="text" value="A">
+<input class="pin-box w-11 h-12 text-center font-display text-headline-sm font-bold uppercase rounded-lg bg-surface-container-low text-on-surface focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:outline-none transition-all" maxlength="1" oninput="handlePinInput(this, 2)" onkeydown="handlePinBackspace(event, 2)" type="text" value="H">
+<input class="pin-box w-11 h-12 text-center font-display text-headline-sm font-bold uppercase rounded-lg bg-surface-container-low text-on-surface focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:outline-none transition-all" maxlength="1" oninput="handlePinInput(this, 3)" onkeydown="handlePinBackspace(event, 3)" type="text" value="U">
+<input class="pin-box w-11 h-12 text-center font-display text-headline-sm font-bold uppercase rounded-lg bg-surface-container-low text-on-surface focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:outline-none transition-all" maxlength="1" oninput="handlePinInput(this, 4)" onkeydown="handlePinBackspace(event, 4)" type="text" value="L">
+<input class="pin-box w-11 h-12 text-center font-display text-headline-sm font-bold uppercase rounded-lg bg-surface-container-low text-on-surface focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:outline-none transition-all" maxlength="1" oninput="handlePinInput(this, 5)" onkeydown="handlePinBackspace(event, 5)" type="text" value="2">
+</div>
+<!-- Feedback / Alert notice -->
+<div class="hidden p-3 rounded-lg bg-surface-container text-center font-body-sm text-body-sm text-secondary flex items-center justify-center gap-2 transition-all" id="modal-feedback">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span id="feedback-text" class="">Code verified! Redirecting to vault...</span>
+</div>
+<!-- Action Button -->
+<div class="space-y-3">
+<button class="w-full h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm hover:opacity-95 active:scale-[0.98] transition-all" id="submit-passcode-btn" onclick="submitPasscode()" type="button">
+<span class="material-symbols-outlined text-[18px]">lock_open</span>
+<span class="">Unlock Experience</span>
+</button>
+<div class="flex items-center justify-between text-xs pt-1">
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1" onclick="copyInviteLink()" type="button">
+<span class="material-symbols-outlined text-[14px]">share</span>
+<span class="">Copy Passkey Link</span>
+</button>
+<button class="text-primary font-semibold hover:underline" onclick="showToast('Family Concierge Desk', 'Assistance WhatsApp line: +91 98200 12345');" type="button">
+            Contact couple's family
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- 5. DEMO CELEBRATION SHOWCASE MODAL -->
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-on-surface/50 backdrop-blur-md hidden transition-all duration-300" id="showcase-modal" role="dialog">
+<div class="relative w-full max-w-2xl bg-surface-container-lowest rounded-2xl shadow-2xl p-6 sm:p-8 flex flex-col space-y-6 border border-black/10 dark:border-white/10" onclick="event.stopPropagation()">
+<button class="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="closeShowcaseModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[28px]">favorite</span>
+</div>
+<div>
+<span class="text-xs uppercase font-bold tracking-wider text-secondary">Demo Celebration Archive</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Rahul &amp; Anjali's Coastal Wedding</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Palacio Do Mar, South Goa • March 2025</p>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div class="p-3 rounded-lg bg-surface-container border border-black/5 dark:border-white/5 text-center">
+<span class="material-symbols-outlined text-secondary text-[24px]">live_tv</span>
+<div class="font-bold text-on-surface mt-1">Haldi Replay</div>
+<div class="text-xs text-on-surface-variant">1080p 60fps Broadcast</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container border border-black/5 dark:border-white/5 text-center">
+<span class="material-symbols-outlined text-tertiary text-[24px]">photo_library</span>
+<div class="font-bold text-on-surface mt-1">420 RAW Photos</div>
+<div class="text-xs text-on-surface-variant">Guest &amp; Crew Uploads</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container border border-black/5 dark:border-white/5 text-center">
+<span class="material-symbols-outlined text-primary text-[24px]">edit_note</span>
+<div class="font-bold text-on-surface mt-1">Live Guestbook</div>
+<div class="text-xs text-on-surface-variant">88 Blessing Notes</div>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container flex items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-[22px]">key</span>
+<div>
+<div class="font-bold text-sm text-on-surface">Guest Passkey: <span class="font-mono text-primary font-bold">RAHUL24</span></div>
+<div class="text-xs text-on-surface-variant">Instant access unlocked for demo evaluators</div>
+</div>
+</div>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:opacity-95 transition-opacity" onclick="closeShowcaseModal(); openModal('RAHUL24', 'Rahul &amp; Anjali');">
+          Open Vault
+        </button>
+</div>
+</div>
+</div>
+<!-- 6. QUICK NAVIGATION DRAWER FOR LIVE EVENTS / GUEST EXPERIENCE / ADMIN -->
+<div class="fixed inset-0 z-50 flex justify-end bg-on-surface/40 backdrop-blur-sm hidden transition-all duration-300" id="quick-drawer" onclick="closeQuickDrawer()">
+<div class="w-full max-w-md h-full bg-surface-container-lowest p-6 sm:p-8 flex flex-col justify-between shadow-2xl overflow-y-auto border-l border-black/5 dark:border-white/10" onclick="event.stopPropagation()">
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]" id="drawer-icon">dashboard</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface" id="drawer-title">Navigation Hub</h3>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="closeQuickDrawer()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="space-y-4" id="drawer-content">
+<!-- Dynamic Content Populated by JS -->
+</div>
+</div>
+<div class="pt-6 border-t border-surface-container space-y-3">
+<button class="w-full h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-95 transition-opacity" onclick="showToast('Simulated Action', 'Opening direct enterprise pipeline session'); closeQuickDrawer();">
+<span class="">Launch Selected Workspace</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="w-full h-10 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-1.5" onclick="closeQuickDrawer()">
+<span class="">Dismiss</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full bg-surface-container-lowest shadow-[0_-1px_6px_rgba(0,0,0,0.02)] transition-colors duration-300">
+<div class="max-w-[1440px] mx-auto px-margin-mobile lg:px-margin py-space-xl">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg pb-space-lg">
+<div class="flex items-center gap-space-sm">
+<img alt="Make My Marriage" class="h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WGr1l_mcgu_oGu-GXpVoXQBUPwfQ70Mmc2jo7osn_mtV0m3Tv0lD_f2t4QM68rHcc2FCxU8AsMf-ksBMdPVNhTEMfKFCHRjxNKSlJMldMW6ZAxJU_L2vcsQXFLgIYDMI-5wnphvAHJ3Gq_DT0IzhS3pGPpTxDj1jpGFExh2o1yRVMB9gZ-eAUGyN-PFyYxM8Q_aODSlyzYtLU-YtqcpMAL6Id9gzRfx-Cxq1-vTTJC">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Make My Marriage</span>
+</div>
+<div class="flex flex-wrap items-center gap-space-md">
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low text-secondary font-label-sm text-label-sm hover:scale-105 transition-transform" onclick="showToast('Security Status', 'End-to-End Encryption Keys rotate per wedding ceremony')">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span class="">End-to-End Private Media Vault</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm hover:scale-105 transition-transform" onclick="showToast('Compliance Status', 'SOC-2 Type II Certified with 99.99% data durability guarantee')">
+<span class="material-symbols-outlined text-[16px] text-tertiary">verified_user</span>
+<span class="">SOC2 Certified Cloud</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-lg border-t border-surface-container">
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 Make My Marriage Architecture. All rights reserved.</p>
+<div class="flex items-center gap-space-lg">
+<button class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" onclick="showToast('Privacy Policy', 'Private zero-scraping policy. No photos indexed by public search.')">Privacy &amp; Vault Policy</button>
+<button class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" onclick="showToast('Terms of Service', 'Enterprise destination SLA applies to registered celebrants.')">Terms of Service</button>
+<button class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" onclick="showToast('Host Concierge', '24/7 Priority WhatsApp Line: +91 98200 12345')">Host Concierge</button>
+</div>
+</div>
+</div>
+</footer>
+<!-- COMPLETE RICH VANILLA JAVASCRIPT LOGIC -->
+<script>
+  // 1. THEME SWITCHER (LIGHT & DARK MODE)
+  function toggleDarkMode() {
+    const html = document.documentElement;
+    const isDark = html.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    showToast(isDark ? 'Dark Mode Active' : 'Light Mode Active', isDark ? 'Switched to Luxury Slate & Charcoal palette' : 'Switched to Coastal Sunlight theme');
+  }
+
+  // Initialize theme from system or storage
+  (function initTheme() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  })();
+
+  // 2. TOAST SYSTEM
+  let toastTimer = null;
+  function showToast(title, desc, isError = false) {
+    const toast = document.getElementById('toast');
+    const toastTitle = document.getElementById('toast-title');
+    const toastDesc = document.getElementById('toast-desc');
+    const toastIcon = document.getElementById('toast-icon');
+
+    if (!toast) return;
+
+    toastTitle.textContent = title;
+    toastDesc.textContent = desc;
+    toastIcon.textContent = isError ? 'error' : 'check_circle';
+    toastIcon.className = isError ? 'material-symbols-outlined text-rose-500 text-[20px]' : 'material-symbols-outlined text-secondary text-[20px]';
+
+    toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 3200);
+  }
+
+  // 3. CODE MODAL INTERACTION
+  let currentTargetCode = 'RAHUL24';
+
+  function openModal(defaultCode = 'RAHUL24', coupleName = 'Private Guest Access') {
+    const modal = document.getElementById('code-modal');
+    const pinBoxes = document.querySelectorAll('.pin-box');
+    const feedback = document.getElementById('modal-feedback');
+    const coupleTag = document.getElementById('modal-couple-tag');
+    const headline = document.getElementById('modal-headline');
+
+    currentTargetCode = defaultCode.toUpperCase();
+    if (coupleTag) coupleTag.textContent = coupleName ? `Passkey: ${coupleName}` : 'Private Guest Access';
+    if (headline) headline.textContent = `Unlock ${coupleName ? coupleName : 'Celebration'}`;
+
+    if (feedback) feedback.classList.add('hidden');
+
+    const chars = defaultCode.padEnd(6, ' ').slice(0, 6).split('');
+    pinBoxes.forEach((box, index) => {
+      box.value = chars[index] && chars[index] !== ' ' ? chars[index] : '';
+    });
+
+    modal.classList.remove('hidden');
+    if (pinBoxes[0]) pinBoxes[0].focus();
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('code-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function handlePinInput(element, index) {
+    element.value = element.value.toUpperCase();
+    const boxes = document.querySelectorAll('.pin-box');
+    if (element.value.length === 1 && index < boxes.length - 1) {
+      boxes[index + 1].focus();
+    }
+  }
+
+  function handlePinBackspace(event, index) {
+    const boxes = document.querySelectorAll('.pin-box');
+    if (event.key === 'Backspace' && !event.target.value && index > 0) {
+      boxes[index - 1].focus();
+    }
+  }
+
+  function handleQuickUnlock() {
+    const input = document.getElementById('quick-code-input');
+    const val = input.value.trim().toUpperCase() || 'RAHUL24';
+    
+    // Check known codes
+    const registry = {
+      'RAHUL24': 'Rahul & Anjali',
+      'VIKPRI24': 'Vikram & Priya',
+      'SAMTAN24': 'Sameer & Tanvi',
+      'ARJMEE24': 'Arjun & Meera'
+    };
+
+    const couple = registry[val] || 'Private Celebration';
+    openModal(val, couple);
+  }
+
+  function quickFillAndOpen(code, couple) {
+    const input = document.getElementById('quick-code-input');
+    if (input) input.value = code;
+    openModal(code, couple);
+  }
+
+  function submitPasscode() {
+    const boxes = document.querySelectorAll('.pin-box');
+    let entered = '';
+    boxes.forEach(b => entered += b.value.trim());
+
+    const feedback = document.getElementById('modal-feedback');
+    const text = document.getElementById('feedback-text');
+    const submitBtn = document.getElementById('submit-passcode-btn');
+
+    if (entered.length < 4) {
+      feedback.classList.remove('hidden');
+      feedback.className = 'p-3 rounded-lg bg-error-container text-center font-body-sm text-body-sm text-error flex items-center justify-center gap-2';
+      text.textContent = 'Please enter a valid 6-character wedding invite code.';
+      return;
+    }
+
+    feedback.classList.remove('hidden');
+    feedback.className = 'p-3 rounded-lg bg-surface-container text-center font-body-sm text-body-sm text-secondary flex items-center justify-center gap-2';
+    text.textContent = `Access granted for vault [${entered}]! Loading ceremonies...`;
+    
+    if (submitBtn) {
+      submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span><span>Decrypting Vault...</span>';
+    }
+
+    setTimeout(() => {
+      closeModal();
+      if (submitBtn) {
+        submitBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">lock_open</span><span>Unlock Experience</span>';
+      }
+      showToast('Vault Opened', `Welcome to the private wedding stream and uncompressed gallery for ${entered}!`);
+    }, 1200);
+  }
+
+  function copyInviteLink() {
+    const code = currentTargetCode || 'RAHUL24';
+    const link = `https://makemymarriage.com/invite/${code}`;
+    navigator.clipboard?.writeText(link).catch(() => {});
+    showToast('Link Copied to Clipboard', `Guest access URL with key ${code} is ready to share.`);
+  }
+
+  // 4. DEMO SHOWCASE MODAL
+  function openDemoShowcase() {
+    const modal = document.getElementById('showcase-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeShowcaseModal() {
+    const modal = document.getElementById('showcase-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  // 5. CELEBRATION GRID FILTERING
+  function filterCelebrations(category, btn) {
+    const buttons = document.querySelectorAll('.filter-pill');
+    buttons.forEach(p => {
+      p.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm', 'active');
+      p.classList.add('text-on-surface-variant');
+    });
+
+    btn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm', 'active');
+    btn.classList.remove('text-on-surface-variant');
+
+    const cards = document.querySelectorAll('.celebration-card');
+    let visibleCount = 0;
+    cards.forEach(card => {
+      const match = category === 'all' || card.getAttribute('data-category') === category;
+      if (match) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    showToast('Filter Applied', `Showing ${visibleCount} wedding vault(s) for "${btn.textContent.trim()}".`);
+  }
+
+  // 6. QUICK DRAWER (Live Events, Guest Experience, Admin)
+  function openQuickDrawer(title, type) {
+    const drawer = document.getElementById('quick-drawer');
+    const drawerTitle = document.getElementById('drawer-title');
+    const drawerIcon = document.getElementById('drawer-icon');
+    const drawerContent = document.getElementById('drawer-content');
+
+    if (!drawer) return;
+
+    drawerTitle.textContent = title;
+
+    if (type === 'realtime') {
+      drawerIcon.textContent = 'live_tv';
+      drawerContent.innerHTML = `
+        <div class="p-4 rounded-xl bg-error/10 border border-error/20 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-error animate-ping"></span>
+            <span class="font-bold text-sm text-error">2 Weddings Broadcasting Right Now</span>
+          </div>
+          <span class="font-mono text-xs bg-error text-white px-2 py-0.5 rounded">LIVE</span>
+        </div>
+        <div class="space-y-3">
+          <div class="p-3.5 rounded-xl bg-surface-container cursor-pointer hover:bg-surface-container-high transition-colors" onclick="openModal('VIKPRI24', 'Vikram & Priya')">
+            <div class="flex justify-between items-center text-xs font-semibold text-primary">
+              <span>Udaipur Lake Palace</span>
+              <span class="text-error font-bold">428 Live Viewers</span>
+            </div>
+            <div class="font-headline-sm font-bold text-sm mt-1 text-on-surface">Vikram & Priya • Royal Sangeet Stage</div>
+            <div class="text-xs text-on-surface-variant mt-1">Multi-camera stream • 4K WebRTC feed</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-surface-container cursor-pointer hover:bg-surface-container-high transition-colors" onclick="openModal('RAHUL24', 'Rahul & Anjali')">
+            <div class="flex justify-between items-center text-xs font-semibold text-secondary">
+              <span>Coastal Goa</span>
+              <span class="text-amber-500 font-bold">194 Viewers</span>
+            </div>
+            <div class="font-headline-sm font-bold text-sm mt-1 text-on-surface">Rahul & Anjali • Sundowner Haldi</div>
+            <div class="text-xs text-on-surface-variant mt-1">Beachfront deck camera feed</div>
+          </div>
+        </div>
+      `;
+    } else if (type === 'guest') {
+      drawerIcon.textContent = 'how_to_reg';
+      drawerContent.innerHTML = `
+        <div class="p-4 rounded-xl bg-primary/10 border border-primary/20 space-y-2">
+          <div class="font-bold text-sm text-primary flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+            <span>Zero-App Guest Contribution</span>
+          </div>
+          <p class="text-xs text-on-surface-variant">Guests scan a table QR card or open the wedding link to upload photos instantly. Zero app installs or signups required.</p>
+        </div>
+        <div class="space-y-2 text-sm">
+          <div class="p-3 rounded-lg bg-surface-container flex items-center justify-between">
+            <span class="text-on-surface font-medium">Automatic Face Tagging</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-surface-container-high text-secondary">Active</span>
+          </div>
+          <div class="p-3 rounded-lg bg-surface-container flex items-center justify-between">
+            <span class="text-on-surface font-medium">Digital Blessing Book</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-surface-container-high text-secondary">Enabled</span>
+          </div>
+          <div class="p-3 rounded-lg bg-surface-container flex items-center justify-between">
+            <span class="text-on-surface font-medium">1-Click Zip Archive Download</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-surface-container-high text-secondary">Enabled</span>
+          </div>
+        </div>
+      `;
+    } else {
+      drawerIcon.textContent = 'shield';
+      drawerContent.innerHTML = `
+        <div class="p-4 rounded-xl bg-tertiary/10 border border-tertiary/20 space-y-2">
+          <div class="font-bold text-sm text-tertiary flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">verified_user</span>
+            <span>Planner & Couple Controls</span>
+          </div>
+          <p class="text-xs text-on-surface-variant">Manage guest passkeys, moderate live stream comments, and export complete RAW camera assets directly to Amazon S3 / Google Drive.</p>
+        </div>
+        <div class="space-y-3 pt-2">
+          <button class="w-full text-left p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors" onclick="showToast('Admin Portal', 'Opening Passkey Security Management')">
+            <div class="font-bold text-sm text-on-surface">Generate Single-Use Codes</div>
+            <div class="text-xs text-on-surface-variant">Prevent unauthorized outside forwarding</div>
+          </button>
+          <button class="w-full text-left p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors" onclick="showToast('Admin Portal', 'Stream bitrate controller loaded')">
+            <div class="font-bold text-sm text-on-surface">Live RTMP / SRT Broadcast Ingest</div>
+            <div class="text-xs text-on-surface-variant">Connect RED, Sony FX3, or Blackmagic rigs</div>
+          </button>
+        </div>
+      `;
+    }
+
+    drawer.classList.remove('hidden');
+  }
+
+  function closeQuickDrawer() {
+    const drawer = document.getElementById('quick-drawer');
+    if (drawer) drawer.classList.add('hidden');
+  }
+
+  function activateNav(link, type) {
+    document.querySelectorAll('.nav-link').forEach(l => {
+      l.classList.remove('bg-primary-container', 'text-on-primary', 'shadow-sm');
+      l.classList.add('text-on-surface-variant');
+    });
+    link.classList.add('bg-primary-container', 'text-on-primary', 'shadow-sm');
+    link.classList.remove('text-on-surface-variant');
+  }
+
+  function toggleMobileNav() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) menu.classList.toggle('hidden');
+  }
+
+  // Backdrop dismissals for ESC & outside clicks
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+      closeShowcaseModal();
+      closeQuickDrawer();
+    }
+  });
+
+  document.getElementById('code-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'code-modal') closeModal();
+  });
+
+  document.getElementById('showcase-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'showcase-modal') closeShowcaseModal();
+  });
+</script>
+
+
+</body></html>
