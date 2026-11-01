@@ -1,0 +1,744 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary-container":"#b3dcff","primary-fixed-dim":"#91cdfb","on-surface":"#131b2e","tertiary-container":"#cca72f","surface-container-low":"#f2f3ff","surface-variant":"#dae2fd","tertiary-fixed-dim":"#e9c349","on-secondary-fixed":"#001e2b","surface-container":"#eaedff","on-primary":"#ffffff","error":"#ba1a1a","tertiary":"#735c00","on-error":"#ffffff","on-tertiary":"#ffffff","on-tertiary-container":"#4e3d00","error-container":"#ffdad6","surface":"#faf8ff","on-background":"#131b2e","on-secondary-container":"#005d7b","surface-container-highest":"#dae2fd","on-secondary-fixed-variant":"#004d66","outline-variant":"#c0c7cf","secondary":"#006687","on-tertiary-fixed-variant":"#574500","surface-dim":"#d2d9f4","on-primary-fixed-variant":"#004b70","on-primary-fixed":"#001e2f","outline":"#71787f","surface-container-lowest":"#ffffff","background":"#faf8ff","primary-container":"#1d638c","tertiary-fixed":"#ffe088","secondary-container":"#88d6fd","secondary-fixed-dim":"#82d0f7","on-secondary":"#ffffff","surface-container-high":"#e2e7ff","inverse-surface":"#283044","surface-bright":"#faf8ff","on-surface-variant":"#41484e","primary":"#004b6f","on-error-container":"#93000a","on-tertiary-fixed":"#241a00","inverse-on-surface":"#eef0ff","surface-tint":"#1e648d","inverse-primary":"#91cdfb","primary-fixed":"#cae6ff","secondary-fixed":"#c1e8ff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem","space-md":"1rem","space-sm":"0.5rem","space-xl":"2.5rem",margin:"2rem",gutter:"1.5rem","margin-mobile":"1rem","space-lg":"1.5rem","gutter-mobile":"1rem"},fontFamily:{caption:["Inter"],"body-lg":["Inter"],"headline-lg-mobile":["Plus Jakarta Sans"],"label-md":["Inter"],display:["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"],"body-md":["Inter"],"label-sm":["Inter"],"headline-md":["Plus Jakarta Sans"]},fontSize:{caption:["0.6875rem",{lineHeight:"1.2",letterSpacing:"0.05em",fontWeight:"600"}],"body-lg":["1.125rem",{lineHeight:"1.6",letterSpacing:"-0.01em",fontWeight:"400"}],"headline-lg-mobile":["1.75rem",{lineHeight:"1.25",letterSpacing:"-0.02em",fontWeight:"600"}],"label-md":["0.875rem",{lineHeight:"1.2",letterSpacing:"0em",fontWeight:"500"}],display:["3.5rem",{lineHeight:"1.1",letterSpacing:"-0.03em",fontWeight:"700"}],"headline-sm":["1.125rem",{lineHeight:"1.4",letterSpacing:"-0.01em",fontWeight:"600"}],"body-sm":["0.8125rem",{lineHeight:"1.5",letterSpacing:"0em",fontWeight:"400"}],"headline-lg":["2.25rem",{lineHeight:"1.2",letterSpacing:"-0.025em",fontWeight:"600"}],"body-md":["0.9375rem",{lineHeight:"1.55",letterSpacing:"-0.005em",fontWeight:"400"}],"label-sm":["0.75rem",{lineHeight:"1.2",letterSpacing:"0.02em",fontWeight:"500"}],"headline-md":["1.5rem",{lineHeight:"1.3",letterSpacing:"-0.02em",fontWeight:"600"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased transition-colors duration-200"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col pt-4 pb-6"><div class="px-6 mb-6 flex items-center gap-space-sm"><img alt="Make My Marriage Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XlevbI9NB9BY6eCiIrVRG8EMCBWkN5hCk_TcPiljDu6qErCdOekdqCqZdWXlOjAx-PRcIlCM9qzlsHxfyepQT9qje1n7ciggUJUQ8IZ-xuigZmF7Inlrss-50V5WqR4OB5DNFx7C5gZsWor_US05gUPqJwgzQiO-o-VEI691ajtJ6Xa-KWS9CXEp9itjnIuwutD1rZVW4osBMjKiF3rFq-uOV244waLV34y8CaZmRt"/><span class="font-headline-sm text-headline-sm font-semibold text-primary">Host OS</span></div><nav class="flex-1 px-3 space-y-1" data-active-classes="bg-primary-container text-on-primary font-label-md text-label-md rounded-lg shadow-sm"><a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 transition-all bg-primary-container text-on-primary font-label-md text-label-md rounded-lg shadow-sm" data-path="admin-portal" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span>Dashboard</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all" data-path="admin-event-manager" href="#"><span class="material-symbols-outlined text-[20px]">event</span>Events & Timeline</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all" data-path="admin-guest-directory" href="#"><span class="material-symbols-outlined text-[20px]">group</span>Guest Directory</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all" data-path="admin-media-vault" href="#"><span class="material-symbols-outlined text-[20px]">lock</span>Private Media Vault</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all" data-path="admin-settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span>Configuration</a></nav><div class="px-4 pt-4"><div class="p-3 rounded-lg bg-surface-container flex items-center justify-between"><div class="flex items-center gap-2"><img alt="Profile" class="w-7 h-7 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsuZcSmvPOnIHI-AIBoJdXcK4WjK5lALRhAArHk190HFZ0dLtfFdk5k21kpQLu8QleKGfrWPvxU7Yop2Q4vzZt_hyLkhm39mJhzmTgJNp48ImeLxEvBje-hzevRa1S8XzmRGsSsx8Kd6pJyknqGqbVc6P-QHvPP_n1cpCTzJRhARrpCZ_z_0CMDgswb_8Cb0LdBQjO0KOyfhqlXu-QGUpOoc_R_zgTKS_COgda7Dc"/><div class="flex flex-col"><span class="font-label-sm text-label-sm font-semibold text-on-surface">Concierge</span><span class="font-caption text-caption text-on-surface-variant">Active Session</span></div></div><button class="p-1 text-on-surface-variant hover:text-on-surface" id="theme-toggle-sidebar" onclick="document.documentElement.classList.toggle('dark')" type="button"><span class="material-symbols-outlined text-[18px]">contrast</span></button></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/85 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-sm"><span class="font-caption text-caption text-secondary uppercase font-semibold">Admin Portal</span><span class="text-outline-variant font-label-sm">/</span><span class="font-label-sm text-label-sm text-on-surface-variant">Executive Overview</span></div><div class="flex items-center gap-space-md"><button aria-label="Search portal" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Notifications" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsuZcSmvPOnIHI-AIBoJdXcK4WjK5lALRhAArHk190HFZ0dLtfFdk5k21kpQLu8QleKGfrWPvxU7Yop2Q4vzZt_hyLkhm39mJhzmTgJNp48ImeLxEvBje-hzevRa1S8XzmRGsSsx8Kd6pJyknqGqbVc6P-QHvPP_n1cpCTzJRhARrpCZ_z_0CMDgswb_8Cb0LdBQjO0KOyfhqlXu-QGUpOoc_R_zgTKS_COgda7Dc"/></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="max-w-[1440px] w-full mx-auto px-gutter py-space-md space-y-space-lg">
+<!-- Global Workspace Header / Breadcrumbs / View Switcher -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="space-y-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-caption text-caption uppercase tracking-wider">
+<span>Admin Suite</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Wedding Ops</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold">Rahul & Anjali (RAHUL24)</span>
+</div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Executive Concierge Suite</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm shadow-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Sync Active
+          </span>
+</div>
+</div>
+<!-- Segmented View Switcher -->
+<div class="flex items-center self-start md:self-auto bg-surface-container-high p-1 rounded-full shadow-inner">
+<button class="view-tab-btn flex items-center gap-2 px-5 py-2 rounded-full bg-surface text-primary shadow-sm font-label-md text-label-md font-semibold transition-all" id="viewBtnDashboard" onclick="switchView('dashboard')" type="button">
+<span class="material-symbols-outlined text-[18px]">space_dashboard</span>
+          Dashboard Overview
+        </button>
+<button class="view-tab-btn flex items-center gap-2 px-5 py-2 rounded-full text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium transition-all" id="viewBtnManage" onclick="switchView('manage')" type="button">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+          Manage Marriages
+        </button>
+</div>
+</div>
+<!-- Top KPI Stat Metric Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Metric 1 -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Active Marriages</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">celebration</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">18</span>
+<span class="inline-flex items-center gap-0.5 text-emerald-700 font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+            +3 this week
+          </span>
+</div>
+<div class="mt-3 w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 78%"></div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Total Photos Stored</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">photo_library</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">14,820</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">84.2 GB used</span>
+</div>
+<div class="mt-3 w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 64%"></div>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Total Videos Streamed</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[20px]">videocam</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">94</span>
+<span class="inline-flex items-center gap-1 text-tertiary font-label-sm text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+            1080p 60fps
+          </span>
+</div>
+<div class="mt-3 w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider">Total Guests Engaged</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">3,410</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">12 countries</span>
+</div>
+<div class="mt-3 w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 82%"></div>
+</div>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- VIEW A: PROFESSIONAL DASHBOARD DATA TABLE  -->
+<!-- ========================================== -->
+<div class="space-y-space-md" id="viewSectionDashboard">
+<!-- Toolbar Controls -->
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex flex-1 items-center gap-space-sm w-full md:w-auto">
+<div class="relative flex-1 md:max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">search</span>
+<input class="w-full h-10 pl-9 pr-4 rounded-lg bg-surface-container-low text-body-md text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search by couple name, code, venue..." type="text"/>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-lg">
+<button class="px-3 py-1.5 rounded-md text-label-sm font-semibold bg-surface text-primary shadow-sm" type="button">All (18)</button>
+<button class="px-3 py-1.5 rounded-md text-label-sm font-medium text-on-surface-variant hover:text-on-surface" type="button">Live (2)</button>
+<button class="px-3 py-1.5 rounded-md text-label-sm font-medium text-on-surface-variant hover:text-on-surface" type="button">Upcoming (14)</button>
+<button class="px-3 py-1.5 rounded-md text-label-sm font-medium text-on-surface-variant hover:text-on-surface" type="button">Archived (2)</button>
+</div>
+</div>
+<div class="flex items-center gap-space-sm w-full md:w-auto justify-end">
+<button class="flex items-center gap-1.5 h-10 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-medium transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+            Export CSV
+          </button>
+<button class="flex items-center gap-1.5 h-10 px-4 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-medium shadow-sm transition-colors" onclick="switchView('manage')" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+            Add Marriage
+          </button>
+</div>
+</div>
+<!-- Data Table Card Container -->
+<div class="rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-caption text-caption uppercase tracking-wider">
+<th class="py-3.5 px-5">Couple Name</th>
+<th class="py-3.5 px-4">Marriage Code</th>
+<th class="py-3.5 px-4 text-center">Total Photos</th>
+<th class="py-3.5 px-4 text-center">Total Videos</th>
+<th class="py-3.5 px-4 text-center">Guests Engaged</th>
+<th class="py-3.5 px-4">Status</th>
+<th class="py-3.5 px-5 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-body-md text-on-surface">
+<!-- Row 1: Rahul & Anjali -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary font-headline-sm text-headline-sm font-semibold">
+                      RA
+                    </div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Rahul Sharma & Anjali Patel</div>
+<div class="font-caption text-caption text-on-surface-variant">The Taj Mahal Palace, Mumbai ΓÇó Dec 14, 2024</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container text-primary font-mono text-label-sm font-semibold hover:bg-surface-container-high transition-colors" onclick="navigator.clipboard.writeText('RAHUL24');" title="Click to copy code" type="button">
+<span>RAHUL24</span>
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</td>
+<td class="py-4 px-4 text-center font-medium">420</td>
+<td class="py-4 px-4 text-center font-medium">8</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex items-center gap-1 font-semibold text-secondary">
+<span class="material-symbols-outlined text-[16px]">groups</span> 340
+                  </span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                    Live Stream Active
+                  </span>
+</td>
+<td class="py-4 px-5 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold hover:opacity-90 transition-opacity" onclick="switchView('manage')" type="button">
+                      Manage
+                    </button>
+<a class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" href="https://rahulandanjali.com" target="_blank" title="Guest Web App Link">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Vikram & Neha -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container/30 flex items-center justify-center text-secondary font-headline-sm text-headline-sm font-semibold">
+                      VN
+                    </div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Vikram Singhania & Neha Sen</div>
+<div class="font-caption text-caption text-on-surface-variant">Umaid Bhawan Palace, Jodhpur ΓÇó Jan 08, 2025</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container text-on-surface font-mono text-label-sm font-semibold hover:bg-surface-container-high transition-colors" type="button">
+<span>VIKNEH25</span>
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</td>
+<td class="py-4 px-4 text-center font-medium">1,120</td>
+<td class="py-4 px-4 text-center font-medium">14</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex items-center gap-1 font-semibold text-secondary">
+<span class="material-symbols-outlined text-[16px]">groups</span> 580
+                  </span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                    Published
+                  </span>
+</td>
+<td class="py-4 px-5 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors" onclick="switchView('manage')" type="button">
+                      Manage
+                    </button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Kabir & Rhea -->
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed/40 flex items-center justify-center text-tertiary font-headline-sm text-headline-sm font-semibold">
+                      KR
+                    </div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Kabir Mehra & Rhea Kapoor</div>
+<div class="font-caption text-caption text-on-surface-variant">Alila Diwa, South Goa ΓÇó Feb 22, 2025</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container text-on-surface font-mono text-label-sm font-semibold hover:bg-surface-container-high transition-colors" type="button">
+<span>KABRHEA</span>
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+</button>
+</td>
+<td class="py-4 px-4 text-center font-medium">85</td>
+<td class="py-4 px-4 text-center font-medium">1</td>
+<td class="py-4 px-4 text-center">
+<span class="inline-flex items-center gap-1 font-semibold text-secondary">
+<span class="material-symbols-outlined text-[16px]">groups</span> 120
+                  </span>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 font-label-sm text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                    Draft Setup
+                  </span>
+</td>
+<td class="py-4 px-5 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold transition-colors" onclick="switchView('manage')" type="button">
+                      Manage
+                    </button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Summary -->
+<div class="p-4 bg-surface-container-low flex items-center justify-between text-caption text-on-surface-variant">
+<span>Showing 3 of 18 live portal instances</span>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 rounded bg-surface text-on-surface hover:bg-surface-container shadow-xs" type="button">Previous</button>
+<span class="px-2 text-primary font-semibold">1</span>
+<button class="px-2.5 py-1 rounded bg-surface text-on-surface hover:bg-surface-container shadow-xs" type="button">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- ======================================================== -->
+<!-- VIEW B: MANAGE MARRIAGES VIEW (DEEP WORKSPACE EDITOR)    -->
+<!-- ======================================================== -->
+<div class="space-y-space-xl hidden" id="viewSectionManage">
+<!-- Section 1: Create & Edit Marriage Primary Record -->
+<div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm space-y-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-surface-container gap-2">
+<div>
+<span class="font-caption text-caption text-secondary uppercase font-semibold">Section 01</span>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Couple Identity & Portal Routing</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-caption text-emerald-700 flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+              All credentials verified
+            </span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-gutter">
+<!-- Couple Name 1 -->
+<div>
+<label class="block font-label-sm text-label-sm font-semibold text-on-surface mb-1.5">Couple Name 1</label>
+<div class="relative">
+<input class="w-full h-10 px-3.5 rounded-lg bg-surface-container-low text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20" type="text" value="Rahul Sharma"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600 text-[18px]">check</span>
+</div>
+<p class="mt-1 font-caption text-caption text-emerald-700">Groom details saved</p>
+</div>
+<!-- Couple Name 2 -->
+<div>
+<label class="block font-label-sm text-label-sm font-semibold text-on-surface mb-1.5">Couple Name 2</label>
+<div class="relative">
+<input class="w-full h-10 px-3.5 rounded-lg bg-surface-container-low text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20" type="text" value="Anjali Patel"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-emerald-600 text-[18px]">check</span>
+</div>
+<p class="mt-1 font-caption text-caption text-emerald-700">Bride details saved</p>
+</div>
+<!-- Unique Code -->
+<div>
+<label class="block font-label-sm text-label-sm font-semibold text-on-surface mb-1.5">Unique Wedding Code</label>
+<div class="relative">
+<input class="w-full h-10 px-3.5 font-mono uppercase rounded-lg bg-surface-container-low text-body-md text-primary font-semibold focus:outline-none focus:ring-2 focus:ring-primary/20" type="text" value="RAHUL24"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary text-[18px]">vpn_key</span>
+</div>
+<p class="mt-1 font-caption text-caption text-on-surface-variant">Live subdomain: rahul24.makemymarriage.com</p>
+</div>
+<!-- Venue City -->
+<div>
+<label class="block font-label-sm text-label-sm font-semibold text-on-surface mb-1.5">Destination / Venue City</label>
+<div class="relative">
+<input class="w-full h-10 px-3.5 rounded-lg bg-surface-container-low text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20" type="text" value="Goa, India"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">location_on</span>
+</div>
+<p class="mt-1 font-caption text-caption text-on-surface-variant">Timezone: Asia/Kolkata (IST)</p>
+</div>
+<!-- Cover Image URL -->
+<div>
+<label class="block font-label-sm text-label-sm font-semibold text-on-surface mb-1.5">Cover Image Asset</label>
+<div class="relative">
+<input class="w-full h-10 pl-3.5 pr-8 rounded-lg bg-surface-container-low text-body-md text-on-surface truncate focus:outline-none focus:ring-2 focus:ring-primary/20" type="text" value="https://cdn.makemymarriage.com/rahul24/hero.jpg"/>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">image</span>
+</div>
+<p class="mt-1 font-caption text-caption text-on-surface-variant">1920x1080 WebP optimized</p>
+</div>
+</div>
+</div>
+<!-- Section 2: Tabbed Event Manager for 6 Ceremonies -->
+<div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm space-y-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-surface-container gap-2">
+<div>
+<span class="font-caption text-caption text-secondary uppercase font-semibold">Section 02</span>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">6-Stage Event Ceremony Timeline</h2>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Live Broadcast Relay Engine v2.4</span>
+</div>
+</div>
+<!-- Ceremony Switcher Tabs -->
+<div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-surface-container-low">
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:bg-surface-container transition-colors whitespace-nowrap" type="button">
+            1. Engagement
+          </button>
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:bg-surface-container transition-colors whitespace-nowrap" type="button">
+            2. Mehndi
+          </button>
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md font-bold bg-primary-container text-on-primary shadow-sm whitespace-nowrap flex items-center gap-2" type="button">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed animate-pulse"></span>
+            3. Haldi (Open/Active)
+          </button>
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:bg-surface-container transition-colors whitespace-nowrap" type="button">
+            4. Sangeet
+          </button>
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:bg-surface-container transition-colors whitespace-nowrap" type="button">
+            5. Wedding Ceremony
+          </button>
+<button class="px-4 py-2 rounded-lg font-label-md text-label-md font-medium text-on-surface-variant hover:bg-surface-container transition-colors whitespace-nowrap" type="button">
+            6. Reception
+          </button>
+</div>
+<!-- Active Event Editor: Haldi -->
+<div class="p-6 rounded-xl bg-surface-container-low space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-tertiary-container/30 text-tertiary flex items-center justify-center font-bold">
+                03
+              </div>
+<div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Haldi & Mangalsnan Ceremony</h3>
+<span class="font-caption text-caption text-on-surface-variant">Theme: Sunny Ochre & Marigold Elegance</span>
+</div>
+</div>
+<!-- Stream Health Status Toggle Indicator -->
+<div class="flex items-center gap-3 bg-surface-container-lowest px-3.5 py-1.5 rounded-lg shadow-xs">
+<span class="flex items-center gap-1.5 font-label-sm text-label-sm font-semibold text-emerald-700">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                Stream Online
+              </span>
+<span class="text-on-surface-variant font-caption text-caption">|</span>
+<span class="font-caption text-caption font-mono text-on-surface">Bitrate: 4500 kbps (Stable)</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<div>
+<label class="block font-label-sm text-label-sm font-medium text-on-surface mb-1">Ceremony Date</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20" type="date" value="2024-12-13"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm font-medium text-on-surface mb-1">Commence Time</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20" type="time" value="10:30"/>
+</div>
+<div class="lg:col-span-2">
+<label class="block font-label-sm text-label-sm font-medium text-on-surface mb-1">Venue Pavilion & Lawn Name</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20" type="text" value="Seaside Palm Court, Sea Green Lawns, North Goa"/>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-end">
+<div class="lg:col-span-2">
+<label class="block font-label-sm text-label-sm font-semibold text-on-surface mb-1">Live Stream Ingestion / RTMP CDN Endpoint</label>
+<div class="relative">
+<input class="w-full h-10 pl-3 pr-24 font-mono text-body-sm text-primary rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-primary/20" type="text" value="https://stream.makemymarriage.com/live/rahul24-haldi"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded bg-surface-container text-label-sm text-on-surface hover:bg-surface-container-high transition-colors" type="button">Test Feed</button>
+</div>
+<p class="mt-1 font-caption text-caption text-on-surface-variant">Low-latency HLS stream replicated across Singapore, Mumbai, and Frankfurt CDN nodes.</p>
+</div>
+<div class="flex items-center gap-2 justify-end">
+<button class="h-10 px-4 rounded-lg bg-surface text-on-surface hover:bg-surface-container font-label-md text-label-md font-medium transition-colors shadow-xs" type="button">Discard Changes</button>
+<button class="h-10 px-4 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md font-medium transition-colors shadow-sm" type="button">Save Ceremony</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3 & 4: Side-by-Side Invitation Generator + Venue QR Code Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Section 3: Invitation Generator & Live Preview (8 cols) -->
+<div class="lg:col-span-8 p-6 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between space-y-space-md">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-surface-container">
+<div>
+<span class="font-caption text-caption text-secondary uppercase font-semibold">Section 03</span>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Invitation Generator & Live Layout Engine</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Style: Royal Blue & Gold Leaf</span>
+</div>
+<!-- Content Area: Left Short Form + Right Live Render Match to User Image -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg mt-4 items-start">
+<!-- Invitation Parameters Form -->
+<div class="space-y-3.5">
+<div>
+<label class="block font-label-sm text-label-sm font-medium text-on-surface mb-1">Host Inviting Family Text</label>
+<input class="w-full h-9 px-3 rounded-lg bg-surface-container-low text-body-sm text-on-surface" type="text" value="Together with their families"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm font-medium text-on-surface mb-1">Wedding Date & Time Text</label>
+<input class="w-full h-9 px-3 rounded-lg bg-surface-container-low text-body-sm text-on-surface" type="text" value="Saturday, 14th December 2024 ΓÇó 6:00 PM"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm font-medium text-on-surface mb-1">Ceremony Venue Title</label>
+<input class="w-full h-9 px-3 rounded-lg bg-surface-container-low text-body-sm text-on-surface" type="text" value="The Taj Mahal Palace, Mumbai"/>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block font-label-sm text-label-sm font-medium text-on-surface mb-1">Dress Code</label>
+<input class="w-full h-9 px-3 rounded-lg bg-surface-container-low text-body-sm text-on-surface" type="text" value="Coastal Yellow / Formal"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm font-medium text-on-surface mb-1">RSVP Deadline</label>
+<input class="w-full h-9 px-3 rounded-lg bg-surface-container-low text-body-sm text-on-surface" type="text" value="1st November 2024"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm font-medium text-on-surface mb-1">Dedicated Wedding URL</label>
+<input class="w-full h-9 px-3 rounded-lg bg-surface-container-low font-mono text-body-sm text-primary" type="text" value="RahulandAnjali.com"/>
+</div>
+<div class="pt-2 flex flex-wrap items-center gap-2">
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm font-semibold hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                    Regenerate Poster
+                  </button>
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:bg-primary-container transition-colors shadow-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                    Download Print Ready PDF
+                  </button>
+</div>
+</div>
+<!-- Live Card Preview Matching Inspiration Card Photo -->
+<div class="flex flex-col items-center justify-center p-3 rounded-xl bg-surface-container-low/70">
+<div class="w-full max-w-[270px] aspect-[1/1.42] rounded-2xl bg-[#004B6F] p-2.5 shadow-xl relative overflow-hidden flex flex-col items-center justify-between text-center select-none">
+<!-- Ivory Inner Inset Card Frame with Golden Ornate Aesthetic -->
+<div class="w-full h-full rounded-xl bg-[#FAF7F0] p-4 flex flex-col justify-between items-center relative shadow-inner">
+<!-- Top Gold Leaf Monogram Motif -->
+<div class="flex flex-col items-center pt-1">
+<div class="w-12 h-12 rounded-full border border-tertiary/40 flex items-center justify-center relative">
+<span class="font-display text-[18px] text-tertiary font-bold tracking-tighter">RA</span>
+<div class="absolute -inset-1 border border-tertiary/20 rounded-full"></div>
+</div>
+</div>
+<!-- Names & Text Typography Hierarchy -->
+<div class="space-y-1 my-auto">
+<div class="font-headline-md text-[20px] leading-tight text-on-surface font-serif font-bold tracking-tight">
+                        Rahul<br/><span class="font-caption text-[11px] font-sans font-normal text-on-surface-variant">and</span><br/>Anjali
+                      </div>
+<p class="font-caption text-[8px] text-on-surface-variant uppercase tracking-wider">
+                        invite you to celebrate their wedding
+                      </p>
+<div class="pt-1.5 space-y-0.5 border-t border-b border-tertiary/20 py-1">
+<div class="font-label-sm text-[9px] font-semibold text-on-surface">Saturday, 14th Dec 2024</div>
+<div class="font-caption text-[8px] text-on-surface-variant">Six O'Clock in the Evening</div>
+<div class="font-caption text-[8.5px] font-medium text-primary">The Taj Mahal Palace, Mumbai</div>
+</div>
+</div>
+<!-- RSVP Footer -->
+<div class="pb-1 text-center">
+<div class="font-caption text-[8px] uppercase tracking-wider text-on-surface-variant">RSVP by 1st Nov 2024</div>
+<div class="font-mono text-[8px] text-secondary font-semibold">RahulandAnjali.com</div>
+</div>
+</div>
+</div>
+<span class="mt-2 text-caption text-on-surface-variant flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[14px]">preview</span>
+                  A5 300-DPI High-Res Foil Press Rendering
+                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 4: Venue QR Code Standee Section (4 cols) -->
+<div class="lg:col-span-4 p-6 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between space-y-space-md">
+<div>
+<div class="pb-3 border-b border-surface-container">
+<span class="font-caption text-caption text-secondary uppercase font-semibold">Section 04</span>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Venue QR Station</h2>
+</div>
+<p class="mt-3 text-body-sm text-on-surface-variant">
+              Zero-install mobile app bridge. Guests instantly upload photos and watch multi-cam live streams.
+            </p>
+<!-- Vector QR Mockup Card -->
+<div class="mt-4 p-5 rounded-xl bg-surface-container-low flex flex-col items-center text-center">
+<div class="p-3 bg-surface rounded-xl shadow-sm">
+<!-- Crisp Inline SVG QR Matrix -->
+<svg class="w-36 h-36 text-primary" fill="currentColor" viewbox="0 0 100 100">
+<!-- QR Finder Pattern Top-Left -->
+<rect fill="currentColor" height="30" rx="3" width="30" x="0" y="0"></rect>
+<rect fill="#FAF8FF" height="20" rx="2" width="20" x="5" y="5"></rect>
+<rect fill="currentColor" height="10" rx="1" width="10" x="10" y="10"></rect>
+<!-- QR Finder Pattern Top-Right -->
+<rect fill="currentColor" height="30" rx="3" width="30" x="70" y="0"></rect>
+<rect fill="#FAF8FF" height="20" rx="2" width="20" x="75" y="5"></rect>
+<rect fill="currentColor" height="10" rx="1" width="10" x="80" y="10"></rect>
+<!-- QR Finder Pattern Bottom-Left -->
+<rect fill="currentColor" height="30" rx="3" width="30" x="0" y="70"></rect>
+<rect fill="#FAF8FF" height="20" rx="2" width="20" x="5" y="75"></rect>
+<rect fill="currentColor" height="10" rx="1" width="10" x="10" y="80"></rect>
+<!-- Matrix Data Dots -->
+<rect fill="currentColor" height="6" width="6" x="36" y="6"></rect>
+<rect fill="currentColor" height="6" width="6" x="48" y="12"></rect>
+<rect fill="currentColor" height="6" width="6" x="36" y="18"></rect>
+<rect fill="currentColor" height="6" width="6" x="54" y="24"></rect>
+<rect fill="currentColor" height="6" width="6" x="12" y="36"></rect>
+<rect fill="currentColor" height="6" width="6" x="24" y="42"></rect>
+<rect fill="currentColor" height="6" width="6" x="36" y="36"></rect>
+<rect fill="currentColor" height="6" width="6" x="42" y="48"></rect>
+<rect fill="currentColor" height="6" width="6" x="60" y="36"></rect>
+<rect fill="currentColor" height="6" width="6" x="72" y="42"></rect>
+<rect fill="currentColor" height="6" width="6" x="84" y="36"></rect>
+<rect fill="currentColor" height="6" width="6" x="42" y="60"></rect>
+<rect fill="currentColor" height="6" width="6" x="54" y="72"></rect>
+<rect fill="currentColor" height="6" width="6" x="66" y="60"></rect>
+<rect fill="currentColor" height="6" width="6" x="78" y="72"></rect>
+<rect fill="currentColor" height="6" width="6" x="84" y="84"></rect>
+<rect fill="currentColor" height="6" width="6" x="36" y="84"></rect>
+<rect fill="currentColor" height="6" width="6" x="48" y="90"></rect>
+</svg>
+</div>
+<span class="mt-3 font-label-md text-label-md font-bold text-on-surface">Scan to open guest dashboard</span>
+<span class="font-caption text-caption text-on-surface-variant">(No App Required ΓÇó Camera Launch)</span>
+</div>
+</div>
+<div class="space-y-2 pt-2">
+<button class="w-full flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-medium transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">table_bar</span>
+              Table Standee Vector (PDF)
+            </button>
+<button class="w-full flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-medium transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">tv</span>
+              Welcome Board (4K Asset)
+            </button>
+</div>
+</div>
+</div>
+<!-- Section 5: Photo Moderation & Media Vault Gallery -->
+<div class="p-6 rounded-xl bg-surface-container-lowest shadow-sm space-y-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-3 border-b border-surface-container gap-2">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-caption text-caption text-secondary uppercase font-semibold">Section 05</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-caption text-caption text-primary font-bold">12 Pending Review</span>
+</div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Live Photo Moderation & Private Media Vault</h2>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 hover:bg-emerald-100 font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">done_all</span>
+              Approve All Clean (9)
+            </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-medium transition-colors" type="button">
+              Vault Settings
+            </button>
+</div>
+</div>
+<!-- Moderation Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Photo Card 1 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden shadow-sm flex flex-col justify-between group">
+<div class="relative aspect-[4/3] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A candid guest photograph taken during an Indian wedding reception party. Golden celebratory indoor lights, guests clapping in festive ethnic attire, warm tones and high clarity candid shot." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw0mwI8_9iPGmYZ-nFSSxpwGP1RQTknDhM7gcujoHy_sMLbo3LSrXK88euNDyXlklNCaEg5KtFIhXM3DTv9bbWNRj9X-BCqbzKSShRLjj-rTMLRccRGk4jp765DBmO-KDaAiV-EW4RTT1zllDT6XHvXoplJzsoC3_1gdpTqH9fGfTypDVgbIj0HZ_LDKAcH-S0fLQmc_PmZ11GedRH4KJdfcgIh0qx23_AJccn7wo"/>
+<span class="absolute top-2 right-2 px-2 py-0.5 rounded bg-surface/90 backdrop-blur-md text-on-surface font-caption text-caption font-semibold">2 mins ago</span>
+</div>
+<div class="p-4 space-y-3">
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">Kavita Roy</div>
+<div class="font-caption text-caption text-on-surface-variant truncate">kavita.r@gmail.com</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<label class="flex items-center gap-1.5 cursor-pointer text-label-sm text-on-surface">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary/20 accent-primary" type="checkbox"/>
+<span>Slideshow</span>
+</label>
+<button class="text-error hover:text-on-error-container text-label-sm font-semibold flex items-center gap-0.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">flag</span>
+                  Flag / Delete
+                </button>
+</div>
+</div>
+</div>
+<!-- Photo Card 2 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden shadow-sm flex flex-col justify-between group">
+<div class="relative aspect-[4/3] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Lively Haldi ceremony yellow turmeric celebration photo showing family members applying paste on the couple with bright yellow marigold decorations around seaside Goa courtyard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7gOKH9cKlsYb65Jh_IdK6-dn6hb0QSEX7dxpN5BpCbnwIRahX7pIpqx7Fxo4UT8BgihVGQNioqkCpv_lfCaOaWBhH9Q-rVi0CrTSa_X3er2opAW-H7pgqteVSQkvbxScYKPdHPsIWokWsPBh9hchCpssjh839MOz77qV7xZNrxyRgPmB1iHXu3pO49Kg5JEt109m0qcfKp_isn9oZ5SzhCMziFz1lUj5WOKvEf7U"/>
+<span class="absolute top-2 right-2 px-2 py-0.5 rounded bg-surface/90 backdrop-blur-md text-on-surface font-caption text-caption font-semibold">4 mins ago</span>
+</div>
+<div class="p-4 space-y-3">
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">Rohan Mehta</div>
+<div class="font-caption text-caption text-on-surface-variant truncate">rohan.mehta@outlook.com</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<label class="flex items-center gap-1.5 cursor-pointer text-label-sm text-on-surface">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary/20 accent-primary" type="checkbox"/>
+<span>Slideshow</span>
+</label>
+<button class="text-error hover:text-on-error-container text-label-sm font-semibold flex items-center gap-0.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">flag</span>
+                  Flag / Delete
+                </button>
+</div>
+</div>
+</div>
+<!-- Photo Card 3 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden shadow-sm flex flex-col justify-between group">
+<div class="relative aspect-[4/3] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Guests dancing enthusiastically during sangeet ceremony under string lights, colorful silk outfits, motion blur capturing joy, modern upscale Indian celebration." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgSR821Z5DFrfVq4ZndCEw5vqltS24w8TwcY7gFue5-e5qC8A2rCT_F2ojsY-3x1h4wUk-y3CKqpikhPh0nX_fut0r91acPas2Wm6J7SSftru4eCMVbYvsoAZVebwHXsu3uTQVWo92pTQcBe8cpwFW09IL65OwOPqBauUACocVfE-6NWVd6oCemUwQTjokeV9pMxnxCsKiFLHaEiSfQVBdI6s0J6kX8PJv2ruPnAA"/>
+<span class="absolute top-2 right-2 px-2 py-0.5 rounded bg-surface/90 backdrop-blur-md text-on-surface font-caption text-caption font-semibold">8 mins ago</span>
+</div>
+<div class="p-4 space-y-3">
+<div>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">Pooja Deshmukh</div>
+<div class="font-caption text-caption text-on-surface-variant truncate">pooja.d@yahoo.com</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-surface-container">
+<label class="flex items-center gap-1.5 cursor-pointer text-label-sm text-on-surface">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 accent-primary" type="checkbox"/>
+<span>Slideshow</span>
+</label>
+<button class="text-error hover:text-on-error-container text-label-sm font-semibold flex items-center gap-0.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">flag</span>
+                  Flag / Delete
+                </button>
+</div>
+</div>
+</div>
+<!-- Photo Card 4: Empty Album State Preview Placeholder -->
+<div class="rounded-xl bg-surface-container-low border border-dashed border-outline-variant p-6 flex flex-col items-center justify-center text-center space-y-2">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[24px]">add_photo_alternate</span>
+</div>
+<div class="font-headline-sm text-headline-sm font-semibold text-on-surface">Empty Sub-Vault?</div>
+<p class="font-caption text-caption text-on-surface-variant">Drag bulk photographer master folders (RAW / DNG / TIFF) to ingest directly via S3.</p>
+<button class="mt-2 px-3 py-1.5 rounded-lg bg-surface-container-high text-primary hover:bg-surface-container font-label-sm text-label-sm font-semibold transition-colors" type="button">
+              Ingest Camera Feed
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function switchView(target) {
+    const dashboardSection = document.getElementById('viewSectionDashboard');
+    const manageSection = document.getElementById('viewSectionManage');
+    const btnDashboard = document.getElementById('viewBtnDashboard');
+    const btnManage = document.getElementById('viewBtnManage');
+
+    if (target === 'dashboard') {
+      dashboardSection.classList.remove('hidden');
+      manageSection.classList.add('hidden');
+      
+      btnDashboard.className = 'view-tab-btn flex items-center gap-2 px-5 py-2 rounded-full bg-surface text-primary shadow-sm font-label-md text-label-md font-semibold transition-all';
+      btnManage.className = 'view-tab-btn flex items-center gap-2 px-5 py-2 rounded-full text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium transition-all';
+    } else {
+      dashboardSection.classList.add('hidden');
+      manageSection.classList.remove('hidden');
+
+      btnManage.className = 'view-tab-btn flex items-center gap-2 px-5 py-2 rounded-full bg-surface text-primary shadow-sm font-label-md text-label-md font-semibold transition-all';
+      btnDashboard.className = 'view-tab-btn flex items-center gap-2 px-5 py-2 rounded-full text-on-surface-variant hover:text-on-surface font-label-md text-label-md font-medium transition-all';
+    }
+  }
+</script></main></div></body></html>

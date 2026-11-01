@@ -86,12 +86,15 @@
 | `7fd634f` | `docs: add initial project architecture, PRD, database, and API design specifications` | Nov 1, 2026 |
 | `5fb7525` | `feat: initialize full monorepo scaffold with backend API gateway and Next.js frontend` | Nov 1, 2026 |
 | `8fb7fac` | `docs: create projectStatus tracking directory and baseline STATUS.md` | Nov 1, 2026 |
+| `ed4998d` | `docs: sync git activity log and next actions in STATUS.md` | Nov 1, 2026 |
+| *Pending* | `feat(design): configure Google Stitch MCP server and import Stitch UI design screens` | Nov 1, 2026 |
 
 ---
 
 ## 5. Immediate Next Actions
 
-1. Provide local environment setup (`backend/.env` with MongoDB Atlas connection string).
-2. Build the Admin authentication pages (`/admin/login` & `/admin/register`).
+1. Integrate downloaded Stitch UI screens (`admin_portal`, `guest_dashboard`, `landing_page`) into modular Next.js components.
+2. Provide local environment setup (`backend/.env` with MongoDB Atlas connection string).
+3. Connect frontend components with the backend API routes and Redux store.
 3. Build the Admin Dashboard view (`/admin/dashboard`) for creating weddings and viewing global metrics.
 
