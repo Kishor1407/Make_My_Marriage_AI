@@ -18,6 +18,12 @@ export default function HomePage() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [authError, setAuthError] = useState('');
 
+  // New Stitch Modals
+  const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
+  const [isGuestSuiteOpen, setIsGuestSuiteOpen] = useState(false);
+  const [isPolicyModalOpen, setIsPolicyModalOpen] = useState(false);
+  const [policyData, setPolicyData] = useState({ title: '', desc: '', icon: 'speed' });
+
   const celebrations = [
     {
       id: 'rahul-anjali',
@@ -98,7 +104,6 @@ export default function HomePage() {
     newPins[index] = uppercaseVal;
     setPinInputs(newPins);
 
-    // Auto-focus next input
     if (uppercaseVal && index < 5) {
       const nextInput = document.getElementById(`pin-${index + 1}`);
       nextInput?.focus();
@@ -106,7 +111,6 @@ export default function HomePage() {
   };
 
   const handleUnlockProceed = () => {
-    const fullCode = pinInputs.join('').trim() || modalCode;
     setIsVerifying(true);
     setAuthError('');
 
@@ -114,7 +118,6 @@ export default function HomePage() {
       setIsVerifying(false);
       setIsModalOpen(false);
       showToast('Vault Decrypted', `Accessing ${modalCouple}'s celebration...`);
-      // Navigate to guest dashboard
       router.push(`/marriage/${modalCode.toLowerCase()}`);
     }, 700);
   };
@@ -132,6 +135,11 @@ export default function HomePage() {
     } else {
       openModal(quickCode.trim().toUpperCase(), 'Custom Celebration');
     }
+  };
+
+  const openPolicy = (title: string, desc: string, icon: string) => {
+    setPolicyData({ title, desc, icon });
+    setIsPolicyModalOpen(true);
   };
 
   const filteredCelebrations =
@@ -166,7 +174,11 @@ export default function HomePage() {
             <div
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high shadow-sm cursor-pointer hover:scale-105 transition-transform"
               onClick={() =>
-                showToast('Cloud Architecture', 'Protected by 256-bit encryption & edge streaming nodes')
+                openPolicy(
+                  'Zero-Loss Destination Architecture',
+                  'High-throughput edge caching nodes placed directly across destination wedding corridors ensuring instant bufferless previews of multi-gigabyte media packages.',
+                  'speed'
+                )
               }
             >
               <span className="material-symbols-outlined text-[16px] text-tertiary">
@@ -198,15 +210,28 @@ export default function HomePage() {
                 <span className="material-symbols-outlined text-[18px]">lock</span>
                 <span>Enter Marriage Code</span>
               </button>
-              <Link
-                href="/admin/dashboard"
+
+              <button
                 className="h-11 px-5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-high active:scale-[0.98] transition-colors"
+                onClick={() => setIsShowcaseOpen(true)}
+                type="button"
               >
                 <span className="material-symbols-outlined text-[18px] text-secondary">
-                  dashboard
+                  explore
                 </span>
-                <span>Admin Dual-View Portal</span>
-              </Link>
+                <span>Explore Demo Celebration</span>
+              </button>
+
+              <button
+                className="h-11 px-4 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-high transition-colors"
+                onClick={() => setIsGuestSuiteOpen(true)}
+                type="button"
+              >
+                <span className="material-symbols-outlined text-[18px] text-primary">
+                  how_to_reg
+                </span>
+                <span>Guest Experience Suite</span>
+              </button>
             </div>
 
             {/* Floating Quick Code Unlock Bar */}
@@ -439,13 +464,127 @@ export default function HomePage() {
             ))}
           </div>
         </section>
+
+        {/* 3. NEW STITCH FEATURE HIGHLIGHTS */}
+        <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 w-full">
+          <div className="bg-surface-container rounded-2xl p-6 lg:p-12 shadow-sm border border-black/5 transition-colors">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Feature 1 */}
+              <div className="flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <span className="font-caption text-caption text-secondary uppercase font-bold">
+                    Zero Quality Loss
+                  </span>
+                  <h3 className="font-headline-md text-headline-md font-bold text-on-surface">
+                    Engineered for Destination Scale
+                  </h3>
+                  <p className="font-body-md text-body-md text-on-surface-variant">
+                    Every photograph, 4K reel, and drone capture uploaded by guests or official photographers is streamed and stored in crisp high resolution.
+                  </p>
+                </div>
+                <div
+                  className="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-4 hover:border-primary/50 transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
+                  onClick={() =>
+                    openPolicy(
+                      'Zero-Loss Destination CDN',
+                      'High-throughput edge caching nodes placed directly across destination wedding corridors ensuring instant bufferless previews of multi-gigabyte media packages.',
+                      'speed'
+                    )
+                  }
+                >
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-primary text-[28px]">speed</span>
+                  </div>
+                  <div>
+                    <h4 className="font-headline-sm text-headline-sm font-semibold text-on-surface flex items-center gap-1.5">
+                      Sub-Second Delivery
+                      <span className="material-symbols-outlined text-[16px] text-primary">arrow_forward</span>
+                    </h4>
+                    <p className="font-body-sm text-body-sm text-on-surface-variant">
+                      Edge nodes across Goa, Udaipur, and destination hotspots.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <span className="font-caption text-caption text-tertiary uppercase font-bold">
+                    Privacy First
+                  </span>
+                  <h3 className="font-headline-md text-headline-md font-bold text-on-surface">
+                    Guest-Level Permissions
+                  </h3>
+                  <p className="font-body-md text-body-md text-on-surface-variant">
+                    Keep Haldi rituals, bridal suites, and evening afterparties contained to specific friend circles and families with passcodes.
+                  </p>
+                </div>
+                <div
+                  className="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-4 hover:border-tertiary/50 transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
+                  onClick={() =>
+                    openPolicy(
+                      'Granular Privacy Permissions',
+                      'Couples can partition ceremonies into distinct access groups using passcode tiers. No public crawler indexing.',
+                      'shield_person'
+                    )
+                  }
+                >
+                  <div className="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-tertiary text-[28px]">shield_person</span>
+                  </div>
+                  <div>
+                    <h4 className="font-headline-sm text-headline-sm font-semibold text-on-surface flex items-center gap-1.5">
+                      Passcode Enforced
+                      <span className="material-symbols-outlined text-[16px] text-tertiary">arrow_forward</span>
+                    </h4>
+                    <p className="font-body-sm text-body-sm text-on-surface-variant">
+                      No indexed public search. Only authorized guests enter.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <span className="font-caption text-caption text-primary uppercase font-bold">
+                    Live Real-Time Sync
+                  </span>
+                  <h3 className="font-headline-md text-headline-md font-bold text-on-surface">
+                    Instant Guest Broadcasts
+                  </h3>
+                  <p className="font-body-md text-body-md text-on-surface-variant">
+                    Broadcast live ceremony streams to overseas elders and relatives who couldn&apos;t fly in.
+                  </p>
+                </div>
+                <div
+                  className="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-4 hover:border-secondary/50 transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
+                  onClick={() => router.push('/marriage/rahul24')}
+                >
+                  <div className="w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-secondary text-[28px]">broadcast_on_personal</span>
+                  </div>
+                  <div>
+                    <h4 className="font-headline-sm text-headline-sm font-semibold text-on-surface flex items-center gap-1.5">
+                      Ultra-Low Latency
+                      <span className="material-symbols-outlined text-[16px] text-secondary">arrow_forward</span>
+                    </h4>
+                    <p className="font-body-sm text-body-sm text-on-surface-variant">
+                      Crystal clear interactive ceremony streaming.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      {/* 3. INTERACTIVE STITCH PASSCODE MODAL */}
+      {/* 4. MARRIAGE CODE UNLOCK MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="relative w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl border border-black/10 p-6 sm:p-8 space-y-6">
-            {/* Close Button */}
             <button
               className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
               onClick={() => setIsModalOpen(false)}
@@ -454,7 +593,6 @@ export default function HomePage() {
               <span className="material-symbols-outlined text-[20px]">close</span>
             </button>
 
-            {/* Modal Header */}
             <div className="text-center space-y-2">
               <div className="w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center mx-auto text-primary">
                 <span className="material-symbols-outlined text-[28px]">lock_open</span>
@@ -468,7 +606,6 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* 6-PIN Boxes */}
             <div className="flex items-center justify-center gap-2 sm:gap-3">
               {pinInputs.map((digit, idx) => (
                 <input
@@ -488,7 +625,6 @@ export default function HomePage() {
               </div>
             )}
 
-            {/* Action Buttons */}
             <div className="space-y-3 pt-2">
               <button
                 className="w-full h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-2 shadow-sm hover:opacity-95 active:scale-[0.98] transition-all disabled:opacity-50"
@@ -519,6 +655,225 @@ export default function HomePage() {
                   Autofill RAHUL24
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5. DEMO SHOWCASE MODAL */}
+      {isShowcaseOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-2xl bg-surface-container-lowest rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 border border-black/10">
+            <button
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"
+              onClick={() => setIsShowcaseOpen(false)}
+            >
+              <span className="material-symbols-outlined text-[18px]">close</span>
+            </button>
+
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <span className="material-symbols-outlined text-[28px]">favorite</span>
+              </div>
+              <div>
+                <span className="text-xs uppercase font-bold tracking-wider text-secondary">
+                  Demo Celebration Archive
+                </span>
+                <h3 className="font-headline-md text-headline-md font-bold text-on-surface">
+                  Rahul &amp; Anjali&apos;s Coastal Wedding
+                </h3>
+                <p className="font-body-sm text-body-sm text-on-surface-variant">
+                  Palacio Do Mar, South Goa • March 2026
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div
+                className="p-3 rounded-lg bg-surface-container text-center cursor-pointer hover:bg-surface-container-high transition-colors"
+                onClick={() => {
+                  setIsShowcaseOpen(false);
+                  router.push('/marriage/rahul24');
+                }}
+              >
+                <span className="material-symbols-outlined text-secondary text-[24px]">live_tv</span>
+                <div className="font-bold text-on-surface mt-1 text-sm">Haldi Replay</div>
+                <div className="text-xs text-on-surface-variant">1080p 60fps Broadcast</div>
+              </div>
+
+              <div
+                className="p-3 rounded-lg bg-surface-container text-center cursor-pointer hover:bg-surface-container-high transition-colors"
+                onClick={() => {
+                  setIsShowcaseOpen(false);
+                  router.push('/marriage/rahul24');
+                }}
+              >
+                <span className="material-symbols-outlined text-tertiary text-[24px]">photo_library</span>
+                <div className="font-bold text-on-surface mt-1 text-sm">420 RAW Photos</div>
+                <div className="text-xs text-on-surface-variant">Guest &amp; Crew Uploads</div>
+              </div>
+
+              <div
+                className="p-3 rounded-lg bg-surface-container text-center cursor-pointer hover:bg-surface-container-high transition-colors"
+                onClick={() => {
+                  setIsShowcaseOpen(false);
+                  router.push('/marriage/rahul24');
+                }}
+              >
+                <span className="material-symbols-outlined text-primary text-[24px]">edit_note</span>
+                <div className="font-bold text-on-surface mt-1 text-sm">Live Guestbook</div>
+                <div className="text-xs text-on-surface-variant">88 Blessing Notes</div>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-surface-container flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-secondary text-[22px]">key</span>
+                <div>
+                  <div className="font-bold text-sm text-on-surface">
+                    Guest Passkey: <span className="font-mono text-primary font-bold">RAHUL24</span>
+                  </div>
+                  <div className="text-xs text-on-surface-variant">
+                    Instant access unlocked for demo evaluators
+                  </div>
+                </div>
+              </div>
+              <button
+                className="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:opacity-95 transition-opacity"
+                onClick={() => {
+                  setIsShowcaseOpen(false);
+                  openModal('RAHUL24', 'Rahul & Anjali');
+                }}
+              >
+                Open Vault
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 6. GUEST EXPERIENCE SUITE MODAL */}
+      {isGuestSuiteOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-2xl bg-surface-container-lowest rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6 border border-black/10">
+            <button
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"
+              onClick={() => setIsGuestSuiteOpen(false)}
+            >
+              <span className="material-symbols-outlined text-[18px]">close</span>
+            </button>
+
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary shrink-0">
+                <span className="material-symbols-outlined text-[28px]">how_to_reg</span>
+              </div>
+              <div>
+                <span className="text-xs uppercase font-bold tracking-wider text-secondary">
+                  Guest Experience Suite
+                </span>
+                <h3 className="font-headline-md text-headline-md font-bold text-on-surface">
+                  Effortless Guest Participation
+                </h3>
+                <p className="font-body-sm text-body-sm text-on-surface-variant">
+                  Zero apps to download. Guests scan, capture, watch, and celebrate directly in their mobile browser.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 rounded-xl bg-surface-container space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-primary text-sm">
+                  <span className="material-symbols-outlined text-[20px]">qr_code_2</span>
+                  Tabletop QR Ingestion
+                </div>
+                <p className="text-xs text-on-surface-variant">
+                  Guests scan the dining table or welcome card QR to snap instant photos directly into the collective album with name attribution.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-surface-container space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-tertiary text-sm">
+                  <span className="material-symbols-outlined text-[20px]">stream</span>
+                  Global Family Streaming
+                </div>
+                <p className="text-xs text-on-surface-variant">
+                  Overseas grandparents and relatives watch low-latency ceremonies and send blessings straight to the live marquee.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-surface-container space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-secondary text-sm">
+                  <span className="material-symbols-outlined text-[20px]">download</span>
+                  Digital Invitation Cards
+                </div>
+                <p className="text-xs text-on-surface-variant">
+                  Download high-resolution digital invitation cards powered on-device by html2canvas without server load.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-surface-container space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-primary text-sm">
+                  <span className="material-symbols-outlined text-[20px]">compress</span>
+                  Aggressive Edge Compression
+                </div>
+                <p className="text-xs text-on-surface-variant">
+                  Automatically shrinks photos to ~500KB on the guest phone, respecting the strictly ₹0 MongoDB Atlas 512MB quota.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                className="px-5 py-2.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-semibold hover:bg-surface-container-high transition-colors"
+                onClick={() => setIsGuestSuiteOpen(false)}
+              >
+                Dismiss
+              </button>
+              <button
+                className="px-5 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold hover:opacity-95"
+                onClick={() => {
+                  setIsGuestSuiteOpen(false);
+                  openModal('RAHUL24', 'Rahul & Anjali');
+                }}
+              >
+                Test Guest Passkey
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 7. POLICY & ARCHITECTURE MODAL */}
+      {isPolicyModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl p-6 space-y-4 border border-black/10">
+            <button
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"
+              onClick={() => setIsPolicyModalOpen(false)}
+            >
+              <span className="material-symbols-outlined text-[18px]">close</span>
+            </button>
+
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                <span className="material-symbols-outlined text-[24px]">{policyData.icon}</span>
+              </div>
+              <h3 className="font-headline-sm text-lg font-bold text-on-surface">
+                {policyData.title}
+              </h3>
+            </div>
+
+            <p className="text-xs text-on-surface-variant leading-relaxed">
+              {policyData.desc}
+            </p>
+
+            <div className="pt-2 flex justify-end">
+              <button
+                onClick={() => setIsPolicyModalOpen(false)}
+                className="px-4 py-2 rounded-lg bg-primary text-on-primary text-xs font-semibold"
+              >
+                Got It
+              </button>
             </div>
           </div>
         </div>

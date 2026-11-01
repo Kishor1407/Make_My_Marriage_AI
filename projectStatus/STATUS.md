@@ -73,9 +73,10 @@
 - [x] Design System extracted: `Coastal Editorial SaaS` (`docs/stitch_designs/DESIGN_SYSTEM.md`)
 - [x] Raw UI designs imported and archived in repository:
   - [x] `admin_portal.html` (Dual-view metrics table & marriages manager)
-  - [x] `guest_dashboard.html` (6 timeline tabs, YouTube livestream player, candid photo gallery)
-  - [x] `landing_page.html` (Hero section, private wedding cards, passcode modal)
+  - [x] `guest_dashboard.html` & `guest_dashboard_updated.html` (6 timeline tabs, YouTube livestream player, candid photo gallery, in-page Drop Media modal)
+  - [x] `landing_page.html` & `landing_page_updated.html` (Hero section, private wedding cards, passcode modal, feature architecture cards, interactive modals)
 - [x] Next.js component conversion & Tailwind token synchronization
+- [x] Live Stitch MCP sync: Scanned and integrated updated designs into `app/page.tsx` and `app/marriage/[id]/page.tsx`
 
 ---
 
@@ -101,6 +102,8 @@
 | `d3c912e` | `docs: sync git log in STATUS.md for commit 2826fd5` | Nov 1, 2026 |
 | `fd669ba` | `docs: update STATUS.md with Stitch integration milestone and detailed implementation roadmap` | Nov 1, 2026 |
 | `b2e39a1` | `feat(ui): implement complete Google Stitch UI in Next.js across Landing, Admin, and Guest portals` | Nov 1, 2026 |
+| `bff0515` | `docs: sync git log in STATUS.md for commit b2e39a1` | Nov 1, 2026 |
+| `pending` | `feat(ui): sync and implement updated Google Stitch AI designs for landing page and guest dashboard` | Nov 1, 2026 |
 
 ---
 
@@ -108,24 +111,18 @@
 
 1. **Step 1: MongoDB Connection Setup (`backend/.env`)**
    * Create `backend/.env` with MongoDB Atlas connection string (`MONGO_URI`) and JWT secret.
-   * Verify live database connectivity and GridFS bucket readiness.
+   * Verify live database connectivity and GridFS bucket initialization.
 
-2. **Step 2: Build Admin Authentication & Dual-View Portal UI**
-   * Implement `/admin/login` and `/admin/register` using the Zod validation schemas.
-   * Convert `docs/stitch_designs/admin_portal.html` into modular Next.js components (`/admin/dashboard`):
-     - Metric cards (Total Weddings, Total Photos, Total Guests).
-     - "Create Wedding" modal (auto-generating the 6 timeline events).
-     - Marriages table with action links and cascading deletion modal.
+2. **Step 2: Connect Frontend to Live Backend Endpoints**
+   * Wire `frontend/src/lib/api.ts` with backend routes (`/api/v1/auth`, `/api/v1/marriages`, `/api/v1/media`, `/api/v1/events`).
+   * Replace mock demo state in `/admin/dashboard` and `/marriage/[id]` with real dynamic queries and mutation hooks.
 
-3. **Step 3: Build Guest Wedding Dashboard (`/marriage/[id]`)**
-   * Convert `docs/stitch_designs/guest_dashboard.html` into interactive Next.js components:
-     - 6 timeline event tabs (Engagement, Mehndi, Haldi, Sangeet, Marriage, Others).
-     - Live stream YouTube player embed.
-     - Photo dump gallery with GridFS image streaming and guest attribution (Name/Email).
+3. **Step 3: Verification of Media Upload Pipeline**
+   * Test client-side image compression (`browser-image-compression`) via `/guest/upload` and in-page modal uploader.
+   * Verify GridFS binary streaming storage and retrieval.
 
-4. **Step 4: Build Mobile Venue QR Photo Upload Page (`/guest/upload`)**
-   * Mobile-first photo selection screen (Max 10 files batch limit).
-   * Aggressive pre-upload compression via `browser-image-compression`.
-   * Guest attribution fields (Name and Email).
+4. **Step 4: Cloud Deployment Preparation (₹0 Architecture)**
+   * Deploy Express backend to Render with cold-start banner support.
+   * Deploy Next.js frontend to Vercel with environment variable configuration.
 
 

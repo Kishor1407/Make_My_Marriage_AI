@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { downloadInvitationAsImage } from '@/lib/invitation';
+import { compressImage } from '@/lib/compression';
 
 export default function GuestDashboardPage() {
   const params = useParams();
@@ -13,9 +14,17 @@ export default function GuestDashboardPage() {
   const [activeMediaTab, setActiveMediaTab] = useState<'photos' | 'videos'>('photos');
   const [isPlayingStream, setIsPlayingStream] = useState(false);
   const [isWishesModalOpen, setIsWishesModalOpen] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [newWishAuthor, setNewWishAuthor] = useState('');
   const [newWishText, setNewWishText] = useState('');
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  // In-page upload state
+  const [modalUploaderName, setModalUploaderName] = useState('Rohan Varma');
+  const [modalCeremonyTag, setModalCeremonyTag] = useState('Haldi (Active Event)');
+  const [modalFiles, setModalFiles] = useState<File[]>([]);
+  const [isModalUploading, setIsModalUploading] = useState(false);
+  const [modalUploadProgress, setModalUploadProgress] = useState(0);
 
   const invitationRef = useRef<HTMLDivElement>(null);
 
@@ -54,6 +63,32 @@ export default function GuestDashboardPage() {
     showToast('Your blessing was posted to the live feed!');
   };
 
+  const handleModalUpload = async () => {
+    if (modalFiles.length === 0) {
+      showToast('Please select at least one photo.');
+      return;
+    }
+    setIsModalUploading(true);
+    setModalUploadProgress(30);
+
+    // Compress first
+    for (const f of modalFiles) {
+      await compressImage(f, { maxSizeMB: 0.5 });
+    }
+    setModalUploadProgress(75);
+
+    setTimeout(() => {
+      setModalUploadProgress(100);
+      setTimeout(() => {
+        setIsModalUploading(false);
+        setIsUploadModalOpen(false);
+        setModalFiles([]);
+        setModalUploadProgress(0);
+        showToast(`Successfully added ${modalFiles.length} photo(s) to the collective album!`);
+      }, 500);
+    }, 800);
+  };
+
   const eventsData = {
     engagement: {
       name: 'Engagement Ceremony',
@@ -64,7 +99,7 @@ export default function GuestDashboardPage() {
       streamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
     },
     mehndi: {
-      name: 'Mehndi &amp; Sangeet Lounge',
+      name: 'Mehndi & Sangeet Lounge',
       time: 'Dec 13, 2026 • 3:00 PM',
       venue: 'Seaside Lawn, The Leela, Goa',
       photosCount: 38,
@@ -72,7 +107,7 @@ export default function GuestDashboardPage() {
       streamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
     },
     haldi: {
-      name: 'Haldi Golden Splash',
+      name: 'The Haldi & Floral Shower',
       time: 'Dec 14, 2026 • 10:00 AM',
       venue: 'Courtyard Pavillion, The Leela, Goa',
       photosCount: 145,
@@ -96,7 +131,7 @@ export default function GuestDashboardPage() {
       streamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
     },
     others: {
-      name: 'Reception &amp; Afterparty',
+      name: 'Reception & Afterparty',
       time: 'Dec 15, 2026 • 8:00 PM',
       venue: 'Sky Lounge Deck, The Leela, Goa',
       photosCount: 5,
@@ -167,13 +202,13 @@ export default function GuestDashboardPage() {
               <span>Send Blessing</span>
             </button>
 
-            <Link
-              href={`/guest/upload?code=${marriageId}`}
+            <button
+              onClick={() => setIsUploadModalOpen(true)}
               className="px-4 py-2 rounded-xl bg-primary hover:bg-primary-container text-on-primary text-xs font-semibold flex items-center gap-1.5 shadow-sm active:scale-95 transition-all"
             >
               <span className="material-symbols-outlined text-[16px]">add_a_photo</span>
               <span>Drop Media</span>
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -357,13 +392,13 @@ export default function GuestDashboardPage() {
                 </button>
               </div>
 
-              <Link
-                href={`/guest/upload?code=${marriageId}`}
-                className="px-3.5 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-semibold shadow-sm flex items-center gap-1"
+              <button
+                onClick={() => setIsUploadModalOpen(true)}
+                className="px-3.5 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-semibold shadow-sm flex items-center gap-1 hover:opacity-95"
               >
                 <span className="material-symbols-outlined text-[16px]">add_a_photo</span>
                 <span>Upload Shot</span>
-              </Link>
+              </button>
             </div>
           </div>
 
@@ -422,6 +457,106 @@ export default function GuestDashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* DROP MEDIA TO COUPLE'S VAULT MODAL */}
+      {isUploadModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+            <div className="p-4 bg-slate-50 flex items-center justify-between border-b border-slate-200">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-[20px] text-primary">cloud_upload</span>
+                <h3 className="font-display font-bold text-base text-slate-900">
+                  Drop Media to Couple&apos;s Vault
+                </h3>
+              </div>
+              <button
+                onClick={() => setIsUploadModalOpen(false)}
+                className="w-7 h-7 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600"
+              >
+                <span className="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Your Name</label>
+                <input
+                  className="w-full h-10 px-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  value={modalUploaderName}
+                  onChange={(e) => setModalUploaderName(e.target.value)}
+                  type="text"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Tag Ceremony</label>
+                <select
+                  value={modalCeremonyTag}
+                  onChange={(e) => setModalCeremonyTag(e.target.value)}
+                  className="w-full h-10 px-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                >
+                  <option>Haldi (Active Event)</option>
+                  <option>Engagement</option>
+                  <option>Mehndi</option>
+                  <option>Sangeet</option>
+                  <option>Marriage</option>
+                  <option>Others / Candid</option>
+                </select>
+              </div>
+
+              <label className="block p-6 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50/50 text-center cursor-pointer hover:bg-slate-100/50 transition-colors">
+                <span className="material-symbols-outlined text-[32px] text-primary mb-1">photo_library</span>
+                <p className="text-xs font-bold text-slate-800">
+                  {modalFiles.length > 0 ? `${modalFiles.length} photo(s) selected` : 'Tap to choose photos or videos'}
+                </p>
+                <p className="text-[11px] text-slate-400">High-res JPEG, Apple HEIC, and 4K MP4</p>
+                <input
+                  className="hidden"
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files) {
+                      setModalFiles(Array.from(e.target.files));
+                    }
+                  }}
+                />
+              </label>
+
+              {isModalUploading && (
+                <div className="p-3 rounded-xl bg-slate-100 space-y-1.5">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="text-slate-700">Compressing and streaming to vault...</span>
+                    <span className="text-primary">{modalUploadProgress}%</span>
+                  </div>
+                  <div className="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
+                    <div
+                      className="h-full bg-primary rounded-full transition-all duration-300"
+                      style={{ width: `${modalUploadProgress}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-end gap-2">
+              <button
+                onClick={() => setIsUploadModalOpen(false)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200/50"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={isModalUploading}
+                onClick={handleModalUpload}
+                className="px-5 py-2 rounded-xl bg-primary text-white text-xs font-bold shadow-sm hover:opacity-90 disabled:opacity-50"
+              >
+                {isModalUploading ? 'Uploading...' : 'Start Upload'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* BLESSINGS / WISHES MODAL */}
       {isWishesModalOpen && (
@@ -493,4 +628,3 @@ export default function GuestDashboardPage() {
     </div>
   );
 }
-
