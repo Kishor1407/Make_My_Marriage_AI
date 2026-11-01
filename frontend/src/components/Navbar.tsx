@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { logout } from '@/store/slices/authSlice';
 import api from '@/lib/api';
+import AppIcon from '@/components/AppIcon';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -40,7 +41,7 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="w-8 h-8 rounded-lg bg-[#c81e38] flex items-center justify-center text-white font-bold shadow-md shadow-[#c81e38]/20 group-hover:scale-105 transition-transform">
-                <span className="material-symbols-outlined text-[19px]">diamond</span>
+                <AppIcon name="diamond" size={18} className="text-white" />
               </div>
               <div className="flex flex-col">
                 <span className="font-editorial text-[16px] tracking-tight font-bold text-[#0a0a0c] leading-tight">
@@ -100,10 +101,10 @@ export default function Navbar() {
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setIsQrScannerOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-neutral-50 text-xs font-semibold text-neutral-800 border border-neutral-200 transition-colors shadow-xs"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-neutral-50 text-xs font-semibold text-neutral-800 border border-neutral-200 transition-colors shadow-xs cursor-pointer"
               title="Scan Table Standee QR Code"
             >
-              <span className="material-symbols-outlined text-[16px] text-[#c81e38]">qr_code_scanner</span>
+              <AppIcon name="qr_code_scanner" size={16} className="text-[#c81e38]" />
               <span className="hidden sm:inline">Scan Table QR</span>
             </button>
 
@@ -121,10 +122,10 @@ export default function Navbar() {
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="w-8 h-8 rounded-xl flex items-center justify-center text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 transition-colors border border-neutral-200"
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 transition-colors border border-neutral-200 cursor-pointer"
                   title="Sign Out"
                 >
-                  <span className="material-symbols-outlined text-[18px]">logout</span>
+                  <AppIcon name="logout" size={16} />
                 </button>
               </div>
             ) : (
@@ -132,7 +133,7 @@ export default function Navbar() {
                 href="/admin/login"
                 className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-sm transition-all active:scale-95"
               >
-                <span className="material-symbols-outlined text-[16px]">lock</span>
+                <AppIcon name="lock" size={15} />
                 <span>Host Sign In</span>
               </Link>
             )}
@@ -146,14 +147,14 @@ export default function Navbar() {
           <div className="w-full max-w-md bg-white rounded-2xl border border-neutral-200 p-6 shadow-2xl relative text-[#0a0a0c]">
             <button
               onClick={() => setIsQrScannerOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[18px]">close</span>
+              <AppIcon name="close" size={16} />
             </button>
 
             <div className="flex items-center gap-2.5 mb-4">
               <div className="w-9 h-9 rounded-xl bg-[#c81e38]/10 text-[#c81e38] flex items-center justify-center border border-[#c81e38]/30">
-                <span className="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+                <AppIcon name="qr_code_scanner" size={20} className="text-[#c81e38]" />
               </div>
               <div>
                 <h3 className="font-editorial text-lg font-bold text-[#0a0a0c]">Scan Dining Standee QR</h3>

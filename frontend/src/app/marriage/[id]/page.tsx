@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { compressImage } from '@/lib/compression';
 import { downloadInvitationAsImage } from '@/lib/invitation';
 import api from '@/lib/api';
+import AppIcon from '@/components/AppIcon';
 
 interface WishItem {
   id: string;
@@ -441,9 +442,10 @@ export default function GuestDashboardPage() {
                 : 'bg-white border-neutral-200 text-[#0A0A0C]'
             }`}
           >
-            <span className="material-symbols-outlined text-[18px]">
-              {toastMsg.type === 'success' ? 'check_circle' : toastMsg.type === 'crimson' ? 'error' : 'info'}
-            </span>
+            <AppIcon
+              name={toastMsg.type === 'success' ? 'check_circle' : toastMsg.type === 'crimson' ? 'error' : 'info'}
+              size={18}
+            />
             <span>{toastMsg.text}</span>
           </div>
         </div>
@@ -477,13 +479,12 @@ export default function GuestDashboardPage() {
                   <h1 className="font-editorial font-bold text-2xl sm:text-3xl text-[#0a0a0c] tracking-tight">
                     Rahul &amp; Anjali
                   </h1>
-                  <span
-                    className="material-symbols-outlined text-[20px] text-[#c81e38]"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  <AppIcon
+                    name="verified"
+                    size={20}
+                    className="text-[#c81e38]"
                     title="Verified Celebration Vault"
-                  >
-                    verified
-                  </span>
+                  />
                   <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#c81e38]/10 text-[#c81e38] border border-[#c81e38]/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#c81e38] animate-pulse"></span>
                     <span>{currentCeremony.status}</span>
@@ -514,7 +515,7 @@ export default function GuestDashboardPage() {
                 }}
                 className="px-3.5 py-2 rounded-xl bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-semibold flex items-center gap-1.5 border border-neutral-200 transition-colors shadow-xs"
               >
-                <span className="material-symbols-outlined text-[16px] text-neutral-700">share</span>
+                <AppIcon name="share" size={16} className="text-neutral-700" />
                 <span>Share</span>
               </button>
 
@@ -522,9 +523,7 @@ export default function GuestDashboardPage() {
                 onClick={() => setIsWishesModalOpen(true)}
                 className="px-3.5 py-2 rounded-xl bg-[#c81e38]/10 hover:bg-[#c81e38]/15 text-[#c81e38] border border-[#c81e38]/30 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-xs"
               >
-                <span className="material-symbols-outlined text-[16px] text-[#c81e38]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                  favorite
-                </span>
+                <AppIcon name="favorite" size={16} className="text-[#c81e38]" fill="currentColor" />
                 <span>Send Blessing</span>
               </button>
 
@@ -533,7 +532,7 @@ export default function GuestDashboardPage() {
                 className="px-3.5 py-2 rounded-xl bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-semibold flex items-center gap-1.5 border border-neutral-200 transition-colors shadow-xs"
                 title="Switch wedding passcode"
               >
-                <span className="material-symbols-outlined text-[16px] text-[#c81e38]">key</span>
+                <AppIcon name="key" size={16} className="text-[#c81e38]" />
                 <span>Switch Passcode</span>
               </button>
 
@@ -541,7 +540,7 @@ export default function GuestDashboardPage() {
                 onClick={() => setIsUploadModalOpen(true)}
                 className="px-4 py-2 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold flex items-center gap-1.5 shadow-md active:scale-95 transition-all"
               >
-                <span className="material-symbols-outlined text-[16px]">add_a_photo</span>
+                <AppIcon name="add_a_photo" size={16} />
                 <span>Drop Media</span>
               </button>
             </div>
@@ -562,9 +561,7 @@ export default function GuestDashboardPage() {
                     </h2>
                   </div>
                   <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold bg-white text-[#c81e38] border border-neutral-200 shadow-xs">
-                    <span className="material-symbols-outlined text-[13px] text-[#c81e38]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                      favorite
-                    </span>
+                    <AppIcon name="favorite" size={13} className="text-[#c81e38]" fill="currentColor" />
                     <span>{totalCheers.toLocaleString()} cheers showered</span>
                   </span>
                 </div>
@@ -621,7 +618,7 @@ export default function GuestDashboardPage() {
                     onClick={() => setIsWishesModalOpen(true)}
                     className="px-4 py-1.5 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-sm flex items-center gap-1.5 transition-all active:scale-95"
                   >
-                    <span className="material-symbols-outlined text-[15px]">edit_note</span>
+                    <AppIcon name="edit_note" size={15} />
                     <span>+ Add Blessing</span>
                   </button>
                 </div>
@@ -666,9 +663,7 @@ export default function GuestDashboardPage() {
                           onClick={() => handleLikeWish(item.id)}
                           className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-[#c81e38] transition-colors"
                         >
-                          <span className="material-symbols-outlined text-[16px] text-[#c81e38]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                            favorite
-                          </span>
+                          <AppIcon name="favorite" size={16} className="text-[#c81e38]" fill="currentColor" />
                           <span className="text-[11px] font-bold text-neutral-800">{item.likes}</span>
                         </button>
                         <div className="flex items-center gap-1">
@@ -705,14 +700,14 @@ export default function GuestDashboardPage() {
                   className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-8 h-8 rounded-full bg-white shadow-md border border-neutral-200 text-neutral-800 items-center justify-center hover:bg-[#c81e38] hover:text-white transition-all"
                   title="Scroll left"
                 >
-                  <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+                  <AppIcon name="chevron_left" size={18} />
                 </button>
                 <button
                   onClick={() => scrollWishes(280)}
                   className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-8 h-8 rounded-full bg-white shadow-md border border-neutral-200 text-neutral-800 items-center justify-center hover:bg-[#c81e38] hover:text-white transition-all"
                   title="Scroll right"
                 >
-                  <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+                  <AppIcon name="chevron_right" size={18} />
                 </button>
               </div>
             </div>
@@ -732,7 +727,7 @@ export default function GuestDashboardPage() {
                     : 'text-neutral-600 hover:text-neutral-950'
                 }`}
               >
-                <span className="material-symbols-outlined text-[16px]">diamond</span>
+                <AppIcon name="diamond" size={16} />
                 <span>Engagement</span>
                 <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">24</span>
               </button>
@@ -745,7 +740,7 @@ export default function GuestDashboardPage() {
                     : 'text-neutral-600 hover:text-neutral-950'
                 }`}
               >
-                <span className="material-symbols-outlined text-[16px]">spa</span>
+                <AppIcon name="spa" size={16} />
                 <span>Mehndi</span>
                 <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">38</span>
               </button>
@@ -758,9 +753,7 @@ export default function GuestDashboardPage() {
                     : 'text-neutral-600 hover:text-neutral-950 font-medium'
                 }`}
               >
-                <span className="material-symbols-outlined text-[16px] text-white" style={{ fontVariationSettings: "'FILL' 1" }}>
-                  wb_sunny
-                </span>
+                <AppIcon name="wb_sunny" size={16} className="text-white" />
                 <span>Haldi</span>
                 <span className="px-2 py-0.5 rounded-full bg-black/25 text-white text-[10px] font-bold">Active • 145</span>
               </button>
@@ -773,7 +766,7 @@ export default function GuestDashboardPage() {
                     : 'text-neutral-600 hover:text-neutral-950'
                 }`}
               >
-                <span className="material-symbols-outlined text-[16px]">music_note</span>
+                <AppIcon name="music_note" size={16} />
                 <span>Sangeet</span>
                 <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">Tonight</span>
               </button>
@@ -786,7 +779,7 @@ export default function GuestDashboardPage() {
                     : 'text-neutral-600 hover:text-neutral-950'
                 }`}
               >
-                <span className="material-symbols-outlined text-[16px]">favorite</span>
+                <AppIcon name="favorite" size={16} fill="currentColor" />
                 <span>Wedding</span>
                 <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">Tomorrow</span>
               </button>
@@ -799,7 +792,7 @@ export default function GuestDashboardPage() {
                     : 'text-neutral-600 hover:text-neutral-950'
                 }`}
               >
-                <span className="material-symbols-outlined text-[16px]">interests</span>
+                <AppIcon name="interests" size={16} />
                 <span>Afterparty</span>
                 <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">5</span>
               </button>
@@ -827,7 +820,7 @@ export default function GuestDashboardPage() {
                     <span>{currentCeremony.streamBadge}</span>
                   </span>
                   <span className="px-2.5 py-1 rounded-full text-[11px] bg-black/70 backdrop-blur-md text-white font-medium flex items-center gap-1 border border-white/20">
-                    <span className="material-symbols-outlined text-[13px] text-[#ffb3b3]">visibility</span>
+                    <AppIcon name="visibility" size={13} className="text-[#ffb3b3]" />
                     <span>{currentCeremony.viewers}</span>
                   </span>
                 </div>
@@ -835,14 +828,14 @@ export default function GuestDashboardPage() {
                 {/* Play button trigger */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/40 transition-colors">
                   <div className="w-14 h-14 rounded-full bg-white text-[#c81e38] flex items-center justify-center shadow-2xl group-hover:scale-110 active:scale-95 transition-all ring-4 ring-white/30">
-                    <span className="material-symbols-outlined text-[32px]">play_arrow</span>
+                    <AppIcon name="play_arrow" size={32} />
                   </div>
                 </div>
 
                 {/* Stream info strip */}
                 <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-between text-white text-xs">
                   <span className="flex items-center gap-1 text-white/90">
-                    <span className="material-symbols-outlined text-[14px] text-[#ffb3b3]">hub</span>
+                    <AppIcon name="hub" size={14} className="text-[#ffb3b3]" />
                     <span>WebRTC Mesh • 42ms Ultra Low Latency</span>
                   </span>
                   <span className="font-medium text-white/90">Camera: Lawn Stage Rig A</span>
@@ -887,7 +880,7 @@ export default function GuestDashboardPage() {
               <div>
                 <div className="flex items-center justify-between pb-3.5 border-b border-neutral-100">
                   <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[20px] text-[#c81e38]">mark_email_read</span>
+                    <AppIcon name="mark_email_read" size={20} className="text-[#c81e38]" />
                     <h3 className="font-editorial font-bold text-lg text-[#0a0a0c]">Official Wedding Invitation</h3>
                   </div>
                   <span className="px-2.5 py-0.5 rounded text-[10px] font-semibold bg-neutral-100 text-neutral-700 border border-neutral-200">
@@ -907,7 +900,7 @@ export default function GuestDashboardPage() {
                   />
                   <div className="absolute bottom-3 right-3">
                     <button className="px-3 py-1.5 rounded-lg bg-neutral-900/85 backdrop-blur-md text-white text-xs font-semibold flex items-center gap-1.5 hover:bg-[#c81e38] transition-colors shadow-sm">
-                      <span className="material-symbols-outlined text-[15px]">fullscreen</span>
+                      <AppIcon name="fullscreen" size={15} />
                       <span>View Card</span>
                     </button>
                   </div>
@@ -919,7 +912,7 @@ export default function GuestDashboardPage() {
                   onClick={handleDownloadInviteImage}
                   className="flex-1 h-10 px-3 rounded-xl bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border border-neutral-300 shadow-xs"
                 >
-                  <span className="material-symbols-outlined text-[16px] text-neutral-700">download</span>
+                  <AppIcon name="download" size={16} className="text-neutral-700" />
                   <span>Download Card</span>
                 </button>
                 <button
@@ -928,7 +921,7 @@ export default function GuestDashboardPage() {
                   }}
                   className="flex-1 h-10 px-3 rounded-xl bg-[#c81e38]/10 hover:bg-[#c81e38]/20 text-[#c81e38] border border-[#c81e38]/30 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
                 >
-                  <span className="material-symbols-outlined text-[16px] text-[#c81e38]">calendar_add_on</span>
+                  <AppIcon name="calendar_add_on" size={16} className="text-[#c81e38]" />
                   <span>Add to Calendar</span>
                 </button>
               </div>
@@ -948,7 +941,7 @@ export default function GuestDashboardPage() {
                       : 'text-neutral-600 hover:text-neutral-900'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-[16px]">image</span>
+                  <AppIcon name="image" size={16} />
                   <span>Photos ({moments.length * 35})</span>
                 </button>
                 <button
@@ -959,7 +952,7 @@ export default function GuestDashboardPage() {
                       : 'text-neutral-600 hover:text-neutral-900'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-[16px]">videocam</span>
+                  <AppIcon name="videocam" size={16} />
                   <span>Videos (3)</span>
                 </button>
               </div>
@@ -1003,7 +996,7 @@ export default function GuestDashboardPage() {
                       : 'bg-white text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 border border-neutral-200/80 shadow-xs font-medium'
                   }`}
                 >
-                  <span className="material-symbols-outlined text-[14px] text-[#c81e38]">star</span>
+                  <AppIcon name="star" size={14} className="text-[#c81e38]" />
                   <span>Favorites</span>
                 </button>
               </div>
@@ -1036,12 +1029,12 @@ export default function GuestDashboardPage() {
                             : 'bg-white/20 backdrop-blur-md text-white hover:bg-[#c81e38]'
                         }`}
                       >
-                        <span
-                          className="material-symbols-outlined text-[18px]"
-                          style={{ fontVariationSettings: moment.liked ? "'FILL' 1" : "'FILL' 0" }}
-                        >
-                          favorite
-                        </span>
+                        <AppIcon
+                          name="favorite"
+                          size={18}
+                          className={moment.liked ? "text-white" : "text-white/80"}
+                          fill={moment.liked ? "currentColor" : "none"}
+                        />
                       </button>
                       <a
                         href={moment.src}
@@ -1049,7 +1042,7 @@ export default function GuestDashboardPage() {
                         onClick={(e) => e.stopPropagation()}
                         className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 flex items-center justify-center transition-colors"
                       >
-                        <span className="material-symbols-outlined text-[18px]">download</span>
+                        <AppIcon name="download" size={18} />
                       </a>
                     </div>
                     <div>
@@ -1065,7 +1058,7 @@ export default function GuestDashboardPage() {
             <div className="p-5 rounded-2xl bg-gradient-to-r from-[#c81e38]/10 via-neutral-50 to-white border border-[#c81e38]/20 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
               <div className="flex items-center gap-3.5">
                 <div className="w-11 h-11 rounded-xl bg-[#c81e38]/10 text-[#c81e38] flex items-center justify-center shrink-0 border border-[#c81e38]/20">
-                  <span className="material-symbols-outlined text-[24px]">flare</span>
+                  <AppIcon name="flare" size={24} />
                 </div>
                 <div>
                   <h4 className="font-editorial font-bold text-sm text-[#0a0a0c]">Tonight: Sangeet Dance Battles Live</h4>
@@ -1093,7 +1086,7 @@ export default function GuestDashboardPage() {
           className="w-14 h-14 rounded-full bg-[#c81e38] hover:bg-[#9e1b32] text-white shadow-xl flex items-center justify-center ring-4 ring-[#c81e38]/20 hover:scale-105 active:scale-95 transition-all group"
           title="Drop Photos into Couple's Vault"
         >
-          <span className="material-symbols-outlined text-[26px]">add_a_photo</span>
+          <AppIcon name="add_a_photo" size={26} />
         </button>
       </aside>
 
@@ -1113,7 +1106,7 @@ export default function GuestDashboardPage() {
                 onClick={() => setIsLivePlayerModalOpen(false)}
                 className="w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-700"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <AppIcon name="close" size={18} />
               </button>
             </div>
 
@@ -1197,12 +1190,12 @@ export default function GuestDashboardPage() {
                   }`}
                   title="Favorite"
                 >
-                  <span
-                    className="material-symbols-outlined text-[18px]"
-                    style={{ fontVariationSettings: filteredMoments[lightboxIndex]?.liked ? "'FILL' 1" : "'FILL' 0" }}
-                  >
-                    favorite
-                  </span>
+                  <AppIcon
+                    name="favorite"
+                    size={18}
+                    className={filteredMoments[lightboxIndex]?.liked ? "text-white" : "text-white/80"}
+                    fill={filteredMoments[lightboxIndex]?.liked ? "currentColor" : "none"}
+                  />
                 </button>
                 <a
                   href={filteredMoments[lightboxIndex]?.src}
@@ -1210,14 +1203,14 @@ export default function GuestDashboardPage() {
                   className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white"
                   title="Download High-Res"
                 >
-                  <span className="material-symbols-outlined text-[18px]">download</span>
+                  <AppIcon name="download" size={18} />
                 </a>
                 <button
                   onClick={() => setIsLightboxOpen(false)}
                   className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white"
                   title="Close"
                 >
-                  <span className="material-symbols-outlined text-[18px]">close</span>
+                  <AppIcon name="close" size={18} />
                 </button>
               </div>
             </div>
@@ -1227,7 +1220,7 @@ export default function GuestDashboardPage() {
                 onClick={() => setLightboxIndex((prev) => (prev > 0 ? prev - 1 : filteredMoments.length - 1))}
                 className="absolute left-2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#c81e38] text-white flex items-center justify-center z-10"
               >
-                <span className="material-symbols-outlined text-[20px]">chevron_left</span>
+                <AppIcon name="chevron_left" size={20} />
               </button>
               <img
                 alt="Full view"
@@ -1238,7 +1231,7 @@ export default function GuestDashboardPage() {
                 onClick={() => setLightboxIndex((prev) => (prev < filteredMoments.length - 1 ? prev + 1 : 0))}
                 className="absolute right-2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#c81e38] text-white flex items-center justify-center z-10"
               >
-                <span className="material-symbols-outlined text-[20px]">chevron_right</span>
+                <AppIcon name="chevron_right" size={20} />
               </button>
             </div>
           </div>
@@ -1251,14 +1244,14 @@ export default function GuestDashboardPage() {
           <div className="w-full max-w-md bg-white text-[#0a0a0c] rounded-2xl shadow-2xl overflow-hidden border border-neutral-200">
             <div className="p-4 bg-neutral-50 flex items-center justify-between border-b border-neutral-200">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[20px] text-[#c81e38]">cloud_upload</span>
+                <AppIcon name="cloud_upload" size={20} className="text-[#c81e38]" />
                 <h3 className="font-editorial font-bold text-base text-[#0a0a0c]">Drop Media to Vault</h3>
               </div>
               <button
                 onClick={() => setIsUploadModalOpen(false)}
                 className="w-7 h-7 rounded-full flex items-center justify-center text-neutral-500 hover:text-black"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <AppIcon name="close" size={18} />
               </button>
             </div>
 
@@ -1290,7 +1283,7 @@ export default function GuestDashboardPage() {
               </div>
 
               <label className="block p-6 rounded-2xl border-2 border-dashed border-neutral-300 bg-neutral-50 text-center cursor-pointer hover:border-[#c81e38] transition-colors">
-                <span className="material-symbols-outlined text-[32px] text-[#c81e38] mb-1">photo_library</span>
+                <AppIcon name="photo_library" size={32} className="text-[#c81e38] mb-1" />
                 <p className="text-xs font-bold text-[#0a0a0c]">
                   {selectedFiles.length > 0 ? `${selectedFiles.length} file(s) selected` : 'Tap to choose photos or videos'}
                 </p>
@@ -1354,7 +1347,7 @@ export default function GuestDashboardPage() {
                 onClick={() => setIsInviteModalOpen(false)}
                 className="w-7 h-7 rounded-full flex items-center justify-center text-neutral-500 hover:text-black"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <AppIcon name="close" size={18} />
               </button>
             </div>
             <div className="p-5 overflow-y-auto flex flex-col items-center">
@@ -1375,7 +1368,7 @@ export default function GuestDashboardPage() {
                 onClick={handleDownloadInviteImage}
                 className="px-4 py-2 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm"
               >
-                <span className="material-symbols-outlined text-[16px]">download</span>
+                <AppIcon name="download" size={16} />
                 <span>Download Card</span>
               </button>
             </div>
@@ -1390,9 +1383,7 @@ export default function GuestDashboardPage() {
             <div className="p-5 bg-gradient-to-r from-[#c81e38]/10 via-neutral-50 to-white flex items-center justify-between border-b border-neutral-200">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-xl bg-[#c81e38]/10 text-[#c81e38] flex items-center justify-center border border-[#c81e38]/30">
-                  <span className="material-symbols-outlined text-[22px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                    favorite
-                  </span>
+                  <AppIcon name="favorite" size={22} className="text-[#c81e38]" fill="currentColor" />
                 </div>
                 <div>
                   <h3 className="font-editorial font-bold text-base text-[#0a0a0c]">Send Wedding Blessing &amp; Shagun</h3>
@@ -1403,7 +1394,7 @@ export default function GuestDashboardPage() {
                 onClick={() => setIsWishesModalOpen(false)}
                 className="w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <AppIcon name="close" size={18} />
               </button>
             </div>
 
@@ -1471,7 +1462,7 @@ export default function GuestDashboardPage() {
                   type="submit"
                   className="px-5 py-2 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-md flex items-center gap-1.5"
                 >
-                  <span className="material-symbols-outlined text-[16px]">send</span>
+                  <AppIcon name="send" size={16} />
                   <span>Broadcast Blessing</span>
                 </button>
               </div>
@@ -1490,7 +1481,7 @@ export default function GuestDashboardPage() {
                 onClick={() => setIsSwitchCodeModalOpen(false)}
                 className="w-7 h-7 rounded-full flex items-center justify-center text-neutral-500 hover:text-black"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <AppIcon name="close" size={18} />
               </button>
             </div>
             <form onSubmit={handleSwitchPasscode} className="space-y-4">

@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { setUser, logout } from '@/store/slices/authSlice';
 import api from '@/lib/api';
+import AppIcon from '@/components/AppIcon';
 
 interface WeddingRecord {
   id: string;
@@ -306,7 +307,7 @@ export default function AdminDashboardPage() {
       {/* Toast */}
       {toastMsg && (
         <div className="fixed top-20 right-5 z-[100] px-4 py-2.5 rounded-xl bg-white border border-[#C81E38]/30 text-[#0A0A0C] text-xs font-semibold shadow-xl flex items-center gap-2 animate-in slide-in-from-right-4">
-          <span className="material-symbols-outlined text-[16px] text-[#C81E38]">info</span>
+          <AppIcon name="info" size={16} className="text-[#C81E38]" />
           <span>{toastMsg}</span>
         </div>
       )}
@@ -316,7 +317,7 @@ export default function AdminDashboardPage() {
         <div className="px-6 mb-7 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <span className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold shadow-md shadow-primary/20">
-              <span className="material-symbols-outlined text-[19px]">diamond</span>
+              <AppIcon name="diamond" size={19} />
             </span>
             <div className="flex flex-col">
               <span className="font-headline-sm text-[16px] tracking-tight font-semibold text-[#0A0A0C]">Make My Marriage</span>
@@ -335,7 +336,7 @@ export default function AdminDashboardPage() {
                 : 'text-neutral-600 hover:bg-neutral-100 hover:text-[#0A0A0C]'
             }`}
           >
-            <span className="material-symbols-outlined text-[20px]">architecture</span>
+            <AppIcon name="architecture" size={20} />
             <span>Architect Studio</span>
           </button>
 
@@ -347,7 +348,7 @@ export default function AdminDashboardPage() {
                 : 'text-neutral-600 hover:bg-neutral-100 hover:text-[#0A0A0C]'
             }`}
           >
-            <span className="material-symbols-outlined text-[20px]">grid_view</span>
+            <AppIcon name="grid_view" size={20} />
             <span>All Wedding Vaults</span>
           </button>
 
@@ -362,7 +363,7 @@ export default function AdminDashboardPage() {
                 : 'text-neutral-600 hover:bg-neutral-100 hover:text-[#0A0A0C]'
             }`}
           >
-            <span className="material-symbols-outlined text-[20px]">event</span>
+            <AppIcon name="event" size={20} />
             <span>Events &amp; Timeline</span>
           </button>
 
@@ -377,7 +378,7 @@ export default function AdminDashboardPage() {
                 : 'text-neutral-600 hover:bg-neutral-100 hover:text-[#0A0A0C]'
             }`}
           >
-            <span className="material-symbols-outlined text-[20px]">group</span>
+            <AppIcon name="group" size={20} />
             <span>Guest Directory</span>
           </button>
 
@@ -385,7 +386,7 @@ export default function AdminDashboardPage() {
             href="/marriage/rahul24"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-neutral-600 hover:bg-neutral-100 hover:text-[#0A0A0C] text-xs font-semibold transition-all"
           >
-            <span className="material-symbols-outlined text-[20px]">visibility</span>
+            <AppIcon name="visibility" size={20} />
             <span>Guest Experience View</span>
           </Link>
         </nav>
@@ -412,7 +413,7 @@ export default function AdminDashboardPage() {
               className="p-1.5 text-neutral-500 hover:text-black rounded-lg hover:bg-neutral-200/60 transition-colors"
               title="Sign Out"
             >
-              <span className="material-symbols-outlined text-[18px]">logout</span>
+              <AppIcon name="logout" size={18} />
             </button>
           </div>
         </div>
@@ -442,7 +443,7 @@ export default function AdminDashboardPage() {
               onClick={() => showToast('Notifications cleared')}
               className="w-8 h-8 rounded-lg flex items-center justify-center text-neutral-600 hover:bg-neutral-100 hover:text-black transition-colors relative"
             >
-              <span className="material-symbols-outlined text-[20px]">notifications</span>
+              <AppIcon name="notifications" size={20} />
               <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary ring-2 ring-white"></span>
             </button>
 
@@ -463,7 +464,7 @@ export default function AdminDashboardPage() {
               <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-neutral-200 mb-8">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center text-primary font-bold shadow-sm">
-                    <span className="material-symbols-outlined text-[20px]">spa</span>
+                    <AppIcon name="spa" size={20} />
                   </div>
                   <div className="h-6 w-px bg-neutral-200 hidden sm:block"></div>
                   <div className="flex items-center gap-2 text-neutral-600 text-xs">
@@ -477,7 +478,7 @@ export default function AdminDashboardPage() {
 
                 <div className="flex items-center gap-3">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-neutral-800 text-[11px] font-medium">
-                    <span className="material-symbols-outlined text-[14px] text-primary">database</span>
+                    <AppIcon name="database" size={14} className="text-primary" />
                     <span>Atlas M0 GridFS Storage</span>
                   </span>
                 </div>
@@ -514,7 +515,7 @@ export default function AdminDashboardPage() {
                         <h2 className="font-headline-sm text-xl text-[#0A0A0C] font-semibold">Couple &amp; Event Logistics</h2>
                       </div>
                       <span className="text-primary text-[12px] flex items-center gap-1.5 font-bold px-2.5 py-1 rounded-md bg-primary/10 border border-primary/20">
-                        <span className="material-symbols-outlined text-[15px]">stars</span> Essential Data
+                        <AppIcon name="stars" size={15} /> Essential Data
                       </span>
                     </div>
 
@@ -552,9 +553,7 @@ export default function AdminDashboardPage() {
                             placeholder="Select calendar date"
                             className="w-full h-11 px-3.5 pr-10 bg-neutral-50 border border-neutral-200 rounded-xl text-sm text-[#0A0A0C] focus:outline-none focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary transition-all"
                           />
-                          <span className="material-symbols-outlined absolute right-3.5 top-3 text-neutral-500 text-[19px] pointer-events-none">
-                            calendar_month
-                          </span>
+                          <AppIcon name="calendar_month" size={19} className="absolute right-3.5 top-3 text-neutral-500 pointer-events-none" />
                         </div>
                       </div>
                       <div>
@@ -567,9 +566,7 @@ export default function AdminDashboardPage() {
                             placeholder="e.g. The Leela Palace, Udaipur"
                             className="w-full h-11 px-3.5 pr-10 bg-neutral-50 border border-neutral-200 rounded-xl text-sm text-[#0A0A0C] focus:outline-none focus:border-primary focus:bg-white focus:ring-1 focus:ring-primary transition-all"
                           />
-                          <span className="material-symbols-outlined absolute right-3.5 top-3 text-neutral-500 text-[19px] pointer-events-none">
-                            location_on
-                          </span>
+                          <AppIcon name="location_on" size={19} className="absolute right-3.5 top-3 text-neutral-500 pointer-events-none" />
                         </div>
                       </div>
                     </div>
@@ -585,7 +582,7 @@ export default function AdminDashboardPage() {
                         <h2 className="font-headline-sm text-xl text-[#0A0A0C] font-semibold">VIP Passcode &amp; QR Key</h2>
                       </div>
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold">
-                        <span className="material-symbols-outlined text-[15px]">verified</span> Encrypted &amp; Available
+                        <AppIcon name="verified" size={15} /> Encrypted &amp; Available
                       </span>
                     </div>
 
@@ -606,7 +603,7 @@ export default function AdminDashboardPage() {
                           <span className="text-[11px] font-caption text-primary uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
                             AES-256
                           </span>
-                          <span className="material-symbols-outlined text-primary text-[19px]">lock</span>
+                          <AppIcon name="lock" size={19} className="text-primary" />
                         </div>
                       </div>
 
@@ -616,7 +613,7 @@ export default function AdminDashboardPage() {
                           onClick={handleRandomizeCode}
                           className="flex-1 sm:flex-none h-11 px-4 rounded-xl bg-white hover:bg-neutral-100 border border-neutral-200 text-[#0A0A0C] text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
                         >
-                          <span className="material-symbols-outlined text-[18px] text-neutral-600">casino</span>
+                          <AppIcon name="casino" size={18} className="text-neutral-600" />
                           <span>Randomize</span>
                         </button>
                         <button
@@ -624,9 +621,7 @@ export default function AdminDashboardPage() {
                           onClick={handleCopyCode}
                           className="flex-1 sm:flex-none h-11 px-5 rounded-xl bg-primary hover:bg-[#a20025] text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 hover:shadow-primary/30 active:scale-95 transition-all"
                         >
-                          <span className="material-symbols-outlined text-[18px]">
-                            {isCopied ? 'check' : 'content_copy'}
-                          </span>
+                          <AppIcon name={isCopied ? 'check' : 'content_copy'} size={18} />
                           <span>{isCopied ? 'Copied' : 'Copy Key'}</span>
                         </button>
                       </div>
@@ -669,9 +664,7 @@ export default function AdminDashboardPage() {
                                 : 'bg-neutral-50 text-neutral-600 border border-neutral-200 hover:text-black hover:bg-neutral-100'
                             }`}
                           >
-                            <span className="material-symbols-outlined text-[20px] mb-1 group-hover:scale-110 transition-transform">
-                              {item.icon}
-                            </span>
+                            <AppIcon name={item.icon} size={20} className="mb-1 group-hover:scale-110 transition-transform" />
                             <span className="text-xs font-bold">{item.name}</span>
                             <span className="text-[11px] opacity-90">{item.time}</span>
                           </button>
@@ -710,7 +703,7 @@ export default function AdminDashboardPage() {
                               <div className="flex items-center justify-between w-full">
                                 <span className="text-xs text-white font-bold tracking-wide">{preset.title}</span>
                                 {isSelected && (
-                                  <span className="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                                  <AppIcon name="check_circle" size={18} className="text-primary" />
                                 )}
                               </div>
                             </div>
@@ -720,7 +713,7 @@ export default function AdminDashboardPage() {
                     </div>
 
                     <label className="p-4 rounded-xl bg-neutral-50 border border-dashed border-neutral-300 hover:border-primary flex flex-col items-center justify-center text-center cursor-pointer hover:bg-neutral-100/60 transition-all">
-                      <span className="material-symbols-outlined text-primary text-[26px] mb-1">cloud_upload</span>
+                      <AppIcon name="cloud_upload" size={26} className="text-primary mb-1" />
                       <span className="text-xs font-semibold text-[#0A0A0C]">Upload Bespoke Couple Portrait</span>
                       <span className="text-[11px] text-neutral-500">Supports DNG, ProRAW, TIFF, and High-Resolution JPG</span>
                       <input
@@ -751,7 +744,7 @@ export default function AdminDashboardPage() {
                       <div className="flex items-center justify-between p-3.5 rounded-xl bg-neutral-50 border border-neutral-200">
                         <div className="flex items-start gap-3.5">
                           <span className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
-                            <span className="material-symbols-outlined text-[20px]">videocam</span>
+                            <AppIcon name="videocam" size={20} />
                           </span>
                           <div>
                             <div className="text-xs text-[#0A0A0C] font-semibold">WebRTC 4K Edge Broadcast</div>
@@ -773,7 +766,7 @@ export default function AdminDashboardPage() {
                       <div className="flex items-center justify-between p-3.5 rounded-xl bg-neutral-50 border border-neutral-200">
                         <div className="flex items-start gap-3.5">
                           <span className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
-                            <span className="material-symbols-outlined text-[20px]">raw_on</span>
+                            <AppIcon name="raw_on" size={20} />
                           </span>
                           <div>
                             <div className="text-xs text-[#0A0A0C] font-semibold">Zero-Compression RAW Guest Bin</div>
@@ -795,7 +788,7 @@ export default function AdminDashboardPage() {
                       <div className="flex items-center justify-between p-3.5 rounded-xl bg-neutral-50 border border-neutral-200">
                         <div className="flex items-start gap-3.5">
                           <span className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
-                            <span className="material-symbols-outlined text-[20px]">face</span>
+                            <AppIcon name="face" size={20} />
                           </span>
                           <div>
                             <div className="text-xs text-[#0A0A0C] font-semibold">AI Facial Recognition Smart Tagging</div>
@@ -823,23 +816,23 @@ export default function AdminDashboardPage() {
                       onClick={handleLaunchVault}
                       className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-[#9E1B32] via-[#C81E38] to-[#9E1B32] text-white font-headline-sm text-xl font-medium tracking-wide shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 hover:brightness-105 active:scale-[0.99] transition-all flex items-center justify-center gap-3 border border-white/20 disabled:opacity-50"
                     >
-                      <span className="material-symbols-outlined text-[26px]">celebration</span>
+                      <AppIcon name="celebration" size={26} />
                       <span>{isSubmitting ? 'Architecting & Saving to Atlas...' : 'Launch Marriage Vault & Generate Standee QR'}</span>
                     </button>
 
                     <div className="flex items-center justify-center gap-4 mt-3.5 text-caption font-caption text-neutral-500 font-medium">
                       <span className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[15px] text-primary">shield</span>
+                        <AppIcon name="shield" size={15} className="text-primary" />
                         Instant SSL Certificate
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[15px] text-primary">backup</span>
+                        <AppIcon name="backup" size={15} className="text-primary" />
                         Atlas M0 Cloud
                       </span>
                       <span>•</span>
                       <span className="flex items-center gap-1.5">
-                        <span className="material-symbols-outlined text-[15px] text-primary">share</span>
+                        <AppIcon name="share" size={15} className="text-primary" />
                         Instant WhatsApp Ready
                       </span>
                     </div>
@@ -889,11 +882,11 @@ export default function AdminDashboardPage() {
                         <div className="flex items-start justify-between gap-4">
                           <div>
                             <div className="flex items-center gap-2 text-neutral-600 font-label-sm text-sm mb-1.5">
-                              <span className="material-symbols-outlined text-[17px] text-primary">calendar_today</span>
+                              <AppIcon name="calendar_today" size={17} className="text-primary" />
                               <span className="text-[#0A0A0C] font-medium">{ceremonyDate || 'Date pending'}</span>
                             </div>
                             <div className="flex items-center gap-2 text-neutral-600 font-body-sm text-sm">
-                              <span className="material-symbols-outlined text-[17px] text-primary">near_me</span>
+                              <AppIcon name="near_me" size={17} className="text-primary" />
                               <span className="truncate max-w-[190px] text-neutral-800">{venueLocation || 'Sanctuary venue'}</span>
                             </div>
                           </div>
@@ -933,7 +926,7 @@ export default function AdminDashboardPage() {
                             <span className="font-headline-sm text-lg font-bold text-[#0A0A0C] tracking-widest">{passcode}</span>
                           </div>
                           <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary font-caption text-xs font-semibold">
-                            <span className="material-symbols-outlined text-[15px] text-primary">stream</span> 4K Ultra Ready
+                            <AppIcon name="stream" size={15} className="text-primary" /> 4K Ultra Ready
                           </div>
                         </div>
                       </div>
@@ -948,7 +941,7 @@ export default function AdminDashboardPage() {
                       <div className="p-3.5 rounded-xl bg-neutral-50 border border-neutral-200">
                         <span className="font-caption text-xs text-neutral-500 block mb-0.5 font-medium">Encryption State</span>
                         <span className="font-label-md text-label-md font-bold text-emerald-600 flex items-center gap-1.5">
-                          <span className="material-symbols-outlined text-[16px]">lock</span> Hardware Locked
+                          <AppIcon name="lock" size={16} /> Hardware Locked
                         </span>
                       </div>
                     </div>
@@ -958,7 +951,7 @@ export default function AdminDashboardPage() {
                   <div className="bg-white border border-neutral-200 rounded-2xl p-5 flex items-center justify-between shadow-sm">
                     <div className="flex items-center gap-3.5">
                       <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-sm">
-                        <span className="material-symbols-outlined text-[22px]">print</span>
+                        <AppIcon name="print" size={22} />
                       </div>
                       <div>
                         <div className="font-label-md text-label-md font-semibold text-[#0A0A0C]">Dining Table Acrylic Standees</div>
@@ -988,7 +981,7 @@ export default function AdminDashboardPage() {
                   onClick={() => setActiveTab('studio')}
                   className="px-5 py-2.5 rounded-xl bg-primary hover:bg-[#a20025] text-white text-xs font-bold flex items-center gap-2 shadow-sm transition-all active:scale-95"
                 >
-                  <span className="material-symbols-outlined text-[18px]">add</span>
+                  <AppIcon name="add" size={18} />
                   <span>Architect New Vault</span>
                 </button>
               </div>
@@ -1009,7 +1002,7 @@ export default function AdminDashboardPage() {
                         {w.partnerOne} &amp; {w.partnerTwo}
                       </h3>
                       <p className="text-xs text-neutral-600 flex items-center gap-1.5 mb-4">
-                        <span className="material-symbols-outlined text-[15px] text-primary">location_on</span>
+                        <AppIcon name="location_on" size={15} className="text-primary" />
                         <span>{w.venue}</span>
                       </p>
 
@@ -1046,7 +1039,7 @@ export default function AdminDashboardPage() {
                         className="px-3 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-[#0A0A0C] text-xs font-semibold border border-neutral-200"
                         title="Copy Upload Link"
                       >
-                        <span className="material-symbols-outlined text-[16px]">link</span>
+                        <AppIcon name="link" size={16} />
                       </button>
                     </div>
                   </div>
@@ -1071,16 +1064,16 @@ export default function AdminDashboardPage() {
               onClick={() => setIsCelebrationOpen(false)}
               className="absolute top-5 right-5 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black transition-colors"
             >
-              <span className="material-symbols-outlined text-[18px]">close</span>
+              <AppIcon name="close" size={18} />
             </button>
 
             {/* Celebratory Icon & Badge */}
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 text-primary mb-3 shadow-inner">
-                <span className="material-symbols-outlined text-[36px]">verified</span>
+                <AppIcon name="verified" size={36} />
               </div>
               <div className="flex items-center justify-center gap-1.5 text-primary font-caption text-xs uppercase tracking-widest font-bold">
-                <span className="material-symbols-outlined text-[16px]">celebration</span>
+                <AppIcon name="celebration" size={16} />
                 <span>Broadcast Channel Synchronized</span>
               </div>
               <h2 className="font-headline-lg text-3xl sm:text-4xl text-[#0A0A0C] font-normal mt-1.5">
@@ -1095,7 +1088,7 @@ export default function AdminDashboardPage() {
             <div className="bg-neutral-50 border border-neutral-200 rounded-2xl p-5 mb-6">
               <div className="flex items-center justify-between pb-3.5 border-b border-neutral-200">
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-primary">vpn_key</span>
+                  <AppIcon name="vpn_key" size={18} className="text-primary" />
                   <span className="font-label-md text-sm font-semibold text-[#0A0A0C]">Universal Guest Code:</span>
                 </div>
                 <span className="font-headline-sm text-2xl font-bold text-primary tracking-widest">{createdMarriageCode}</span>
@@ -1103,7 +1096,7 @@ export default function AdminDashboardPage() {
 
               <div className="pt-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-600">
                 <div className="flex items-center gap-1.5">
-                  <span className="material-symbols-outlined text-[16px] text-emerald-600">lock_open</span>
+                  <AppIcon name="lock_open" size={16} className="text-emerald-600" />
                   <span>QR Standee Direct Link Attached</span>
                 </div>
                 <button
@@ -1129,7 +1122,7 @@ export default function AdminDashboardPage() {
                 className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-[#a20025] text-white font-editorial text-base font-bold flex items-center justify-center gap-2 shadow-md shadow-primary/20 transition-all"
               >
                 <span>Launch Interactive Guest Experience</span>
-                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                <AppIcon name="arrow_forward" size={18} />
               </Link>
 
               <button
@@ -1142,7 +1135,7 @@ export default function AdminDashboardPage() {
                 }}
                 className="w-full py-3 px-4 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-[#0A0A0C] text-xs font-semibold border border-neutral-200 flex items-center justify-center gap-2 transition-all"
               >
-                <span className="material-symbols-outlined text-[18px] text-emerald-600">send</span>
+                <AppIcon name="send" size={18} className="text-emerald-600" />
                 <span>Broadcast via WhatsApp to Wedding Groups</span>
               </button>
             </div>

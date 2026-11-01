@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import AppIcon from '@/components/AppIcon';
 
 export default function LandingPage() {
   const router = useRouter();
@@ -61,7 +62,7 @@ export default function LandingPage() {
       {/* Toast Notification */}
       {toastMsg && (
         <div className="fixed top-20 right-5 z-[100] px-4 py-3 rounded-2xl bg-white border border-neutral-200 text-[#0A0A0C] text-xs font-semibold shadow-xl flex items-center gap-2.5 animate-in slide-in-from-right-4">
-          <span className="material-symbols-outlined text-[18px] text-[#C81E38]">info</span>
+          <AppIcon name="info" size={18} className="text-[#C81E38]" />
           <span>{toastMsg}</span>
         </div>
       )}
@@ -96,7 +97,7 @@ export default function LandingPage() {
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-2.5">
                   <span className="w-8 h-8 rounded-xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center font-bold text-sm border border-[#C81E38]/20">
-                    <span className="material-symbols-outlined text-[18px]">key</span>
+                    <AppIcon name="key" size={18} />
                   </span>
                   <div>
                     <h3 className="font-editorial font-bold text-lg text-[#0A0A0C]">VIP Guest Passcode</h3>
@@ -132,7 +133,7 @@ export default function LandingPage() {
                   <button
                     type="button"
                     onClick={() => setPinDigits(['', '', '', '', '', ''])}
-                    className="hover:text-[#C81E38] transition-colors"
+                    className="hover:text-[#C81E38] transition-colors cursor-pointer"
                   >
                     Clear All
                   </button>
@@ -141,10 +142,10 @@ export default function LandingPage() {
                 {/* Primary CTA */}
                 <button
                   type="submit"
-                  className="w-full py-4 px-6 rounded-2xl bg-[#C81E38] hover:bg-[#9E1B32] text-white font-editorial text-base sm:text-lg font-bold tracking-wide shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                  className="w-full py-4 px-6 rounded-2xl bg-[#C81E38] hover:bg-[#9E1B32] text-white font-editorial text-base sm:text-lg font-bold tracking-wide shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 active:scale-[0.99] cursor-pointer"
                 >
                   <span>Enter Sovereign Celebration Vault</span>
-                  <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+                  <AppIcon name="arrow_forward" size={20} />
                 </button>
               </form>
 
@@ -158,48 +159,46 @@ export default function LandingPage() {
                     { code: 'RAHUL24', couple: 'Rahul & Anjali' },
                     { code: 'VIKPRI24', couple: 'Vikram & Priya' },
                     { code: 'ARJMEE24', couple: 'Arjun & Meera' }
-                  ].map((preset) => (
+                  ].map((p) => (
                     <button
-                      key={preset.code}
-                      onClick={() => handlePresetClick(preset.code)}
-                      className="px-3 py-1.5 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 text-xs font-medium text-neutral-800 transition-colors flex items-center gap-1.5 shadow-xs"
+                      key={p.code}
+                      type="button"
+                      onClick={() => handlePresetClick(p.code)}
+                      className="px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-[#C81E38] hover:text-white text-[#0A0A0C] text-xs font-semibold border border-neutral-200 transition-colors flex items-center gap-1.5 cursor-pointer"
                     >
-                      <span className="font-mono font-bold text-[#C81E38]">{preset.code}</span>
-                      <span className="text-neutral-400">•</span>
-                      <span>{preset.couple}</span>
+                      <span className="font-mono font-bold">{p.code}</span>
+                      <span className="text-[10px] opacity-75">({p.couple})</span>
                     </button>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Right Box: Live Reactive Standee Acrylic Card Preview (5 cols) */}
-            <div className="lg:col-span-5 bg-white rounded-3xl p-6 border border-neutral-200/90 shadow-lg relative overflow-hidden">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#C81E38] animate-ping"></span>
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#0A0A0C]">Vault Card Preview</span>
-                </div>
-                <span className="text-[10px] uppercase font-bold text-[#C81E38] bg-[#C81E38]/10 px-2 py-0.5 rounded border border-[#C81E38]/20">
-                  Verified
+            {/* Right Box: Live Standee Visualizer Card (5 cols) */}
+            <div className="lg:col-span-5 bg-white rounded-3xl p-6 border border-neutral-200/90 shadow-lg">
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-neutral-100">
+                <span className="text-xs uppercase font-bold tracking-wider text-neutral-500">Live Card View</span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-200">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  Active Venue Standee
                 </span>
               </div>
 
-              {/* Digital Card Render */}
-              <div className="rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-50 shadow-sm">
-                <div className="relative h-48 w-full overflow-hidden">
+              {/* Acrylic Standee Preview */}
+              <div className="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-md">
+                <div className="relative h-44 w-full overflow-hidden">
                   <img
-                    alt="Couple Preview"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6fO2qwvTXCfSdcSEAgwTCIMP1jaIcPkXdwV1FvCCfRf-5VXAht5OOoK8UVDtX1oKoT7d5ct1kJud_LU-NKa4K2WFtWFsbkcpXkVrOeiyWbILkWUk0yl1B0bLlluiXV-4HRdQKfXgX_tfqnEVrxhD9ovCQkgVUBOCAXAvTTc1-C8m24DOCobWWg9XTZrEW73NIl0UmbSPaiEJF3KsOxOvq6wQoNjplpbCLpORhFno"
+                    alt="Wedding Preview"
                     className="w-full h-full object-cover"
-                    src="https://lh3.googleusercontent.com/aida/AEtjO1Va1U4bOy3llyRAkJVVvDdom4O7c1K1hrZINu89siLq0NNPCTFws5XwTjOZ1LrqyQj1lIgDLr1LnX3qCQj2wAaQn2005YMzbMSpfIj1mSM3elEEFnK85-twwqyE-gjKruWaMZ9ixkqJeEngIJt6R2JDaTYUK-BzM8vDQS4fCh2S-vVPoB7gVxyBT2Q8yA0BBhe7g47VdAUCPTUIGjS4n_y5uQE39qlTF7YTMZwnkH3JXg4i0UsUdW7BSoE"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4">
-                    <div>
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-white/90">The Wedding Of</span>
-                      <h3 className="font-editorial text-2xl font-bold text-white drop-shadow">
-                        {fullCode.startsWith('VIK') ? 'Vikram & Priya' : fullCode.startsWith('ARJ') ? 'Arjun & Meera' : 'Rahul & Anjali'}
-                      </h3>
-                    </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
+                    <span className="text-[10px] uppercase font-bold text-[#FFB3B3] tracking-widest">
+                      Live Celebration Standee
+                    </span>
+                    <h3 className="font-editorial text-xl sm:text-2xl font-bold text-white leading-tight">
+                      {fullCode.startsWith('VIK') ? 'Vikram & Priya' : fullCode.startsWith('ARJ') ? 'Arjun & Meera' : 'Rahul & Anjali'}
+                    </h3>
                   </div>
                 </div>
 
@@ -210,7 +209,7 @@ export default function LandingPage() {
                     <p className="text-[11px] text-[#C81E38] font-bold mt-1">Key: {fullCode || 'RAHUL24'}</p>
                   </div>
                   <div className="p-2 bg-neutral-50 rounded-xl border border-neutral-200">
-                    <span className="material-symbols-outlined text-[28px] text-[#0A0A0C]">qr_code_2</span>
+                    <AppIcon name="qr_code_2" size={28} className="text-[#0A0A0C]" />
                   </div>
                 </div>
               </div>
@@ -220,17 +219,17 @@ export default function LandingPage() {
                 <button
                   type="button"
                   onClick={() => setIsQrModalOpen(true)}
-                  className="py-2.5 px-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 text-xs font-semibold text-neutral-800 flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                  className="py-2.5 px-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 text-xs font-semibold text-neutral-800 flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[16px] text-[#C81E38]">qr_code_scanner</span>
+                  <AppIcon name="qr_code_scanner" size={16} className="text-[#C81E38]" />
                   <span>Scan Table QR</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsConciergeModalOpen(true)}
-                  className="py-2.5 px-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 text-xs font-semibold text-neutral-800 flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                  className="py-2.5 px-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 text-xs font-semibold text-neutral-800 flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[16px] text-[#C81E38]">support_agent</span>
+                  <AppIcon name="support_agent" size={16} className="text-[#C81E38]" />
                   <span>Host Support</span>
                 </button>
               </div>
@@ -253,7 +252,7 @@ export default function LandingPage() {
               href="/admin/login"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-bold text-[#0A0A0C] border border-neutral-200 transition-colors w-fit shadow-xs"
             >
-              <span className="material-symbols-outlined text-[16px] text-[#C81E38]">add_circle</span>
+              <AppIcon name="add_circle" size={16} className="text-[#C81E38]" />
               <span>Architect New Vault</span>
             </Link>
           </div>
@@ -320,7 +319,7 @@ export default function LandingPage() {
                       </span>
                     </div>
                     <p className="text-xs text-neutral-500 flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[15px] text-[#C81E38]">location_on</span>
+                      <AppIcon name="location_on" size={15} className="text-[#C81E38]" />
                       <span>{vault.venue}</span>
                     </p>
                     <div className="pt-2 flex items-center gap-3 text-xs text-neutral-600">
@@ -339,7 +338,7 @@ export default function LandingPage() {
                     className="w-full py-2.5 rounded-xl bg-neutral-50 hover:bg-[#C81E38] hover:text-white border border-neutral-200 text-neutral-900 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs"
                   >
                     <span>Enter Vault</span>
-                    <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                    <AppIcon name="arrow_forward" size={16} />
                   </Link>
                 </div>
               </div>
@@ -354,14 +353,14 @@ export default function LandingPage() {
           <div className="w-full max-w-md bg-white rounded-2xl border border-neutral-200 p-6 shadow-2xl relative text-[#0A0A0C]">
             <button
               onClick={() => setIsQrModalOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[18px]">close</span>
+              <AppIcon name="close" size={18} />
             </button>
 
             <div className="flex items-center gap-2.5 mb-4">
               <div className="w-9 h-9 rounded-xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center border border-[#C81E38]/30">
-                <span className="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+                <AppIcon name="qr_code_scanner" size={20} className="text-[#C81E38]" />
               </div>
               <div>
                 <h3 className="font-editorial text-lg font-bold text-[#0A0A0C]">Scan Table Standee QR</h3>
@@ -397,7 +396,7 @@ export default function LandingPage() {
                       router.push(`/marriage/${fullCode.toLowerCase()}`);
                     }
                   }}
-                  className="px-4 h-10 rounded-xl bg-[#C81E38] hover:bg-[#9E1B32] text-white text-xs font-bold flex items-center justify-center transition-all shadow-sm"
+                  className="px-4 h-10 rounded-xl bg-[#C81E38] hover:bg-[#9E1B32] text-white text-xs font-bold flex items-center justify-center transition-all shadow-sm cursor-pointer"
                 >
                   Unlock
                 </button>
@@ -413,13 +412,13 @@ export default function LandingPage() {
           <div className="w-full max-w-sm bg-white rounded-2xl border border-neutral-200 p-6 shadow-2xl relative text-[#0A0A0C]">
             <button
               onClick={() => setIsConciergeModalOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[18px]">close</span>
+              <AppIcon name="close" size={18} />
             </button>
             <div className="flex items-center gap-2.5 mb-3">
               <span className="w-8 h-8 rounded-xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[18px]">support_agent</span>
+                <AppIcon name="support_agent" size={18} className="text-[#C81E38]" />
               </span>
               <h3 className="font-editorial text-lg font-bold">Host Concierge Desk</h3>
             </div>
@@ -432,7 +431,7 @@ export default function LandingPage() {
             </div>
             <button
               onClick={() => setIsConciergeModalOpen(false)}
-              className="w-full py-2.5 rounded-xl bg-[#C81E38] text-white text-xs font-bold"
+              className="w-full py-2.5 rounded-xl bg-[#C81E38] text-white text-xs font-bold cursor-pointer"
             >
               Dismiss
             </button>
@@ -448,9 +447,12 @@ export default function LandingPage() {
             <span>• Pure White &amp; Crimson Luxury Wedding Cloud</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-[#C81E38] font-medium">₹0 Serverless Architecture • GridFS Streaming</span>
-            <Link href="/admin/login" className="hover:text-black transition-colors font-semibold">
-              Host Concierge
+            <Link href="/admin/login" className="hover:text-black transition-colors font-medium">
+              Host Portal
+            </Link>
+            <span>•</span>
+            <Link href="/guest/upload?code=RAHUL24" className="hover:text-black transition-colors font-medium">
+              Venue Photo Dump
             </Link>
           </div>
         </div>

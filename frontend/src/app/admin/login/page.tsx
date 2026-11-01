@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setUser } from '@/store/slices/authSlice';
 import api from '@/lib/api';
+import AppIcon from '@/components/AppIcon';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -57,7 +58,7 @@ export default function AdminLoginPage() {
         <div className="text-center space-y-2">
           <Link href="/" className="inline-block group">
             <div className="w-12 h-12 rounded-2xl bg-[#C81E38] text-white flex items-center justify-center mx-auto shadow-md shadow-[#C81E38]/25 font-editorial font-bold text-xl group-hover:scale-105 transition-transform">
-              <span className="material-symbols-outlined text-[24px]">diamond</span>
+              <AppIcon name="diamond" size={24} className="text-white" />
             </div>
           </Link>
           <div>
@@ -104,14 +105,14 @@ export default function AdminLoginPage() {
 
           {errorMsg && (
             <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-              <span className="material-symbols-outlined text-[16px] text-[#C81E38]">error</span>
+              <AppIcon name="error" size={16} className="text-[#C81E38]" />
               <span>{errorMsg}</span>
             </div>
           )}
 
           {successMsg && (
             <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-center gap-2">
-              <span className="material-symbols-outlined text-[16px]">check_circle</span>
+              <AppIcon name="check_circle" size={16} className="text-emerald-600" />
               <span>{successMsg}</span>
             </div>
           )}

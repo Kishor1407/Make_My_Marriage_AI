@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { compressImage } from '@/lib/compression';
 import api from '@/lib/api';
+import AppIcon from '@/components/AppIcon';
 
 function GuestUploadContent() {
   const searchParams = useSearchParams();
@@ -96,7 +97,7 @@ function GuestUploadContent() {
         {/* Header */}
         <div className="text-center space-y-2">
           <div className="w-12 h-12 rounded-2xl bg-[#C81E38] text-white flex items-center justify-center mx-auto shadow-md shadow-[#C81E38]/25 font-editorial font-bold text-xl">
-            <span className="material-symbols-outlined text-[24px]">qr_code_scanner</span>
+            <AppIcon name="qr_code_scanner" size={24} className="text-white" />
           </div>
           <div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-[#C81E38] bg-[#C81E38]/10 px-3 py-1 rounded-full border border-[#C81E38]/20">
@@ -114,7 +115,7 @@ function GuestUploadContent() {
         {uploadSuccess ? (
           <div className="text-center py-8 space-y-4 animate-in fade-in zoom-in-95">
             <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
-              <span className="material-symbols-outlined text-[32px]">check_circle</span>
+              <AppIcon name="check_circle" size={32} className="text-emerald-600" />
             </div>
             <h3 className="font-editorial text-2xl font-bold text-[#0A0A0C]">
               Memories Uploaded!
@@ -135,7 +136,7 @@ function GuestUploadContent() {
                   setSelectedFiles([]);
                   setUploadSuccess(false);
                 }}
-                className="px-6 py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-semibold border border-neutral-200 transition-colors"
+                className="px-6 py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-semibold border border-neutral-200 transition-colors cursor-pointer"
               >
                 Upload More Photos
               </button>
@@ -197,9 +198,7 @@ function GuestUploadContent() {
                 Select Photos or Videos
               </label>
               <label className="p-6 rounded-2xl border-2 border-dashed border-neutral-300 hover:border-[#C81E38] bg-neutral-50/80 hover:bg-neutral-50 text-center cursor-pointer transition-colors block group">
-                <span className="material-symbols-outlined text-[32px] text-[#C81E38] mb-1 group-hover:scale-110 transition-transform">
-                  add_photo_alternate
-                </span>
+                <AppIcon name="add_photo_alternate" size={32} className="text-[#C81E38] mx-auto mb-1 group-hover:scale-110 transition-transform" />
                 <p className="text-xs font-bold text-[#0A0A0C]">
                   {selectedFiles.length > 0
                     ? `${selectedFiles.length} file(s) selected`
@@ -220,7 +219,7 @@ function GuestUploadContent() {
 
             {errorMessage && (
               <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-                <span className="material-symbols-outlined text-[16px] text-[#C81E38]">error</span>
+                <AppIcon name="error" size={16} className="text-[#C81E38]" />
                 <span>{errorMessage}</span>
               </div>
             )}
