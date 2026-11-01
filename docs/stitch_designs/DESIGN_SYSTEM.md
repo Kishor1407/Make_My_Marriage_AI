@@ -57,3 +57,4 @@ Located in [`docs/stitch_designs/`](.):
 1. [`admin_portal.html`](./admin_portal.html): Dual-view portal (Dashboard metrics & Weddings manager).
 2. [`guest_dashboard.html`](./guest_dashboard.html): Guest interactive timeline, 6 tabs, livestream player, and photo gallery.
 3. [`landing_page.html`](./landing_page.html): Hero section, active wedding cards grid, passcode unlock modal.
+
