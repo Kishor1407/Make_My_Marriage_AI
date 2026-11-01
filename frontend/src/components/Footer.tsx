@@ -11,15 +11,15 @@ export default function Footer() {
   }
 
   return (
-    <footer className="border-t border-outline-variant/30 bg-surface-container-low/50 py-8 mt-auto text-xs text-on-surface-variant">
+    <footer className="border-t border-neutral-200 bg-[#FAFAFA] py-8 mt-auto text-xs text-neutral-500">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2 font-headline-sm font-semibold text-on-surface">
+        <div className="flex items-center gap-2 font-semibold text-neutral-900 font-editorial text-sm">
           <span>Make My Marriage</span>
-          <span className="text-[10px] uppercase font-bold text-primary bg-surface-container px-2 py-0.5 rounded-full">
-            Coastal Editorial SaaS
+          <span className="text-[10px] uppercase font-bold text-[#C81E38] bg-[#C81E38]/10 px-2.5 py-0.5 rounded-full border border-[#C81E38]/20 font-sans tracking-wider">
+            Pure White & Crimson Edition
           </span>
         </div>
-        <p className="text-center sm:text-right text-on-surface-variant">
+        <p className="text-center sm:text-right text-neutral-500">
           Engineered for ₹0 Cloud Cost • Next.js (Vercel) • Node.js (Render) • MongoDB Atlas GridFS
         </p>
       </div>

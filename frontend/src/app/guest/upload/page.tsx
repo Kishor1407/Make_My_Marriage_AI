@@ -87,39 +87,45 @@ function GuestUploadContent() {
   };
 
   return (
-    <div className="bg-[#0E0E10] min-h-screen text-[#F5F5F7] font-sans antialiased p-4 sm:p-6 lg:p-8 flex items-center justify-center selection:bg-[#C81E38] selection:text-white">
-      <div className="w-full max-w-lg bg-[#18181A] rounded-3xl shadow-2xl border border-[#38373B]/50 p-6 sm:p-8 space-y-6">
+    <div className="bg-[#FAFAFA] min-h-screen text-[#0A0A0C] font-sans antialiased p-4 sm:p-6 lg:p-8 flex items-center justify-center selection:bg-[#C81E38] selection:text-white relative overflow-hidden">
+      {/* Ambient crimson blur highlights */}
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#C81E38]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[#C81E38]/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="w-full max-w-lg bg-white rounded-3xl shadow-xl border border-neutral-200/80 p-6 sm:p-8 space-y-6 relative z-10">
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-[#C81E38] text-white flex items-center justify-center mx-auto shadow-lg shadow-[#C81E38]/30">
+          <div className="w-12 h-12 rounded-2xl bg-[#C81E38] text-white flex items-center justify-center mx-auto shadow-md shadow-[#C81E38]/25 font-editorial font-bold text-xl">
             <span className="material-symbols-outlined text-[24px]">qr_code_scanner</span>
           </div>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#FFB3B3] bg-[#C81E38]/20 px-3 py-1 rounded-full border border-[#C81E38]/40">
-            QR Venue Photo Dump
-          </span>
-          <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#C81E38] bg-[#C81E38]/10 px-3 py-1 rounded-full border border-[#C81E38]/20">
+              QR Venue Photo Dump
+            </span>
+          </div>
+          <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-[#0A0A0C] tracking-tight">
             Share Your Candid Memories
           </h1>
-          <p className="text-xs text-[#B0AEB4]">
-            Uploading to wedding vault <strong className="font-mono text-[#FFB3B3] font-bold">{initialCode}</strong>
+          <p className="text-xs text-neutral-500">
+            Uploading to wedding vault <strong className="font-mono text-[#C81E38] font-bold">{initialCode}</strong>
           </p>
         </div>
 
         {uploadSuccess ? (
           <div className="text-center py-8 space-y-4 animate-in fade-in zoom-in-95">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-inner">
+            <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
               <span className="material-symbols-outlined text-[32px]">check_circle</span>
             </div>
-            <h3 className="font-editorial text-2xl font-bold text-white">
+            <h3 className="font-editorial text-2xl font-bold text-[#0A0A0C]">
               Memories Uploaded!
             </h3>
-            <p className="text-xs text-[#B0AEB4] max-w-sm mx-auto">
-              Thank you, <strong>{uploaderName}</strong>! Your {selectedFiles.length} photo(s) have been added to the collective album with your attribution.
+            <p className="text-xs text-neutral-600 max-w-sm mx-auto leading-relaxed">
+              Thank you, <strong className="text-[#0A0A0C]">{uploaderName}</strong>! Your {selectedFiles.length} photo(s) have been added to the collective celebration album with your live attribution.
             </p>
             <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href={`/marriage/${initialCode.toLowerCase()}`}
-                className="px-6 py-2.5 rounded-xl bg-[#C81E38] hover:bg-[#9E1B32] text-white text-xs font-bold shadow-md transition-all"
+                className="px-6 py-2.5 rounded-xl bg-[#C81E38] hover:bg-[#9E1B32] text-white text-xs font-bold shadow-md shadow-[#C81E38]/20 transition-all text-center"
               >
                 View Live Celebration Gallery
               </Link>
@@ -129,7 +135,7 @@ function GuestUploadContent() {
                   setSelectedFiles([]);
                   setUploadSuccess(false);
                 }}
-                className="px-6 py-2.5 rounded-xl bg-[#1E1E22] hover:bg-[#2D2D31] text-white text-xs font-semibold border border-white/10 transition-colors"
+                className="px-6 py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-semibold border border-neutral-200 transition-colors"
               >
                 Upload More Photos
               </button>
@@ -139,7 +145,7 @@ function GuestUploadContent() {
           <form onSubmit={handleUploadSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-white/80 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
                   Your Full Name
                 </label>
                 <input
@@ -148,12 +154,12 @@ function GuestUploadContent() {
                   placeholder="e.g. Priya Nair"
                   value={uploaderName}
                   onChange={(e) => setUploaderName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A0C] border border-[#38373B]/60 focus:border-[#C81E38] outline-none text-xs text-white placeholder:text-[#B0AEB4]/50 transition-colors"
+                  className="w-full px-4 py-2.5 rounded-xl bg-neutral-50 border border-neutral-200 focus:border-[#C81E38] focus:bg-white outline-none text-xs text-[#0A0A0C] placeholder:text-neutral-400 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-white/80 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
                   Email Address
                 </label>
                 <input
@@ -162,19 +168,19 @@ function GuestUploadContent() {
                   placeholder="priya@example.com"
                   value={uploaderEmail}
                   onChange={(e) => setUploaderEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A0C] border border-[#38373B]/60 focus:border-[#C81E38] outline-none text-xs text-white placeholder:text-[#B0AEB4]/50 transition-colors"
+                  className="w-full px-4 py-2.5 rounded-xl bg-neutral-50 border border-neutral-200 focus:border-[#C81E38] focus:bg-white outline-none text-xs text-[#0A0A0C] placeholder:text-neutral-400 transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-white/80 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
                 Ceremony Tag
               </label>
               <select
                 value={selectedEvent}
                 onChange={(e) => setSelectedEvent(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A0C] border border-[#38373B]/60 focus:border-[#C81E38] outline-none text-xs text-white transition-colors"
+                className="w-full px-4 py-2.5 rounded-xl bg-neutral-50 border border-neutral-200 focus:border-[#C81E38] focus:bg-white outline-none text-xs text-[#0A0A0C] transition-colors"
               >
                 <option value="HALDI">Haldi Ceremony</option>
                 <option value="MEHNDI">Mehndi Night</option>
@@ -187,19 +193,19 @@ function GuestUploadContent() {
 
             {/* Drag & Drop Upload Zone */}
             <div>
-              <label className="block text-xs font-semibold text-white/80 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
                 Select Photos or Videos
               </label>
-              <label className="p-6 rounded-2xl border-2 border-dashed border-[#38373B] hover:border-[#C81E38] bg-[#0A0A0C] text-center cursor-pointer transition-colors block">
-                <span className="material-symbols-outlined text-[32px] text-[#C81E38] mb-1">
+              <label className="p-6 rounded-2xl border-2 border-dashed border-neutral-300 hover:border-[#C81E38] bg-neutral-50/80 hover:bg-neutral-50 text-center cursor-pointer transition-colors block group">
+                <span className="material-symbols-outlined text-[32px] text-[#C81E38] mb-1 group-hover:scale-110 transition-transform">
                   add_photo_alternate
                 </span>
-                <p className="text-xs font-bold text-white">
+                <p className="text-xs font-bold text-[#0A0A0C]">
                   {selectedFiles.length > 0
                     ? `${selectedFiles.length} file(s) selected`
                     : 'Tap to browse or drop files here'}
                 </p>
-                <p className="text-[11px] text-[#B0AEB4] mt-1">
+                <p className="text-[11px] text-neutral-500 mt-1">
                   Automatic client compression to ~500KB (GridFS ₹0 Cloud)
                 </p>
                 <input
@@ -213,7 +219,7 @@ function GuestUploadContent() {
             </div>
 
             {errorMessage && (
-              <div className="p-3 rounded-xl bg-[#C81E38]/15 border border-[#C81E38]/40 text-[#FFB3B3] text-xs flex items-center gap-2">
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
                 <span className="material-symbols-outlined text-[16px] text-[#C81E38]">error</span>
                 <span>{errorMessage}</span>
               </div>
@@ -222,7 +228,7 @@ function GuestUploadContent() {
             <button
               type="submit"
               disabled={isCompressing || isUploading}
-              className="w-full py-3.5 px-4 rounded-xl bg-[#C81E38] hover:bg-[#9E1B32] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#C81E38]/30 transition-all disabled:opacity-50 active:scale-[0.99] flex items-center justify-center gap-2"
+              className="w-full py-3.5 px-4 rounded-xl bg-[#C81E38] hover:bg-[#9E1B32] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#C81E38]/20 transition-all disabled:opacity-50 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
             >
               {isCompressing ? (
                 <>
@@ -241,11 +247,11 @@ function GuestUploadContent() {
           </form>
         )}
 
-        <div className="pt-2 text-center text-xs text-[#B0AEB4] border-t border-[#38373B]/30 flex items-center justify-between">
-          <Link href={`/marriage/${initialCode.toLowerCase()}`} className="hover:text-white transition-colors">
+        <div className="pt-2 text-center text-xs text-neutral-500 border-t border-neutral-100 flex items-center justify-between">
+          <Link href={`/marriage/${initialCode.toLowerCase()}`} className="hover:text-[#0A0A0C] transition-colors font-medium">
             ← Back to Celebration
           </Link>
-          <span className="text-[#FFB3B3]">GridFS Private Streaming</span>
+          <span className="text-[#C81E38] font-semibold text-[11px]">GridFS Private Streaming</span>
         </div>
       </div>
     </div>
@@ -254,7 +260,7 @@ function GuestUploadContent() {
 
 export default function GuestUploadPage() {
   return (
-    <Suspense fallback={<div className="bg-[#0E0E10] min-h-screen flex items-center justify-center text-white">Loading vault...</div>}>
+    <Suspense fallback={<div className="bg-[#FAFAFA] min-h-screen flex items-center justify-center text-neutral-600 font-sans">Loading vault...</div>}>
       <GuestUploadContent />
     </Suspense>
   );

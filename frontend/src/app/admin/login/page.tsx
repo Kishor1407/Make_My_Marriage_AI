@@ -48,30 +48,34 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="bg-[#0E0E10] min-h-screen text-[#F5F5F7] font-sans antialiased p-4 sm:p-6 flex items-center justify-center selection:bg-[#C81E38] selection:text-white">
-      <div className="w-full max-w-md bg-[#18181A] rounded-3xl shadow-2xl border border-[#38373B]/50 p-6 sm:p-8 space-y-6">
+    <div className="bg-[#FAFAFA] min-h-screen text-[#0A0A0C] font-sans antialiased p-4 sm:p-6 flex items-center justify-center selection:bg-[#C81E38] selection:text-white relative overflow-hidden">
+      {/* Decorative ambient crimson blurs */}
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#C81E38]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[#C81E38]/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-neutral-200/80 p-6 sm:p-8 space-y-6 relative z-10">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-block group">
-            <div className="w-12 h-12 rounded-2xl bg-[#C81E38] text-white flex items-center justify-center mx-auto shadow-lg shadow-[#C81E38]/30 font-editorial font-bold text-xl group-hover:scale-105 transition-transform">
+            <div className="w-12 h-12 rounded-2xl bg-[#C81E38] text-white flex items-center justify-center mx-auto shadow-md shadow-[#C81E38]/25 font-editorial font-bold text-xl group-hover:scale-105 transition-transform">
               <span className="material-symbols-outlined text-[24px]">diamond</span>
             </div>
           </Link>
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#FFB3B3] bg-[#C81E38]/20 px-3 py-1 rounded-full border border-[#C81E38]/40">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#C81E38] bg-[#C81E38]/10 px-3 py-1 rounded-full border border-[#C81E38]/20">
               Host OS Concierge
             </span>
           </div>
-          <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h1 className="font-editorial text-2xl sm:text-3xl font-bold text-[#0A0A0C] tracking-tight">
             Admin Portal Sign In
           </h1>
-          <p className="text-xs text-[#B0AEB4]">
+          <p className="text-xs text-neutral-500">
             Access your private wedding vaults, real-time live feeds, and guest media depositories.
           </p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-white/80 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
               Host Email Address
             </label>
             <input
@@ -80,12 +84,12 @@ export default function AdminLoginPage() {
               placeholder="e.g. host@makemymarriage.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A0C] border border-[#38373B]/60 focus:border-[#C81E38] outline-none text-xs text-white placeholder:text-[#B0AEB4]/50 transition-colors"
+              className="w-full px-4 py-2.5 rounded-xl bg-neutral-50 border border-neutral-200 focus:border-[#C81E38] focus:bg-white outline-none text-xs text-[#0A0A0C] placeholder:text-neutral-400 transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/80 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
               Password
             </label>
             <input
@@ -94,19 +98,19 @@ export default function AdminLoginPage() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-[#0A0A0C] border border-[#38373B]/60 focus:border-[#C81E38] outline-none text-xs text-white placeholder:text-[#B0AEB4]/50 transition-colors"
+              className="w-full px-4 py-2.5 rounded-xl bg-neutral-50 border border-neutral-200 focus:border-[#C81E38] focus:bg-white outline-none text-xs text-[#0A0A0C] placeholder:text-neutral-400 transition-colors"
             />
           </div>
 
           {errorMsg && (
-            <div className="p-3 rounded-xl bg-[#C81E38]/15 border border-[#C81E38]/40 text-[#FFB3B3] text-xs flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
               <span className="material-symbols-outlined text-[16px] text-[#C81E38]">error</span>
               <span>{errorMsg}</span>
             </div>
           )}
 
           {successMsg && (
-            <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-center gap-2">
               <span className="material-symbols-outlined text-[16px]">check_circle</span>
               <span>{successMsg}</span>
             </div>
@@ -115,7 +119,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 px-4 rounded-xl bg-[#C81E38] hover:bg-[#9E1B32] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#C81E38]/30 transition-all disabled:opacity-50 active:scale-[0.99] flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 rounded-xl bg-[#C81E38] hover:bg-[#9E1B32] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#C81E38]/20 transition-all disabled:opacity-50 active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
           >
             {isLoading ? (
               <>
@@ -128,15 +132,15 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        <div className="pt-2 text-center text-xs text-[#B0AEB4] border-t border-[#38373B]/30 space-y-2">
+        <div className="pt-2 text-center text-xs text-neutral-500 border-t border-neutral-100 space-y-2">
           <p>
             Need a new Host account?{' '}
-            <Link href="/admin/register" className="text-[#FFB3B3] font-semibold hover:underline">
+            <Link href="/admin/register" className="text-[#C81E38] font-semibold hover:underline">
               Create an account
             </Link>
           </p>
-          <div className="p-2.5 rounded-xl bg-[#0A0A0C] border border-white/5 text-[11px] text-[#B0AEB4]/80">
-            <span className="text-white font-medium">Demo Host:</span> host@makemymarriage.com / WeddingHost2026!
+          <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200 text-[11px] text-neutral-600">
+            <span className="text-[#0A0A0C] font-semibold">Demo Host:</span> host@makemymarriage.com / WeddingHost2026!
           </div>
         </div>
       </div>

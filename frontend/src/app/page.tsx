@@ -1,1123 +1,460 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { setUser } from '@/store/slices/authSlice';
-import api from '@/lib/api';
 
-interface CelebrationRegistryItem {
-  couple: string;
-  avatar: string;
-  status: string;
-  venue: string;
-  photos: string;
-  attendees: string;
-  themeColor: string;
-}
-
-const CELEBRATION_REGISTRY: Record<string, CelebrationRegistryItem> = {
-  'RAHUL24': {
-    couple: 'Rahul & Anjali',
-    avatar: 'R&A',
-    status: 'Live Haldi Stream',
-    venue: 'The Leela Palace, South Goa • Sundowner Pavilion',
-    photos: '520 Uncompressed Photos',
-    attendees: '184 Family & Friends active',
-    themeColor: '#C81E38'
-  },
-  'VIKPRI24': {
-    couple: 'Vikram & Priya',
-    avatar: 'V&P',
-    status: 'Live Sangeet Night',
-    venue: 'The Oberoi Udaivilas, Udaipur • Lakeside Courtyard',
-    photos: '840 Uncompressed Photos',
-    attendees: '312 Family & Friends active',
-    themeColor: '#C81E38'
-  },
-  'ARJMEE24': {
-    couple: 'Arjun & Meera',
-    avatar: 'A&M',
-    status: 'Mehndi & Welcome Feast',
-    venue: 'Rayong Seaside Resort, Thailand • Andaman Lawn',
-    photos: '410 Uncompressed Photos',
-    attendees: '145 Family & Friends active',
-    themeColor: '#C81E38'
-  },
-  'SAMTAN24': {
-    couple: 'Sameer & Tanvi',
-    avatar: 'S&T',
-    status: 'Vault Secured',
-    venue: 'Radisson Blu Resort, Alibaug • Coconut Grove',
-    photos: '310 Uncompressed Photos',
-    attendees: '98 Family & Friends active',
-    themeColor: '#C81E38'
-  }
-};
-
-export default function HomePage() {
+export default function LandingPage() {
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  // PIN / Passcode State
+  // 6-PIN code input boxes state
   const [pinDigits, setPinDigits] = useState(['R', 'A', 'H', 'U', 'L', '2']);
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [authError, setAuthError] = useState('');
-  const [toastMessage, setToastMessage] = useState<{ title: string; desc: string; isSuccess?: boolean } | null>(null);
+  const pinInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Modals
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalCode, setModalCode] = useState('RAHUL24');
-  const [modalCouple, setModalCouple] = useState('Rahul & Anjali');
+  // Modals state
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-  const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
-  const [isGuestSuiteOpen, setIsGuestSuiteOpen] = useState(false);
-  const [isPolicyModalOpen, setIsPolicyModalOpen] = useState(false);
-  const [policyData, setPolicyData] = useState({ title: '', desc: '', icon: 'speed' });
+  const [isConciergeModalOpen, setIsConciergeModalOpen] = useState(false);
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
 
-  // Curated Celebrations for Grid
-  const celebrations = [
-    {
-      id: 'rahul-anjali',
-      couple: 'Rahul & Anjali',
-      code: 'RAHUL24',
-      category: 'beachfront',
-      location: 'Coastal Goa Celebration',
-      venue: 'The Leela Palace, South Goa',
-      badge: 'HALDI STREAM',
-      badgeType: 'live',
-      photos: 520,
-      videos: 8,
-      guests: 184,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCrrJp8H5k4Kn9lsGcBSJkIvsyJ0WaekgNeXIJlRo8becUl0yxex3uelYPo8SCGer_N6xS0iKWc0WCpnXo59Eg70UhVYjNdmNaRIPxeQdSzuQBEs2vlCDd-msm3JtTpVwt4jwaqXaVd3EOQSr_foYp6ygVqlNf7E2y1mmzNrvJF6ECLO8U1JkWRb9Eu0Dd6qUh0_eNBjRA-_tB9XnFCUNtrkHV4eKGEp1ZoJEDihBk'
-    },
-    {
-      id: 'vikram-priya',
-      couple: 'Vikram & Priya',
-      code: 'VIKPRI24',
-      category: 'royal',
-      location: 'Udaipur Lake Palace',
-      venue: 'The Oberoi Udaivilas, Udaipur',
-      badge: 'LIVE NOW • SANGEET',
-      badgeType: 'live',
-      photos: 840,
-      videos: 12,
-      guests: 312,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCoWB-VLDfrThPPxnllFL5MhYAjbGirUSK5IrNJ2opW92LBMQo2KS0uguSPF4ayFX4jxtJRNJaoUVZ3nrQ6vGFyaMlWJUGJ8M4zCssFa09cce3cokCD_swrh7iOmneYUZPGKhsPThqKwkygQK3LXTXRC3Q0lbruEF04qgFdYi-5Ih4n5_V48UdP_uestpxRCocUpt5iqvRakiKo9Iv5n-7eSFSdzFkp78qUDgYPq24'
-    },
-    {
-      id: 'sameer-tanvi',
-      couple: 'Sameer & Tanvi',
-      code: 'SAMTAN24',
-      category: 'intimate',
-      location: 'Alibaug Beach Retreat',
-      venue: 'Radisson Blu Resort, Alibaug',
-      badge: 'VAULT SECURED',
-      badgeType: 'secured',
-      photos: 310,
-      videos: 4,
-      guests: 98,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDWJccZA13DdqBZUU5cIjXtljFmPORVHN8HjpsXBRewnhfBvJ3NwW-dpYOibjzDC5PBkNfu_OXQRhWzXuUkLi-Pa7hXS--6qYzsg6DlxL_TFw1loKXCgCp4mRrmVGE-hHdYlHoSQAIL2AXNR7Q2pS_USmCvIdO-S3PqSm4FTR_hmGarQMxc4zQK6TzOipu3uf5Js6WK2AQMvSqnmVqpRGpvaFk0Eq1_5jSo7tYArdE'
-    },
-    {
-      id: 'arjun-meera',
-      couple: 'Arjun & Meera',
-      code: 'ARJMEE24',
-      category: 'beachfront',
-      location: 'Rayong Seaside Resort',
-      venue: 'Rayong Seaside Resort, Thailand',
-      badge: 'MEHNDI VAULT',
-      badgeType: 'vault',
-      photos: 410,
-      videos: 6,
-      guests: 145,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA6g9Pz_yA_3bO7VnQfrBKKc2cf_qvRFiogh7nVHa9o-2y0SerT2MSs1iABIo6Wkg-P63KMFe9aLuJx6bfSDIPxawUrNYuniGKo0aimH-bAVHDchzetMF-XWG_t6GcVy4yJuWINZwYQCtUUkQUBXsm-h2QOnOwoa4Xzvx7lzCh1qRx70R6bnH_ci7DLJa16NUayzAMh-YIDDfbDAzPSIqZU09hX5r6zVPycW4tB0Ww'
-    }
-  ];
-
-  const currentCode = pinDigits.join('').trim().toUpperCase();
-  const currentPreview = CELEBRATION_REGISTRY[currentCode] || null;
-
-  const showToast = (title: string, desc: string, isSuccess = true) => {
-    setToastMessage({ title, desc, isSuccess });
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3500);
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 3000);
   };
 
-  const handleDigitChange = (index: number, val: string) => {
-    const uppercaseVal = val.toUpperCase().slice(-1);
-    const updated = [...pinDigits];
-    updated[index] = uppercaseVal;
-    setPinDigits(updated);
+  const fullCode = pinDigits.join('').toUpperCase();
 
-    if (uppercaseVal && index < 5) {
-      const nextInput = document.getElementById(`hero-pin-${index + 1}`);
-      nextInput?.focus();
+  // Handle single digit PIN changes with auto-focus forward
+  const handleDigitChange = (index: number, value: string) => {
+    const char = value.slice(-1).toUpperCase();
+    const newDigits = [...pinDigits];
+    newDigits[index] = char;
+    setPinDigits(newDigits);
+
+    if (char && index < 5) {
+      pinInputRefs.current[index + 1]?.focus();
     }
   };
 
-  const handleDigitKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && !pinDigits[index] && index > 0) {
-      const prevInput = document.getElementById(`hero-pin-${index - 1}`);
-      prevInput?.focus();
+      pinInputRefs.current[index - 1]?.focus();
     }
   };
 
-  const applyPreset = (code: string) => {
-    const chars = code.split('');
-    const padded = [chars[0] || '', chars[1] || '', chars[2] || '', chars[3] || '', chars[4] || '', chars[5] || ''];
-    setPinDigits(padded);
-    showToast(`Passcode Loaded: ${code}`, `Connected to ${CELEBRATION_REGISTRY[code]?.couple || 'Celebration'}`);
+  const handlePresetClick = (code: string) => {
+    const chars = code.split('').slice(0, 6);
+    setPinDigits(chars);
+    showToast(`Loaded wedding vault key: ${code}`);
   };
 
-  const handleUnlockProceed = async (overrideCode?: string) => {
-    const targetCode = (overrideCode || currentCode || 'RAHUL24').toUpperCase();
-
-    if (targetCode.length < 4) {
-      showToast('Incomplete Passcode', 'Please enter your 6-digit invitation code.', false);
-      return;
-    }
-
-    setIsVerifying(true);
-    setAuthError('');
-
-    try {
-      const res = await api.post('/auth/guest/login', { marriageCode: targetCode });
-      if (res.data?.user) {
-        dispatch(setUser(res.data.user));
-        if (res.data.token && typeof window !== 'undefined') {
-          localStorage.setItem('mmm_token', res.data.token);
-        }
-      }
-      setIsVerifying(false);
-      setIsModalOpen(false);
-      showToast('Vault Decrypted', `Accessing ${currentPreview?.couple || targetCode}'s celebration...`);
-      router.push(`/marriage/${targetCode.toLowerCase()}`);
-    } catch {
-      if (['RAHUL24', 'VIKPRI24', 'ARJMEE24', 'SAMTAN24'].includes(targetCode)) {
-        setIsVerifying(false);
-        setIsModalOpen(false);
-        showToast('Demo Access Granted', `Opening ${CELEBRATION_REGISTRY[targetCode]?.couple || targetCode}'s celebration...`);
-        router.push(`/marriage/${targetCode.toLowerCase()}`);
-      } else {
-        setIsVerifying(false);
-        setAuthError('Invalid marriage passcode. Please check your wedding invitation.');
-        showToast('Passcode Unrecognized', 'Passcode does not match any active wedding vault.', false);
-      }
+  const handleUnlock = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (fullCode.length >= 4) {
+      router.push(`/marriage/${fullCode.toLowerCase()}`);
+    } else {
+      showToast('Please enter at least 4 passcode characters.');
     }
   };
-
-  const copyPasscodeLink = () => {
-    const code = currentCode || 'RAHUL24';
-    if (typeof window !== 'undefined') {
-      const url = `${window.location.origin}/marriage/${code.toLowerCase()}`;
-      navigator.clipboard?.writeText(url);
-      showToast('Direct Link Copied', `Guest invite link for [${code}] copied to clipboard.`);
-    }
-  };
-
-  const openModal = (code: string, couple: string) => {
-    setModalCode(code);
-    setModalCouple(couple);
-    const chars = code.split('');
-    setPinDigits([chars[0] || '', chars[1] || '', chars[2] || '', chars[3] || '', chars[4] || '', chars[5] || '']);
-    setIsModalOpen(true);
-  };
-
-  const openPolicy = (title: string, desc: string, icon: string) => {
-    setPolicyData({ title, desc, icon });
-    setIsPolicyModalOpen(true);
-  };
-
-  const filteredCelebrations =
-    activeFilter === 'all'
-      ? celebrations
-      : celebrations.filter((c) => c.category === activeFilter);
 
   return (
-    <div className="bg-[#FAF9F8] font-body text-[#121214] antialiased min-h-screen transition-colors duration-300 selection:bg-[#C81E38] selection:text-white">
+    <div className="bg-[#FFFFFF] text-[#0A0A0C] font-sans antialiased min-h-screen flex flex-col selection:bg-[#C81E38] selection:text-white">
       {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[100] flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0A0A0C] text-white shadow-2xl border border-white/10 animate-in fade-in slide-in-from-bottom-5">
-          <span className={`material-symbols-outlined text-[20px] ${toastMessage.isSuccess ? 'text-[#C81E38]' : 'text-amber-400'}`}>
-            {toastMessage.isSuccess ? 'check_circle' : 'info'}
-          </span>
-          <div className="flex flex-col">
-            <span className="font-editorial text-sm font-semibold tracking-wide">{toastMessage.title}</span>
-            <span className="font-body text-xs text-zinc-300">{toastMessage.desc}</span>
-          </div>
+      {toastMsg && (
+        <div className="fixed top-20 right-5 z-[100] px-4 py-3 rounded-2xl bg-white border border-neutral-200 text-[#0A0A0C] text-xs font-semibold shadow-xl flex items-center gap-2.5 animate-in slide-in-from-right-4">
+          <span className="material-symbols-outlined text-[18px] text-[#C81E38]">info</span>
+          <span>{toastMsg}</span>
         </div>
       )}
 
-      {/* 1. EDITORIAL SPLIT-SCREEN LUXURY GATEWAY (Stitch AI Screen 2a683d15997f41e280412cde89081661) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-14 lg:pb-20 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-          
-          {/* LEFT COLUMN: Passcode Entry & Dynamic Vault Preview */}
-          <div className="lg:col-span-6 flex flex-col justify-center space-y-6 lg:pr-4">
-            
-            {/* Eyebrow Ribbon */}
-            <div
-              className="inline-flex items-center gap-2 self-start px-3 py-1 rounded-full bg-[#C81E38]/[0.08] border border-[#C81E38]/20 text-[#C81E38] text-xs font-semibold tracking-wider uppercase cursor-pointer hover:scale-105 transition-transform"
-              onClick={() =>
-                openPolicy(
-                  'Private Hardware Encryption',
-                  '256-bit AES encryption ensures only authenticated invitees with the wedding passkey or QR code can access the media stream.',
-                  'shield'
-                )
-              }
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C81E38]" />
-              <span>Private Wedding Portal</span>
+      {/* Hero Gateway Section */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#FAFAFA] via-[#FFFFFF] to-[#FAFAFA] border-b border-neutral-200 py-12 md:py-20">
+        {/* Subtle Decorative Accents */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-[#C81E38]/5 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto space-y-4">
+            {/* Pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#C81E38]/10 border border-[#C81E38]/30 text-[#C81E38] text-[11px] font-bold uppercase tracking-widest shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C81E38] animate-pulse"></span>
+              <span>Exclusive Private Wedding Portal • Pure White &amp; Crimson</span>
             </div>
 
-            {/* Headline & Value Pitch */}
-            <div className="space-y-3">
-              <h1 className="font-editorial text-3xl sm:text-4xl lg:text-[46px] font-medium text-zinc-950 tracking-tight leading-[1.12]">
-                Enter Your Marriage Passcode to Access the Celebration.
-              </h1>
-              <p className="font-body text-base text-zinc-600 leading-relaxed max-w-xl font-light">
-                Stream uncompressed 4K ceremonies, view ultra-high-resolution photo albums, and share blessings in real time. Private, invitation-only, and ad-free.
-              </p>
-            </div>
+            {/* Editorial Main Title */}
+            <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl font-normal text-[#0A0A0C] tracking-tight leading-[1.15]">
+              Unlock Your Couple&apos;s Private Celebration Vault
+            </h1>
 
-            {/* PRIMARY INTERACTIVE GATEWAY BOX */}
-            <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-xl shadow-zinc-900/[0.04] border border-zinc-200/90 space-y-5 transition-all">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] uppercase font-bold tracking-widest text-zinc-500">
-                  6-Digit Invitation Passkey
-                </span>
-                <span className="text-xs text-zinc-400 flex items-center gap-1 font-mono">
-                  <span className="material-symbols-outlined text-[14px] text-[#C81E38]">lock</span>
-                  Protected Vault
+            <p className="text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto leading-relaxed">
+              Enter your invitation passkey or scan the dining table acrylic standee QR code to stream ceremonies live, download high-res stationery, and drop candid moments into the family archive.
+            </p>
+          </div>
+
+          {/* Interactive Vault Unlocker Card & Real-Time Card Preview Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-5xl mx-auto mt-10">
+            {/* Left Box: Passcode Entry (7 cols) */}
+            <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-neutral-200/90 shadow-lg relative overflow-hidden">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-8 h-8 rounded-xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center font-bold text-sm border border-[#C81E38]/20">
+                    <span className="material-symbols-outlined text-[18px]">key</span>
+                  </span>
+                  <div>
+                    <h3 className="font-editorial font-bold text-lg text-[#0A0A0C]">VIP Guest Passcode</h3>
+                    <p className="text-[11px] text-neutral-500">Found on wedding stationery or table standee</p>
+                  </div>
+                </div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C81E38] bg-[#C81E38]/10 px-2 py-0.5 rounded border border-[#C81E38]/20">
+                  AES-256 Cloud
                 </span>
               </div>
 
-              {/* 6 Individual PIN/Character Boxes */}
-              <div className="flex items-center justify-between gap-2 sm:gap-3" id="hero-pin-boxes">
-                {[0, 1, 2, 3, 4, 5].map((index) => (
-                  <input
-                    key={index}
-                    id={`hero-pin-${index}`}
-                    type="text"
-                    maxLength={1}
-                    value={pinDigits[index]}
-                    onChange={(e) => handleDigitChange(index, e.target.value)}
-                    onKeyDown={(e) => handleDigitKeyDown(index, e)}
-                    className="w-12 sm:w-14 h-14 text-center font-display text-xl sm:text-2xl font-bold uppercase rounded-xl border border-zinc-300 bg-zinc-50 text-zinc-900 focus:bg-white focus:ring-2 focus:ring-[#C81E38] focus:border-[#C81E38] focus:outline-none transition-all shadow-inner"
+              {/* 6 Digit Input Boxes */}
+              <form onSubmit={handleUnlock} className="space-y-5">
+                <div className="flex justify-between gap-2 sm:gap-3">
+                  {pinDigits.map((digit, idx) => (
+                    <input
+                      key={idx}
+                      ref={(el) => {
+                        pinInputRefs.current[idx] = el;
+                      }}
+                      type="text"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => handleDigitChange(idx, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(idx, e)}
+                      className="w-12 h-14 sm:w-14 sm:h-16 text-center text-xl sm:text-2xl font-bold font-editorial uppercase rounded-2xl bg-neutral-50 border-2 border-neutral-200 text-[#0A0A0C] focus:bg-white focus:border-[#C81E38] focus:ring-2 focus:ring-[#C81E38]/20 outline-none transition-all shadow-xs"
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between text-xs text-neutral-500">
+                  <span>Passcode: <strong className="font-mono text-[#C81E38]">{fullCode}</strong></span>
+                  <button
+                    type="button"
+                    onClick={() => setPinDigits(['', '', '', '', '', ''])}
+                    className="hover:text-[#C81E38] transition-colors"
+                  >
+                    Clear All
+                  </button>
+                </div>
+
+                {/* Primary CTA */}
+                <button
+                  type="submit"
+                  className="w-full py-4 px-6 rounded-2xl bg-[#C81E38] hover:bg-[#9E1B32] text-white font-editorial text-base sm:text-lg font-bold tracking-wide shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 active:scale-[0.99]"
+                >
+                  <span>Enter Sovereign Celebration Vault</span>
+                  <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+                </button>
+              </form>
+
+              {/* Sample Passcode Quick Presets */}
+              <div className="mt-6 pt-5 border-t border-neutral-100 space-y-2">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
+                  Quick Access Vault Presets:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { code: 'RAHUL24', couple: 'Rahul & Anjali' },
+                    { code: 'VIKPRI24', couple: 'Vikram & Priya' },
+                    { code: 'ARJMEE24', couple: 'Arjun & Meera' }
+                  ].map((preset) => (
+                    <button
+                      key={preset.code}
+                      onClick={() => handlePresetClick(preset.code)}
+                      className="px-3 py-1.5 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 text-xs font-medium text-neutral-800 transition-colors flex items-center gap-1.5 shadow-xs"
+                    >
+                      <span className="font-mono font-bold text-[#C81E38]">{preset.code}</span>
+                      <span className="text-neutral-400">•</span>
+                      <span>{preset.couple}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Box: Live Reactive Standee Acrylic Card Preview (5 cols) */}
+            <div className="lg:col-span-5 bg-white rounded-3xl p-6 border border-neutral-200/90 shadow-lg relative overflow-hidden">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#C81E38] animate-ping"></span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#0A0A0C]">Vault Card Preview</span>
+                </div>
+                <span className="text-[10px] uppercase font-bold text-[#C81E38] bg-[#C81E38]/10 px-2 py-0.5 rounded border border-[#C81E38]/20">
+                  Verified
+                </span>
+              </div>
+
+              {/* Digital Card Render */}
+              <div className="rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-50 shadow-sm">
+                <div className="relative h-48 w-full overflow-hidden">
+                  <img
+                    alt="Couple Preview"
+                    className="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida/AEtjO1Va1U4bOy3llyRAkJVVvDdom4O7c1K1hrZINu89siLq0NNPCTFws5XwTjOZ1LrqyQj1lIgDLr1LnX3qCQj2wAaQn2005YMzbMSpfIj1mSM3elEEFnK85-twwqyE-gjKruWaMZ9ixkqJeEngIJt6R2JDaTYUK-BzM8vDQS4fCh2S-vVPoB7gVxyBT2Q8yA0BBhe7g47VdAUCPTUIGjS4n_y5uQE39qlTF7YTMZwnkH3JXg4i0UsUdW7BSoE"
                   />
-                ))}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-white/90">The Wedding Of</span>
+                      <h3 className="font-editorial text-2xl font-bold text-white drop-shadow">
+                        {fullCode.startsWith('VIK') ? 'Vikram & Priya' : fullCode.startsWith('ARJ') ? 'Arjun & Meera' : 'Rahul & Anjali'}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-white border-t border-neutral-200 flex items-center justify-between text-xs">
+                  <div>
+                    <p className="text-neutral-500 font-medium">Destination Sanctuary</p>
+                    <p className="font-semibold text-[#0A0A0C] mt-0.5">The Leela Palace Seaside, Goa</p>
+                    <p className="text-[11px] text-[#C81E38] font-bold mt-1">Key: {fullCode || 'RAHUL24'}</p>
+                  </div>
+                  <div className="p-2 bg-neutral-50 rounded-xl border border-neutral-200">
+                    <span className="material-symbols-outlined text-[28px] text-[#0A0A0C]">qr_code_2</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Quick Presets */}
-              <div className="flex items-center gap-2 flex-wrap text-xs text-zinc-500 pt-1">
-                <span className="font-medium">Try Sample Passcodes:</span>
+              {/* Bottom Quick Triggers */}
+              <div className="grid grid-cols-2 gap-2 mt-4">
                 <button
-                  onClick={() => applyPreset('RAHUL24')}
-                  className="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-[#C81E38] hover:text-white text-zinc-800 font-mono font-bold transition-all shadow-xs"
-                >
-                  RAHUL24
-                </button>
-                <button
-                  onClick={() => applyPreset('VIKPRI24')}
-                  className="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-[#C81E38] hover:text-white text-zinc-800 font-mono font-bold transition-all shadow-xs"
-                >
-                  VIKPRI24
-                </button>
-                <button
-                  onClick={() => applyPreset('ARJMEE24')}
-                  className="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-[#C81E38] hover:text-white text-zinc-800 font-mono font-bold transition-all shadow-xs"
-                >
-                  ARJMEE24
-                </button>
-                <button
+                  type="button"
                   onClick={() => setIsQrModalOpen(true)}
-                  className="px-2.5 py-1 rounded-md bg-zinc-200 hover:bg-[#C81E38] hover:text-white text-zinc-900 font-semibold flex items-center gap-1 transition-all"
+                  className="py-2.5 px-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 text-xs font-semibold text-neutral-800 flex items-center justify-center gap-1.5 transition-colors shadow-xs"
                 >
-                  <span className="material-symbols-outlined text-[14px] text-[#C81E38]">qr_code_scanner</span>
+                  <span className="material-symbols-outlined text-[16px] text-[#C81E38]">qr_code_scanner</span>
                   <span>Scan Table QR</span>
                 </button>
-              </div>
-
-              {/* DYNAMIC LIVE VAULT FOUND PREVIEW CARD */}
-              <div className="p-4 rounded-xl bg-gradient-to-br from-zinc-50 to-rose-50/40 border border-zinc-200/90 transition-all flex flex-col space-y-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center font-serif font-bold text-base border border-[#C81E38]/20">
-                      {currentPreview ? currentPreview.avatar : (currentCode.slice(0, 2) || 'MM')}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-editorial font-bold text-zinc-950 text-base tracking-tight">
-                          {currentPreview ? currentPreview.couple : (currentCode.length >= 4 ? `Celebration [${currentCode}]` : 'Private Celebration Vault')}
-                        </h3>
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider bg-[#C81E38]/10 text-[#C81E38] animate-pulse">
-                          {currentPreview ? currentPreview.status : 'Invitation Protected'}
-                        </span>
-                      </div>
-                      <p className="font-body text-xs text-zinc-600">
-                        {currentPreview ? currentPreview.venue : 'Destination Venue • Ready for passcode decryption'}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="font-mono text-xs font-bold text-[#C81E38] bg-white px-2.5 py-1 rounded border border-zinc-200">
-                    {currentCode || '------'}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between text-[11px] text-zinc-500 pt-1 border-t border-black/5">
-                  <span className="flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[15px] text-[#C81E38]">photo_camera</span>
-                    <span>{currentPreview ? currentPreview.photos : 'High-Resolution Media Stream'}</span>
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[15px] text-zinc-700">group</span>
-                    <span>{currentPreview ? currentPreview.attendees : 'Authorized Guests Only'}</span>
-                  </span>
-                </div>
-              </div>
-
-              {/* Main CTA Unlock Button */}
-              <div className="space-y-3 pt-1">
                 <button
-                  onClick={() => handleUnlockProceed()}
-                  disabled={isVerifying}
-                  className="w-full h-12 rounded-xl bg-gradient-to-r from-[#0A0A0C] via-[#1E1E24] to-[#0A0A0C] hover:from-[#C81E38] hover:via-[#9E1B32] hover:to-[#C81E38] text-white font-body text-sm font-semibold tracking-wide flex items-center justify-center gap-2 shadow-lg shadow-black/15 active:scale-[0.99] transition-all duration-300 disabled:opacity-50"
+                  type="button"
+                  onClick={() => setIsConciergeModalOpen(true)}
+                  className="py-2.5 px-3 rounded-xl bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 text-xs font-semibold text-neutral-800 flex items-center justify-center gap-1.5 transition-colors shadow-xs"
                 >
-                  {isVerifying ? (
-                    <>
-                      <span className="material-symbols-outlined animate-spin text-[20px] text-[#C81E38]">progress_activity</span>
-                      <span>Decrypting Private Cloud...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="material-symbols-outlined text-[20px] text-[#C81E38]">lock_open</span>
-                      <span>{currentPreview ? `Enter ${currentPreview.couple}'s Vault` : 'Enter Celebration Vault'}</span>
-                    </>
-                  )}
-                </button>
-
-                <div className="flex items-center justify-between text-xs text-zinc-500 pt-1">
-                  <button
-                    onClick={copyPasscodeLink}
-                    className="hover:text-[#C81E38] transition-colors flex items-center gap-1 font-medium"
-                    type="button"
-                  >
-                    <span className="material-symbols-outlined text-[14px]">share</span>
-                    <span>Copy Direct Passkey Link</span>
-                  </button>
-                  <button
-                    onClick={() => setIsHelpModalOpen(true)}
-                    className="hover:underline hover:text-zinc-800 text-zinc-500"
-                    type="button"
-                  >
-                    Lost code? Help Desk
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* High-Trust Minimal Badge Ribbon */}
-            <div className="flex items-center justify-center sm:justify-start gap-4 text-xs text-zinc-500 pt-1 flex-wrap">
-              <span className="flex items-center gap-1.5 font-medium">
-                <span className="material-symbols-outlined text-[16px] text-[#C81E38]">shield</span>
-                256-Bit Private Encryption
-              </span>
-              <span className="hidden sm:inline text-zinc-300">•</span>
-              <span className="flex items-center gap-1.5 font-medium">
-                <span className="material-symbols-outlined text-[16px] text-zinc-900">raw_on</span>
-                Zero Lossy Compression
-              </span>
-              <span className="hidden sm:inline text-zinc-300">•</span>
-              <span className="flex items-center gap-1.5 font-medium">
-                <span className="material-symbols-outlined text-[16px] text-zinc-900">admin_panel_settings</span>
-                Host Moderated
-              </span>
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN: Cinematic Editorial Visual Showcase */}
-          <div className="lg:col-span-6 relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-zinc-200/80 bg-black group">
-              {/* Master Luxury Destination Couple Photo */}
-              <div className="w-full h-[460px] sm:h-[560px] lg:h-[620px] overflow-hidden">
-                <img
-                  alt="Luxury Destination Wedding Couple Portrait"
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT_yf8HUr15vJOdqxd57TrvYiXOxiwihldlvBX83jJMQK0LhR75KY3pRW7U04j1kjv7l1aUB0yhnzQ79PlTgUxcoxUIvuyZuGCwWKOBl83Kw4-89gVR5UWU6-YA-6j9qBB49TNa_mOVE9MMEuBnlRa8eBSI3jeOre4nT8PhlAWT1z1nrK8HoeytF_jEJgsZpwbIyNcabx9fyu00k70kuiU_VTUSBM-6QjRTBlQI2Y"
-                />
-              </div>
-
-              {/* Warm Editorial Gradient Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent pointer-events-none" />
-
-              {/* Top Floating Badges */}
-              <div className="absolute top-5 left-5 right-5 flex items-center justify-between">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-xs font-medium">
-                  <span className="w-2 h-2 rounded-full bg-[#C81E38] animate-ping" />
-                  <span className="font-bold tracking-wider text-[11px] uppercase">Ultra 4K Broadcast</span>
-                </div>
-
-                <button
-                  onClick={() => {
-                    applyPreset('RAHUL24');
-                    handleUnlockProceed('RAHUL24');
-                  }}
-                  className="h-8 px-3.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95"
-                >
-                  <span className="material-symbols-outlined text-[16px]">visibility</span>
-                  <span>Explore Live Showcase</span>
+                  <span className="material-symbols-outlined text-[16px] text-[#C81E38]">support_agent</span>
+                  <span>Host Support</span>
                 </button>
               </div>
-
-              {/* Bottom Floating Card Details */}
-              <div className="absolute bottom-6 left-6 right-6 text-white space-y-3">
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#C81E38] backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-wider">
-                  <span>Palacio Do Mar • Sunset Pavilion</span>
-                </div>
-
-                <div>
-                  <h2 className="font-editorial text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-md">
-                    Rahul &amp; Anjali’s Coastal Wedding
-                  </h2>
-                  <p className="font-body text-xs sm:text-sm text-zinc-200 line-clamp-2 max-w-md pt-1 drop-shadow">
-                    Multi-camera Sony FX3 Cinema Line streaming live from Goa. Relatives across 14 countries connected with sub-second latency.
-                  </p>
-                </div>
-
-                {/* Mini stats row inside picture */}
-                <div className="flex items-center gap-4 pt-2 border-t border-white/15 text-xs text-zinc-200">
-                  <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[16px] text-[#ffb3b3]">videocam</span>
-                    <span>8 Live Angles</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[16px] text-[#ffb3b3]">favorite</span>
-                    <span>420 Blessings Sent</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[16px] text-[#ffb3b3]">download</span>
-                    <span>Instant RAW Keepsake</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Subtle Ambient Glow Behind Card */}
-            <div className="absolute -bottom-6 -right-6 w-72 h-72 bg-[#C81E38]/10 rounded-full blur-3xl pointer-events-none -z-10" />
-            <div className="absolute -top-6 -left-6 w-72 h-72 bg-black/10 rounded-full blur-3xl pointer-events-none -z-10" />
-          </div>
-
-        </div>
-      </section>
-
-      {/* 2. TRUST METRICS BAR */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
-        <div className="bg-[#F4F3F0] rounded-xl px-6 py-6 shadow-xs border border-zinc-200/80">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div
-              className="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-white/60 transition-colors"
-              onClick={() => showToast('Broadcast SLA', 'Continuous WebRTC latency under 200ms globally')}
-            >
-              <div className="flex items-center gap-1.5 text-[#C81E38]">
-                <span className="material-symbols-outlined text-[20px]">stream</span>
-                <span className="font-editorial text-2xl font-bold text-zinc-950">99.98%</span>
-              </div>
-              <span className="text-[11px] text-zinc-500 uppercase tracking-wider font-semibold mt-1">Live Stream Uptime</span>
-            </div>
-
-            <div
-              className="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-white/60 transition-colors"
-              onClick={() => showToast('Hardware Vault', 'AES-256 GCM authenticated military grade encryption')}
-            >
-              <div className="flex items-center gap-1.5 text-zinc-900">
-                <span className="material-symbols-outlined text-[20px] text-[#C81E38]">security</span>
-                <span className="font-editorial text-2xl font-bold text-zinc-950">256-Bit</span>
-              </div>
-              <span className="text-[11px] text-zinc-500 uppercase tracking-wider font-semibold mt-1">Encrypted Vaults</span>
-            </div>
-
-            <div
-              className="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-white/60 transition-colors"
-              onClick={() => showToast('Zero Compression', 'Raw camera DNG & full 4K Dolby Vision supported')}
-            >
-              <div className="flex items-center gap-1.5 text-[#C81E38]">
-                <span className="material-symbols-outlined text-[20px]">photo_library</span>
-                <span className="font-editorial text-2xl font-bold text-zinc-950">50,000+</span>
-              </div>
-              <span className="text-[11px] text-zinc-500 uppercase tracking-wider font-semibold mt-1">High-Res Memories</span>
-            </div>
-
-            <div
-              className="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-white/60 transition-colors"
-              onClick={() => showToast('Global CDN', 'Local caching points across Goa, Udaipur, Bali, & Lake Como')}
-            >
-              <div className="flex items-center gap-1.5 text-zinc-900">
-                <span className="material-symbols-outlined text-[20px] text-[#C81E38]">location_on</span>
-                <span className="font-editorial text-2xl font-bold text-zinc-950">120+</span>
-              </div>
-              <span className="text-[11px] text-zinc-500 uppercase tracking-wider font-semibold mt-1">Destination Weddings</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. CURATED GRID OF MARRIAGE CARDS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 w-full" id="active-celebrations">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-[#C81E38] text-[11px] uppercase tracking-widest mb-1 font-bold">
-              <span className="w-2 h-2 rounded-full bg-[#C81E38] inline-block animate-ping" />
-              Private Cloud Archives
+      {/* Curated Active Celebrations Grid */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-neutral-200">
+            <div>
+              <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#0A0A0C]">
+                Active Wedding Celebrations
+              </h2>
+              <p className="text-xs text-neutral-600 mt-1">Live streaming, photo drops, and ceremony feeds happening now.</p>
             </div>
-            <h2 className="font-editorial text-3xl sm:text-4xl font-bold text-zinc-950 tracking-tight">
-              Featured Active Celebrations
-            </h2>
+            <Link
+              href="/admin/login"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-bold text-[#0A0A0C] border border-neutral-200 transition-colors w-fit shadow-xs"
+            >
+              <span className="material-symbols-outlined text-[16px] text-[#C81E38]">add_circle</span>
+              <span>Architect New Vault</span>
+            </Link>
           </div>
 
-          {/* Filter Pill Controls */}
-          <div className="inline-flex p-1 bg-zinc-200/80 rounded-full overflow-x-auto max-w-full">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { id: 'all', label: 'All Couples' },
-              { id: 'beachfront', label: 'Beachfront Luxury' },
-              { id: 'royal', label: 'Royal Palace' },
-              { id: 'intimate', label: 'Intimate Coastal' }
-            ].map((pill) => (
-              <button
-                key={pill.id}
-                onClick={() => setActiveFilter(pill.id)}
-                className={`px-4 py-1.5 rounded-full text-xs transition-all whitespace-nowrap font-medium ${
-                  activeFilter === pill.id
-                    ? 'bg-white text-zinc-950 shadow-xs font-semibold'
-                    : 'text-zinc-600 hover:text-zinc-950'
-                }`}
+              {
+                id: 'rahul24',
+                couple: 'Rahul & Anjali',
+                code: 'RAHUL24',
+                venue: 'The Leela Palace Seaside, Goa',
+                status: 'Haldi Live Now',
+                photos: 145,
+                videos: 3,
+                guests: 320,
+                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD6fO2qwvTXCfSdcSEAgwTCIMP1jaIcPkXdwV1FvCCfRf-5VXAht5OOoK8UVDtX1oKoT7d5ct1kJud_LU-NKa4K2WFtWFsbkcpXkVrOeiyWbILkWUk0yl1B0bLlluiXV-4HRdQKfXgX_tfqnEVrxhD9ovCQkgVUBOCAXAvTTc1-C8m24DOCobWWg9XTZrEW73NIl0UmbSPaiEJF3KsOxOvq6wQoNjplpbCLpORhFno'
+              },
+              {
+                id: 'vikpri24',
+                couple: 'Vikram & Priya',
+                code: 'VIKPRI24',
+                venue: 'Umaid Bhawan Palace, Jodhpur',
+                status: 'Sangeet Tomorrow',
+                photos: 420,
+                videos: 6,
+                guests: 580,
+                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc9C1voRVWDpitAXvHixh6nqQ4Fr79mnyuw9Xe3IcAQgZAd-Uv3awiaBCqPc9wnryGg6K_YtjvXw33aS0iPw333R8nNhGrxKssGs9kAEFQutT4sDRp5swxSF4PKKzpyne6cjdxSMvTeL4C-gEgct3msqLoQmVt6GrsyBYVuNDf8XOEWyRE8h2qqZjSVu1Q0NDPzcE68G9R3cAcloU2HG0DmHfapfJmWYtk0quRUrg'
+              },
+              {
+                id: 'arjmee24',
+                couple: 'Arjun & Meera',
+                code: 'ARJMEE24',
+                venue: 'The Oberoi Udaivilas, Udaipur',
+                status: 'RSVP Checkpoints Active',
+                photos: 88,
+                videos: 2,
+                guests: 240,
+                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDSFCd_cy05beANlWSREfxP3NXg8ctYEY9AVrp-_XUcFVt_w_abbeTJoNmpWgcl8BVyWp4mMIEKmkoQCot9EjdJ8Qctuj_og0TdF89uVPf1ArAbEHmfMvwAjzk11O8dlquI1hLl94jYCQPEmyWg6L3oF39f_dnAAHfgwtKtVrHHwXAxAnTWY3rVge3SuEwTHGpMbYt9YVQpN3S6n00H5ow31iMzhlMSaFkbEID1-jQ'
+              }
+            ].map((vault) => (
+              <div
+                key={vault.id}
+                className="group bg-white rounded-2xl border border-neutral-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
               >
-                {pill.label}
-              </button>
+                <div>
+                  <div className="relative h-48 w-full overflow-hidden">
+                    <img
+                      src={vault.img}
+                      alt={vault.couple}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-3 right-3">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#C81E38] text-white shadow">
+                        {vault.status}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-5 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-editorial text-xl font-bold text-[#0A0A0C]">{vault.couple}</h3>
+                      <span className="font-mono text-xs font-bold text-[#C81E38] bg-[#C81E38]/10 px-2 py-0.5 rounded border border-[#C81E38]/20">
+                        {vault.code}
+                      </span>
+                    </div>
+                    <p className="text-xs text-neutral-500 flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[15px] text-[#C81E38]">location_on</span>
+                      <span>{vault.venue}</span>
+                    </p>
+                    <div className="pt-2 flex items-center gap-3 text-xs text-neutral-600">
+                      <span><strong>{vault.photos}</strong> Photos</span>
+                      <span>•</span>
+                      <span><strong>{vault.videos}</strong> Reels</span>
+                      <span>•</span>
+                      <span><strong>{vault.guests}</strong> Guests</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 pt-0">
+                  <Link
+                    href={`/marriage/${vault.id}`}
+                    className="w-full py-2.5 rounded-xl bg-neutral-50 hover:bg-[#C81E38] hover:text-white border border-neutral-200 text-neutral-900 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs"
+                  >
+                    <span>Enter Vault</span>
+                    <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                  </Link>
+                </div>
+              </div>
             ))}
           </div>
         </div>
-
-        {/* Grid Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredCelebrations.map((c) => (
-            <div
-              key={c.id}
-              onClick={() => openModal(c.code, c.couple)}
-              className="group flex flex-col bg-white rounded-xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 border border-zinc-200/80 cursor-pointer"
-            >
-              <div className="relative h-64 overflow-hidden bg-zinc-100">
-                <img
-                  src={c.image}
-                  alt={c.couple}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-
-                {/* Status Badge */}
-                <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-zinc-950 text-[10px] font-bold shadow-sm">
-                  <span className={`w-1.5 h-1.5 rounded-full ${c.badgeType === 'live' ? 'bg-[#C81E38] animate-ping' : 'bg-zinc-700'}`} />
-                  <span>{c.badge}</span>
-                </div>
-
-                {/* Code Tag */}
-                <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/95 backdrop-blur-md text-zinc-950 text-xs font-mono font-bold shadow-sm">
-                  <span className="material-symbols-outlined text-[13px] text-[#C81E38]">lock</span>
-                  <span>{c.code}</span>
-                </div>
-
-                <div className="absolute bottom-3 left-3 right-3 text-white">
-                  <span className="text-[11px] uppercase tracking-wider text-zinc-300">
-                    {c.location}
-                  </span>
-                  <h3 className="font-editorial text-lg font-bold text-white tracking-tight">
-                    {c.couple}
-                  </h3>
-                </div>
-              </div>
-
-              <div className="p-4 flex flex-col justify-between flex-1 space-y-4">
-                <div className="flex items-center justify-between text-zinc-500 text-xs">
-                  <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[16px] text-[#C81E38]">photo_camera</span>
-                    <span>{c.photos} Photos</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[16px] text-[#C81E38]">videocam</span>
-                    <span>{c.videos} Streams</span>
-                  </div>
-                </div>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openModal(c.code, c.couple);
-                  }}
-                  type="button"
-                  className="w-full h-10 rounded-lg bg-zinc-100 hover:bg-[#C81E38] hover:text-white text-zinc-900 text-xs font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
-                >
-                  <span className="material-symbols-outlined text-[17px]">key</span>
-                  <span>Enter Code to View</span>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
       </section>
 
-      {/* 4. FEATURE ARCHITECTURE HIGHLIGHT SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 w-full">
-        <div className="bg-[#F4F3F0] rounded-2xl p-6 lg:p-12 shadow-xs border border-zinc-200/80 transition-colors">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            {/* Feature 1 */}
-            <div className="flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <span className="text-[11px] text-[#C81E38] uppercase font-bold tracking-widest">Zero Quality Loss</span>
-                <h3 className="font-editorial text-2xl font-bold text-zinc-950">Engineered for Destination Scale</h3>
-                <p className="font-body text-sm text-zinc-600 leading-relaxed font-light">
-                  Every photograph, 4K reel, and drone capture uploaded by guests or official photographers is saved in uncompressed raw quality.
-                </p>
-              </div>
-
-              <div
-                className="p-4 rounded-xl bg-white shadow-xs flex items-center gap-4 hover:border-[#C81E38]/50 border border-zinc-200/60 transition-colors cursor-pointer"
-                onClick={() => showToast('Infrastructure Report', '36 globally synchronized storage buckets active')}
-              >
-                <div className="w-12 h-12 rounded-lg bg-[#C81E38]/10 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[#C81E38] text-[26px]">speed</span>
-                </div>
-                <div>
-                  <h4 className="font-editorial text-base font-semibold text-zinc-950">Sub-Second Delivery</h4>
-                  <p className="text-xs text-zinc-500">Edge CDN nodes at all major resort destinations.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <span className="text-[11px] text-[#C81E38] uppercase font-bold tracking-widest">Privacy First</span>
-                <h3 className="font-editorial text-2xl font-bold text-zinc-950">Guest-Level Permissions</h3>
-                <p className="font-body text-sm text-zinc-600 leading-relaxed font-light">
-                  Keep Haldi rituals, bridal suites, and evening afterparties contained to specific friend circles and families.
-                </p>
-              </div>
-
-              <div
-                className="p-4 rounded-xl bg-white shadow-xs flex items-center gap-4 hover:border-[#C81E38]/50 border border-zinc-200/60 transition-colors cursor-pointer"
-                onClick={() => showToast('Permission Config', 'Custom segmented access tiers enabled')}
-              >
-                <div className="w-12 h-12 rounded-lg bg-[#C81E38]/10 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[#C81E38] text-[26px]">shield_person</span>
-                </div>
-                <div>
-                  <h4 className="font-editorial text-base font-semibold text-zinc-950">Passcode Enforced</h4>
-                  <p className="text-xs text-zinc-500">No indexed public search. Only authorized guests enter.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <span className="text-[11px] text-[#C81E38] uppercase font-bold tracking-widest">Live Real-Time Sync</span>
-                <h3 className="font-editorial text-2xl font-bold text-zinc-950">Instant Guest Broadcasts</h3>
-                <p className="font-body text-sm text-zinc-600 leading-relaxed font-light">
-                  Broadcast live ceremony streams to overseas elders and relatives who couldn&apos;t fly in.
-                </p>
-              </div>
-
-              <div
-                className="p-4 rounded-xl bg-white shadow-xs flex items-center gap-4 hover:border-[#C81E38]/50 border border-zinc-200/60 transition-colors cursor-pointer"
-                onClick={() => showToast('Streaming Server', 'Adaptive bitrate WebRTC engine operating smoothly')}
-              >
-                <div className="w-12 h-12 rounded-lg bg-[#C81E38]/10 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[#C81E38] text-[26px]">broadcast_on_personal</span>
-                </div>
-                <div>
-                  <h4 className="font-editorial text-base font-semibold text-zinc-950">Ultra-Low Latency</h4>
-                  <p className="text-xs text-zinc-500">Crystal clear WebRTC interactive streaming.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* MODAL 1: SCAN TABLE STANDEE QR MODAL */}
+      {/* Standee QR Scanner Modal */}
       {isQrModalOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in"
-          onClick={() => setIsQrModalOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6 border border-zinc-200 space-y-5"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-md bg-white rounded-2xl border border-neutral-200 p-6 shadow-2xl relative text-[#0A0A0C]">
             <button
               onClick={() => setIsQrModalOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 hover:text-zinc-900 transition-colors"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black"
             >
               <span className="material-symbols-outlined text-[18px]">close</span>
             </button>
 
-            <div className="text-center space-y-1">
-              <div className="w-12 h-12 rounded-full bg-rose-50 text-[#C81E38] flex items-center justify-center mx-auto mb-2">
-                <span className="material-symbols-outlined text-[26px]">qr_code_scanner</span>
-              </div>
-              <h3 className="font-editorial font-bold text-lg text-zinc-950">Scan Venue Table Standee</h3>
-              <p className="font-body text-xs text-zinc-500">
-                Aim your camera at the wedding invitation QR or dining table placard.
-              </p>
-            </div>
-
-            {/* Simulated Scanner Viewport */}
-            <div className="relative w-56 h-56 mx-auto rounded-xl bg-black border-2 border-dashed border-[#C81E38] flex flex-col items-center justify-center overflow-hidden group">
-              <div className="w-40 h-40 border-2 border-white/60 rounded-lg relative flex items-center justify-center">
-                <div className="absolute inset-0 bg-[#C81E38]/20 animate-pulse" />
-                <span className="material-symbols-outlined text-4xl text-white/90 animate-bounce">qr_code_2</span>
-              </div>
-              <div className="absolute bottom-2 text-[10px] text-zinc-400 font-mono">Camera Scanner Ready</div>
-            </div>
-
-            <button
-              onClick={() => {
-                setIsQrModalOpen(false);
-                applyPreset('RAHUL24');
-                showToast('Table Standee Detected', 'Decoded Passcode [RAHUL24] for Rahul & Anjali');
-                handleUnlockProceed('RAHUL24');
-              }}
-              type="button"
-              className="w-full h-11 rounded-xl bg-[#0A0A0C] hover:bg-[#C81E38] text-white font-body text-xs font-semibold transition-all duration-300"
-            >
-              Simulate Scanning &quot;RAHUL24&quot; Table Code
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 2: HELP & CONCIERGE MODAL */}
-      {isHelpModalOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in"
-          onClick={() => setIsHelpModalOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl p-6 border border-zinc-200 space-y-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setIsHelpModalOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 hover:text-zinc-900 transition-colors"
-            >
-              <span className="material-symbols-outlined text-[18px]">close</span>
-            </button>
-
-            <div className="text-center space-y-1">
-              <div className="w-10 h-10 rounded-full bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center mx-auto mb-2">
-                <span className="material-symbols-outlined text-[22px]">contact_support</span>
-              </div>
-              <h3 className="font-editorial font-bold text-base text-zinc-950">Need Invitation Code?</h3>
-              <p className="font-body text-xs text-zinc-500">
-                Marriage passcodes are printed on physical wedding cards or sent via WhatsApp groups.
-              </p>
-            </div>
-
-            <div className="space-y-2 text-xs">
-              <div className="p-3 rounded-lg bg-zinc-50 border border-zinc-200">
-                <span className="font-semibold block text-zinc-900">1. Check your WhatsApp Invitation</span>
-                <span className="text-zinc-500">Look for a 6-character code like RAHUL24 or VIKPRI24.</span>
-              </div>
-              <div className="p-3 rounded-lg bg-zinc-50 border border-zinc-200">
-                <span className="font-semibold block text-zinc-900">2. Scan Physical Table Standee</span>
-                <span className="text-zinc-500">Each reception banquet table has a direct QR code for instant entry.</span>
-              </div>
-            </div>
-
-            <button
-              onClick={() => {
-                applyPreset('RAHUL24');
-                setIsHelpModalOpen(false);
-              }}
-              type="button"
-              className="w-full h-10 rounded-lg bg-[#C81E38] text-white font-body text-xs font-semibold hover:opacity-95 transition-opacity"
-            >
-              Load Demo Wedding (Rahul &amp; Anjali)
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 3: PASSCODE UNLOCK MODAL */}
-      {isModalOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-md animate-in fade-in"
-          onClick={() => setIsModalOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 sm:p-8 flex flex-col space-y-6 border border-zinc-200"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 hover:text-zinc-900 transition-colors"
-            >
-              <span className="material-symbols-outlined text-[18px]">close</span>
-            </button>
-
-            <div className="flex flex-col items-center text-center space-y-2">
-              <div className="w-12 h-12 rounded-full bg-[#C81E38]/10 flex items-center justify-center text-[#C81E38] mb-1">
-                <span className="material-symbols-outlined text-[24px]">key</span>
-              </div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 text-[#C81E38] text-xs font-semibold uppercase">
-                <span className="material-symbols-outlined text-[14px]">verified</span>
-                <span>{modalCouple}</span>
-              </div>
-              <h3 className="font-editorial text-2xl font-bold text-zinc-950">
-                Enter Marriage Code
-              </h3>
-              <p className="font-body text-xs text-zinc-500">
-                Enter the invitation passkey provided on your wedding invite card.
-              </p>
-            </div>
-
-            {/* PIN boxes */}
-            <div className="flex items-center justify-center gap-2 sm:gap-2.5">
-              {[0, 1, 2, 3, 4, 5].map((index) => (
-                <input
-                  key={index}
-                  type="text"
-                  maxLength={1}
-                  value={pinDigits[index]}
-                  onChange={(e) => handleDigitChange(index, e.target.value)}
-                  className="w-11 sm:w-12 h-12 text-center font-display text-xl font-bold uppercase rounded-xl border border-zinc-300 bg-zinc-50 text-zinc-900 focus:border-[#C81E38] focus:ring-1 focus:ring-[#C81E38] focus:outline-none shadow-inner"
-                />
-              ))}
-            </div>
-
-            {authError && (
-              <div className="text-xs text-red-600 text-center font-medium bg-red-50 py-2 rounded-lg">
-                {authError}
-              </div>
-            )}
-
-            <button
-              onClick={() => handleUnlockProceed(modalCode)}
-              disabled={isVerifying}
-              className="w-full h-11 rounded-xl bg-[#0A0A0C] hover:bg-[#C81E38] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-sm transition-all duration-300 disabled:opacity-50"
-            >
-              {isVerifying ? (
-                <>
-                  <span className="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
-                  <span>Verifying Credentials...</span>
-                </>
-              ) : (
-                <>
-                  <span>Decrypt Celebration Vault</span>
-                  <span className="material-symbols-outlined text-[18px] text-[#C81E38]">verified_user</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 4: POLICY POPUP */}
-      {isPolicyModalOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm animate-in fade-in"
-          onClick={() => setIsPolicyModalOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 border border-zinc-200 space-y-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setIsPolicyModalOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 hover:text-zinc-950 transition-colors"
-            >
-              <span className="material-symbols-outlined text-[18px]">close</span>
-            </button>
-
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[22px]">{policyData.icon}</span>
-              </div>
-              <h3 className="font-editorial font-bold text-lg text-zinc-950">{policyData.title}</h3>
-            </div>
-
-            <p className="font-body text-xs text-zinc-600 leading-relaxed">
-              {policyData.desc}
-            </p>
-
-            <div className="flex justify-end pt-2">
-              <button
-                onClick={() => setIsPolicyModalOpen(false)}
-                className="px-4 py-2 rounded-lg bg-[#C81E38] text-white text-xs font-semibold hover:opacity-95 transition-all"
-              >
-                Acknowledge
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 5: DEMO SHOWCASE (Rahul & Anjali) */}
-      {isShowcaseOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/70 backdrop-blur-md animate-in fade-in"
-          onClick={() => setIsShowcaseOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-zinc-200 flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="relative h-56 sm:h-64 bg-black overflow-hidden">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT_yf8HUr15vJOdqxd57TrvYiXOxiwihldlvBX83jJMQK0LhR75KY3pRW7U04j1kjv7l1aUB0yhnzQ79PlTgUxcoxUIvuyZuGCwWKOBl83Kw4-89gVR5UWU6-YA-6j9qBB49TNa_mOVE9MMEuBnlRa8eBSI3jeOre4nT8PhlAWT1z1nrK8HoeytF_jEJgsZpwbIyNcabx9fyu00k70kuiU_VTUSBM-6QjRTBlQI2Y"
-                alt="Rahul & Anjali"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20" />
-              <button
-                onClick={() => setIsShowcaseOpen(false)}
-                className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/70 transition-colors"
-              >
-                <span className="material-symbols-outlined text-[20px]">close</span>
-              </button>
-              <div className="absolute bottom-4 left-6 right-6 text-white">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#ffb3b3]">Live Demonstration Vault</span>
-                <h3 className="font-editorial text-2xl sm:text-3xl font-bold">Rahul &amp; Anjali’s Coastal Wedding</h3>
-                <p className="text-xs text-zinc-300">The Leela Palace, South Goa • 6 Interactive Ceremonies</p>
-              </div>
-            </div>
-
-            <div className="p-6 space-y-5">
-              <div className="grid grid-cols-3 gap-3 text-center">
-                <div className="p-3 rounded-xl bg-zinc-100">
-                  <span className="block font-editorial text-xl font-bold text-[#C81E38]">520</span>
-                  <span className="text-[11px] text-zinc-600 uppercase font-semibold">Candid Photos</span>
-                </div>
-                <div className="p-3 rounded-xl bg-zinc-100">
-                  <span className="block font-editorial text-xl font-bold text-zinc-950">8</span>
-                  <span className="text-[11px] text-zinc-600 uppercase font-semibold">Live Streams</span>
-                </div>
-                <div className="p-3 rounded-xl bg-zinc-100">
-                  <span className="block font-editorial text-xl font-bold text-[#C81E38]">184</span>
-                  <span className="text-[11px] text-zinc-600 uppercase font-semibold">Guests Engaged</span>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-end gap-3 pt-2">
-                <button
-                  onClick={() => setIsShowcaseOpen(false)}
-                  className="px-4 py-2.5 rounded-xl border border-zinc-200 text-xs font-semibold hover:bg-zinc-100 transition-colors"
-                >
-                  Close
-                </button>
-                <Link
-                  href="/marriage/rahul24"
-                  className="px-5 py-2.5 rounded-xl bg-[#0A0A0C] hover:bg-[#C81E38] text-white text-xs font-semibold shadow-sm transition-all duration-300 flex items-center gap-1.5"
-                >
-                  <span>Launch Live Guest Dashboard</span>
-                  <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 6: GUEST EXPERIENCE SUITE */}
-      {isGuestSuiteOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/70 backdrop-blur-md animate-in fade-in"
-          onClick={() => setIsGuestSuiteOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl p-6 sm:p-8 border border-zinc-200 space-y-5"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setIsGuestSuiteOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-500 hover:text-zinc-950 transition-colors"
-            >
-              <span className="material-symbols-outlined text-[18px]">close</span>
-            </button>
-
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-rose-50 text-[#C81E38] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[26px]">celebration</span>
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-9 h-9 rounded-xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center border border-[#C81E38]/30">
+                <span className="material-symbols-outlined text-[20px]">qr_code_scanner</span>
               </div>
               <div>
-                <h3 className="font-editorial text-xl font-bold text-zinc-950">Guest Experience Suite</h3>
-                <p className="text-xs text-zinc-500">Frictionless wedding participation for every family member</p>
+                <h3 className="font-editorial text-lg font-bold text-[#0A0A0C]">Scan Table Standee QR</h3>
+                <p className="text-[11px] text-neutral-500">Position camera over your dining table standee card</p>
               </div>
             </div>
 
-            <div className="space-y-3 text-xs">
-              <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200 flex items-start gap-3">
-                <span className="material-symbols-outlined text-[#C81E38] text-[20px] mt-0.5">qr_code_2</span>
-                <div>
-                  <h4 className="font-semibold text-zinc-950 text-xs">Zero-Download QR Camera Access</h4>
-                  <p className="text-zinc-500 text-[11px]">Guests scan physical banquet table placards to upload candid shots instantly without app installs.</p>
-                </div>
+            <div className="relative aspect-square max-w-[280px] mx-auto rounded-xl overflow-hidden bg-neutral-900 border-2 border-[#C81E38]/60 flex items-center justify-center my-4 group shadow-inner">
+              <div className="absolute inset-4 border border-dashed border-white/40 rounded-lg pointer-events-none flex items-center justify-center">
+                <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-[#C81E38] to-transparent animate-pulse shadow-[0_0_12px_#C81E38]"></div>
               </div>
-
-              <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200 flex items-start gap-3">
-                <span className="material-symbols-outlined text-[#C81E38] text-[20px] mt-0.5">download</span>
-                <div>
-                  <h4 className="font-semibold text-zinc-950 text-xs">Dynamic Digital Pass &amp; Invitation Export</h4>
-                  <p className="text-zinc-500 text-[11px]">Personalized itinerary pass generated client-side via html2canvas without consuming server compute.</p>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200 flex items-start gap-3">
-                <span className="material-symbols-outlined text-[#C81E38] text-[20px] mt-0.5">stream</span>
-                <div>
-                  <h4 className="font-semibold text-zinc-950 text-xs">Real-Time Wishes &amp; Live Tickers</h4>
-                  <p className="text-zinc-500 text-[11px]">Interactive ceremony tickers broadcast loving messages and toasts from guests worldwide.</p>
-                </div>
-              </div>
+              <p className="text-xs text-white/60 text-center px-6">Camera Viewfinder Active<br /><span className="text-[10px] text-[#FFB3B3]">Hold steady over table QR code</span></p>
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                onClick={() => setIsGuestSuiteOpen(false)}
-                className="px-4 py-2.5 rounded-xl border border-zinc-200 text-xs font-semibold hover:bg-zinc-100 transition-colors"
-              >
-                Done
-              </button>
-              <Link
-                href="/guest/upload?code=RAHUL24"
-                className="px-5 py-2.5 rounded-xl bg-[#0A0A0C] hover:bg-[#C81E38] text-white text-xs font-semibold shadow-sm transition-all duration-300 flex items-center gap-1.5"
-              >
-                <span>Try Venue QR Uploader</span>
-                <span className="material-symbols-outlined text-[16px]">qr_code</span>
-              </Link>
+            <div className="space-y-3">
+              <label className="block text-xs font-semibold text-neutral-700">Or type 6-character Passcode manually:</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  maxLength={8}
+                  placeholder="e.g. RAHUL24"
+                  value={fullCode}
+                  onChange={(e) => {
+                    const chars = e.target.value.toUpperCase().split('').slice(0, 6);
+                    setPinDigits(chars);
+                  }}
+                  className="flex-1 h-10 px-3 bg-neutral-50 border border-neutral-300 rounded-xl text-center text-sm font-bold tracking-widest text-[#0A0A0C] uppercase focus:outline-none focus:border-[#C81E38] focus:bg-white"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (fullCode) {
+                      router.push(`/marriage/${fullCode.toLowerCase()}`);
+                    }
+                  }}
+                  className="px-4 h-10 rounded-xl bg-[#C81E38] hover:bg-[#9E1B32] text-white text-xs font-bold flex items-center justify-center transition-all shadow-sm"
+                >
+                  Unlock
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Concierge Modal */}
+      {isConciergeModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-sm bg-white rounded-2xl border border-neutral-200 p-6 shadow-2xl relative text-[#0A0A0C]">
+            <button
+              onClick={() => setIsConciergeModalOpen(false)}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black"
+            >
+              <span className="material-symbols-outlined text-[18px]">close</span>
+            </button>
+            <div className="flex items-center gap-2.5 mb-3">
+              <span className="w-8 h-8 rounded-xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center">
+                <span className="material-symbols-outlined text-[18px]">support_agent</span>
+              </span>
+              <h3 className="font-editorial text-lg font-bold">Host Concierge Desk</h3>
+            </div>
+            <p className="text-xs text-neutral-600 leading-relaxed mb-4">
+              Need assistance finding your table standee code or connecting to the WebRTC private live feed? Contact the couple&apos;s wedding coordinator.
+            </p>
+            <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-200 text-xs space-y-1 mb-4">
+              <p className="font-semibold text-[#0A0A0C]">Emergency Host Hotline</p>
+              <p className="text-neutral-500 font-mono">+91 98765 43210 (Desk Table 1)</p>
+            </div>
+            <button
+              onClick={() => setIsConciergeModalOpen(false)}
+              className="w-full py-2.5 rounded-xl bg-[#C81E38] text-white text-xs font-bold"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* FOOTER */}
+      <footer className="mt-auto border-t border-neutral-200 bg-[#FAFAFA] py-6 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
+          <div className="flex items-center gap-2">
+            <span className="font-editorial tracking-widest uppercase font-bold text-[#0A0A0C]">Make My Marriage</span>
+            <span>• Pure White &amp; Crimson Luxury Wedding Cloud</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-[#C81E38] font-medium">₹0 Serverless Architecture • GridFS Streaming</span>
+            <Link href="/admin/login" className="hover:text-black transition-colors font-semibold">
+              Host Concierge
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
