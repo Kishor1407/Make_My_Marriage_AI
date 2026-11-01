@@ -23,8 +23,17 @@ export default function WakingServerBanner() {
         clearTimeout(timeoutId);
         setIsWaking(false);
         setIsAwake(true);
-      } catch (err) {
-        console.warn('Backend ping error:', err);
+      } catch {
+        // Silently retry in 3 seconds if server is still starting
+        setTimeout(async () => {
+          try {
+            await api.get('/health');
+            setIsWaking(false);
+            setIsAwake(true);
+          } catch {
+            // Server offline or waking
+          }
+        }, 3000);
       }
     };
 

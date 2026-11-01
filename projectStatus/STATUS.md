@@ -108,6 +108,8 @@
 | `9e02769` | `feat(auth): implement full end-to-end admin registration, login, session rehydration, and guest passcode unlock` | Nov 1, 2026 |
 | `75ea5b7` | `docs: sync git log in STATUS.md for commit 9e02769` | Nov 1, 2026 |
 | `303f625` | `feat(db): connect MongoDB Atlas cluster, configure GridFS bucket, and verify live auth API endpoints` | Nov 1, 2026 |
+| `81e33b0` | `docs: sync git log in STATUS.md for commit 303f625` | Nov 1, 2026 |
+| `pending` | `fix(network): expand CORS origin matching for multi-port local dev, bind 0.0.0.0, and add silent health retries` | Nov 1, 2026 |
 
 ---
 
