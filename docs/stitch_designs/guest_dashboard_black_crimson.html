@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Interactive Guest Experience - Rahul &amp; Anjali | Make My Marriage</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base { html, body { margin:0; padding:0; } }
+    ::-webkit-scrollbar { display:none; }
+    @keyframes floatParticle {
+      0% { opacity: 0; transform: translateY(0) scale(0.6) rotate(0deg); }
+      20% { opacity: 1; transform: translateY(-40px) scale(1.1) rotate(15deg); }
+      75% { opacity: 0.9; transform: translateY(-130px) scale(1.25) rotate(-20deg); }
+      100% { opacity: 0; transform: translateY(-220px) scale(0.9) rotate(35deg); }
+    }
+    .celebration-particle {
+      position: fixed;
+      pointer-events: none;
+      animation: floatParticle 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      z-index: 120;
+    }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes heartBurst {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.35); }
+      100% { transform: scale(1); }
+    }
+    .heart-burst { animation: heartBurst 0.35s ease-out; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "#131315",
+            surface: "#131315",
+            "surface-container-lowest": "#0e0e10",
+            "surface-container-low": "#1c1b1d",
+            "surface-container": "#201f21",
+            "surface-container-high": "#2a2a2c",
+            "surface-container-highest": "#353437",
+            primary: "#ffb3b3",
+            "primary-container": "#c81e38",
+            "primary-crimson": "#c81e38",
+            "crimson-dark": "#9e1b32",
+            "crimson-deep": "#680014",
+            secondary: "#ffb3b5",
+            outline: "#5b4040",
+            "on-surface": "#e5e1e4",
+            "on-surface-variant": "#e4bdbd"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"],
+            display: ["Playfair Display", "serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-background text-on-surface font-sans antialiased transition-colors duration-300 min-h-screen flex flex-col selection:bg-primary-container selection:text-white">
+<!-- Floating Toast Notifications -->
+<div class="fixed top-20 right-5 z-[100] flex flex-col gap-2.5 pointer-events-none" id="toast-shelf"></div>
+<!-- Global Application Header -->
+<header class="fixed top-0 left-0 w-full z-50 bg-[#131315]/90 backdrop-blur-md border-b border-white/10 transition-colors">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<a class="flex items-center gap-2.5" href="#" onclick="showToast('Make My Marriage Luxury Wedding Portal', 'info'); return false;">
+<div class="h-8 flex items-center tracking-widest uppercase font-display font-bold text-sm text-white">
+  MAKE MY MARRIAGE
+</div>
+</a>
+<span class="hidden sm:inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-[#c81e38]/15 text-[#ffb3b3] border border-[#c81e38]/30">
+  Guest Access
+</span>
+</div>
+<nav class="hidden md:flex items-center gap-1 bg-[#201f21] p-1 rounded-xl border border-white/5">
+<button class="px-3.5 py-1.5 text-xs font-medium text-white/70 hover:text-white rounded-lg transition-colors" onclick="showToast('Viewing All Celebrations directory', 'info')">Explore Marriages</button>
+<button class="px-3.5 py-1.5 text-xs font-semibold bg-[#c81e38] text-white shadow-sm rounded-lg">Guest Experience</button>
+<button class="px-3.5 py-1.5 text-xs font-medium text-white/70 hover:text-white rounded-lg transition-colors" onclick="showToast('Opening Host/Planner Portal', 'info')">Admin Portal</button>
+</nav>
+<div class="flex items-center gap-2.5">
+<!-- Theme Toggle Button -->
+<button class="w-9 h-9 rounded-xl flex items-center justify-center text-white/70 hover:bg-[#2a2a2c] hover:text-white transition-colors border border-white/5" id="theme-btn" onclick="toggleTheme()" title="Toggle Ambience Mode">
+<span class="material-symbols-outlined text-[20px] text-[#ffb3b3]">diamond</span>
+</button>
+<!-- Passcode Modal Trigger -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f21] hover:bg-[#2a2a2c] text-xs font-semibold text-white/90 border border-white/10 transition-colors" onclick="openPasscodeModal()">
+<span class="material-symbols-outlined text-[16px] text-[#ffb3b3]">key</span>
+<span>Switch Code</span>
+</button>
+<!-- Guest Profile Badge -->
+<button class="w-8 h-8 rounded-full overflow-hidden ring-2 ring-[#c81e38]/60 hover:ring-[#c81e38] transition-all" onclick="showToast('Signed in: Rohan Varma (Guest of Groom • Table 4)', 'success')">
+<img alt="Guest avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsuZcSmvPOnIHI-AIBoJdXcK4WjK5lALRhAArHk190HFZ0dLtfFdk5k21kpQLu8QleKGfrWPvxU7Yop2Q4vzZt_hyLkhm39mJhzmTgJNp48ImeLxEvBje-hzevRa1S8XzmRGsSsx8Kd6pJyknqGqbVc6P-QHvPP_n1cpCTzJRhARrpCZ_z_0CMDgswb_8Cb0LdBQjO0KOyfhqlXu-QGUpOoc_R_zgTKS_COgda7Dc"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Container -->
+<main class="flex-1 pt-16">
+<!-- Welcoming Header with Couple & Quick Actions -->
+<section class="bg-[#1c1b1d] border-b border-white/10 py-5 transition-colors">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="w-13 h-13 px-3 py-2.5 rounded-2xl bg-gradient-to-br from-[#c81e38] via-[#9e1b32] to-[#680014] text-white flex items-center justify-center font-display font-bold text-xl shadow-lg ring-1 ring-white/20">
+  R&amp;A
+</div>
+<div>
+<div class="flex items-center gap-2.5">
+<h1 class="font-display font-bold text-2xl sm:text-3xl text-white tracking-tight">
+  Rahul &amp; Anjali
+</h1>
+<span class="material-symbols-outlined text-[20px] text-[#ffb3b3]" style="font-variation-settings: 'FILL' 1;" title="Verified Celebration Vault">verified</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#c81e38]/20 text-[#ffb3b3] border border-[#c81e38]/40" id="active-event-status-pill">
+<span class="w-1.5 h-1.5 rounded-full bg-[#c81e38] animate-pulse"></span>
+<span>Haldi Live</span>
+</span>
+</div>
+<p class="text-xs text-white/60 flex items-center gap-2 mt-1">
+<span>The Leela Palace Seaside, Goa</span>
+<span class="text-white/30">•</span>
+<span class="text-[#ffb3b3] font-medium">145 Photos &amp; 3 Live Reels</span>
+<span class="text-white/30">•</span>
+<span class="text-white/90 font-medium">320 Guests Connected</span>
+</p>
+</div>
+</div>
+<!-- Quick Interaction Bar -->
+<div class="flex items-center gap-2 flex-wrap">
+<button class="px-3.5 py-2 rounded-xl bg-[#201f21] hover:bg-[#2a2a2c] text-white/90 text-xs font-semibold flex items-center gap-1.5 border border-white/10 transition-colors" onclick="shareInviteLink()">
+<span class="material-symbols-outlined text-[16px] text-[#ffb3b3]">share</span>
+<span>Share</span>
+</button>
+<button class="px-3.5 py-2 rounded-xl bg-[#c81e38]/15 hover:bg-[#c81e38]/25 text-[#ffb3b3] border border-[#c81e38]/40 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm" onclick="openWishesModal()">
+<span class="material-symbols-outlined text-[16px] text-[#ffb3b3]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span>Send Blessing</span>
+</button>
+<button class="px-3.5 py-2 rounded-xl bg-[#201f21] hover:bg-[#2a2a2c] text-white/90 text-xs font-semibold flex items-center gap-1.5 border border-white/10 transition-colors" onclick="downloadAllMemoriesZip()">
+<span class="material-symbols-outlined text-[16px] text-white/70">download</span>
+<span>All (ZIP)</span>
+</button>
+<button class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#c81e38] to-[#9e1b32] hover:brightness-110 text-white text-xs font-bold flex items-center gap-1.5 shadow-md active:scale-95 transition-all border border-white/15" onclick="openUploadModal()">
+<span class="material-symbols-outlined text-[16px]">add_a_photo</span>
+<span>Drop Media</span>
+</button>
+</div>
+</div>
+<!-- LUXURY: Live Wishes & Shagun Experience Section -->
+<div class="mt-5 border-t border-white/10 pt-4 px-4 sm:px-6 bg-gradient-to-b from-[#c81e38]/10 via-[#1c1b1d] to-[#131315]">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3.5">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c81e38] opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-[#c81e38]"></span>
+</span>
+<h2 class="font-display font-bold text-base sm:text-lg text-white flex items-center gap-1.5 tracking-wide">
+<span>Real-time Guest Blessings &amp; Shagun</span>
+</h2>
+</div>
+<span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold bg-[#2a2a2c] text-[#ffb3b3] border border-white/10">
+<span class="material-symbols-outlined text-[13px] text-[#ffb3b3]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span id="live-cheer-counter">1,428 cheers showered</span>
+</span>
+</div>
+<!-- Quick One-Tap Floating Reactions Bar + Action Trigger -->
+<div class="flex items-center gap-2 flex-wrap justify-between sm:justify-end">
+<div class="flex items-center gap-1 bg-[#201f21] p-1 rounded-xl shadow-inner border border-white/10">
+<span class="text-[11px] font-medium text-white/50 px-1 hidden lg:inline">Quick Cheer:</span>
+<button class="px-2.5 py-1 rounded-lg hover:bg-[#c81e38]/30 hover:text-white text-xs font-medium text-white/80 transition-transform active:scale-125" onclick="triggerPetalBurst('✨')" title="Shine">✨ Shine</button>
+<button class="px-2.5 py-1 rounded-lg hover:bg-[#c81e38]/30 hover:text-white text-xs font-medium text-white/80 transition-transform active:scale-125" onclick="triggerPetalBurst('❤️')" title="Love">❤️ Love</button>
+<button class="px-2.5 py-1 rounded-lg hover:bg-[#c81e38]/30 hover:text-white text-xs font-medium text-white/80 transition-transform active:scale-125" onclick="triggerPetalBurst('🌹')" title="Rose Petals">🌹 Roses</button>
+<button class="px-2.5 py-1 rounded-lg hover:bg-[#c81e38]/30 hover:text-white text-xs font-medium text-white/80 transition-transform active:scale-125" onclick="triggerPetalBurst('🥂')" title="Toast">🥂 Cheers</button>
+<button class="px-2.5 py-1 rounded-lg hover:bg-[#c81e38]/30 hover:text-white text-xs font-medium text-white/80 transition-transform active:scale-125" onclick="triggerPetalBurst('🪔')" title="Aashirwaad">🪔 Aashirwaad</button>
+<button class="px-2.5 py-1 rounded-lg hover:bg-[#c81e38]/30 hover:text-white text-xs font-medium text-white/80 transition-transform active:scale-125" onclick="triggerPetalBurst('🧿')" title="Nazar Na Lage">🧿 Nazar</button>
+</div>
+<button class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#c81e38] to-[#9e1b32] hover:brightness-110 text-white text-xs font-bold shadow-md flex items-center gap-1.5 transition-all active:scale-95 border border-white/10" onclick="openWishesModal()">
+<span class="material-symbols-outlined text-[15px]">edit_note</span>
+<span>+ Add Blessing</span>
+</button>
+</div>
+</div>
+<!-- Live Wish Cards Carousel Ribbon -->
+<div class="relative group">
+<div class="flex gap-3 overflow-x-auto pb-2 pt-1 hide-scrollbar scroll-smooth" id="wishes-track">
+<!-- Card 1 -->
+<div class="min-w-[280px] sm:min-w-[310px] max-w-[320px] shrink-0 p-4 rounded-2xl bg-[#1c1b1d] border border-white/10 shadow-lg flex flex-col justify-between hover:border-[#c81e38]/60 transition-all">
+<div>
+<div class="flex items-center justify-between gap-2 mb-2">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#c81e38] to-[#ffb3b3] text-white font-bold text-xs flex items-center justify-center shadow-xs">
+  PK
+</div>
+<div>
+<h4 class="text-xs font-bold text-white leading-tight">Pooja &amp; Kabir</h4>
+<p class="text-[10px] text-[#ffb3b3] font-semibold tracking-wide">Bride's Bestie • Table 2</p>
+</div>
+</div>
+<span class="text-[10px] font-medium text-white/40">2m ago</span>
+</div>
+<p class="text-xs text-white/85 italic leading-relaxed">
+  "May your lives be showered with golden joy! Beautiful Haldi glow on both of you!"
+</p>
+<div class="mt-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a2a2c] text-[#ffb3b3] border border-[#c81e38]/30">
+  Golden Haldi Glow ✨
+</span>
+</div>
+</div>
+<div class="mt-3.5 pt-2.5 border-t border-white/5 flex items-center justify-between">
+<button class="flex items-center gap-1.5 text-xs text-white/60 hover:text-[#ffb3b3] transition-colors" onclick="likeWishCard(this)">
+<span class="material-symbols-outlined text-[16px] text-[#c81e38]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="card-likes-count text-[11px] font-bold text-white">24</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('❤️'); incrementCardReaction(this);" title="Love">❤️</button>
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('🌹'); incrementCardReaction(this);" title="Roses">🌹</button>
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('🥂'); incrementCardReaction(this);" title="Toast">🥂</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="min-w-[280px] sm:min-w-[310px] max-w-[320px] shrink-0 p-4 rounded-2xl bg-[#1c1b1d] border border-white/10 shadow-lg flex flex-col justify-between hover:border-[#c81e38]/60 transition-all">
+<div>
+<div class="flex items-center justify-between gap-2 mb-2">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#9e1b32] to-[#c81e38] text-white font-bold text-xs flex items-center justify-center shadow-xs">
+  ND
+</div>
+<div>
+<h4 class="text-xs font-bold text-white leading-tight">Nani &amp; Dadu</h4>
+<p class="text-[10px] text-[#ffb3b3] font-semibold tracking-wide">Elders • Blessings Vault</p>
+</div>
+</div>
+<span class="text-[10px] font-medium text-white/40">8m ago</span>
+</div>
+<p class="text-xs text-white/85 italic leading-relaxed">
+  "Lots of blessings, stay happy and keep laughing together always. Sada Sukhi Raho!"
+</p>
+<div class="mt-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a2a2c] text-[#ffb3b3] border border-[#c81e38]/30">
+  Aashirwaad 🪔
+</span>
+</div>
+</div>
+<div class="mt-3.5 pt-2.5 border-t border-white/5 flex items-center justify-between">
+<button class="flex items-center gap-1.5 text-xs text-white/60 hover:text-[#ffb3b3] transition-colors" onclick="likeWishCard(this)">
+<span class="material-symbols-outlined text-[16px] text-[#c81e38]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="card-likes-count text-[11px] font-bold text-white">52</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('❤️'); incrementCardReaction(this);">❤️</button>
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('🪔'); incrementCardReaction(this);">🪔</button>
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('🧿'); incrementCardReaction(this);">🧿</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="min-w-[280px] sm:min-w-[310px] max-w-[320px] shrink-0 p-4 rounded-2xl bg-[#1c1b1d] border border-white/10 shadow-lg flex flex-col justify-between hover:border-[#c81e38]/60 transition-all">
+<div>
+<div class="flex items-center justify-between gap-2 mb-2">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-neutral-800 to-[#c81e38] text-white font-bold text-xs flex items-center justify-center shadow-xs">
+  TG
+</div>
+<div>
+<h4 class="text-xs font-bold text-white leading-tight">Team Groom</h4>
+<p class="text-[10px] text-[#ffb3b3] font-semibold tracking-wide">College Crew • Stage 1</p>
+</div>
+</div>
+<span class="text-[10px] font-medium text-white/40">14m ago</span>
+</div>
+<p class="text-xs text-white/85 italic leading-relaxed">
+  "Rahul brother! Dance solo rehearsal is done. Sangeet stage belongs to us tonight!"
+</p>
+<div class="mt-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a2a2c] text-[#ffb3b3] border border-[#c81e38]/30">
+  Sangeet Ready 💃🕺
+</span>
+</div>
+</div>
+<div class="mt-3.5 pt-2.5 border-t border-white/5 flex items-center justify-between">
+<button class="flex items-center gap-1.5 text-xs text-white/60 hover:text-[#ffb3b3] transition-colors" onclick="likeWishCard(this)">
+<span class="material-symbols-outlined text-[16px] text-white/40">favorite</span>
+<span class="card-likes-count text-[11px] font-bold text-white">19</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('🔥'); incrementCardReaction(this);">🔥</button>
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('🥂'); incrementCardReaction(this);">🥂</button>
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('✨'); incrementCardReaction(this);">✨</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="min-w-[280px] sm:min-w-[310px] max-w-[320px] shrink-0 p-4 rounded-2xl bg-[#1c1b1d] border border-white/10 shadow-lg flex flex-col justify-between hover:border-[#c81e38]/60 transition-all">
+<div>
+<div class="flex items-center justify-between gap-2 mb-2">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#680014] to-[#c81e38] text-white font-bold text-xs flex items-center justify-center shadow-xs">
+  UV
+</div>
+<div>
+<h4 class="text-xs font-bold text-white leading-tight">Uncle Vijay &amp; Neha</h4>
+<p class="text-[10px] text-[#ffb3b3] font-semibold tracking-wide">Chachu &amp; Chachi • London 🇬🇧</p>
+</div>
+</div>
+<span class="text-[10px] font-medium text-white/40">22m ago</span>
+</div>
+<p class="text-xs text-white/85 italic leading-relaxed">
+  "Sending warmest hugs &amp; hearty congratulations from London! Gorgeous decor and smiles!"
+</p>
+<div class="mt-2.5 flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a2a2c] text-[#ffb3b3] border border-[#c81e38]/30">
+  Soulmates Forever 💛
+</span>
+</div>
+</div>
+<div class="mt-3.5 pt-2.5 border-t border-white/5 flex items-center justify-between">
+<button class="flex items-center gap-1.5 text-xs text-white/60 hover:text-[#ffb3b3] transition-colors" onclick="likeWishCard(this)">
+<span class="material-symbols-outlined text-[16px] text-[#c81e38]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="card-likes-count text-[11px] font-bold text-white">37</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('❤️'); incrementCardReaction(this);">❤️</button>
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('🌹'); incrementCardReaction(this);">🌹</button>
+<button class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center" onclick="triggerPetalBurst('✨'); incrementCardReaction(this);">✨</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Carousel Scroll Arrow Helpers -->
+<button class="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-8 h-8 rounded-full bg-[#201f21] shadow-xl border border-white/10 text-white items-center justify-center hover:bg-[#c81e38] transition-all" onclick="scrollWishesTrack(-280)" title="Scroll left">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-8 h-8 rounded-full bg-[#201f21] shadow-xl border border-white/10 text-white items-center justify-center hover:bg-[#c81e38] transition-all" onclick="scrollWishesTrack(280)" title="Scroll right">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Main Content Area -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-7 space-y-7">
+<!-- 6-Ceremony Switcher Bar -->
+<div class="overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
+<div class="flex items-center gap-2 min-w-max p-1.5 bg-[#1c1b1d] rounded-2xl border border-white/10" id="ceremony-tabs">
+<button class="ceremony-tab flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-white/70 hover:text-white transition-all" data-event="engagement" onclick="switchEvent('engagement')">
+<span class="material-symbols-outlined text-[16px]">diamond</span>
+<span>Engagement</span>
+<span class="px-1.5 py-0.5 rounded-full bg-[#2a2a2c] text-[10px]">24</span>
+</button>
+<button class="ceremony-tab flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-white/70 hover:text-white transition-all" data-event="mehndi" onclick="switchEvent('mehndi')">
+<span class="material-symbols-outlined text-[16px]">spa</span>
+<span>Mehndi</span>
+<span class="px-1.5 py-0.5 rounded-full bg-[#2a2a2c] text-[10px]">38</span>
+</button>
+<button class="ceremony-tab active flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#c81e38] to-[#9e1b32] text-white font-bold shadow-md ring-1 ring-white/20 transition-all" data-event="haldi" onclick="switchEvent('haldi')">
+<span class="material-symbols-outlined text-[16px] text-white" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+<span>Haldi</span>
+<span class="px-2 py-0.5 rounded-full bg-black/40 text-[#ffb3b3] text-[10px] font-bold">Active • 46</span>
+</button>
+<button class="ceremony-tab flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-white/70 hover:text-white transition-all" data-event="sangeet" onclick="switchEvent('sangeet')">
+<span class="material-symbols-outlined text-[16px]">music_note</span>
+<span>Sangeet</span>
+<span class="px-1.5 py-0.5 rounded-full bg-[#2a2a2c] text-[10px]">Tonight</span>
+</button>
+<button class="ceremony-tab flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-white/70 hover:text-white transition-all" data-event="marriage" onclick="switchEvent('marriage')">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+<span>Wedding</span>
+<span class="px-1.5 py-0.5 rounded-full bg-[#2a2a2c] text-[10px]">Tomorrow</span>
+</button>
+<button class="ceremony-tab flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-white/70 hover:text-white transition-all" data-event="others" onclick="switchEvent('others')">
+<span class="material-symbols-outlined text-[16px]">interests</span>
+<span>Afterparty</span>
+<span class="px-1.5 py-0.5 rounded-full bg-[#2a2a2c] text-[10px]">5</span>
+</button>
+</div>
+</div>
+<!-- Active Ceremony Focus (Live Stream & Digital Invitation) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Live Stream & Key Details (7 Cols) -->
+<div class="lg:col-span-7 bg-[#1c1b1d] rounded-2xl border border-white/10 overflow-hidden shadow-xl flex flex-col transition-colors">
+<div class="relative aspect-video bg-black group overflow-hidden cursor-pointer" onclick="openLivePlayerModal()">
+<img alt="Haldi ceremony" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" id="event-stream-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXToPktDIvWBZh-n4fPZKZRABxtpV9HSwbb3fpd5yxYMWWT7HNp6PG_wH1MFu4tXzaAsdmpPiUPbdrA5OVKioECHzexLD9HPWasiD9q4RYSFsbeRjwtqRfcpZYoXjzDzW5T5UXK01-6XZYT7hvlDPWadWI3j36Nu1_VmlDudf3Upvv-C4y1DuJ5g7Xvc-xRR-ODdXr5WMJ9BcR_m7H6fsOxMfU5Fz6tmegARyfZMw"/>
+<!-- Badges -->
+<div class="absolute top-3 left-3 flex items-center gap-2">
+<span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#c81e38] text-white flex items-center gap-1.5 shadow" id="event-stream-badge">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+<span id="event-stream-badge-text">Live 1080p Stream</span>
+</span>
+<span class="px-2.5 py-1 rounded-full text-[11px] bg-black/70 backdrop-blur-md text-white font-medium flex items-center gap-1 border border-white/10">
+<span class="material-symbols-outlined text-[13px] text-[#ffb3b3]">visibility</span>
+<span id="event-stream-viewers">84 Watching</span>
+</span>
+</div>
+<!-- Play button trigger -->
+<div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/45 transition-colors">
+<div class="w-14 h-14 rounded-full bg-white text-[#c81e38] flex items-center justify-center shadow-2xl group-hover:scale-110 active:scale-95 transition-all ring-4 ring-white/20">
+<span class="material-symbols-outlined text-[32px]">play_arrow</span>
+</div>
+</div>
+<!-- Stream info strip -->
+<div class="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-between text-white text-xs">
+<span class="flex items-center gap-1 text-white/80">
+<span class="material-symbols-outlined text-[14px] text-[#ffb3b3]">hub</span>
+<span>WebRTC Mesh • 42ms Ultra Low Latency</span>
+</span>
+<span class="font-medium text-white/90" id="event-camera-label">Camera: Lawn Stage Rig A</span>
+</div>
+</div>
+<!-- Ceremony Details -->
+<div class="p-5 sm:p-6 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<span class="text-[11px] font-bold text-[#ffb3b3] uppercase tracking-wider" id="event-sequence-label">Ceremony 03 of 06</span>
+<h2 class="font-display font-bold text-xl sm:text-2xl text-white mt-0.5" id="event-headline">The Haldi &amp; Floral Shower</h2>
+</div>
+<span class="px-3 py-1 rounded-full text-xs font-bold bg-[#c81e38]/20 text-[#ffb3b3] border border-[#c81e38]/40" id="event-chip-status">
+  In Progress
+</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+<div class="p-3 rounded-xl bg-[#201f21] border border-white/5">
+<p class="text-[10px] uppercase font-bold text-white/40">Date</p>
+<p class="text-xs font-semibold text-white mt-0.5" id="event-date">Sat, Dec 14, 2024</p>
+</div>
+<div class="p-3 rounded-xl bg-[#201f21] border border-white/5">
+<p class="text-[10px] uppercase font-bold text-white/40">Time</p>
+<p class="text-xs font-semibold text-white mt-0.5" id="event-time">10:30 AM - 1:00 PM</p>
+</div>
+<div class="p-3 rounded-xl bg-[#201f21] border border-white/5">
+<p class="text-[10px] uppercase font-bold text-white/40">Venue</p>
+<p class="text-xs font-semibold text-white mt-0.5 truncate" id="event-venue">Sunbreeze Beach Lawn</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Official Invitation Card (5 Cols) -->
+<div class="lg:col-span-5 bg-[#1c1b1d] rounded-2xl border border-white/10 p-5 sm:p-6 flex flex-col justify-between shadow-xl transition-colors">
+<div>
+<div class="flex items-center justify-between pb-3.5 border-b border-white/5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-[#ffb3b3]">mark_email_read</span>
+<h3 class="font-display font-bold text-lg text-white">Official Wedding Invitation</h3>
+</div>
+<span class="px-2.5 py-0.5 rounded text-[10px] font-semibold bg-[#2a2a2c] text-[#ffb3b3] border border-white/10">Artisanal Suite</span>
+</div>
+<div class="relative aspect-[4/5] max-h-[340px] rounded-xl overflow-hidden bg-black/40 border border-white/10 flex items-center justify-center group cursor-pointer mt-4" onclick="openInviteModal()">
+<img alt="Artisanal invitation card" class="w-full h-full object-contain p-2 group-hover:scale-102 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk"/>
+<div class="absolute bottom-3 right-3">
+<button class="px-3 py-1.5 rounded-lg bg-black/80 backdrop-blur-md text-white text-xs font-semibold flex items-center gap-1.5 hover:bg-[#c81e38] transition-colors shadow border border-white/15">
+<span class="material-symbols-outlined text-[15px]">fullscreen</span>
+<span>View Card</span>
+</button>
+</div>
+</div>
+</div>
+<div class="pt-4 flex gap-2.5">
+<button class="flex-1 h-10 px-3 rounded-xl bg-[#201f21] hover:bg-[#2a2a2c] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border border-white/10" onclick="downloadInvitePdf()">
+<span class="material-symbols-outlined text-[16px] text-[#ffb3b3]">download</span>
+<span>Download PDF</span>
+</button>
+<button class="flex-1 h-10 px-3 rounded-xl bg-gradient-to-r from-[#c81e38]/20 to-[#9e1b32]/20 hover:from-[#c81e38]/40 hover:to-[#9e1b32]/40 text-[#ffb3b3] border border-[#c81e38]/40 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors" onclick="addInviteCalendar()">
+<span class="material-symbols-outlined text-[16px] text-[#ffb3b3]">calendar_add_on</span>
+<span>Add to Calendar</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Guest Media Feed Section -->
+<div class="pt-3 space-y-4">
+<!-- Gallery Controls -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex items-center gap-1 p-1 bg-[#1c1b1d] rounded-xl border border-white/10 w-fit">
+<button class="px-3.5 py-1.5 rounded-lg bg-[#c81e38] text-xs font-bold text-white shadow-sm flex items-center gap-1.5 transition-all" id="media-tab-photos" onclick="switchMediaType('photos')">
+<span class="material-symbols-outlined text-[16px]">image</span>
+<span>Photos (142)</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-white/60 hover:text-white flex items-center gap-1.5 transition-all" id="media-tab-videos" onclick="switchMediaType('videos')">
+<span class="material-symbols-outlined text-[16px]">videocam</span>
+<span>Videos (3)</span>
+</button>
+</div>
+<div class="flex items-center gap-1.5 flex-wrap" id="filter-pills">
+<button class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#c81e38] text-white shadow-sm" onclick="filterMoments('all', this)">All</button>
+<button class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#1c1b1d] text-white/70 hover:text-white hover:bg-[#2a2a2c] border border-white/5" onclick="filterMoments('bride', this)">Bride Side</button>
+<button class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#1c1b1d] text-white/70 hover:text-white hover:bg-[#2a2a2c] border border-white/5" onclick="filterMoments('groom', this)">Groom Side</button>
+<button class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#1c1b1d] text-white/70 hover:text-white hover:bg-[#2a2a2c] border border-white/5 flex items-center gap-1" onclick="filterMoments('favorites', this)">
+<span class="material-symbols-outlined text-[14px] text-[#ffb3b3]">star</span>
+<span>Favorites</span>
+</button>
+</div>
+</div>
+<!-- Responsive Moments Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="moments-grid">
+<!-- Card 1 -->
+<div class="moment-item group relative rounded-2xl overflow-hidden aspect-[4/5] bg-[#1c1b1d] shadow-md border border-white/10 cursor-pointer" data-tags="favorites bride" onclick="openLightbox(0)">
+<img alt="Couple by sunset beach" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6fO2qwvTXCfSdcSEAgwTCIMP1jaIcPkXdwV1FvCCfRf-5VXAht5OOoK8UVDtX1oKoT7d5ct1kJud_LU-NKa4K2WFtWFsbkcpXkVrOeiyWbILkWUk0yl1B0bLlluiXV-4HRdQKfXgX_tfqnEVrxhD9ovCQkgVUBOCAXAvTTc1-C8m24DOCobWWg9XTZrEW73NIl0UmbSPaiEJF3KsOxOvq6wQoNjplpbCLpORhFno"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-between">
+<div class="flex justify-end gap-1.5" onclick="event.stopPropagation()">
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-[#c81e38] flex items-center justify-center transition-colors" onclick="toggleCardLike(this, 0)">
+<span class="material-symbols-outlined text-[18px]">favorite_border</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 flex items-center justify-center transition-colors" onclick="downloadMomentFile('photo1.jpg')">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+<div>
+<p class="text-xs font-semibold text-white">Sneha Kapoor</p>
+<p class="text-[10px] text-white/70">12m ago • Sunset Lawn</p>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="moment-item group relative rounded-2xl overflow-hidden aspect-[4/5] bg-[#1c1b1d] shadow-md border border-white/10 cursor-pointer" data-tags="favorites groom" onclick="openLightbox(1)">
+<img alt="Floral haldi shower celebration" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6MRTTXoRrWySf_l-mY2bjxELks2XFvF5LT44DQdAGO0xbQLFiGIhqpDilArt9gzII0SiVZLlJRYDYBGCW2IVsCnslxsAECqYv_0S_Fw--JzfvYf2NSncO3EaSHLbcU_EdAlNcUmSQvm05uLZ7QsaYfb4qXSp5tnTDOSDlgNqXjP9YtJH8LI774fKWNBe7lXI1C4yFAiJFZ1FCkBesYbL_Oxko78nWRXO0moV9WEE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-between">
+<div class="flex justify-end gap-1.5" onclick="event.stopPropagation()">
+<button class="w-8 h-8 rounded-full bg-[#c81e38] text-white flex items-center justify-center transition-colors" onclick="toggleCardLike(this, 1)">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 flex items-center justify-center transition-colors" onclick="downloadMomentFile('photo2.jpg')">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+<div>
+<p class="text-xs font-semibold text-white">Amit Shah</p>
+<p class="text-[10px] text-white/70">28m ago • Floral Shower</p>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="moment-item group relative rounded-2xl overflow-hidden aspect-[4/5] bg-[#1c1b1d] shadow-md border border-white/10 cursor-pointer" data-tags="bride" onclick="openLightbox(2)">
+<img alt="Marigolds and brass Urli decor" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSAyS6GAi99VTMHIvTf5JSX-jf277X70o9FketT2aE27oDfeLaV9nnMWpVXdvr9GVCRz4cslwVGq5md1CgHRc6izT848ks8GgGbRKIEIjT8u6qi20tmhYD3Yceo7USOirHRfSdRw7pXHG5J5q5sk9Izw6vZYWqfRr1Ltf1hfzPeF2MRoN8TGaLmQWxKQbJcNBeQ6ZzdIzBAMrIv878VQBn2MdTkcttpbkD1yGWfeE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-between">
+<div class="flex justify-end gap-1.5" onclick="event.stopPropagation()">
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-[#c81e38] flex items-center justify-center transition-colors" onclick="toggleCardLike(this, 2)">
+<span class="material-symbols-outlined text-[18px]">favorite_border</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 flex items-center justify-center transition-colors" onclick="downloadMomentFile('photo3.jpg')">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+<div>
+<p class="text-xs font-semibold text-white">Priya Mehta</p>
+<p class="text-[10px] text-white/70">45m ago • Ritual Urli</p>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="moment-item group relative rounded-2xl overflow-hidden aspect-[4/5] bg-[#1c1b1d] shadow-md border border-white/10 cursor-pointer" data-tags="favorites groom" onclick="openLightbox(3)">
+<img alt="Friends dancing in yellow sunglasses" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBClr4MQqyHpa4W3AEfeX2NGZZ4YI7qsdIyiUxL_d73JwnskMbacxWB3W9-SZV5R1Z64QK_dg7a2LNHAj5YIskCv8GrWHGqBPnrkc0EOTbdFRv86Aag3c42paV6zh6zXFkiCndEhEtMBHZEBu8oAcVXje0K7spB3wiDMlIzDqRAHPAivZuuz30Qc6QcBRvggzenQ2AEtk3cMDSDj5GO9QDG-4cclBZdTKsPOODEmuY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-between">
+<div class="flex justify-end gap-1.5" onclick="event.stopPropagation()">
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-[#c81e38] flex items-center justify-center transition-colors" onclick="toggleCardLike(this, 3)">
+<span class="material-symbols-outlined text-[18px]">favorite_border</span>
+</button>
+<button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 flex items-center justify-center transition-colors" onclick="downloadMomentFile('photo4.jpg')">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+<div>
+<p class="text-xs font-semibold text-white">Karan Oberoi</p>
+<p class="text-[10px] text-white/70">1h ago • Groom Squad</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Upcoming Event Teaser -->
+<div class="p-5 rounded-2xl bg-gradient-to-r from-[#c81e38]/15 via-[#1c1b1d] to-[#1c1b1d] border border-[#c81e38]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-[#c81e38]/20 text-[#ffb3b3] flex items-center justify-center shrink-0 border border-[#c81e38]/30">
+<span class="material-symbols-outlined text-[24px]">flare</span>
+</div>
+<div>
+<h4 class="font-display font-bold text-sm text-white" id="upcoming-teaser-title">Tonight: Sangeet Dance Battles Live</h4>
+<p class="text-xs text-white/60" id="upcoming-teaser-desc">Stream starts at 7:30 PM with interactive voting for Bride vs Groom choreography!</p>
+</div>
+</div>
+<button class="px-4 py-2 rounded-xl bg-[#201f21] hover:bg-[#c81e38] text-white border border-white/10 text-xs font-semibold transition-all shrink-0" onclick="openUploadModal('Sangeet')">
+  Queue Sangeet Clip
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Upload Floating Action Button (FAB) -->
+<aside class="fixed bottom-6 right-6 z-40">
+<button class="w-14 h-14 rounded-full bg-gradient-to-r from-[#c81e38] to-[#9e1b32] text-white shadow-2xl flex items-center justify-center ring-4 ring-[#c81e38]/30 hover:scale-105 active:scale-95 transition-all group" onclick="openUploadModal()" title="Drop Photos into Couple's Vault">
+<span class="material-symbols-outlined text-[26px]">add_a_photo</span>
+</button>
+</aside>
+<!-- FOOTER -->
+<footer class="mt-auto border-t border-white/10 bg-[#131315] py-6 transition-colors">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50">
+<div class="flex items-center gap-2">
+<span class="font-display tracking-widest uppercase font-bold text-white/80">Make My Marriage</span>
+<span>• End-to-End Encrypted Private Media Vault</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:text-white transition-colors" onclick="showToast('Cloud connection verified (SOC2 Type II)', 'success')">Security &amp; Cloud</button>
+<button class="hover:text-white transition-colors" onclick="showToast('Host desk ready to support guest table arrangements', 'info')">Host Concierge</button>
+</div>
+</div>
+</footer>
+<!-- MODAL 1: Interactive Live Player with Reaction Emojis -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md hidden" id="player-modal">
+<div class="relative w-full max-w-4xl bg-[#131315] rounded-2xl overflow-hidden shadow-2xl border border-white/15 flex flex-col max-h-[92vh]">
+<div class="p-4 bg-gradient-to-b from-black/90 to-transparent flex items-center justify-between text-white z-10 border-b border-white/10">
+<div class="flex items-center gap-3">
+<span class="px-2.5 py-0.5 rounded-full bg-[#c81e38] text-[10px] font-bold uppercase tracking-wider">WebRTC Broadcast</span>
+<span class="font-display font-bold text-base">Haldi Ceremony Live Feed</span>
+<span class="text-xs text-white/60 hidden sm:inline">• 118 Guests Watching</span>
+</div>
+<button class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white" onclick="closeLivePlayerModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="relative w-full aspect-video bg-black overflow-hidden flex items-center justify-center" id="player-box">
+<img alt="Haldi stream feed" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXToPktDIvWBZh-n4fPZKZRABxtpV9HSwbb3fpd5yxYMWWT7HNp6PG_wH1MFu4tXzaAsdmpPiUPbdrA5OVKioECHzexLD9HPWasiD9q4RYSFsbeRjwtqRfcpZYoXjzDzW5T5UXK01-6XZYT7hvlDPWadWI3j36Nu1_VmlDudf3Upvv-C4y1DuJ5g7Xvc-xRR-ODdXr5WMJ9BcR_m7H6fsOxMfU5Fz6tmegARyfZMw"/>
+<div class="absolute inset-0 pointer-events-none overflow-hidden" id="reaction-container"></div>
+</div>
+<div class="p-4 bg-[#1c1b1d] flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10">
+<div class="flex items-center gap-2">
+<span class="text-xs text-white/60">Tap cheer reaction:</span>
+<button class="px-3 py-1 rounded-full bg-[#2a2a2c] hover:bg-[#c81e38] active:scale-125 text-white text-xs transition-all" onclick="popReaction('❤️')">❤️ Love</button>
+<button class="px-3 py-1 rounded-full bg-[#2a2a2c] hover:bg-[#c81e38] active:scale-125 text-white text-xs transition-all" onclick="popReaction('🌹')">🌹 Roses</button>
+<button class="px-3 py-1 rounded-full bg-[#2a2a2c] hover:bg-[#c81e38] active:scale-125 text-white text-xs transition-all" onclick="popReaction('👏')">👏 Cheers</button>
+<button class="px-3 py-1 rounded-full bg-[#2a2a2c] hover:bg-[#c81e38] active:scale-125 text-white text-xs transition-all" onclick="popReaction('✨')">✨ Blessings</button>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-[#201f21] hover:bg-[#2a2a2c] text-white text-xs font-semibold border border-white/10" onclick="showToast('Switched to Drone Overhead 4K view', 'info')">Drone Feed</button>
+<button class="px-3 py-1.5 rounded-lg bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-semibold" onclick="closeLivePlayerModal(); openUploadModal();">Upload Photo</button>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL 2: Lightbox View -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/90 backdrop-blur-md hidden" id="lightbox-modal">
+<div class="relative w-full max-w-4xl max-h-[92vh] flex flex-col items-center">
+<div class="w-full flex items-center justify-between text-white p-2">
+<div>
+<p class="font-bold text-sm" id="lightbox-author">Sneha Kapoor</p>
+<p class="text-xs text-white/60" id="lightbox-sub">12m ago • Haldi Stage</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#c81e38] flex items-center justify-center text-white" id="lightbox-fav-btn" onclick="toggleLightboxLike()" title="Favorite">
+<span class="material-symbols-outlined text-[18px]" id="lightbox-fav-icon">favorite_border</span>
+</button>
+<button class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white" onclick="downloadMomentFile('vault-highres.jpg')" title="Download High-Res">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+<button class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white" onclick="closeLightbox()" title="Close">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<div class="relative w-full flex items-center justify-center flex-1 max-h-[75vh] overflow-hidden my-2">
+<button class="absolute left-2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#c81e38] text-white flex items-center justify-center z-10" onclick="prevLightbox()">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<img alt="Full view" class="max-h-[72vh] max-w-full object-contain rounded-xl shadow-2xl border border-white/10" id="lightbox-img" src=""/>
+<button class="absolute right-2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#c81e38] text-white flex items-center justify-center z-10" onclick="nextLightbox()">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- MODAL 3: Guest Upload Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden" id="upload-modal">
+<div class="w-full max-w-md bg-[#1c1b1d] text-white rounded-2xl shadow-2xl overflow-hidden border border-white/15">
+<div class="p-4 bg-[#201f21] flex items-center justify-between border-b border-white/10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-[#ffb3b3]">cloud_upload</span>
+<h3 class="font-display font-bold text-base text-white">Drop Media to Vault</h3>
+</div>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-white/50 hover:text-white" onclick="closeUploadModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="p-5 space-y-4">
+<div>
+<label class="block text-xs font-semibold text-white/70 mb-1">Your Name</label>
+<input class="w-full h-10 px-3 rounded-xl bg-[#131315] border border-white/15 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#c81e38]/50" id="uploader-name" type="text" value="Rohan Varma"/>
+</div>
+<div>
+<label class="block text-xs font-semibold text-white/70 mb-1">Tag Ceremony</label>
+<select class="w-full h-10 px-3 rounded-xl bg-[#131315] border border-white/15 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#c81e38]/50" id="uploader-tag">
+<option selected="">Haldi (Active Event)</option>
+<option>Engagement</option>
+<option>Mehndi</option>
+<option>Sangeet</option>
+<option>Marriage</option>
+<option>Others / Candid</option>
+</select>
+</div>
+<div class="p-6 rounded-2xl border-2 border-dashed border-white/20 bg-[#131315] text-center cursor-pointer hover:border-[#c81e38] transition-colors" onclick="document.getElementById('file-input').click()">
+<span class="material-symbols-outlined text-[32px] text-[#ffb3b3] mb-1">photo_library</span>
+<p class="text-xs font-bold text-white" id="file-label">Tap to choose photos or videos</p>
+<p class="text-[11px] text-white/50">High-res JPEG, Apple HEIC, and 4K MP4</p>
+<input class="hidden" id="file-input" multiple="" onchange="onFilePicked(this)" type="file"/>
+</div>
+<div class="p-3 rounded-xl bg-[#201f21] space-y-1.5 hidden" id="upload-bar-wrap">
+<div class="flex items-center justify-between text-xs font-semibold">
+<span class="text-white/80">Uploading to encrypted vault...</span>
+<span class="text-[#ffb3b3]" id="upload-pct">0%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
+<div class="h-full bg-[#c81e38] rounded-full w-0 transition-all duration-300" id="upload-fill"></div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-[#201f21] border-t border-white/10 flex justify-end gap-2">
+<button class="px-4 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white" onclick="closeUploadModal()">Cancel</button>
+<button class="px-5 py-2 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-md" id="upload-confirm-btn" onclick="runSimulatedUpload()">Start Upload</button>
+</div>
+</div>
+</div>
+<!-- MODAL 4: Digital Invitation Full Card -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden" id="invite-modal">
+<div class="w-full max-w-xl bg-[#1c1b1d] rounded-2xl shadow-2xl overflow-hidden border border-white/15 max-h-[90vh] flex flex-col">
+<div class="p-4 bg-[#201f21] flex items-center justify-between border-b border-white/10">
+<h3 class="font-display font-bold text-sm text-white">Rahul &amp; Anjali • Wedding Invitation</h3>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-white/50 hover:text-white" onclick="closeInviteModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="p-5 overflow-y-auto flex flex-col items-center">
+<img alt="Full card preview" class="max-h-[440px] object-contain rounded-xl shadow-xl border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk"/>
+</div>
+<div class="p-4 bg-[#201f21] border-t border-white/10 flex justify-end gap-2">
+<button class="px-4 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white" onclick="closeInviteModal()">Close</button>
+<button class="px-4 py-2 rounded-xl bg-[#c81e38] text-white text-xs font-bold flex items-center gap-1.5" onclick="downloadInvitePdf()">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>Download PDF</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ENHANCED MODAL 5: Interactive Blessing & Shagun Creator Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden" id="wishes-modal">
+<div class="w-full max-w-lg bg-[#1c1b1d] rounded-2xl shadow-2xl border border-white/15 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+<div class="p-5 bg-gradient-to-r from-[#c81e38]/30 via-[#201f21] to-[#201f21] flex items-center justify-between border-b border-white/10">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-xl bg-[#c81e38]/20 text-[#ffb3b3] flex items-center justify-center border border-[#c81e38]/40">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div>
+<h3 class="font-display font-bold text-base text-white">Shower Blessings on Rahul &amp; Anjali</h3>
+<p class="text-[11px] text-white/50">Broadcasts to stage screens and wedding feeds</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors" onclick="closeWishesModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="p-5 space-y-4 max-h-[76vh] overflow-y-auto">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block text-xs font-semibold text-white/70 mb-1">Your Name</label>
+<input class="w-full h-10 px-3 rounded-xl bg-[#131315] border border-white/15 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#c81e38]/50" id="modal-wish-name" placeholder="e.g., Rohan Varma" type="text" value="Rohan Varma"/>
+</div>
+<div>
+<label class="block text-xs font-semibold text-white/70 mb-1">Relation / Guest Group</label>
+<select class="w-full h-10 px-3 rounded-xl bg-[#131315] border border-white/15 text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#c81e38]/50" id="modal-wish-relation">
+<option selected="">Groom's Squad</option>
+<option>Bride's Bestie</option>
+<option>Family Elder (Aashirwaad)</option>
+<option>Mutual College Friend</option>
+<option>Chachu &amp; Chachi</option>
+<option>VIP Guest</option>
+</select>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="block text-xs font-semibold text-white/70">Your Heartfelt Blessing</label>
+<span class="text-[11px] text-white/40">Tap presets below</span>
+</div>
+<textarea class="w-full p-3 rounded-xl bg-[#131315] border border-white/15 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#c81e38]/50 placeholder-white/30" id="modal-wish-text" placeholder="Write a warm note, wish, or celebratory dance cheer..." rows="3"></textarea>
+</div>
+<!-- Quick Blessing Preset Chips -->
+<div>
+<p class="text-[11px] font-semibold text-white/50 mb-1.5 uppercase tracking-wide">Quick Preset Blessings:</p>
+<div class="flex flex-wrap gap-1.5">
+<button class="px-2.5 py-1 rounded-lg bg-[#201f21] hover:bg-[#c81e38]/30 text-white/90 border border-white/10 text-[11px] font-medium transition-colors" onclick="injectModalPreset('💛 May your lives always glow with warmth, laughter, and unbreakable love!')" type="button">
+  Endless Warmth &amp; Love
+</button>
+<button class="px-2.5 py-1 rounded-lg bg-[#201f21] hover:bg-[#c81e38]/30 text-white/90 border border-white/10 text-[11px] font-medium transition-colors" onclick="injectModalPreset('✨ Gorgeous couple! Wishing you both a lifetime of magical adventures together!')" type="button">
+  ✨ Magical Adventures
+</button>
+<button class="px-2.5 py-1 rounded-lg bg-[#201f21] hover:bg-[#c81e38]/30 text-white/90 border border-white/10 text-[11px] font-medium transition-colors" onclick="injectModalPreset('🪔 Sada sukhi raho, our heartfelt blessings are always with you both!')" type="button">
+  🪔 Sada Sukhi Raho
+</button>
+<button class="px-2.5 py-1 rounded-lg bg-[#201f21] hover:bg-[#c81e38]/30 text-white/90 border border-white/10 text-[11px] font-medium transition-colors" onclick="injectModalPreset('🥂 To the most energetic sangeet night! Cannot wait to dance with you both!')" type="button">
+  🥂 Sangeet Cheers
+</button>
+</div>
+</div>
+<!-- Sentiment Tag & Mood Selector -->
+<div>
+<label class="block text-xs font-semibold text-white/70 mb-1.5">Select Sentiment Tag</label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+<label class="flex items-center gap-1.5 p-2 rounded-xl border border-white/15 bg-[#131315] cursor-pointer hover:border-[#c81e38] text-xs">
+<input checked="" class="text-[#c81e38] focus:ring-[#c81e38]" name="sentimentTag" type="radio" value="Golden Haldi Glow ✨"/>
+<span>Haldi Glow ✨</span>
+</label>
+<label class="flex items-center gap-1.5 p-2 rounded-xl border border-white/15 bg-[#131315] cursor-pointer hover:border-[#c81e38] text-xs">
+<input class="text-[#c81e38] focus:ring-[#c81e38]" name="sentimentTag" type="radio" value="Soulmates Forever 💛"/>
+<span>Soulmates 💛</span>
+</label>
+<label class="flex items-center gap-1.5 p-2 rounded-xl border border-white/15 bg-[#131315] cursor-pointer hover:border-[#c81e38] text-xs">
+<input class="text-[#c81e38] focus:ring-[#c81e38]" name="sentimentTag" type="radio" value="Aashirwaad 🪔"/>
+<span>Aashirwaad 🪔</span>
+</label>
+<label class="flex items-center gap-1.5 p-2 rounded-xl border border-white/15 bg-[#131315] cursor-pointer hover:border-[#c81e38] text-xs">
+<input class="text-[#c81e38] focus:ring-[#c81e38]" name="sentimentTag" type="radio" value="To Endless Dances! 💃🕺"/>
+<span>Dance On 💃</span>
+</label>
+</div>
+</div>
+</div>
+<div class="p-4 bg-[#201f21] border-t border-white/10 flex items-center justify-between">
+<span class="text-[11px] text-white/50 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-[#ffb3b3]">lock</span>
+<span>Verified Couple Feed</span>
+</span>
+<div class="flex gap-2">
+<button class="px-4 py-2 rounded-xl text-xs font-semibold text-white/60 hover:text-white" onclick="closeWishesModal()">Cancel</button>
+<button class="px-5 py-2 rounded-xl bg-gradient-to-r from-[#c81e38] to-[#9e1b32] hover:brightness-110 text-white text-xs font-bold shadow-md flex items-center gap-1.5" onclick="submitHeartfeltBlessing()">
+<span class="material-symbols-outlined text-[16px]">celebration</span>
+<span>Broadcast Blessing</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Switch Passcode Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden" id="code-modal">
+<div class="w-full max-w-sm bg-[#1c1b1d] rounded-2xl shadow-2xl p-6 border border-white/15 text-center space-y-4">
+<div class="w-12 h-12 rounded-full bg-[#c81e38]/20 text-[#ffb3b3] flex items-center justify-center mx-auto border border-[#c81e38]/40">
+<span class="material-symbols-outlined text-[24px]">key</span>
+</div>
+<div>
+<h3 class="font-display font-bold text-base text-white">Enter Marriage Access Code</h3>
+<p class="text-xs text-white/50">Provide the 6-character code given by the hosts</p>
+</div>
+<input class="w-full h-11 px-3 rounded-xl bg-[#131315] border border-white/20 text-center uppercase tracking-widest font-mono font-bold text-base text-white" id="input-marriage-code" maxlength="8" value="RAHUL24"/>
+<div class="flex gap-2">
+<button class="flex-1 py-2.5 rounded-xl text-xs font-semibold bg-[#201f21] text-white/70 hover:text-white" onclick="closePasscodeModal()">Cancel</button>
+<button class="flex-1 py-2.5 rounded-xl text-xs font-bold bg-[#c81e38] hover:bg-[#9e1b32] text-white" onclick="unlockMarriageCode()">Unlock Vault</button>
+</div>
+</div>
+</div>
+<!-- JAVASCRIPT BEHAVIORS -->
+<script>
+    // 1. DATA FOR 6 CEREMONIES
+    const events = {
+      engagement: {
+        seq: "Ceremony 01 of 06",
+        title: "The Ring Exchange & High Tea",
+        badge: "Completed",
+        date: "Thu, Dec 12, 2024",
+        time: "4:00 PM - 7:00 PM",
+        venue: "Grand Ballroom Terraces",
+        img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD6fO2qwvTXCfSdcSEAgwTCIMP1jaIcPkXdwV1FvCCfRf-5VXAht5OOoK8UVDtX1oKoT7d5ct1kJud_LU-NKa4K2WFtWFsbkcpXkVrOeiyWbILkWUk0yl1B0bLlluiXV-4HRdQKfXgX_tfqnEVrxhD9ovCQkgVUBOCAXAvTTc1-C8m24DOCobWWg9XTZrEW73NIl0UmbSPaiEJF3KsOxOvq6wQoNjplpbCLpORhFno",
+        statusText: "Recorded Stream",
+        viewers: "240 Watched",
+        camera: "Ballroom Center Cam",
+        teaserTitle: "Relive Ring Exchange Ceremony",
+        teaserDesc: "24 official portraits and speech replays are available in the archive."
+      },
+      mehndi: {
+        seq: "Ceremony 02 of 06",
+        title: "The Henna & Sundowner Carnival",
+        badge: "Completed",
+        date: "Fri, Dec 13, 2024",
+        time: "3:00 PM - 8:00 PM",
+        venue: "Poolside Cabana Gardens",
+        img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCSAyS6GAi99VTMHIvTf5JSX-jf277X70o9FketT2aE27oDfeLaV9nnMWpVXdvr9GVCRz4cslwVGq5md1CgHRc6izT848ks8GgGbRKIEIjT8u6qi20tmhYD3Yceo7USOirHRfSdRw7pXHG5J5q5sk9Izw6vZYWqfRr1Ltf1hfzPeF2MRoN8TGaLmQWxKQbJcNBeQ6ZzdIzBAMrIv878VQBn2MdTkcttpbkD1yGWfeE",
+        statusText: "Recorded Stream",
+        viewers: "185 Replays",
+        camera: "Poolside Mandap Cam",
+        teaserTitle: "Mehndi Designs and Folk Dance Moments",
+        teaserDesc: "Guests uploaded 38 colorful henna moments and dance clips from yesterday."
+      },
+      haldi: {
+        seq: "Ceremony 03 of 06",
+        title: "The Haldi & Floral Shower",
+        badge: "In Progress",
+        date: "Sat, Dec 14, 2024",
+        time: "10:30 AM - 1:00 PM",
+        venue: "Sunbreeze Beach Lawn",
+        img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCXToPktDIvWBZh-n4fPZKZRABxtpV9HSwbb3fpd5yxYMWWT7HNp6PG_wH1MFu4tXzaAsdmpPiUPbdrA5OVKioECHzexLD9HPWasiD9q4RYSFsbeRjwtqRfcpZYoXjzDzW5T5UXK01-6XZYT7hvlDPWadWI3j36Nu1_VmlDudf3Upvv-C4y1DuJ5g7Xvc-xRR-ODdXr5WMJ9BcR_m7H6fsOxMfU5Fz6tmegARyfZMw",
+        statusText: "Live 1080p Stream",
+        viewers: "84 Watching",
+        camera: "Lawn Stage Rig A",
+        teaserTitle: "Tonight: Sangeet Dance Battles Live",
+        teaserDesc: "Stream starts at 7:30 PM with interactive voting for Bride vs Groom choreography!"
+      },
+      sangeet: {
+        seq: "Ceremony 04 of 06",
+        title: "The Sangeet & Musical Night",
+        badge: "Tonight at 7:30 PM",
+        date: "Sat, Dec 14, 2024",
+        time: "7:30 PM - Late Night",
+        venue: "Royal Palms Open Amphitheatre",
+        img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBClr4MQqyHpa4W3AEfeX2NGZZ4YI7qsdIyiUxL_d73JwnskMbacxWB3W9-SZV5R1Z64QK_dg7a2LNHAj5YIskCv8GrWHGqBPnrkc0EOTbdFRv86Aag3c42paV6zh6zXFkiCndEhEtMBHZEBu8oAcVXje0K7spB3wiDMlIzDqRAHPAivZuuz30Qc6QcBRvggzenQ2AEtk3cMDSDj5GO9QDG-4cclBZdTKsPOODEmuY",
+        statusText: "Starting 7:30 PM",
+        viewers: "210 Reminders Set",
+        camera: "Audio Rig & DJ Deck",
+        teaserTitle: "Prepare Your Sangeet Performance Clips",
+        teaserDesc: "Upload your dance practice videos and stage angles to the couple's cloud feed."
+      },
+      marriage: {
+        seq: "Ceremony 05 of 06",
+        title: "The Sacred Vows & Pheras",
+        badge: "Tomorrow Morning",
+        date: "Sun, Dec 15, 2024",
+        time: "10:00 AM - 2:30 PM",
+        venue: "Sunset Beach Mandap",
+        img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk",
+        statusText: "Schedule Set",
+        viewers: "340 RSVP'd",
+        camera: "Mandap Four Pillars",
+        teaserTitle: "Mandap Live Stream alert will go live at 10 AM",
+        teaserDesc: "Push notification will ping when Rahul's Baraat procession arrives."
+      },
+      others: {
+        seq: "Ceremony 06 of 06",
+        title: "The Reception & Starlight Afterparty",
+        badge: "Post-Wedding",
+        date: "Sun, Dec 15, 2024",
+        time: "8:00 PM Onwards",
+        venue: "Beachfront Starlight Pavilion",
+        img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD6fO2qwvTXCfSdcSEAgwTCIMP1jaIcPkXdwV1FvCCfRf-5VXAht5OOoK8UVDtX1oKoT7d5ct1kJud_LU-NKa4K2WFtWFsbkcpXkVrOeiyWbILkWUk0yl1B0bLlluiXV-4HRdQKfXgX_tfqnEVrxhD9ovCQkgVUBOCAXAvTTc1-C8m24DOCobWWg9XTZrEW73NIl0UmbSPaiEJF3KsOxOvq6wQoNjplpbCLpORhFno",
+        statusText: "Upcoming Vault",
+        viewers: "Open to All",
+        camera: "Lounge 360 Booth",
+        teaserTitle: "Save Afterparty Memories",
+        teaserDesc: "Drop photo booth polaroids and evening toasts directly into the afterparty collection."
+      }
+    };
+
+    // 2. LIGHTBOX SLIDES
+    const slides = [
+      { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuD6fO2qwvTXCfSdcSEAgwTCIMP1jaIcPkXdwV1FvCCfRf-5VXAht5OOoK8UVDtX1oKoT7d5ct1kJud_LU-NKa4K2WFtWFsbkcpXkVrOeiyWbILkWUk0yl1B0bLlluiXV-4HRdQKfXgX_tfqnEVrxhD9ovCQkgVUBOCAXAvTTc1-C8m24DOCobWWg9XTZrEW73NIl0UmbSPaiEJF3KsOxOvq6wQoNjplpbCLpORhFno", author: "Sneha Kapoor", sub: "12m ago • Sunset Beach", fav: false },
+      { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6MRTTXoRrWySf_l-mY2bjxELks2XFvF5LT44DQdAGO0xbQLFiGIhqpDilArt9gzII0SiVZLlJRYDYBGCW2IVsCnslxsAECqYv_0S_Fw--JzfvYf2NSncO3EaSHLbcU_EdAlNcUmSQvm05uLZ7QsaYfb4qXSp5tnTDOSDlgNqXjP9YtJH8LI774fKWNBe7lXI1C4yFAiJFZ1FCkBesYbL_Oxko78nWRXO0moV9WEE", author: "Amit Shah", sub: "28m ago • Floral Lawn", fav: true },
+      { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCSAyS6GAi99VTMHIvTf5JSX-jf277X70o9FketT2aE27oDfeLaV9nnMWpVXdvr9GVCRz4cslwVGq5md1CgHRc6izT848ks8GgGbRKIEIjT8u6qi20tmhYD3Yceo7USOirHRfSdRw7pXHG5J5q5sk9Izw6vZYWqfRr1Ltf1hfzPeF2MRoN8TGaLmQWxKQbJcNBeQ6ZzdIzBAMrIv878VQBn2MdTkcttpbkD1yGWfeE", author: "Priya Mehta", sub: "45m ago • Urli Decor", fav: false },
+      { src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBClr4MQqyHpa4W3AEfeX2NGZZ4YI7qsdIyiUxL_d73JwnskMbacxWB3W9-SZV5R1Z64QK_dg7a2LNHAj5YIskCv8GrWHGqBPnrkc0EOTbdFRv86Aag3c42paV6zh6zXFkiCndEhEtMBHZEBu8oAcVXje0K7spB3wiDMlIzDqRAHPAivZuuz30Qc6QcBRvggzenQ2AEtk3cMDSDj5GO9QDG-4cclBZdTKsPOODEmuY", author: "Karan Oberoi", sub: "1h ago • Groom Squad", fav: false }
+    ];
+    let currSlide = 0;
+    let totalCheerCount = 1428;
+
+    // Toast Utility
+    function showToast(msg, type='info') {
+      const shelf = document.getElementById('toast-shelf');
+      const toast = document.createElement('div');
+      let icon = 'info';
+      if (type === 'success') icon = 'check_circle';
+      if (type === 'error') icon = 'warning';
+
+      toast.className = 'flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1c1b1d]/95 text-white text-xs font-semibold shadow-2xl border border-white/20 backdrop-blur-md pointer-events-auto transition-all duration-300';
+      toast.innerHTML = `<span class="material-symbols-outlined text-[16px] text-[#ffb3b3]">${icon}</span><span>${msg}</span>`;
+      shelf.appendChild(toast);
+      setTimeout(() => { toast.classList.add('opacity-0'); setTimeout(() => toast.remove(), 300); }, 3000);
+    }
+
+    // Working Ambience Mode Toggle
+    function toggleTheme() {
+      showToast('Obsidian Red High-Contrast Mode Active', 'success');
+    }
+
+    // Floating Petal / Confetti Particle Burst Engine
+    function triggerPetalBurst(emoji = '🌹') {
+      const total = 10;
+      for (let i = 0; i < total; i++) {
+        const el = document.createElement('div');
+        el.className = 'celebration-particle text-2xl select-none';
+        el.textContent = emoji;
+        el.style.left = (Math.random() * 85 + 7) + 'vw';
+        el.style.bottom = (Math.random() * 15 + 10) + 'vh';
+        el.style.animationDuration = (Math.random() * 1.2 + 1.8) + 's';
+        el.style.animationDelay = (Math.random() * 0.25) + 's';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 3000);
+      }
+      totalCheerCount++;
+      const counterEl = document.getElementById('live-cheer-counter');
+      if (counterEl) counterEl.textContent = `${totalCheerCount.toLocaleString()} cheers showered`;
+      showToast(`Showered ${emoji} on Rahul & Anjali!`, 'info');
+    }
+
+    // Carousel Ribbon Scroll
+    function scrollWishesTrack(offset) {
+      const track = document.getElementById('wishes-track');
+      if (track) track.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+
+    // Like Wish Card
+    function likeWishCard(btn) {
+      const icon = btn.querySelector('.material-symbols-outlined');
+      const countEl = btn.querySelector('.card-likes-count');
+      let count = parseInt(countEl.textContent, 10) || 0;
+      const isFilled = icon.style.fontVariationSettings?.includes("'FILL' 1");
+
+      if (isFilled) {
+        icon.style.fontVariationSettings = "'FILL' 0";
+        icon.classList.remove('text-[#c81e38]');
+        icon.classList.add('text-white/40');
+        count = Math.max(0, count - 1);
+      } else {
+        icon.style.fontVariationSettings = "'FILL' 1";
+        icon.classList.remove('text-white/40');
+        icon.classList.add('text-[#c81e38]', 'heart-burst');
+        count += 1;
+        triggerPetalBurst('❤️');
+        setTimeout(() => icon.classList.remove('heart-burst'), 350);
+      }
+      countEl.textContent = count;
+    }
+
+    // Micro Reaction on Wish Card
+    function incrementCardReaction(btn) {
+      btn.classList.add('scale-125');
+      setTimeout(() => btn.classList.remove('scale-125'), 200);
+    }
+
+    // Wishes Modal Controls
+    function openWishesModal() {
+      document.getElementById('wishes-modal').classList.remove('hidden');
+    }
+    function closeWishesModal() {
+      document.getElementById('wishes-modal').classList.add('hidden');
+    }
+    function injectModalPreset(txt) {
+      const area = document.getElementById('modal-wish-text');
+      area.value = txt;
+      area.focus();
+    }
+    function submitHeartfeltBlessing() {
+      const name = document.getElementById('modal-wish-name').value.trim() || 'Guest';
+      const relation = document.getElementById('modal-wish-relation').value;
+      const text = document.getElementById('modal-wish-text').value.trim();
+      const sentiment = document.querySelector('input[name="sentimentTag"]:checked')?.value || 'Golden Haldi Glow ✨';
+
+      if (!text) {
+        showToast('Please type a blessing or pick a preset!', 'error');
+        return;
+      }
+
+      // Generate Initials
+      const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'GT';
+
+      // Create new Wish Card element
+      const track = document.getElementById('wishes-track');
+      const card = document.createElement('div');
+      card.className = "min-w-[280px] sm:min-w-[310px] max-w-[320px] shrink-0 p-4 rounded-2xl bg-[#1c1b1d] border-2 border-[#c81e38] shadow-2xl flex flex-col justify-between transition-all";
+      card.innerHTML = `
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#c81e38] to-[#ffb3b3] text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                ${initials}
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight">${name}</h4>
+                <p class="text-[10px] text-[#ffb3b3] font-semibold">${relation}</p>
+              </div>
+            </div>
+            <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-[#c81e38] text-white animate-pulse">Just Now</span>
+          </div>
+          <p class="text-xs text-white/90 italic leading-relaxed font-medium">
+            "${text}"
+          </p>
+          <div class="mt-2.5 flex items-center gap-1.5">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#2a2a2c] text-[#ffb3b3] border border-[#c81e38]/40">
+              ${sentiment}
+            </span>
+          </div>
+        </div>
+        <div class="mt-3.5 pt-2.5 border-t border-white/10 flex items-center justify-between">
+          <button onclick="likeWishCard(this)" class="flex items-center gap-1.5 text-xs text-white/60 hover:text-[#ffb3b3] transition-colors">
+            <span class="material-symbols-outlined text-[16px] text-[#c81e38]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+            <span class="card-likes-count text-[11px] font-bold text-white">1</span>
+          </button>
+          <div class="flex items-center gap-1">
+            <button onclick="triggerPetalBurst('❤️'); incrementCardReaction(this);" class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center">❤️</button>
+            <button onclick="triggerPetalBurst('🌹'); incrementCardReaction(this);" class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center">🌹</button>
+            <button onclick="triggerPetalBurst('✨'); incrementCardReaction(this);" class="w-6 h-6 rounded-md hover:bg-[#2a2a2c] text-xs flex items-center justify-center">✨</button>
+          </div>
+        </div>
+      `;
+
+      track.prepend(card);
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+      closeWishesModal();
+      document.getElementById('modal-wish-text').value = '';
+      triggerPetalBurst('🌹');
+      triggerPetalBurst('✨');
+      showToast('🎉 Your blessing has been showered on Rahul & Anjali live!', 'success');
+    }
+
+    // Switch Event
+    function switchEvent(key) {
+      const ev = events[key];
+      if (!ev) return;
+
+      document.querySelectorAll('.ceremony-tab').forEach(b => {
+        if (b.getAttribute('data-event') === key) {
+          b.className = "ceremony-tab active flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#c81e38] to-[#9e1b32] text-white font-bold shadow-md ring-1 ring-white/20 transition-all";
+        } else {
+          b.className = "ceremony-tab flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-white/70 hover:text-white transition-all";
+        }
+      });
+
+      document.getElementById('event-sequence-label').textContent = ev.seq;
+      document.getElementById('event-headline').textContent = ev.title;
+      document.getElementById('event-date').textContent = ev.date;
+      document.getElementById('event-time').textContent = ev.time;
+      document.getElementById('event-venue').textContent = ev.venue;
+      document.getElementById('event-chip-status').textContent = ev.badge;
+      document.getElementById('event-stream-img').src = ev.img;
+      document.getElementById('event-stream-badge-text').textContent = ev.statusText;
+      document.getElementById('event-stream-viewers').textContent = ev.viewers;
+      document.getElementById('event-camera-label').textContent = "Camera: " + ev.camera;
+      document.getElementById('upcoming-teaser-title').textContent = ev.teaserTitle;
+      document.getElementById('upcoming-teaser-desc').textContent = ev.teaserDesc;
+
+      showToast(`Showing ceremony: ${ev.title}`, 'info');
+    }
+
+    // Lightbox
+    function openLightbox(idx) {
+      currSlide = idx;
+      renderLightbox();
+      document.getElementById('lightbox-modal').classList.remove('hidden');
+    }
+    function closeLightbox() { document.getElementById('lightbox-modal').classList.add('hidden'); }
+    function renderLightbox() {
+      const s = slides[currSlide];
+      document.getElementById('lightbox-img').src = s.src;
+      document.getElementById('lightbox-author').textContent = s.author;
+      document.getElementById('lightbox-sub').textContent = s.sub;
+      const favIcon = document.getElementById('lightbox-fav-icon');
+      if (s.fav) {
+        favIcon.style.fontVariationSettings = "'FILL' 1";
+        favIcon.classList.add('text-[#ffb3b3]');
+      } else {
+        favIcon.style.fontVariationSettings = "'FILL' 0";
+        favIcon.classList.remove('text-[#ffb3b3]');
+      }
+    }
+    function nextLightbox() { currSlide = (currSlide + 1) % slides.length; renderLightbox(); }
+    function prevLightbox() { currSlide = (currSlide - 1 + slides.length) % slides.length; renderLightbox(); }
+    function toggleLightboxLike() {
+      slides[currSlide].fav = !slides[currSlide].fav;
+      renderLightbox();
+      showToast(slides[currSlide].fav ? 'Saved to Favorites ❤️' : 'Removed from Favorites', 'info');
+    }
+
+    // Card Favorite
+    function toggleCardLike(btn, idx) {
+      const icon = btn.querySelector('span');
+      const isFilled = icon.style.fontVariationSettings?.includes("'FILL' 1");
+      if (isFilled) {
+        icon.style.fontVariationSettings = "'FILL' 0";
+        btn.classList.remove('bg-[#c81e38]');
+        showToast('Removed from favorites', 'info');
+      } else {
+        icon.style.fontVariationSettings = "'FILL' 1";
+        btn.classList.add('bg-[#c81e38]');
+        triggerPetalBurst('❤️');
+        showToast('Added to your favorite moments! ❤️', 'success');
+      }
+    }
+
+    // Media Switcher
+    function switchMediaType(type) {
+      const p = document.getElementById('media-tab-photos');
+      const v = document.getElementById('media-tab-videos');
+      if (type === 'photos') {
+        p.className = "px-3.5 py-1.5 rounded-lg bg-[#c81e38] text-xs font-bold text-white shadow-sm flex items-center gap-1.5 transition-all";
+        v.className = "px-3.5 py-1.5 rounded-lg text-xs font-medium text-white/60 hover:text-white flex items-center gap-1.5 transition-all";
+        showToast('Displaying 142 Photos', 'info');
+      } else {
+        v.className = "px-3.5 py-1.5 rounded-lg bg-[#c81e38] text-xs font-bold text-white shadow-sm flex items-center gap-1.5 transition-all";
+        p.className = "px-3.5 py-1.5 rounded-lg text-xs font-medium text-white/60 hover:text-white flex items-center gap-1.5 transition-all";
+        showToast('Displaying 3 Highlight 4K Videos', 'info');
+      }
+    }
+
+    // Gallery Filters
+    function filterMoments(cat, btn) {
+      document.querySelectorAll('#filter-pills .filter-btn').forEach(b => {
+        b.className = "filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#1c1b1d] text-white/70 hover:text-white hover:bg-[#2a2a2c] border border-white/5";
+      });
+      btn.className = "filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#c81e38] text-white shadow-sm";
+
+      const items = document.querySelectorAll('#moments-grid .moment-item');
+      let count = 0;
+      items.forEach(it => {
+        const tags = it.getAttribute('data-tags') || '';
+        if (cat === 'all' || tags.includes(cat)) {
+          it.style.display = 'block'; count++;
+        } else {
+          it.style.display = 'none';
+        }
+      });
+      showToast(`Showing ${count} moments`, 'info');
+    }
+
+    // Live Stream Reactions
+    function openLivePlayerModal() { document.getElementById('player-modal').classList.remove('hidden'); }
+    function closeLivePlayerModal() { document.getElementById('player-modal').classList.add('hidden'); }
+    function popReaction(emoji) {
+      const box = document.getElementById('reaction-container');
+      const el = document.createElement('div');
+      el.className = 'reaction-bubble text-3xl select-none';
+      el.textContent = emoji;
+      el.style.left = (Math.random() * 60 + 20) + '%';
+      el.style.bottom = '15%';
+      box.appendChild(el);
+      setTimeout(() => el.remove(), 1800);
+      showToast(`Sent ${emoji} to the stage!`, 'info');
+    }
+
+    // Upload Modal
+    function openUploadModal(tag=null) {
+      if (tag) document.getElementById('uploader-tag').value = tag;
+      document.getElementById('upload-modal').classList.remove('hidden');
+    }
+    function closeUploadModal() {
+      document.getElementById('upload-modal').classList.add('hidden');
+      document.getElementById('upload-bar-wrap').classList.add('hidden');
+      document.getElementById('upload-fill').style.width = '0%';
+      document.getElementById('upload-confirm-btn').disabled = false;
+    }
+    function onFilePicked(inp) {
+      if (inp.files && inp.files.length) {
+        document.getElementById('file-label').textContent = `${inp.files.length} file(s) selected: Ready`;
+        showToast(`${inp.files.length} media items queued`, 'info');
+      }
+    }
+    function runSimulatedUpload() {
+      const btn = document.getElementById('upload-confirm-btn');
+      const bar = document.getElementById('upload-fill');
+      const pct = document.getElementById('upload-pct');
+      document.getElementById('upload-bar-wrap').classList.remove('hidden');
+      btn.disabled = true;
+
+      let p = 10;
+      const timer = setInterval(() => {
+        p += 25;
+        if (p >= 100) {
+          p = 100;
+          clearInterval(timer);
+          bar.style.width = '100%';
+          pct.textContent = '100%';
+          setTimeout(() => {
+            closeUploadModal();
+            triggerPetalBurst('✨');
+            showToast('🎉 Photos uploaded directly into Rahul & Anjali vault!', 'success');
+          }, 400);
+        } else {
+          bar.style.width = p + '%';
+          pct.textContent = p + '%';
+        }
+      }, 200);
+    }
+
+    // Invitation Modal & Downloads
+    function openInviteModal() { document.getElementById('invite-modal').classList.remove('hidden'); }
+    function closeInviteModal() { document.getElementById('invite-modal').classList.add('hidden'); }
+    function downloadInvitePdf() { showToast('Rahul-Anjali-Official-Invitation.pdf downloaded!', 'success'); }
+    function addInviteCalendar() { showToast('Added to Google & Apple Calendar: Dec 14-15 Goa', 'success'); }
+    function shareInviteLink() { showToast('Celebration link copied: makemymarriage.com/rahul24', 'success'); }
+    function downloadAllMemoriesZip() { showToast('Preparing high-res album archive: Rahul-Anjali-Wedding-Vault.zip', 'success'); }
+    function downloadMomentFile(name) { showToast(`Downloaded high-res file: ${name}`, 'success'); }
+
+    // Passcode Modal
+    function openPasscodeModal() { document.getElementById('code-modal').classList.remove('hidden'); }
+    function closePasscodeModal() { document.getElementById('code-modal').classList.add('hidden'); }
+    function unlockMarriageCode() {
+      const code = document.getElementById('input-marriage-code').value.trim();
+      closePasscodeModal();
+      showToast(`Unlocked vault for code ${code}! Refreshed celebration view.`, 'success');
+    }
+  </script>
+</body></html>

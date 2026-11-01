@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<title>Make My Marriage — Private Wedding Cloud Gateway</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#C81E38",
+          "primary-dark": "#9E1B32",
+          "primary-container": "#C81E38",
+          "on-primary": "#ffffff",
+          "obsidian": "#0A0A0C",
+          "surface-dark": "#121214",
+          "secondary": "#2A2A2E",
+          "carmine": "#C81E38",
+          "carmine-deep": "#9E1B32",
+          "carmine-light": "#FFDAD9",
+          "surface": "#FAF9F8",
+          "surface-container": "#F4F3F0",
+          "surface-container-low": "#FAF9F8",
+          "surface-container-lowest": "#ffffff",
+          "on-surface": "#121214",
+          "on-surface-variant": "#52525B",
+          "outline": "#D4D4D8",
+          "outline-variant": "#E4E4E7"
+        },
+        fontFamily: {
+          "editorial": ["Playfair Display", "serif"],
+          "display": ["Plus Jakarta Sans", "sans-serif"],
+          "headline": ["Playfair Display", "serif"],
+          "body": ["Plus Jakarta Sans", "sans-serif"]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body { overscroll-behavior: none; }
+  }
+  ::-webkit-scrollbar { display: none; }
+
+  /* High-Fashion Editorial Luxury Dark & Light Styling */
+  .dark {
+    color-scheme: dark;
+  }
+  .dark body {
+    background-color: #0B0B0D !important;
+    color: #F4F4F6 !important;
+  }
+  .dark .luxury-header {
+    background-color: rgba(11, 11, 13, 0.88) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+  .dark .luxury-card {
+    background-color: #131317 !important;
+    border-color: rgba(255, 255, 255, 0.09) !important;
+  }
+  .dark .luxury-card-subtle {
+    background-color: #1A1A20 !important;
+    border-color: rgba(255, 255, 255, 0.07) !important;
+  }
+  .dark .pin-box {
+    background-color: #17171C !important;
+    border-color: #27272E !important;
+    color: #ffffff !important;
+  }
+  .dark .pin-box:focus {
+    border-color: #C81E38 !important;
+    background-color: #1D1D24 !important;
+    box-shadow: 0 0 0 2px rgba(200, 30, 56, 0.25) !important;
+  }
+  .dark .brand-logo-img {
+    filter: brightness(1.15) contrast(1.05);
+  }
+  .dark .vault-preview-card {
+    background: linear-gradient(145deg, #17171D, #1B1B22) !important;
+    border-color: rgba(200, 30, 56, 0.25) !important;
+  }
+</style>
+</head>
+<body class="bg-[#FAF9F8] font-body text-[#121214] antialiased transition-colors duration-300 min-h-screen flex flex-col justify-between selection:bg-[#C81E38] selection:text-white">
+<!-- GLOBAL TOAST NOTIFICATION -->
+<div class="fixed bottom-6 right-6 z-[100] transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0A0A0C] text-white shadow-2xl border border-white/10 max-w-md" id="toast">
+<span class="material-symbols-outlined text-[#C81E38] text-[22px]" id="toast-icon">check_circle</span>
+<div class="flex flex-col">
+<span class="font-editorial text-sm font-semibold tracking-wide" id="toast-title">Success</span>
+<span class="font-body text-xs text-zinc-300" id="toast-desc">Action performed</span>
+</div>
+</div>
+<!-- HEADER NAVIGATION -->
+<header class="luxury-header sticky top-0 left-0 w-full z-40 bg-white/95 backdrop-blur-md border-b border-black/[0.06] transition-colors duration-300">
+<div class="h-18 py-3 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+<!-- Brand Logo -->
+<a class="flex items-center gap-2 group transition-transform hover:scale-[1.01]" href="#" onclick="resetToInitial(event)">
+<div class="h-9 w-auto flex items-center">
+https://lh3.googleusercontent.com/aida/AEtjO1WpCf0D63FCD0CniLdF0ZbO_rf7M-AEt1QGtFrMsAX57pKaLPQlyTwsv1wplVytuHtgH1ifU2Qtpkqp0HRWPbtgSE8VfcPs15FzAlhVjFtr9YzBswy-ryBAqSc1oFo0n3BAaPBjEeL3z7M68WrM2ymwMNKmjQxMapYlYvl3tUiNTITQdht_M_3TY69riU7YNZv6FGR3qHV_-S381D03Kz7iWZBjj8RydLpAU_Dic7qpA2nOZt9j4M24I24
+</div>
+</a>
+<!-- Trust Pill Badge -->
+<div class="hidden md:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300">
+<span class="w-1.5 h-1.5 rounded-full bg-[#C81E38] animate-pulse"></span>
+<span class="font-mono text-[10.5px] uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-semibold">Live Edge Nodes Active</span>
+<span class="text-zinc-300 dark:text-zinc-700">•</span>
+<span class="tracking-tight">256-Bit Encrypted</span>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-2 sm:gap-3">
+<!-- Dark/Light Theme Toggle -->
+<button aria-label="Toggle Color Scheme" class="w-9 h-9 rounded-lg flex items-center justify-center text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" onclick="toggleDarkMode()" title="Toggle Theme" type="button">
+<span class="material-symbols-outlined text-[19px] dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined text-[19px] hidden dark:inline-block text-[#C81E38]">light_mode</span>
+</button>
+<!-- Scan QR Standee -->
+<button class="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg border border-zinc-200 dark:border-zinc-700/80 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 text-xs font-semibold hover:border-zinc-900 dark:hover:border-zinc-500 hover:shadow-xs active:scale-95 transition-all" onclick="openQrModal()" type="button">
+<span class="material-symbols-outlined text-[17px] text-[#C81E38]">qr_code_scanner</span>
+<span class="hidden sm:inline">Scan Table QR</span>
+</button>
+<!-- Host / Planner Portal Modal Trigger -->
+<button class="inline-flex items-center gap-1.5 h-9 px-4 rounded-lg bg-[#0A0A0C] hover:bg-zinc-900 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-100 text-white text-xs font-semibold shadow-sm active:scale-95 transition-all" onclick="openAdminModal()" type="button">
+<span class="material-symbols-outlined text-[16px] text-[#C81E38]">lock_person</span>
+<span>Planner Portal</span>
+</button>
+</div>
+</div>
+</header>
+<!-- MAIN GATEWAY SECTION -->
+<main class="w-full flex-1 flex flex-col justify-center py-8 lg:py-14 px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto w-full">
+<!-- Editorial Split Screen Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+<!-- LEFT COLUMN: The Gateway Passcode Entry & Trust Details -->
+<div class="lg:col-span-6 flex flex-col justify-center space-y-6 lg:pr-4">
+<!-- Eyebrow Ribbon -->
+<div class="inline-flex items-center gap-2 self-start px-3 py-1 rounded-full bg-[#C81E38]/[0.08] dark:bg-[#C81E38]/20 border border-[#C81E38]/20 dark:border-[#C81E38]/40 text-[#C81E38] dark:text-[#ffb3b5] text-xs font-semibold tracking-wider uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-[#C81E38]"></span>
+<span>Private Wedding Portal</span>
+</div>
+<!-- Headline & Value Pitch -->
+<div class="space-y-3">
+<h1 class="font-editorial text-3xl sm:text-4xl lg:text-[46px] font-medium text-zinc-950 dark:text-white tracking-tight leading-[1.12]">
+            Enter Your Marriage Passcode to Access the Celebration.
+          </h1>
+<p class="font-body text-base text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-xl font-light">
+            Stream uncompressed 4K ceremonies, view ultra-high-resolution photo albums, and share blessings in real time. Private, invitation-only, and ad-free.
+          </p>
+</div>
+<!-- PRIMARY INTERACTIVE GATEWAY BOX -->
+<div class="luxury-card bg-white rounded-2xl p-6 sm:p-7 shadow-xl shadow-zinc-900/[0.04] dark:shadow-none border border-zinc-200/90 dark:border-zinc-800 space-y-5 transition-all">
+<div class="flex items-center justify-between">
+<span class="text-[11px] uppercase font-bold tracking-widest text-zinc-500 dark:text-zinc-400">6-Digit Invitation Passkey</span>
+<span class="text-xs text-zinc-400 flex items-center gap-1 font-mono">
+<span class="material-symbols-outlined text-[14px] text-[#C81E38]">lock</span>
+              Protected Vault
+            </span>
+</div>
+<!-- PIN Digit Boxes -->
+<div class="flex items-center justify-between gap-2 sm:gap-3" id="pin-boxes-container">
+<input class="pin-box w-12 sm:w-14 h-14 text-center font-display text-xl sm:text-2xl font-bold uppercase rounded-xl border border-zinc-300 bg-zinc-50 text-zinc-900 focus:bg-white focus:ring-2 focus:ring-[#C81E38] focus:border-[#C81E38] focus:outline-none transition-all shadow-inner" id="pin-0" maxlength="1" oninput="handlePinInput(this, 0)" onkeydown="handlePinBackspace(event, 0)" type="text" value="R"/>
+<input class="pin-box w-12 sm:w-14 h-14 text-center font-display text-xl sm:text-2xl font-bold uppercase rounded-xl border border-zinc-300 bg-zinc-50 text-zinc-900 focus:bg-white focus:ring-2 focus:ring-[#C81E38] focus:border-[#C81E38] focus:outline-none transition-all shadow-inner" id="pin-1" maxlength="1" oninput="handlePinInput(this, 1)" onkeydown="handlePinBackspace(event, 1)" type="text" value="A"/>
+<input class="pin-box w-12 sm:w-14 h-14 text-center font-display text-xl sm:text-2xl font-bold uppercase rounded-xl border border-zinc-300 bg-zinc-50 text-zinc-900 focus:bg-white focus:ring-2 focus:ring-[#C81E38] focus:border-[#C81E38] focus:outline-none transition-all shadow-inner" id="pin-2" maxlength="1" oninput="handlePinInput(this, 2)" onkeydown="handlePinBackspace(event, 2)" type="text" value="H"/>
+<input class="pin-box w-12 sm:w-14 h-14 text-center font-display text-xl sm:text-2xl font-bold uppercase rounded-xl border border-zinc-300 bg-zinc-50 text-zinc-900 focus:bg-white focus:ring-2 focus:ring-[#C81E38] focus:border-[#C81E38] focus:outline-none transition-all shadow-inner" id="pin-3" maxlength="1" oninput="handlePinInput(this, 3)" onkeydown="handlePinBackspace(event, 3)" type="text" value="U"/>
+<input class="pin-box w-12 sm:w-14 h-14 text-center font-display text-xl sm:text-2xl font-bold uppercase rounded-xl border border-zinc-300 bg-zinc-50 text-zinc-900 focus:bg-white focus:ring-2 focus:ring-[#C81E38] focus:border-[#C81E38] focus:outline-none transition-all shadow-inner" id="pin-4" maxlength="1" oninput="handlePinInput(this, 4)" onkeydown="handlePinBackspace(event, 4)" type="text" value="L"/>
+<input class="pin-box w-12 sm:w-14 h-14 text-center font-display text-xl sm:text-2xl font-bold uppercase rounded-xl border border-zinc-300 bg-zinc-50 text-zinc-900 focus:bg-white focus:ring-2 focus:ring-[#C81E38] focus:border-[#C81E38] focus:outline-none transition-all shadow-inner" id="pin-5" maxlength="1" oninput="handlePinInput(this, 5)" onkeydown="handlePinBackspace(event, 5)" type="text" value="2"/>
+</div>
+<!-- Quick Test Presets -->
+<div class="flex items-center gap-2 flex-wrap text-xs text-zinc-500 dark:text-zinc-400 pt-1">
+<span class="font-medium">Try Sample Passcodes:</span>
+<button class="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-[#C81E38] hover:text-white dark:bg-zinc-800 dark:hover:bg-[#C81E38] text-zinc-800 dark:text-zinc-200 font-mono font-bold transition-all shadow-xs" onclick="applyPreset('RAHUL24')">RAHUL24</button>
+<button class="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-[#C81E38] hover:text-white dark:bg-zinc-800 dark:hover:bg-[#C81E38] text-zinc-800 dark:text-zinc-200 font-mono font-bold transition-all shadow-xs" onclick="applyPreset('VIKPRI24')">VIKPRI24</button>
+<button class="px-2.5 py-1 rounded-md bg-zinc-100 hover:bg-[#C81E38] hover:text-white dark:bg-zinc-800 dark:hover:bg-[#C81E38] text-zinc-800 dark:text-zinc-200 font-mono font-bold transition-all shadow-xs" onclick="applyPreset('ARJMEE24')">ARJMEE24</button>
+</div>
+<!-- DYNAMIC LIVE VAULT FOUND PREVIEW CARD -->
+<div class="vault-preview-card p-4 rounded-xl bg-gradient-to-br from-zinc-50 to-rose-50/30 dark:from-zinc-900 dark:to-zinc-900/60 border border-zinc-200/90 dark:border-white/10 transition-all flex flex-col space-y-3" id="live-vault-preview">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-[#C81E38]/10 text-[#C81E38] dark:bg-[#C81E38]/20 dark:text-[#ffb3b5] flex items-center justify-center font-serif font-bold text-base border border-[#C81E38]/20" id="preview-avatar">
+                  R&amp;A
+                </div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-editorial font-bold text-zinc-950 dark:text-white text-base tracking-tight" id="preview-couple">Rahul &amp; Anjali</h3>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider bg-[#C81E38]/10 text-[#C81E38] dark:bg-[#C81E38]/20 dark:text-[#ffb3b5] animate-pulse" id="preview-status">Live Haldi Stream</span>
+</div>
+<p class="font-body text-xs text-zinc-600 dark:text-zinc-400" id="preview-venue">The Leela Palace, South Goa • Sundowner Pavilion</p>
+</div>
+</div>
+<span class="font-mono text-xs font-bold text-[#C81E38] dark:text-[#ffb3b5] bg-white dark:bg-zinc-800 px-2.5 py-1 rounded border border-zinc-200 dark:border-zinc-700" id="preview-code-tag">RAHUL24</span>
+</div>
+<div class="flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 pt-1 border-t border-black/5 dark:border-white/5">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-[#C81E38]">photo_camera</span>
+<span id="preview-photos">520 Uncompressed Photos</span>
+</span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-zinc-700 dark:text-zinc-300">group</span>
+<span id="preview-attendees">184 Family &amp; Friends active</span>
+</span>
+</div>
+</div>
+<!-- Main CTA Unlock Button -->
+<div class="space-y-3 pt-1">
+<button class="w-full h-12 rounded-xl bg-gradient-to-r from-[#0A0A0C] via-[#1E1E24] to-[#0A0A0C] hover:from-[#C81E38] hover:via-[#9E1B32] hover:to-[#C81E38] text-white font-body text-sm font-semibold tracking-wide flex items-center justify-center gap-2 shadow-lg shadow-black/15 active:scale-[0.99] transition-all duration-300" id="enter-vault-btn" onclick="submitPasscode()" type="button">
+<span class="material-symbols-outlined text-[20px] text-[#C81E38]">lock_open</span>
+<span id="enter-btn-text">Enter Celebration Vault</span>
+</button>
+<div class="flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400 pt-1">
+<button class="hover:text-[#C81E38] dark:hover:text-[#ffb3b5] transition-colors flex items-center gap-1 font-medium" onclick="copyPasscodeLink()" type="button">
+<span class="material-symbols-outlined text-[14px]">share</span>
+<span>Copy Direct Passkey Link</span>
+</button>
+<button class="hover:underline hover:text-zinc-800 dark:hover:text-zinc-200 text-zinc-500 dark:text-zinc-400" onclick="showHelpModal()" type="button">
+                Lost code? Help Desk
+              </button>
+</div>
+</div>
+</div>
+<!-- High-Trust Minimal Badge Ribbon -->
+<div class="flex items-center justify-center sm:justify-start gap-4 text-xs text-zinc-500 dark:text-zinc-400 pt-1 flex-wrap">
+<span class="flex items-center gap-1.5 font-medium">
+<span class="material-symbols-outlined text-[16px] text-[#C81E38]">shield</span>
+            256-Bit Private Encryption
+          </span>
+<span class="hidden sm:inline text-zinc-300 dark:text-zinc-700">•</span>
+<span class="flex items-center gap-1.5 font-medium">
+<span class="material-symbols-outlined text-[16px] text-zinc-900 dark:text-zinc-200">raw_on</span>
+            Zero Lossy Compression
+          </span>
+<span class="hidden sm:inline text-zinc-300 dark:text-zinc-700">•</span>
+<span class="flex items-center gap-1.5 font-medium">
+<span class="material-symbols-outlined text-[16px] text-zinc-900 dark:text-zinc-200">admin_panel_settings</span>
+            Host Moderated
+          </span>
+</div>
+</div>
+<!-- RIGHT COLUMN: Cinematic Editorial Visual Showcase -->
+<div class="lg:col-span-6 relative">
+<div class="relative rounded-3xl overflow-hidden shadow-2xl border border-zinc-200/80 dark:border-white/10 bg-black group">
+<!-- Master Luxury Destination Couple Photo -->
+<div class="w-full h-[460px] sm:h-[560px] lg:h-[620px] overflow-hidden">
+<div class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out flex items-center justify-center">
+  https://lh3.googleusercontent.com/aida/AEtjO1Va1U4bOy3llyRAkJVVvDdom4O7c1K1hrZINu89siLq0NNPCTFws5XwTjOZ1LrqyQj1lIgDLr1LnX3qCQj2wAaQn2005YMzbMSpfIj1mSM3elEEFnK85-twwqyE-gjKruWaMZ9ixkqJeEngIJt6R2JDaTYUK-BzM8vDQS4fCh2S-vVPoB7gVxyBT2Q8yA0BBhe7g47VdAUCPTUIGjS4n_y5uQE39qlTF7YTMZwnkH3JXg4i0UsUdW7BSoE
+</div>
+</div>
+<!-- Warm Editorial Gradient Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent pointer-events-none"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent pointer-events-none"></div>
+<!-- Top Pill Floating Badges -->
+<div class="absolute top-5 left-5 right-5 flex items-center justify-between">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white text-xs font-medium">
+<span class="w-2 h-2 rounded-full bg-[#C81E38] animate-ping"></span>
+<span class="font-bold tracking-wider text-[10.5px] uppercase">Ultra 4K Edge Broadcast</span>
+</div>
+<button class="h-8 px-3 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/25 text-white text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95" onclick="exploreLiveShowcase()">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Explore Live Showcase</span>
+</button>
+</div>
+<!-- Bottom Floating Card Details -->
+<div class="absolute bottom-6 left-6 right-6 text-white space-y-3">
+<div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#C81E38] backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-wider">
+<span>Palacio Do Mar • Sunset Pavilion</span>
+</div>
+<div>
+<h2 class="font-editorial text-2xl sm:text-3xl lg:text-[34px] font-normal tracking-tight text-white drop-shadow-md">
+                Rahul &amp; Anjali’s Coastal Wedding
+              </h2>
+<p class="font-body text-xs sm:text-sm text-zinc-200/90 line-clamp-2 max-w-md pt-1 drop-shadow font-light">
+                Multi-camera Sony FX3 Cinema Line streaming live from Goa. Relatives across 14 countries connected with sub-second latency.
+              </p>
+</div>
+<!-- Mini stats row inside picture -->
+<div class="flex items-center gap-4 pt-2 border-t border-white/15 text-xs text-zinc-200">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#ffb3b5]">videocam</span>
+<span>8 Live Angles</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-[#C81E38]">favorite</span>
+<span>420 Blessings Sent</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-zinc-300">download</span>
+<span>Instant RAW Keepsake</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Subtle Ambient Glow Behind Card -->
+<div class="absolute -bottom-6 -right-6 w-72 h-72 bg-[#C81E38]/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute -top-6 -left-6 w-72 h-72 bg-zinc-900/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full border-t border-black/[0.06] dark:border-white/[0.08] py-6 bg-white/70 dark:bg-black/40 text-xs text-zinc-500 dark:text-zinc-400">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="h-5 w-auto flex items-center opacity-85 dark:brightness-110">
+https://lh3.googleusercontent.com/aida/AEtjO1WpCf0D63FCD0CniLdF0ZbO_rf7M-AEt1QGtFrMsAX57pKaLPQlyTwsv1wplVytuHtgH1ifU2Qtpkqp0HRWPbtgSE8VfcPs15FzAlhVjFtr9YzBswy-ryBAqSc1oFo0n3BAaPBjEeL3z7M68WrM2ymwMNKmjQxMapYlYvl3tUiNTITQdht_M_3TY69riU7YNZv6FGR3qHV_-S381D03Kz7iWZBjj8RydLpAU_Dic7qpA2nOZt9j4M24I24
+</div>
+<span>© 2025 Make My Marriage Architecture. Protected by 256-Bit Hardware Encryption.</span>
+</div>
+<div class="flex items-center gap-5 font-medium">
+<button class="hover:text-zinc-950 dark:hover:text-white transition-colors" onclick="showPolicyModal('Privacy &amp; Media Sovereignty', 'Zero data scraping, no public indexing, uncompressed storage retention for couples and guests.')">Privacy Policy</button>
+<button class="hover:text-zinc-950 dark:hover:text-white transition-colors" onclick="showPolicyModal('Cloud SLA Guarantee', '99.98% broadcast uptime backed by redundant WebRTC edge points worldwide.')">Broadcast SLA</button>
+<button class="hover:text-zinc-950 dark:hover:text-white transition-colors flex items-center gap-1" onclick="showToast('Host Support Desk', 'WhatsApp Concierge: +91 98200 12345')">
+<span class="material-symbols-outlined text-[14px] text-[#C81E38]">support_agent</span>
+        Concierge
+      </button>
+</div>
+</div>
+</footer>
+<!-- MODAL 1: SCAN QR CODE MODAL -->
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/75 backdrop-blur-md hidden" id="qr-modal" role="dialog">
+<div class="luxury-card relative w-full max-w-sm bg-white dark:bg-[#131317] rounded-2xl shadow-2xl p-6 border border-zinc-200 dark:border-zinc-800 space-y-5" onclick="event.stopPropagation()">
+<button aria-label="Close" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors" onclick="closeQrModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<div class="text-center space-y-1">
+<div class="w-12 h-12 rounded-full bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center mx-auto mb-2">
+<span class="material-symbols-outlined text-[26px]">qr_code_scanner</span>
+</div>
+<h3 class="font-editorial font-bold text-xl text-zinc-900 dark:text-white">Scan Venue Table Standee</h3>
+<p class="font-body text-xs text-zinc-500 dark:text-zinc-400">Aim your camera at the wedding invitation QR or dining table placard.</p>
+</div>
+<!-- Simulated Scanner Viewport -->
+<div class="relative w-56 h-56 mx-auto rounded-xl bg-black border-2 border-dashed border-[#C81E38] flex flex-col items-center justify-center overflow-hidden group">
+<div class="w-40 h-40 border-2 border-white/60 rounded-lg relative flex items-center justify-center">
+<div class="absolute inset-0 bg-[#C81E38]/15 animate-pulse"></div>
+<span class="material-symbols-outlined text-4xl text-white/80 animate-bounce">qr_code_2</span>
+</div>
+<div class="absolute bottom-2 text-[10px] text-zinc-400 font-mono">Camera Stream Simulated</div>
+</div>
+<button class="w-full h-11 rounded-xl bg-[#0A0A0C] hover:bg-[#C81E38] text-white font-body text-xs font-semibold transition-colors" onclick="simulateSuccessfulScan()" type="button">
+      Simulate Scanning "RAHUL24" Table Code
+    </button>
+</div>
+</div>
+<!-- MODAL 2: PLANNER / ADMIN PORTAL ACCESS -->
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/75 backdrop-blur-md hidden" id="admin-modal" role="dialog">
+<div class="luxury-card relative w-full max-w-md bg-white dark:bg-[#131317] rounded-2xl shadow-2xl p-6 sm:p-7 border border-zinc-200 dark:border-zinc-800 space-y-5" onclick="event.stopPropagation()">
+<button aria-label="Close" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors" onclick="closeAdminModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<div class="flex items-start gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">shield_person</span>
+</div>
+<div>
+<h3 class="font-editorial font-bold text-xl text-zinc-900 dark:text-white">Host &amp; Planner Portal</h3>
+<p class="font-body text-xs text-zinc-500 dark:text-zinc-400">Restricted to licensed wedding cinematographers, event organizers, and immediate couples.</p>
+</div>
+</div>
+<div class="space-y-3">
+<div>
+<label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-500 mb-1">Coordinator Email</label>
+<input class="w-full h-10 px-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-mono" id="admin-email" readonly="" type="email" value="concierge@makemymarriage.com"/>
+</div>
+<div>
+<label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-500 mb-1">Passkey Token</label>
+<input class="w-full h-10 px-3 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-white text-xs font-mono tracking-widest" id="admin-key" readonly="" type="password" value="MMM-2025-GOLD-ADMIN"/>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/60 dark:border-zinc-700/60 text-xs text-zinc-600 dark:text-zinc-400 flex items-center gap-2">
+<span class="material-symbols-outlined text-[#C81E38] text-[18px]">verified</span>
+<span>Demo credentials pre-authenticated for evaluation.</span>
+</div>
+<button class="w-full h-11 rounded-xl bg-[#0A0A0C] hover:bg-[#C81E38] text-white font-body text-xs font-semibold transition-colors flex items-center justify-center gap-2" onclick="launchAdminConsole()" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+<span>Launch Planner Management Suite</span>
+</button>
+</div>
+</div>
+<!-- MODAL 3: HELP & CONCIERGE -->
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/75 backdrop-blur-md hidden" id="help-modal" role="dialog">
+<div class="luxury-card relative w-full max-w-sm bg-white dark:bg-[#131317] rounded-2xl shadow-2xl p-6 border border-zinc-200 dark:border-zinc-800 space-y-4" onclick="event.stopPropagation()">
+<button aria-label="Close" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 hover:text-zinc-900 transition-colors" onclick="closeHelpModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<div class="text-center space-y-1">
+<div class="w-10 h-10 rounded-full bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center mx-auto mb-2">
+<span class="material-symbols-outlined text-[22px]">contact_support</span>
+</div>
+<h3 class="font-editorial font-bold text-lg text-zinc-900 dark:text-white">Need Invitation Code?</h3>
+<p class="font-body text-xs text-zinc-500 dark:text-zinc-400">Marriage passcodes are printed on your physical card or sent in WhatsApp wedding groups.</p>
+</div>
+<div class="space-y-2 text-xs">
+<div class="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">
+<span class="font-semibold block text-zinc-800 dark:text-zinc-200">1. Check your WhatsApp Invitation</span>
+<span class="text-zinc-500">Look for a 6-character code like RAHUL24 or VIKPRI24.</span>
+</div>
+<div class="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">
+<span class="font-semibold block text-zinc-800 dark:text-zinc-200">2. Scan Physical Table Standee</span>
+<span class="text-zinc-500">Each reception banquet table has a direct QR code for instant entry.</span>
+</div>
+</div>
+<button class="w-full h-10 rounded-lg bg-[#0A0A0C] hover:bg-[#C81E38] text-white font-body text-xs font-semibold transition-colors" onclick="applyPreset('RAHUL24'); closeHelpModal();" type="button">
+      Load Demo Wedding (Rahul &amp; Anjali)
+    </button>
+</div>
+</div>
+<!-- MODAL 4: POLICY POPUP -->
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/75 backdrop-blur-md hidden" id="policy-modal" role="dialog">
+<div class="luxury-card relative w-full max-w-md bg-white dark:bg-[#131317] rounded-2xl shadow-2xl p-6 border border-zinc-200 dark:border-zinc-800 space-y-4" onclick="event.stopPropagation()">
+<button aria-label="Close" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-500 hover:text-zinc-900 transition-colors" onclick="closePolicyModal()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<div class="space-y-1">
+<h3 class="font-editorial font-bold text-xl text-zinc-900 dark:text-white" id="policy-modal-title">Cloud Policy</h3>
+<p class="font-body text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed pt-2" id="policy-modal-body">Description</p>
+</div>
+<div class="flex justify-end pt-2">
+<button class="px-4 py-2 rounded-lg bg-[#0A0A0C] hover:bg-[#C81E38] text-white text-xs font-semibold transition-colors" onclick="closePolicyModal()">Acknowledge</button>
+</div>
+</div>
+</div>
+<!-- JAVASCRIPT LOGIC -->
+<script>
+  // Marriage Registry Database for Instant Interactive Feedback
+  const CELEBRATION_REGISTRY = {
+    'RAHUL24': {
+      couple: 'Rahul & Anjali',
+      avatar: 'R&A',
+      status: 'Live Haldi Stream',
+      venue: 'The Leela Palace, South Goa • Sundowner Pavilion',
+      photos: '520 Uncompressed Photos',
+      attendees: '184 Family & Friends active',
+      themeColor: '#C81E38'
+    },
+    'VIKPRI24': {
+      couple: 'Vikram & Priya',
+      avatar: 'V&P',
+      status: 'Live Sangeet Night',
+      venue: 'The Oberoi Udaivilas, Udaipur • Lakeside Courtyard',
+      photos: '840 Uncompressed Photos',
+      attendees: '312 Family & Friends active',
+      themeColor: '#9E1B32'
+    },
+    'ARJMEE24': {
+      couple: 'Arjun & Meera',
+      avatar: 'A&M',
+      status: 'Mehndi & Welcome Feast',
+      venue: 'Rayong Seaside Resort, Thailand • Andaman Lawn',
+      photos: '410 Uncompressed Photos',
+      attendees: '145 Family & Friends active',
+      themeColor: '#C81E38'
+    }
+  };
+
+  // Dark Mode Toggle
+  function toggleDarkMode() {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('mmm_portal_theme', isDark ? 'dark' : 'light');
+    showToast(isDark ? 'Obsidian Noir Mode' : 'High-Editorial Ivory Mode', isDark ? 'Low-light luxury palette enabled' : 'Clean high-fashion palette enabled');
+  }
+
+  // Init Theme
+  (function initTheme() {
+    const saved = localStorage.getItem('mmm_portal_theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  })();
+
+  // Toast System
+  let toastTimeout = null;
+  function showToast(title, desc, isSuccess = true) {
+    const toast = document.getElementById('toast');
+    const toastTitle = document.getElementById('toast-title');
+    const toastDesc = document.getElementById('toast-desc');
+    const toastIcon = document.getElementById('toast-icon');
+
+    if (!toast) return;
+    toastTitle.textContent = title;
+    toastDesc.textContent = desc;
+    toastIcon.textContent = isSuccess ? 'check_circle' : 'info';
+    toastIcon.className = isSuccess ? 'material-symbols-outlined text-[#C81E38] text-[22px]' : 'material-symbols-outlined text-zinc-400 text-[22px]';
+
+    toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 3200);
+  }
+
+  // Get Current Passcode
+  function getCurrentCode() {
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      const box = document.getElementById(`pin-${i}`);
+      if (box) code += box.value.trim().toUpperCase();
+    }
+    return code;
+  }
+
+  // Update Vault Preview dynamically
+  function updateVaultPreview(code) {
+    const data = CELEBRATION_REGISTRY[code];
+    const preview = document.getElementById('live-vault-preview');
+    const coupleEl = document.getElementById('preview-couple');
+    const statusEl = document.getElementById('preview-status');
+    const venueEl = document.getElementById('preview-venue');
+    const codeTagEl = document.getElementById('preview-code-tag');
+    const photosEl = document.getElementById('preview-photos');
+    const attendeesEl = document.getElementById('preview-attendees');
+    const avatarEl = document.getElementById('preview-avatar');
+    const btnText = document.getElementById('enter-btn-text');
+
+    if (data) {
+      coupleEl.textContent = data.couple;
+      statusEl.textContent = data.status;
+      venueEl.textContent = data.venue;
+      codeTagEl.textContent = code;
+      photosEl.textContent = data.photos;
+      attendeesEl.textContent = data.attendees;
+      avatarEl.textContent = data.avatar;
+      btnText.textContent = `Enter ${data.couple}'s Vault`;
+      preview.classList.remove('opacity-60', 'grayscale');
+    } else {
+      coupleEl.textContent = code.length >= 4 ? `Custom Vault [${code}]` : 'Private Celebration Vault';
+      statusEl.textContent = 'Invitation Protected';
+      venueEl.textContent = 'Destination Venue • Ready for passcode decryption';
+      codeTagEl.textContent = code || '------';
+      photosEl.textContent = 'High-Resolution Media Stream';
+      attendeesEl.textContent = 'Authorized Guests Only';
+      avatarEl.textContent = code ? code.slice(0, 2) : 'MM';
+      btnText.textContent = 'Enter Celebration Vault';
+    }
+  }
+
+  // Handle PIN Input navigation
+  function handlePinInput(element, index) {
+    element.value = element.value.toUpperCase();
+    if (element.value.length === 1 && index < 5) {
+      const next = document.getElementById(`pin-${index + 1}`);
+      if (next) next.focus();
+    }
+    const current = getCurrentCode();
+    updateVaultPreview(current);
+  }
+
+  function handlePinBackspace(event, index) {
+    if (event.key === 'Backspace' && !event.target.value && index > 0) {
+      const prev = document.getElementById(`pin-${index - 1}`);
+      if (prev) prev.focus();
+    }
+  }
+
+  // Quick Preset Helper
+  function applyPreset(code) {
+    const chars = code.split('');
+    for (let i = 0; i < 6; i++) {
+      const box = document.getElementById(`pin-${i}`);
+      if (box) box.value = chars[i] || '';
+    }
+    updateVaultPreview(code);
+    showToast(`Passcode Loaded: ${code}`, `Connected to ${CELEBRATION_REGISTRY[code]?.couple || 'Celebration'}`);
+  }
+
+  // Primary Action: Submit Passcode
+  function submitPasscode() {
+    const code = getCurrentCode();
+    const btn = document.getElementById('enter-vault-btn');
+    const data = CELEBRATION_REGISTRY[code];
+
+    if (code.length < 4) {
+      showToast('Incomplete Passcode', 'Please enter your full 6-digit invitation passkey.', false);
+      const firstEmpty = document.querySelector('.pin-box[value=""]');
+      if (firstEmpty) firstEmpty.focus();
+      return;
+    }
+
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px] text-[#C81E38]">progress_activity</span><span>Decrypting Private Cloud...</span>';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[20px] text-emerald-400">lock_open</span><span>Celebration Vault Unlocked</span>';
+      const name = data ? data.couple : `Passcode [${code}]`;
+      showToast('Vault Access Granted', `Welcome to the celebration of ${name}! Redirecting to live feed...`);
+
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined text-[20px] text-[#C81E38]">lock_open</span><span>Enter Celebration Vault</span>';
+        btn.disabled = false;
+      }, 2500);
+    }, 900);
+  }
+
+  // Copy Link
+  function copyPasscodeLink() {
+    const code = getCurrentCode() || 'RAHUL24';
+    const dummyUrl = `https://makemymarriage.com/vault/${code}`;
+    navigator.clipboard?.writeText(dummyUrl).catch(() => {});
+    showToast('Direct Link Copied', `Guest invite link for [${code}] copied to clipboard.`);
+  }
+
+  // Live Showcase quick explorer
+  function exploreLiveShowcase() {
+    applyPreset('RAHUL24');
+    submitPasscode();
+  }
+
+  function resetToInitial(event) {
+    if (event) event.preventDefault();
+    applyPreset('RAHUL24');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // QR Modal
+  function openQrModal() {
+    document.getElementById('qr-modal').classList.remove('hidden');
+  }
+  function closeQrModal() {
+    document.getElementById('qr-modal').classList.add('hidden');
+  }
+  function simulateSuccessfulScan() {
+    closeQrModal();
+    applyPreset('RAHUL24');
+    showToast('Table Standee Detected', 'Decoded Passcode [RAHUL24] for Rahul & Anjali at The Leela Palace');
+    submitPasscode();
+  }
+
+  // Admin Modal
+  function openAdminModal() {
+    document.getElementById('admin-modal').classList.remove('hidden');
+  }
+  function closeAdminModal() {
+    document.getElementById('admin-modal').classList.add('hidden');
+  }
+  function launchAdminConsole() {
+    closeAdminModal();
+    showToast('Planner Console Initialized', 'Session validated. Switching to wedding management dashboard...');
+  }
+
+  // Help Modal
+  function showHelpModal() {
+    document.getElementById('help-modal').classList.remove('hidden');
+  }
+  function closeHelpModal() {
+    document.getElementById('help-modal').classList.add('hidden');
+  }
+
+  // Policy Modal
+  function showPolicyModal(title, body) {
+    document.getElementById('policy-modal-title').textContent = title;
+    document.getElementById('policy-modal-body').textContent = body;
+    document.getElementById('policy-modal').classList.remove('hidden');
+  }
+  function closePolicyModal() {
+    document.getElementById('policy-modal').classList.add('hidden');
+  }
+
+  // Global ESC Key and Backdrop Dismiss
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeQrModal();
+      closeAdminModal();
+      closeHelpModal();
+      closePolicyModal();
+    }
+  });
+
+  document.querySelectorAll('[aria-modal="true"]').forEach(m => {
+    m.addEventListener('click', (e) => {
+      if (e.target === m) {
+        m.classList.add('hidden');
+      }
+    });
+  });
+
+  // Initial update check
+  updateVaultPreview('RAHUL24');
+</script>
+</body></html>

@@ -1,109 +1,196 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
+import { logout } from '@/store/slices/authSlice';
+import api from '@/lib/api';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
+  const [isQrScannerOpen, setIsQrScannerOpen] = useState(false);
+  const [scannedCode, setScannedCode] = useState('');
 
-  // If on admin dashboard or guest upload, keep header minimal or hide
+  // Hide the global navbar on the admin dashboard since it has its own bespoke luxury sidebar
   if (pathname?.startsWith('/admin/dashboard')) {
     return null;
   }
 
+  const handleLogout = async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch {
+      // ignore
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('mmm_token');
+    }
+    dispatch(logout());
+  };
+
   return (
-    <header className="sticky top-0 left-0 w-full z-40 bg-surface/85 backdrop-blur-md border-b border-outline-variant/30 shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-colors duration-300">
-      <div className="h-16 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-        {/* Brand */}
-        <div className="flex items-center gap-3 shrink-0">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="h-9 w-auto flex items-center">
-              <img
-                src="https://lh3.googleusercontent.com/aida/AEtjO1UfPBbeSlAkCyq5-pwjaoaiq0GGpx9YgfLpbzEKjeU8HM5Y8ehV4mZ3hN9b8oEQ7K_rcAQ-yO2uq1XaJmWEfZsBuvBQmnlaV_fWKmPNEQJUMZLB9gPtINBkxn6l9hgXAYhvkoQYLisIGb_HxY3VWLCXI3Yb92ApcvGN63zmWHogPr_d1hInLCR1Qrvwep7703oifn_jb6M_73mu021zIYharFGt6UjFTUm6eZTHNRL8"
-                alt="Make My Marriage"
-                className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
-              />
-            </div>
-          </Link>
-          <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-caption text-[11px] font-semibold">
-            ₹0 Cloud
-          </span>
-        </div>
+    <>
+      <header className="sticky top-0 left-0 w-full z-40 bg-[#131315]/90 backdrop-blur-md border-b border-white/10 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+          {/* Brand */}
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-lg bg-[#c81e38] flex items-center justify-center text-white font-bold shadow-md shadow-[#c81e38]/20 group-hover:scale-105 transition-transform">
+                <span className="material-symbols-outlined text-[19px]">diamond</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-editorial text-[16px] tracking-tight font-bold text-white leading-tight">
+                  MAKE MY MARRIAGE
+                </span>
+                <span className="text-[9px] tracking-widest uppercase font-semibold text-[#ffb3b3]">
+                  Luxury Wedding Cloud
+                </span>
+              </div>
+            </Link>
+            <span className="hidden sm:inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-[#c81e38]/15 text-[#ffb3b3] border border-[#c81e38]/30">
+              ₹0 Cloud • GridFS
+            </span>
+          </div>
 
-        {/* Main Nav */}
-        <nav className="hidden lg:flex items-center gap-1">
-          <Link
-            href="/"
-            className={`px-3.5 py-2 rounded-lg font-label-md text-label-md transition-all ${
-              pathname === '/'
-                ? 'bg-primary-container text-on-primary font-semibold shadow-sm'
-                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
-            }`}
-          >
-            Explore Marriages
-          </Link>
-
-          <Link
-            href="/marriage/rahul24"
-            className={`px-3.5 py-2 rounded-lg font-label-md text-label-md transition-all ${
-              pathname?.startsWith('/marriage')
-                ? 'bg-primary-container text-on-primary font-semibold shadow-sm'
-                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
-            }`}
-          >
-            Guest Experience
-          </Link>
-
-          <Link
-            href="/guest/upload?code=RAHUL24"
-            className="px-3.5 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all"
-          >
-            QR Photo Dump
-          </Link>
-
-          <Link
-            href="/admin/dashboard"
-            className="px-3.5 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all"
-          >
-            Admin Portal
-          </Link>
-        </nav>
-
-        {/* Header Actions */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <Link
-            href="/guest/upload?code=RAHUL24"
-            className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high transition-colors"
-          >
-            <span className="material-symbols-outlined text-[16px] text-primary">qr_code_scanner</span>
-            <span className="hidden sm:inline">Scan Table QR</span>
-          </Link>
-
-          {user?.role === 'ADMIN' ? (
+          {/* Nav links */}
+          <nav className="hidden md:flex items-center gap-1 bg-[#201f21] p-1 rounded-xl border border-white/5">
+            <Link
+              href="/"
+              className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
+                pathname === '/'
+                  ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
+                  : 'font-medium text-white/70 hover:text-white'
+              }`}
+            >
+              Explore Marriages
+            </Link>
+            <Link
+              href="/marriage/rahul24"
+              className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
+                pathname?.startsWith('/marriage')
+                  ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
+                  : 'font-medium text-white/70 hover:text-white'
+              }`}
+            >
+              Guest Experience
+            </Link>
+            <Link
+              href="/guest/upload?code=RAHUL24"
+              className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
+                pathname?.startsWith('/guest')
+                  ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
+                  : 'font-medium text-white/70 hover:text-white'
+              }`}
+            >
+              QR Photo Dump
+            </Link>
             <Link
               href="/admin/dashboard"
-              className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:opacity-95 shadow-sm transition-all"
+              className="px-3.5 py-1.5 text-xs font-medium text-white/70 hover:text-white rounded-lg transition-colors"
             >
-              <div className="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">
-                {user.name.slice(0, 1).toUpperCase()}
+              Admin Portal
+            </Link>
+          </nav>
+
+          {/* Action buttons */}
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={() => setIsQrScannerOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#201f21] hover:bg-[#2a2a2c] text-xs font-semibold text-white/90 border border-white/10 transition-colors"
+              title="Scan Table Standee QR Code"
+            >
+              <span className="material-symbols-outlined text-[16px] text-[#ffb3b3]">qr_code_scanner</span>
+              <span className="hidden sm:inline">Scan Table QR</span>
+            </button>
+
+            {user?.role === 'ADMIN' ? (
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/admin/dashboard"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-xs font-bold text-white shadow-sm transition-all"
+                >
+                  <div className="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">
+                    {user.name.slice(0, 1).toUpperCase()}
+                  </div>
+                  <span className="hidden sm:inline">{user.name.split(' ')[0]}</span>
+                  <span className="text-[10px] font-normal opacity-80">(Host)</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                  title="Sign Out"
+                >
+                  <span className="material-symbols-outlined text-[18px]">logout</span>
+                </button>
               </div>
-              <span>{user.name.split(' ')[0]} (Host)</span>
-            </Link>
-          ) : (
-            <Link
-              href="/admin/login"
-              className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold hover:opacity-95 shadow-sm transition-all"
-            >
-              <span className="material-symbols-outlined text-[16px]">lock_person</span>
-              <span>Planner Portal</span>
-            </Link>
-          )}
+            ) : (
+              <Link
+                href="/admin/login"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-md transition-all active:scale-95"
+              >
+                <span className="material-symbols-outlined text-[16px]">lock</span>
+                <span>Host Sign In</span>
+              </Link>
+            )}
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Standee QR Scanner Modal */}
+      {isQrScannerOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="w-full max-w-md bg-[#1c1b1d] rounded-2xl border border-white/15 p-6 shadow-2xl relative text-white">
+            <button
+              onClick={() => setIsQrScannerOpen(false)}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white"
+            >
+              <span className="material-symbols-outlined text-[18px]">close</span>
+            </button>
+
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-9 h-9 rounded-xl bg-[#c81e38]/20 text-[#ffb3b3] flex items-center justify-center border border-[#c81e38]/30">
+                <span className="material-symbols-outlined text-[20px]">qr_code_scanner</span>
+              </div>
+              <div>
+                <h3 className="font-editorial text-lg font-bold text-white">Scan Dining Standee QR</h3>
+                <p className="text-[11px] text-white/60">Position camera over your dining table standee card</p>
+              </div>
+            </div>
+
+            <div className="relative aspect-square max-w-[280px] mx-auto rounded-xl overflow-hidden bg-black border-2 border-[#c81e38]/50 flex items-center justify-center my-4 group">
+              <div className="absolute inset-4 border border-dashed border-white/40 rounded-lg pointer-events-none flex items-center justify-center">
+                <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-[#c81e38] to-transparent animate-pulse shadow-[0_0_12px_#c81e38]"></div>
+              </div>
+              <p className="text-xs text-white/50 text-center px-6">Camera Viewfinder Active<br /><span className="text-[10px] text-[#ffb3b3]">Hold steady over table QR code</span></p>
+            </div>
+
+            <div className="space-y-3">
+              <label className="block text-xs font-semibold text-white/70">Or type 6-character Passcode manually:</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  maxLength={8}
+                  placeholder="e.g. RAHUL24"
+                  value={scannedCode}
+                  onChange={(e) => setScannedCode(e.target.value.toUpperCase())}
+                  className="flex-1 h-10 px-3 bg-[#131315] border border-white/20 rounded-xl text-center text-sm font-bold tracking-widest text-white uppercase focus:outline-none focus:border-[#c81e38]"
+                />
+                <Link
+                  href={`/marriage/${scannedCode.toLowerCase() || 'rahul24'}`}
+                  onClick={() => setIsQrScannerOpen(false)}
+                  className="px-4 h-10 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold flex items-center justify-center transition-all"
+                >
+                  Unlock
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

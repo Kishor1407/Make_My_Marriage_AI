@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&amp;family=Plus+Jakarta+Sans:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"background":"#0E0E10","surface-bright":"#39393B","tertiary-fixed-dim":"#FFB3B5","secondary-fixed-dim":"#FFB3B5","surface-variant":"#1C1B1D","on-tertiary":"#680019","surface":"#131315","inverse-on-surface":"#313032","primary-fixed":"#FFDAD9","on-tertiary-fixed":"#40000C","surface-container-low":"#18181A","on-error-container":"#FFDAD6","tertiary-fixed":"#FFDADA","on-primary-container":"#FFDFDE","on-secondary-fixed":"#40000B","on-secondary-container":"#FF989D","surface-container-lowest":"#0A0A0C","surface-container-highest":"#2D2D31","on-tertiary-container":"#FFDFDF","error":"#FFB4AB","on-secondary":"#680018","secondary":"#FFB3B5","on-tertiary-fixed-variant":"#8F0C28","outline":"#5B4040","surface-container":"#1E1E22","tertiary-container":"#8E0F28","on-primary":"#FFFFFF","surface-dim":"#131315","primary-container":"#C81E38","surface-container-high":"#26262A","on-primary-fixed":"#400009","on-primary-fixed-variant":"#920021","tertiary":"#C81E38","secondary-container":"#40000B","inverse-surface":"#E5E1E4","on-error":"#690005","on-surface":"#F5F5F7","inverse-primary":"#BC1131","outline-variant":"#38373B","primary-fixed-dim":"#FFB3B3","error-container":"#93000A","on-surface-variant":"#B0AEB4","primary":"#C81E38","on-secondary-fixed-variant":"#8E0F28","surface-tint":"#C81E38","on-background":"#F5F5F7","secondary-fixed":"#FFDADA"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem","space-md":"1rem","space-sm":"0.5rem","space-xl":"2.5rem",margin:"2rem",gutter:"1.5rem","margin-mobile":"1rem","space-lg":"1.5rem","gutter-mobile":"1rem"},fontFamily:{"display-hero":["Playfair Display"],"headline-lg":["Playfair Display"],"headline-md":["Playfair Display"],"headline-sm":["Playfair Display"],"body-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"caption":["Plus Jakarta Sans"]}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased transition-colors duration-200"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant/40 z-50 flex flex-col pt-5 pb-6"><div class="px-6 mb-7 flex items-center justify-between"><div class="flex items-center gap-2.5"><span class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white font-bold shadow-md shadow-primary/20"><span class="material-symbols-outlined text-[19px]">diamond</span></span><div class="flex flex-col"><span class="font-headline-sm text-[16px] tracking-tight font-semibold text-white">Make My Marriage</span><span class="text-[10px] tracking-widest uppercase font-semibold text-primary">Host OS Concierge</span></div></div></div><nav class="flex-1 px-3 space-y-1" data-active-classes="bg-primary text-white font-label-md rounded-lg shadow-md shadow-primary/20"><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-white font-label-md transition-all" data-path="admin-portal" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span>Dashboard</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-white font-label-md transition-all" data-path="admin-event-manager" href="#"><span class="material-symbols-outlined text-[20px]">event</span>Events &amp; Timeline</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-white font-label-md transition-all" data-path="admin-guest-directory" href="#"><span class="material-symbols-outlined text-[20px]">group</span>Guest Directory</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white font-label-md shadow-lg shadow-primary/30" data-path="admin-media-vault" href="#"><span class="material-symbols-outlined text-[20px]">lock</span>Private Media Vault</a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-white font-label-md transition-all" data-path="admin-settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span>Configuration</a></nav><div class="px-4 pt-4"><div class="p-3 rounded-xl bg-surface-container-low border border-outline-variant/40 flex items-center justify-between"><div class="flex items-center gap-2.5"><img alt="Profile" class="w-8 h-8 rounded-full ring-1 ring-primary/40 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsuZcSmvPOnIHI-AIBoJdXcK4WjK5lALRhAArHk190HFZ0dLtfFdk5k21kpQLu8QleKGfrWPvxU7Yop2Q4vzZt_hyLkhm39mJhzmTgJNp48ImeLxEvBje-hzevRa1S8XzmRGsSsx8Kd6pJyknqGqbVc6P-QHvPP_n1cpCTzJRhARrpCZ_z_0CMDgswb_8Cb0LdBQjO0KOyfhqlXu-QGUpOoc_R_zgTKS_COgda7Dc"/><div class="flex flex-col"><span class="font-label-sm text-[13px] font-semibold text-white">Concierge Haute</span><span class="text-[11px] font-caption text-primary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> Active Vault Session</span></div></div><button class="p-1.5 text-on-surface-variant hover:text-white rounded-lg hover:bg-surface-container transition-colors" id="theme-toggle-sidebar" onclick="document.documentElement.classList.toggle('dark')" type="button"><span class="material-symbols-outlined text-[18px]">contrast</span></button></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-md border-b border-outline-variant/40 z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-sm"><span class="font-caption text-caption text-primary uppercase font-bold tracking-widest">Luxury Executive Vault</span><span class="text-outline-variant font-label-sm">/</span><span class="font-label-sm text-label-sm text-on-surface-variant">Black &amp; Carmine Studio</span></div><div class="flex items-center gap-space-md"><button aria-label="Search portal" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-white transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Notifications" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-white transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary ring-2 ring-background"></span></button><img alt="Profile" class="w-8 h-8 rounded-full ring-1 ring-primary/40 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsuZcSmvPOnIHI-AIBoJdXcK4WjK5lALRhAArHk190HFZ0dLtfFdk5k21kpQLu8QleKGfrWPvxU7Yop2Q4vzZt_hyLkhm39mJhzmTgJNp48ImeLxEvBje-hzevRa1S8XzmRGsSsx8Kd6pJyknqGqbVc6P-QHvPP_n1cpCTzJRhARrpCZ_z_0CMDgswb_8Cb0LdBQjO0KOyfhqlXu-QGUpOoc_R_zgTKS_COgda7Dc"/></div></header><main class="relative pt-16 bg-background min-h-screen"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin py-8">
+<!-- Top Sub-Navigation & Breadcrumbs Bar -->
+<div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-outline-variant/30 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high border border-outline-variant/50 flex items-center justify-center text-primary font-bold shadow-inner">
+<span class="material-symbols-outlined text-[20px]">spa</span>
+</div>
+<div class="h-6 w-px bg-outline-variant/50 hidden sm:block"></div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="text-white font-medium">Host OS</span>
+<span class="text-outline-variant">/</span>
+<span>Bespoke Marriages</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-semibold">Architect New Wedding Vault</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container border border-primary/30 text-white font-caption text-caption tracking-wider">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#C81E38] animate-pulse"></span>
+          Carmine Core • Ultra-Low Latency Ready
+        </span>
+<button class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 flex items-center justify-center text-on-surface-variant hover:text-white transition-colors" id="theme-btn" onclick="document.documentElement.classList.toggle('dark')" title="Toggle Display Mode">
+<span class="material-symbols-outlined text-[19px]">dark_mode</span>
+</button>
+</div>
+</div>
+<!-- Page Title & Editorial Overline -->
+<div class="mb-9">
+<div class="flex items-center gap-2.5 mb-2">
+<span class="px-2.5 py-0.5 rounded text-[11px] font-bold tracking-widest uppercase bg-primary/15 text-primary border border-primary/30">Couture Vault Orchestrator</span>
+<span class="text-outline-variant">•</span>
+<span class="text-on-surface-variant font-caption text-caption tracking-wider">Vogue Private Archive 2025</span>
+</div>
+<h1 class="font-headline-lg text-4xl lg:text-5xl text-white font-normal tracking-tight">Architect a Private Wedding Vault</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-2 leading-relaxed">
+        Generate uncompressed 4K media depositories, private WebRTC live feeds, and encrypted guest access badges in one sovereign master control.
+      </p>
+</div>
+<!-- Two-Column Studio Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Column: Master Form (7 Cols) -->
+<div class="lg:col-span-7 space-y-6">
+<!-- Step 1: Couple & Destination Particulars -->
+<div class="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-6 shadow-xl">
+<div class="flex items-center justify-between mb-5">
+<div class="flex items-center gap-3">
+<span class="w-7 h-7 rounded-full bg-primary text-white font-label-sm text-label-sm flex items-center justify-center font-bold shadow-md shadow-primary/30">1</span>
+<h2 class="font-headline-sm text-xl text-white font-medium">Couple &amp; Event Logistics</h2>
+</div>
+<span class="text-primary text-[12px] font-label-sm flex items-center gap-1.5 font-semibold px-2.5 py-1 rounded-md bg-primary/10 border border-primary/20">
+<span class="material-symbols-outlined text-[15px]">stars</span> Essential Data
+            </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5" for="partner-1">Partner One Name</label>
+<input class="w-full h-11 px-3.5 bg-surface-container-highest/60 border border-outline-variant/60 rounded-xl font-body-md text-body-md text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" id="partner-1" placeholder="e.g. Aarav" type="text" value="Aarav"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5" for="partner-2">Partner Two Name</label>
+<input class="w-full h-11 px-3.5 bg-surface-container-highest/60 border border-outline-variant/60 rounded-xl font-body-md text-body-md text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" id="partner-2" placeholder="e.g. Meera" type="text" value="Meera"/>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5" for="ceremony-date">Wedding Celebration Date</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pr-10 bg-surface-container-highest/60 border border-outline-variant/60 rounded-xl font-body-md text-body-md text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" id="ceremony-date" placeholder="Select calendar date" type="text" value="November 24, 2025"/>
+<span class="material-symbols-outlined absolute right-3.5 top-3 text-on-surface-variant text-[19px] pointer-events-none">calendar_month</span>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5" for="venue-location">Sanctuary Destination / Venue</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pr-10 bg-surface-container-highest/60 border border-outline-variant/60 rounded-xl font-body-md text-body-md text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" id="venue-location" placeholder="e.g. Umaid Bhawan Palace" type="text" value="The Leela Palace, Udaipur"/>
+<span class="material-symbols-outlined absolute right-3.5 top-3 text-on-surface-variant text-[19px] pointer-events-none">location_on</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2: Passcode & Secret Access Generator -->
+<div class="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-6 shadow-xl">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<span class="w-7 h-7 rounded-full bg-primary text-white font-label-sm text-label-sm flex items-center justify-center font-bold shadow-md shadow-primary/30">2</span>
+<h2 class="font-headline-sm text-xl text-white font-medium">VIP Passcode &amp; QR Key</h2>
+</div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-label-sm text-xs font-semibold">
+<span class="material-symbols-outlined text-[15px]">verified</span> Encrypted &amp; Available
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">
+            Guests present this alphanumeric key or scan the auto-generated standee QR at arrival checkpoints to unlock media streaming and photo drops.
+          </p>
+<div class="flex flex-col sm:flex-row items-center gap-3 bg-surface-container-lowest p-3.5 rounded-xl border border-outline-variant/40">
+<div class="flex-1 w-full flex items-center justify-between px-4 py-2.5 bg-surface-container rounded-lg border border-outline-variant/40">
+<span class="font-headline-sm text-2xl font-bold tracking-widest text-white" id="passcode-display">AARMEE25</span>
+<div class="flex items-center gap-2">
+<span class="text-[11px] font-caption text-primary uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-primary/10 border border-primary/20">AES-256</span>
+<span class="material-symbols-outlined text-primary text-[19px]">lock</span>
+</div>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none h-11 px-4 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/60 text-white font-label-md text-label-md flex items-center justify-center gap-1.5 transition-all" id="regenerate-code-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">casino</span>
+<span>Randomize</span>
+</button>
+<button class="flex-1 sm:flex-none h-11 px-5 rounded-xl bg-primary hover:bg-[#9E1B32] text-white font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 shadow-lg shadow-primary/25 hover:shadow-primary/40 active:scale-95 transition-all" id="copy-code-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+<span id="copy-label">Copy Key</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Step 3: Multi-Event Sub-Vault Modules -->
+<div class="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-6 shadow-xl">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-3">
+<span class="w-7 h-7 rounded-full bg-primary text-white font-label-sm text-label-sm flex items-center justify-center font-bold shadow-md shadow-primary/30">3</span>
+<h2 class="font-headline-sm text-xl text-white font-medium">Ceremony Chapters &amp; Sub-Timelines</h2>
+</div>
+<span class="font-caption text-xs uppercase tracking-widest text-on-surface-variant">Auto-Partitioned</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">
+            Toggle which traditional ceremonies will maintain dedicated live galleries and guest camera upload bins:
+          </p>
+<div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5" id="events-selector">
+<button class="event-pill active flex flex-col items-center justify-center p-3.5 rounded-xl bg-primary text-white border border-primary/50 shadow-md shadow-primary/25 transition-all text-center group" data-event="Haldi" type="button">
+<span class="material-symbols-outlined text-[20px] mb-1 group-hover:scale-110 transition-transform">spa</span>
+<span class="font-label-sm text-label-sm font-bold">Haldi</span>
+<span class="font-caption text-[11px] opacity-80">Nov 22 AM</span>
+</button>
+<button class="event-pill active flex flex-col items-center justify-center p-3.5 rounded-xl bg-primary text-white border border-primary/50 shadow-md shadow-primary/25 transition-all text-center group" data-event="Mehndi" type="button">
+<span class="material-symbols-outlined text-[20px] mb-1 group-hover:scale-110 transition-transform">palette</span>
+<span class="font-label-sm text-label-sm font-bold">Mehndi</span>
+<span class="font-caption text-[11px] opacity-80">Nov 22 PM</span>
+</button>
+<button class="event-pill active flex flex-col items-center justify-center p-3.5 rounded-xl bg-primary text-white border border-primary/50 shadow-md shadow-primary/25 transition-all text-center group" data-event="Sangeet" type="button">
+<span class="material-symbols-outlined text-[20px] mb-1 group-hover:scale-110 transition-transform">nightlife</span>
+<span class="font-label-sm text-label-sm font-bold">Sangeet</span>
+<span class="font-caption text-[11px] opacity-80">Nov 23 PM</span>
+</button>
+<button class="event-pill active flex flex-col items-center justify-center p-3.5 rounded-xl bg-primary text-white border-2 border-white shadow-xl shadow-primary/30 transition-all text-center group ring-2 ring-primary" data-event="Wedding" type="button">
+<span class="material-symbols-outlined text-[20px] mb-1 group-hover:scale-110 transition-transform">favorite</span>
+<span class="font-label-sm text-label-sm font-bold">Wedding</span>
+<span class="font-caption text-[11px] opacity-80">Nov 24 Sunset</span>
+</button>
+<button class="event-pill active flex flex-col items-center justify-center p-3.5 rounded-xl bg-primary text-white border border-primary/50 shadow-md shadow-primary/25 transition-all text-center group" data-event="Reception" type="button">
+<span class="material-symbols-outlined text-[20px] mb-1 group-hover:scale-110 transition-transform">wine_bar</span>
+<span class="font-label-sm text-label-sm font-bold">Reception</span>
+<span class="font-caption text-[11px] opacity-80">Nov 25 Eve</span>
+</button>
+</div>
+</div>
+<!-- Step 4: Vault Cover Imagery -->
+<div class="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-6 shadow-xl">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-3">
+<span class="w-7 h-7 rounded-full bg-primary text-white font-label-sm text-label-sm flex items-center justify-center font-bold shadow-md shadow-primary/30">4</span>
+<h2 class="font-headline-sm text-xl text-white font-medium">Curated Cover Photography</h2>
+</div>
+<span class="font-caption text-xs text-primary uppercase font-bold tracking-wider">Couture Spread</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-4">
+<div class="relative rounded-xl overflow-hidden group cursor-pointer ring-2 ring-primary shadow-lg shadow-primary/20">
+<img class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Cinematic luxury modern destination Indian wedding couple portrait on a coastal beach in ivory couture with marigold and orchid floral arches" src="https://lh3.googleusercontent.com/aida/AEtjO1Va1U4bOy3llyRAkJVVvDdom4O7c1K1hrZINu89siLq0NNPCTFws5XwTjOZ1LrqyQj1lIgDLr1LnX3qCQj2wAaQn2005YMzbMSpfIj1mSM3elEEFnK85-twwqyE-gjKruWaMZ9ixkqJeEngIJt6R2JDaTYUK-BzM8vDQS4fCh2S-vVPoB7gVxyBT2Q8yA0BBhe7g47VdAUCPTUIGjS4n_y5uQE39qlTF7YTMZwnkH3JXg4i0UsUdW7BSoE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-2.5">
+<div class="flex items-center justify-between w-full">
+<span class="font-caption text-xs text-white font-bold tracking-wide">Coastal Sunset (Active)</span>
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+</div>
+</div>
+</div>
+<div class="relative rounded-xl overflow-hidden group cursor-pointer opacity-70 hover:opacity-100 border border-outline-variant/40 transition-all duration-300">
+<img class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Opulent marble palace courtyard in Rajasthan with warm candle illuminations, marigold garlands, and majestic architectural sandstone arches at twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc9C1voRVWDpitAXvHixh6nqQ4Fr79mnyuw9Xe3IcAQgZAd-Uv3awiaBCqPc9wnryGg6K_YtjvXw33aS0iPw333R8nNhGrxKssGs9kAEFQutT4sDRp5swxSF4PKKzpyne6cjdxSMvTeL4C-gEgct3msqLoQmVt6GrsyBYVuNDf8XOEWyRE8h2qqZjSVu1Q0NDPzcE68G9R3cAcloU2HG0DmHfapfJmWYtk0quRUrg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-2.5">
+<span class="font-caption text-xs text-white font-medium">Royal Palace</span>
+</div>
+</div>
+<div class="relative rounded-xl overflow-hidden group cursor-pointer opacity-70 hover:opacity-100 border border-outline-variant/40 transition-all duration-300">
+<img class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Ethereal glasshouse botanical wedding ballroom flooded with warm fairy lights, lush emerald monstera vines, and refined crystal chandeliers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSFCd_cy05beANlWSREfxP3NXg8ctYEY9AVrp-_XUcFVt_w_abbeTJoNmpWgcl8BVyWp4mMIEKmkoQCot9EjdJ8Qctuj_og0TdF89uVPf1ArAbEHmfMvwAjzk11O8dlquI1hLl94jYCQPEmyWg6L3oF39f_dnAAHfgwtKtVrHHwXAxAnTWY3rVge3SuEwTHGpMbYt9YVQpN3S6n00H5ow31iMzhlMSaFkbEID1-jQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-2.5">
+<span class="font-caption text-xs text-white font-medium">Emerald Pavilion</span>
+</div>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-highest/40 border border-dashed border-primary/40 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container-highest/70 hover:border-primary transition-all">
+<span class="material-symbols-outlined text-primary text-[26px] mb-1">cloud_upload</span>
+<span class="font-label-sm text-label-sm font-semibold text-white">Upload Bespoke Couple Portrait</span>
+<span class="font-caption text-caption text-on-surface-variant">Supports DNG, ProRAW, TIFF, and High-Resolution JPG up to 120MB</span>
+</div>
+</div>
+<!-- Step 5: Privacy, WebRTC Streaming & Media Quality Tiers -->
+<div class="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-6 shadow-xl">
+<div class="flex items-center gap-3 mb-4">
+<span class="w-7 h-7 rounded-full bg-primary text-white font-label-sm text-label-sm flex items-center justify-center font-bold shadow-md shadow-primary/30">5</span>
+<h2 class="font-headline-sm text-xl text-white font-medium">Concierge Infrastructure Controls</h2>
+</div>
+<div class="space-y-3.5">
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container border border-outline-variant/30">
+<div class="flex items-start gap-3.5">
+<span class="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">videocam</span>
+</span>
+<div>
+<div class="font-label-md text-label-md text-white font-semibold">WebRTC 4K Edge Broadcast</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Under 250ms latency video stream for overseas family with live emotional emoji reactions.</div>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0 ml-3">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container border border-outline-variant/30">
+<div class="flex items-start gap-3.5">
+<span class="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">raw_on</span>
+</span>
+<div>
+<div class="font-label-md text-label-md text-white font-semibold">Zero-Compression RAW Guest Bin</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Store original uncompressed camera files without standard social compression degradation.</div>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0 ml-3">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container border border-outline-variant/30">
+<div class="flex items-start gap-3.5">
+<span class="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">face</span>
+</span>
+<div>
+<div class="font-label-md text-label-md text-white font-semibold">AI Facial Recognition Smart Tagging</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Selfie-assisted instant personalized photo discovery for all registered dinner guests.</div>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0 ml-3">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Launch Call-To-Action Button -->
+<div class="pt-2">
+<button class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-[#9E1B32] via-primary to-[#9E1B32] text-white font-headline-sm text-xl font-medium tracking-wide shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/50 hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-3 border border-white/20" id="launch-vault-btn" type="button">
+<span class="material-symbols-outlined text-[26px]">celebration</span>
+<span>Launch Marriage Vault &amp; Generate Standee QR</span>
+</button>
+<div class="flex items-center justify-center gap-4 mt-3.5 text-caption font-caption text-on-surface-variant">
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[15px] text-primary">shield</span> Instant SSL Certificate</span>
+<span>•</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[15px] text-primary">backup</span> Triplicate Cloud Backup</span>
+<span>•</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[15px] text-primary">share</span> Instant WhatsApp Broadcast Ready</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive Real-Time Digital Invitation & Standee Preview (5 Cols) -->
+<div class="lg:col-span-5 sticky top-20 space-y-6">
+<!-- Standee / Passcard Preview Frame -->
+<div class="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_8px_#C81E38] animate-ping"></span>
+<span class="font-label-sm text-xs font-bold uppercase tracking-widest text-white">Live Standee Preview</span>
+</div>
+<span class="font-caption text-[11px] px-2.5 py-0.5 rounded bg-surface-container-highest text-white font-medium border border-outline-variant/40">Scale 1:1 Print Ready</span>
+</div>
+<!-- Digital Card Render: High-End Acrylic Finish -->
+<div class="relative rounded-2xl overflow-hidden shadow-2xl border border-outline-variant/60 bg-black">
+<!-- Hero Photo Header with Live Content -->
+<div class="relative h-72 w-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Cinematic luxury modern destination Indian wedding couple portrait on a coastal beach in ivory couture with marigold and orchid floral arches" id="preview-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1Va1U4bOy3llyRAkJVVvDdom4O7c1K1hrZINu89siLq0NNPCTFws5XwTjOZ1LrqyQj1lIgDLr1LnX3qCQj2wAaQn2005YMzbMSpfIj1mSM3elEEFnK85-twwqyE-gjKruWaMZ9ixkqJeEngIJt6R2JDaTYUK-BzM8vDQS4fCh2S-vVPoB7gVxyBT2Q8yA0BBhe7g47VdAUCPTUIGjS4n_y5uQE39qlTF7YTMZwnkH3JXg4i0UsUdW7BSoE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+<!-- Floating Brand Watermark -->
+<div class="absolute top-3.5 left-3.5 bg-black/85 backdrop-blur-md px-3 py-1 rounded-md border border-white/20 shadow-md flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-[11px] font-caption text-white font-bold tracking-widest uppercase">VAULT PASS</span>
+</div>
+<!-- Live Couple Names on Poster -->
+<div class="absolute bottom-3 left-4 right-4">
+<div class="font-caption text-[11px] tracking-widest uppercase text-tertiary-fixed font-bold mb-1">The Union Of</div>
+<h3 class="font-headline-lg text-3xl sm:text-4xl text-white font-normal tracking-tight drop-shadow-md" id="preview-couple-name">Aarav &amp; Meera</h3>
+</div>
+</div>
+<!-- Card Body / Key Meta -->
+<div class="p-5 bg-surface-container-lowest border-t border-outline-variant/40">
+<div class="flex items-start justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-sm mb-1.5">
+<span class="material-symbols-outlined text-[17px] text-primary">calendar_today</span>
+<span class="text-white" id="preview-date">November 24, 2025</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-sm">
+<span class="material-symbols-outlined text-[17px] text-primary">near_me</span>
+<span class="truncate max-w-[190px] text-white/90" id="preview-venue">The Leela Palace, Udaipur</span>
+</div>
+</div>
+<!-- Live Generated Simulated QR Code in Crisp White -->
+<div class="flex flex-col items-center">
+<div class="p-2 bg-white rounded-xl shadow-lg border border-black/10">
+<svg class="w-20 h-20 text-black" fill="currentColor" viewbox="0 0 100 100">
+<rect fill="currentColor" height="30" rx="4" width="30" x="0" y="0"></rect>
+<rect fill="white" height="20" rx="2" width="20" x="5" y="5"></rect>
+<rect fill="currentColor" height="10" width="10" x="10" y="10"></rect>
+<rect fill="currentColor" height="30" rx="4" width="30" x="70" y="0"></rect>
+<rect fill="white" height="20" rx="2" width="20" x="75" y="5"></rect>
+<rect fill="currentColor" height="10" width="10" x="80" y="10"></rect>
+<rect fill="currentColor" height="30" rx="4" width="30" x="0" y="70"></rect>
+<rect fill="white" height="20" rx="2" width="20" x="5" y="75"></rect>
+<rect fill="currentColor" height="10" width="10" x="10" y="80"></rect>
+<circle cx="50" cy="50" fill="#C81E38" r="10"></circle>
+<circle cx="50" cy="50" fill="white" r="4"></circle>
+<rect fill="currentColor" height="14" width="6" x="36" y="10"></rect>
+<rect fill="currentColor" height="6" width="8" x="46" y="20"></rect>
+<rect fill="currentColor" height="6" width="16" x="10" y="38"></rect>
+<rect fill="currentColor" height="6" width="14" x="72" y="38"></rect>
+<rect fill="currentColor" height="16" width="6" x="38" y="72"></rect>
+<rect fill="currentColor" height="10" width="10" x="68" y="68"></rect>
+<rect fill="currentColor" height="12" width="12" x="84" y="82"></rect>
+</svg>
+</div>
+<span class="font-caption text-[11px] text-on-surface-variant font-semibold mt-1.5">Scan for 4K Vault</span>
+</div>
+</div>
+<!-- Passcode Footer inside Card -->
+<div class="mt-4 pt-4 border-t border-outline-variant/30 flex items-center justify-between">
+<div>
+<span class="font-caption text-[10px] uppercase text-on-surface-variant tracking-widest block">VIP Check-in Key</span>
+<span class="font-headline-sm text-lg font-bold text-white tracking-widest" id="preview-passcode">AARMEE25</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/15 border border-primary/30 text-white font-caption text-xs font-semibold">
+<span class="material-symbols-outlined text-[15px] text-primary">stream</span> 4K Ultra Ready
+                </div>
+</div>
+</div>
+</div>
+<!-- Live Diagnostic Metrics Bar -->
+<div class="grid grid-cols-2 gap-3 mt-4">
+<div class="p-3.5 rounded-xl bg-surface-container border border-outline-variant/40">
+<span class="font-caption text-xs text-on-surface-variant block mb-0.5">Tier Allowance</span>
+<span class="font-label-md text-label-md font-bold text-white">Unlimited Guest 4K</span>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-container border border-outline-variant/40">
+<span class="font-caption text-xs text-on-surface-variant block mb-0.5">Encryption State</span>
+<span class="font-label-md text-label-md font-bold text-emerald-400 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">lock</span> Hardware Locked
+              </span>
+</div>
+</div>
+</div>
+<!-- Quick Standee Production Card -->
+<div class="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-5 flex items-center justify-between shadow-lg">
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[22px]">print</span>
+</div>
+<div>
+<div class="font-label-md text-label-md font-semibold text-white">Dining Table Acrylic Standees</div>
+<div class="font-body-sm text-xs text-on-surface-variant">Vector SVG &amp; PDF format for luxury stationery printers.</div>
+</div>
+</div>
+<button class="px-3.5 py-2 rounded-xl bg-surface-container hover:bg-surface-container-highest border border-outline-variant/50 text-white font-label-sm text-xs font-semibold shadow-sm transition-colors" type="button">
+            Pre-export
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Celebratory Confirmation Modal Overlay (Triggered by Primary Action) -->
+<div class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4" id="celebration-overlay">
+<!-- Canvas for Confetti Fireworks -->
+<canvas class="absolute inset-0 pointer-events-none w-full h-full" id="confetti-canvas"></canvas>
+<div class="relative w-full max-w-xl bg-surface-container-low border border-outline-variant/60 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden max-h-[92vh] overflow-y-auto">
+<!-- Ambient Glow Behind Modal Header -->
+<div class="absolute -top-16 -left-16 w-52 h-52 bg-primary/25 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -top-16 -right-16 w-52 h-52 bg-[#9E1B32]/30 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Close Button -->
+<button class="absolute top-5 right-5 w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-highest border border-outline-variant/40 flex items-center justify-center text-on-surface-variant hover:text-white transition-colors" id="close-modal-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<!-- Celebratory Icon & Badge -->
+<div class="text-center mb-6">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/15 border border-primary/30 text-primary mb-3 shadow-inner">
+<span class="material-symbols-outlined text-[36px]">verified</span>
+</div>
+<div class="flex items-center justify-center gap-1.5 text-primary font-caption text-xs uppercase tracking-widest font-bold">
+<span class="material-symbols-outlined text-[16px]">celebration</span>
+<span>Broadcast Channel Synchronized</span>
+</div>
+<h2 class="font-headline-lg text-3xl sm:text-4xl text-white font-normal mt-1.5">Wedding Vault Activated!</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto mt-2 leading-relaxed">
+          The sovereign archive for <span class="font-semibold text-white underline decoration-primary decoration-2 underline-offset-4" id="modal-couple-label">Aarav &amp; Meera</span> is now live across the edge media delivery cluster.
+        </p>
+</div>
+<!-- Standee & Passcode Delivery Summary Box -->
+<div class="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-5 mb-6">
+<div class="flex items-center justify-between pb-3.5 border-b border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">vpn_key</span>
+<span class="font-label-md text-sm font-semibold text-white">Universal Guest Code:</span>
+</div>
+<span class="font-headline-sm text-2xl font-bold text-primary tracking-widest" id="modal-passcode-label">AARMEE25</span>
+</div>
+<div class="pt-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-caption text-xs text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-emerald-400">lock_open</span>
+<span>QR Standee Direct Link Attached</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">cloud_done</span>
+<span>Zero-Loss 4K Video Bin Ready</span>
+</div>
+</div>
+</div>
+<!-- Action Distribution Trays -->
+<div class="space-y-3 mb-6">
+<button class="w-full h-12 px-4 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white font-label-md text-sm flex items-center justify-between transition-colors" id="copy-guest-link-btn" type="button">
+<span class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[20px]">link</span>
+<span>Copy Guest Invitation Vault Link</span>
+</span>
+<span class="text-caption text-xs text-primary font-bold" id="link-copy-status">Copy URL</span>
+</button>
+<button class="w-full h-12 px-4 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-label-md text-sm flex items-center justify-between transition-colors" type="button">
+<span class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+<span>Dispatch Automated WhatsApp Blast to 240 VIPs</span>
+</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+<button class="w-full h-12 px-4 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white font-label-md text-sm flex items-center justify-between transition-colors" type="button">
+<span class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[20px]">download</span>
+<span>Download High-Res Table Standee Acrylic PDF</span>
+</span>
+<span class="text-caption text-[11px] text-on-surface-variant uppercase tracking-wider font-semibold">300 DPI</span>
+</button>
+</div>
+<!-- Modal Footer CTAs -->
+<div class="flex flex-col sm:flex-row items-center gap-3">
+<button class="w-full sm:flex-1 h-12 px-4 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-white font-label-md text-sm font-medium transition-colors" id="reset-create-btn" type="button">
+          Create Another Vault
+        </button>
+<button class="w-full sm:flex-1 h-12 px-4 rounded-xl bg-primary hover:bg-[#9E1B32] text-white font-label-md text-sm font-semibold shadow-lg shadow-primary/30 transition-all flex items-center justify-center gap-2" id="manage-portal-btn" type="button">
+<span>Enter Vault Manager</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Interactive Logic Script -->
+<script>
+    (function initWeddingVaultStudio() {
+      // Input mirroring elements
+      const p1Input = document.getElementById('partner-1');
+      const p2Input = document.getElementById('partner-2');
+      const dateInput = document.getElementById('ceremony-date');
+      const venueInput = document.getElementById('venue-location');
+
+      const previewCouple = document.getElementById('preview-couple-name');
+      const previewDate = document.getElementById('preview-date');
+      const previewVenue = document.getElementById('preview-venue');
+      const passcodeDisplay = document.getElementById('passcode-display');
+      const previewPasscode = document.getElementById('preview-passcode');
+      const modalCouple = document.getElementById('modal-couple-label');
+      const modalPasscode = document.getElementById('modal-passcode-label');
+
+      // Update couple preview
+      function updateCouplePreview() {
+        const p1 = p1Input.value.trim() || 'Partner 1';
+        const p2 = p2Input.value.trim() || 'Partner 2';
+        const full = `${p1} & ${p2}`;
+        previewCouple.textContent = full;
+        modalCouple.textContent = full;
+      }
+
+      p1Input.addEventListener('input', updateCouplePreview);
+      p2Input.addEventListener('input', updateCouplePreview);
+
+      dateInput.addEventListener('input', (e) => {
+        previewDate.textContent = e.target.value || 'Date not set';
+      });
+
+      venueInput.addEventListener('input', (e) => {
+        previewVenue.textContent = e.target.value || 'Venue not specified';
+      });
+
+      // Passcode Random Generator
+      const regenBtn = document.getElementById('regenerate-code-btn');
+      regenBtn.addEventListener('click', () => {
+        const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        const p1Seed = (p1Input.value.replace(/[^a-zA-Z]/g, '') || 'AA').slice(0, 3).toUpperCase();
+        const p2Seed = (p2Input.value.replace(/[^a-zA-Z]/g, '') || 'MM').slice(0, 3).toUpperCase();
+        const randomNum = Math.floor(10 + Math.random() * 89);
+        const newCode = (p1Seed + p2Seed).padEnd(6, letters[Math.floor(Math.random() * letters.length)]) + randomNum;
+        passcodeDisplay.textContent = newCode;
+        previewPasscode.textContent = newCode;
+        modalPasscode.textContent = newCode;
+      });
+
+      // Copy Code button
+      const copyBtn = document.getElementById('copy-code-btn');
+      const copyLabel = document.getElementById('copy-label');
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(passcodeDisplay.textContent).then(() => {
+          copyLabel.textContent = 'Copied!';
+          setTimeout(() => { copyLabel.textContent = 'Copy Key'; }, 2000);
+        });
+      });
+
+      // Event Pills selector toggle with rich carmine active states
+      const eventButtons = document.querySelectorAll('.event-pill');
+      eventButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          btn.classList.toggle('active');
+          if (btn.classList.contains('active')) {
+            btn.classList.remove('bg-surface-container', 'text-on-surface-variant', 'border-transparent');
+            btn.classList.add('bg-primary', 'text-white', 'border-primary/50', 'shadow-md', 'shadow-primary/25');
+          } else {
+            btn.classList.remove('bg-primary', 'text-white', 'border-primary/50', 'shadow-md', 'shadow-primary/25', 'ring-2');
+            btn.classList.add('bg-surface-container', 'text-on-surface-variant', 'border-transparent');
+          }
+        });
+      });
+
+      // Launch Modal & Confetti Engine (Carmine Red + Gold + White palette)
+      const launchBtn = document.getElementById('launch-vault-btn');
+      const overlay = document.getElementById('celebration-overlay');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const resetCreateBtn = document.getElementById('reset-create-btn');
+      const managePortalBtn = document.getElementById('manage-portal-btn');
+      const canvas = document.getElementById('confetti-canvas');
+      let animationFrameId;
+
+      function triggerCelebration() {
+        overlay.classList.remove('hidden');
+        startConfetti();
+      }
+
+      function hideCelebration() {
+        overlay.classList.add('hidden');
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      }
+
+      launchBtn.addEventListener('click', triggerCelebration);
+      closeModalBtn.addEventListener('click', hideCelebration);
+      resetCreateBtn.addEventListener('click', () => {
+        hideCelebration();
+        p1Input.value = '';
+        p2Input.value = '';
+        updateCouplePreview();
+      });
+      managePortalBtn.addEventListener('click', hideCelebration);
+
+      // Copy Guest link in modal
+      const copyGuestLinkBtn = document.getElementById('copy-guest-link-btn');
+      const linkCopyStatus = document.getElementById('link-copy-status');
+      copyGuestLinkBtn.addEventListener('click', () => {
+        const dummyUrl = `https://makemymarriage.com/vault/${passcodeDisplay.textContent.toLowerCase()}`;
+        navigator.clipboard.writeText(dummyUrl).then(() => {
+          linkCopyStatus.textContent = 'Link Copied!';
+          linkCopyStatus.classList.add('text-emerald-400');
+          setTimeout(() => {
+            linkCopyStatus.textContent = 'Copy URL';
+            linkCopyStatus.classList.remove('text-emerald-400');
+          }, 2000);
+        });
+      });
+
+      // Canvas Confetti Particles (Black, White, Carmine Red, Gold)
+      function startConfetti() {
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const colors = ['#C81E38', '#9E1B32', '#FFB3B3', '#FFFFFF', '#E5E1E4', '#FFD700'];
+
+        for (let i = 0; i < 90; i++) {
+          particles.push({
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            r: Math.random() * 6 + 3,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            vx: (Math.random() - 0.5) * 16,
+            vy: (Math.random() - 0.7) * 16,
+            gravity: 0.25,
+            opacity: 1,
+            rotation: Math.random() * 360,
+            vRot: (Math.random() - 0.5) * 8
+          });
+        }
+
+        function render() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let activeCount = 0;
+
+          particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += p.gravity;
+            p.opacity -= 0.007;
+            p.rotation += p.vRot;
+
+            if (p.opacity > 0) {
+              activeCount++;
+              ctx.save();
+              ctx.globalAlpha = Math.max(0, p.opacity);
+              ctx.translate(p.x, p.y);
+              ctx.rotate((p.rotation * Math.PI) / 180);
+              ctx.fillStyle = p.color;
+              ctx.fillRect(-p.r, -p.r, p.r * 2, p.r * 1.4);
+              ctx.restore();
+            }
+          });
+
+          if (activeCount > 0) {
+            animationFrameId = requestAnimationFrame(render);
+          }
+        }
+        render();
+      }
+
+      window.addEventListener('resize', () => {
+        if (!overlay.classList.contains('hidden')) {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+      });
+    })();
+  </script>
+</div></main></div></body></html>

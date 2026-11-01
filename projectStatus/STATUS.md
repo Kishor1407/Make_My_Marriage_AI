@@ -14,13 +14,13 @@
 | :--- | :--- | :---: | :--- |
 | **Phase 1: Architecture & Specs** | PRD, System Design, Database Design, API Design | ✅ Completed | All 4 design specs documented & committed. |
 | **Phase 2: Monorepo & Scaffold** | Workspaces, Express server, Next.js App Router, Tailwind, Redux, Zod | ✅ Completed | Fully verified and compiling without errors (`5fb7525`). |
-| **Phase 2.5: Stitch AI Design** | Google Stitch MCP integration & UI screen generation | ✅ Completed | Screens & design tokens imported into `docs/stitch_designs/` (`2826fd5`). |
+| **Phase 2.5: Stitch AI Design** | Google Stitch MCP integration & UI screen generation | ✅ Completed | Black, White & Crimson/Carmine Luxury Edition imported and implemented across all screens. |
 | **Phase 3: Database & Auth** | MongoDB Atlas connection, JWT Auth cookies, Guest passcode unlock | ✅ Completed | Live Atlas cluster connected, GridFS bucket initialized, auth endpoints tested and verified live. |
-| **Phase 4: Admin Portal** | Dual-view dashboard, wedding creation, event itinerary editor | ✅ Completed | Fully implemented matching Stitch design (`/admin/dashboard`). |
-| **Phase 5: Guest QR Upload** | Attribution (Name/Email), image compression, batch GridFS upload | ✅ Completed | Mobile-friendly upload portal implemented (`/guest/upload`). |
-| **Phase 6: Timeline & Media Gallery** | 6-event tabs, photo/video segregation, stream pipes, live stream embed | ✅ Completed | Implemented matching Stitch design (`/marriage/[id]`). |
-| **Phase 7: Invitation Generator** | Client-side `html2canvas` poster export | ⏳ Pending | Lib helper ready; visual canvas template UI pending. |
-| **Phase 8: Free Cloud Deployment** | Vercel (Frontend) + Render (Backend) | ⏳ Pending | Configurations & cold-start banner pre-configured. |
+| **Phase 4: Admin Portal** | Add Marriage Studio & Dual-view dashboard, wedding creation | ✅ Completed | Fully implemented matching Stitch Black & Carmine Studio design (`/admin/dashboard`). |
+| **Phase 5: Guest QR Upload** | Attribution (Name/Email), image compression, batch GridFS upload | ✅ Completed | Mobile-friendly upload portal implemented (`/guest/upload`) in Luxury theme. |
+| **Phase 6: Timeline & Media Gallery** | 6-event tabs, photo/video segregation, live stream embed, live wishes | ✅ Completed | Implemented matching Stitch Black & Crimson Guest Dashboard with Live Wishes (`/marriage/[id]`). |
+| **Phase 7: Invitation Generator** | Client-side `html2canvas` poster export | ✅ Completed | In-page interactive invitation download and modal implemented. |
+| **Phase 8: Free Cloud Deployment** | Vercel (Frontend) + Render (Backend) | ⏳ Ready | Next.js production build passing with 0 errors. |
 
 ---
 
