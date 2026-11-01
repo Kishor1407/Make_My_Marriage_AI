@@ -85,13 +85,13 @@
 | :---: | :--- | :---: |
 | `7fd634f` | `docs: add initial project architecture, PRD, database, and API design specifications` | Nov 1, 2026 |
 | `5fb7525` | `feat: initialize full monorepo scaffold with backend API gateway and Next.js frontend` | Nov 1, 2026 |
-| *Pending* | `docs: create projectStatus tracking directory and baseline STATUS.md` | Nov 1, 2026 |
+| `8fb7fac` | `docs: create projectStatus tracking directory and baseline STATUS.md` | Nov 1, 2026 |
 
 ---
 
 ## 5. Immediate Next Actions
 
-1. Commit and push the `projectStatus/` tracker to GitHub.
-2. Provide local environment setup (`backend/.env` with MongoDB Atlas connection string).
-3. Build the Admin authentication pages (`/admin/login` & `/admin/register`).
-4. Build the Admin Dashboard view (`/admin/dashboard`) for creating weddings and viewing global metrics.
+1. Provide local environment setup (`backend/.env` with MongoDB Atlas connection string).
+2. Build the Admin authentication pages (`/admin/login` & `/admin/register`).
+3. Build the Admin Dashboard view (`/admin/dashboard`) for creating weddings and viewing global metrics.
+
