@@ -4,6 +4,7 @@ const {
   createMarriage,
   getAllMarriages,
   getMarriageById,
+  updateMarriage,
   deleteMarriage
 } = require('../controllers/marriageController');
 const { getEventsForMarriage } = require('../controllers/eventController');
@@ -18,6 +19,9 @@ router.post('/', protect, requireAdmin, createMarriage);
 // Single wedding dashboard (Admin or authenticated guest)
 router.get('/:marriageId', protect, getMarriageById);
 
+// Admin-only update
+router.put('/:marriageId', protect, requireAdmin, updateMarriage);
+
 // Admin-only deletion with cascading cleanup
 router.delete('/:marriageId', protect, requireAdmin, deleteMarriage);
 
@@ -25,4 +29,3 @@ router.delete('/:marriageId', protect, requireAdmin, deleteMarriage);
 router.get('/:marriageId/events', protect, getEventsForMarriage);
 
 module.exports = router;
-
