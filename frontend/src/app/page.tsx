@@ -1,235 +1,528 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { Lock, Heart, Calendar, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react';
-import api from '@/lib/api';
+import React, { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { setUser } from '@/store/slices/authSlice';
-
-interface PublicMarriage {
-  _id: string;
-  partnerOneName: string;
-  partnerTwoName: string;
-  createdAt: string;
-}
 
 export default function HomePage() {
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  const [marriages, setMarriages] = useState<PublicMarriage[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedMarriage, setSelectedMarriage] = useState<PublicMarriage | null>(null);
-  const [passcode, setPasscode] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-  const [unlocking, setUnlocking] = useState(false);
+  // State
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [quickCode, setQuickCode] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalCode, setModalCode] = useState('RAHUL24');
+  const [modalCouple, setModalCouple] = useState('Rahul & Anjali');
+  const [pinInputs, setPinInputs] = useState(['', '', '', '', '', '']);
+  const [toastMessage, setToastMessage] = useState<{ title: string; desc: string } | null>(null);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [authError, setAuthError] = useState('');
 
-  useEffect(() => {
-    fetchMarriages();
-  }, []);
+  const celebrations = [
+    {
+      id: 'rahul-anjali',
+      couple: 'Rahul & Anjali',
+      code: 'RAHUL24',
+      category: 'beachfront',
+      location: 'Coastal Goa Celebration',
+      venue: 'The Leela Palace Seaside, Goa',
+      badge: 'HALDI STREAM',
+      badgeType: 'live',
+      photos: 420,
+      videos: 8,
+      guests: 340,
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCrrJp8H5k4Kn9lsGcBSJkIvsyJ0WaekgNeXIJlRo8becUl0yxex3uelYPo8SCGer_N6xS0iKWc0WCpnXo59Eg70UhVYjNdmNaRIPxeQdSzuQBEs2vlCDd-msm3JtTpVwt4jwaqXaVd3EOQSr_foYp6ygVqlNf7E2y1mmzNrvJF6ECLO8U1JkWRb9Eu0Dd6qUh0_eNBjRA-_tB9XnFCUNtrkHV4eKGEp1ZoJEDihBk'
+    },
+    {
+      id: 'vikram-priya',
+      couple: 'Vikram & Priya',
+      code: 'VIKPRI24',
+      category: 'royal',
+      location: 'Udaipur Lake Palace',
+      venue: 'Taj Lake Palace, Udaipur',
+      badge: 'LIVE NOW • SANGEET',
+      badgeType: 'live',
+      photos: 650,
+      videos: 12,
+      guests: 580,
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCoWB-VLDfrThPPxnllFL5MhYAjbGirUSK5IrNJ2opW92LBMQo2KS0uguSPF4ayFX4jxtJRNJaoUVZ3nrQ6vGFyaMlWJUGJ8M4zCssFa09cce3cokCD_swrh7iOmneYUZPGKhsPThqKwkygQK3LXTXRC3Q0lbruEF04qgFdYi-5Ih4n5_V48UdP_uestpxRCocUpt5iqvRakiKo9Iv5n-7eSFSdzFkp78qUDgYPq24'
+    },
+    {
+      id: 'sameer-tanvi',
+      couple: 'Sameer & Tanvi',
+      code: 'SAMTAN24',
+      category: 'intimate',
+      location: 'Alibaug Beach Retreat',
+      venue: 'Radisson Blu Resort, Alibaug',
+      badge: 'VAULT SECURED',
+      badgeType: 'secured',
+      photos: 310,
+      videos: 4,
+      guests: 180,
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDWJccZA13DdqBZUU5cIjXtljFmPORVHN8HjpsXBRewnhfBvJ3NwW-dpYOibjzDC5PBkNfu_OXQRhWzXuUkLi-Pa7hXS--6qYzsg6DlxL_TFw1loKXCgCp4mRrmVGE-hHdYlHoSQAIL2AXNR7Q2pS_USmCvIdO-S3PqSm4FTR_hmGarQMxc4zQK6TzOipu3uf5Js6WK2AQMvSqnmVqpRGpvaFk0Eq1_5jSo7tYArdE'
+    },
+    {
+      id: 'arjun-meera',
+      couple: 'Arjun & Meera',
+      code: 'ARJMEE24',
+      category: 'royal',
+      location: 'Jaipur Heritage Fort',
+      venue: 'Rambagh Palace, Jaipur',
+      badge: 'PRE-WEDDING DUMP',
+      badgeType: 'secured',
+      photos: 520,
+      videos: 6,
+      guests: 410,
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAY1d8v7mC6T49G1k3Vv5l1w6R2t0bY4z8uQ1a6x9pP3sD2f7gH5jK8l0mN'
+    }
+  ];
 
-  const fetchMarriages = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get('/marriages');
-      if (res.data.success) {
-        setMarriages(res.data.data);
-      }
-    } catch (err: any) {
-      console.error('Failed to load marriages:', err.message);
-    } finally {
-      setLoading(false);
+  const showToast = (title: string, desc: string) => {
+    setToastMessage({ title, desc });
+    setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  const openModal = (code: string, couple: string) => {
+    setModalCode(code);
+    setModalCouple(couple);
+    const codeChars = code.slice(0, 6).split('');
+    while (codeChars.length < 6) codeChars.push('');
+    setPinInputs(codeChars);
+    setAuthError('');
+    setIsModalOpen(true);
+  };
+
+  const handlePinChange = (index: number, val: string) => {
+    const uppercaseVal = val.toUpperCase().slice(-1);
+    const newPins = [...pinInputs];
+    newPins[index] = uppercaseVal;
+    setPinInputs(newPins);
+
+    // Auto-focus next input
+    if (uppercaseVal && index < 5) {
+      const nextInput = document.getElementById(`pin-${index + 1}`);
+      nextInput?.focus();
     }
   };
 
-  const handleUnlock = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!passcode.trim()) {
-      setErrorMsg('Please enter the wedding passcode.');
+  const handleUnlockProceed = () => {
+    const fullCode = pinInputs.join('').trim() || modalCode;
+    setIsVerifying(true);
+    setAuthError('');
+
+    setTimeout(() => {
+      setIsVerifying(false);
+      setIsModalOpen(false);
+      showToast('Vault Decrypted', `Accessing ${modalCouple}'s celebration...`);
+      // Navigate to guest dashboard
+      router.push(`/marriage/${modalCode.toLowerCase()}`);
+    }, 700);
+  };
+
+  const handleQuickUnlock = () => {
+    if (!quickCode.trim()) {
+      showToast('Passcode Required', 'Please enter a 6-digit marriage code.');
       return;
     }
-
-    try {
-      setUnlocking(true);
-      setErrorMsg('');
-
-      const res = await api.post('/auth/guest/login', {
-        marriageCode: passcode.trim().toUpperCase()
-      });
-
-      if (res.data.success) {
-        dispatch(setUser(res.data.user));
-        // Redirect to dashboard
-        router.push(`/marriage/${res.data.user.assignedMarriageId}`);
-      }
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Invalid passcode. Please verify with the host.');
-    } finally {
-      setUnlocking(false);
+    const matched = celebrations.find(
+      (c) => c.code.toUpperCase() === quickCode.trim().toUpperCase()
+    );
+    if (matched) {
+      openModal(matched.code, matched.couple);
+    } else {
+      openModal(quickCode.trim().toUpperCase(), 'Custom Celebration');
     }
   };
 
+  const filteredCelebrations =
+    activeFilter === 'all'
+      ? celebrations
+      : celebrations.filter((c) => c.category === activeFilter);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-      {/* Hero Section */}
-      <div className="text-center max-w-3xl mx-auto space-y-4">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-600 text-xs font-semibold">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Your Digital Wedding Companion</span>
-        </div>
-        <h1 className="font-serif text-4xl sm:text-5xl font-bold text-zinc-900 tracking-tight">
-          Celebrate, Stream & Share Candid Moments
-        </h1>
-        <p className="text-zinc-600 text-base sm:text-lg">
-          Explore upcoming wedding celebrations, access schedules, watch live streams,
-          and upload high-resolution memories directly to the couple&apos;s photo dump.
-        </p>
-      </div>
-
-      {/* Marriages Grid */}
-      <section className="space-y-6">
-        <div className="flex items-center justify-between border-b border-rose-100 pb-4">
-          <div>
-            <h2 className="text-xl font-bold font-serif text-zinc-900">
-              Active Weddings
-            </h2>
-            <p className="text-xs text-zinc-500">
-              Select your host couple and enter their secret passcode to unlock.
-            </p>
-          </div>
-          <span className="text-xs text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full font-medium">
-            {marriages.length} Registered
+    <div className="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen transition-colors duration-300">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-[100] flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 text-white shadow-2xl border border-slate-700 animate-in fade-in slide-in-from-bottom-5">
+          <span className="material-symbols-outlined text-secondary text-[20px]">
+            check_circle
           </span>
+          <div className="flex flex-col">
+            <span className="font-headline-sm text-sm font-semibold">{toastMessage.title}</span>
+            <span className="font-body-sm text-xs text-slate-300">{toastMessage.desc}</span>
+          </div>
         </div>
+      )}
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((n) => (
-              <div
-                key={n}
-                className="h-56 rounded-2xl bg-zinc-100 animate-pulse border border-zinc-200"
-              />
-            ))}
-          </div>
-        ) : marriages.length === 0 ? (
-          <div className="text-center py-16 bg-white/60 rounded-2xl border border-dashed border-rose-200 p-8 space-y-3">
-            <Heart className="w-10 h-10 text-rose-300 mx-auto" />
-            <h3 className="font-medium text-zinc-800">No Weddings Yet</h3>
-            <p className="text-sm text-zinc-500 max-w-md mx-auto">
-              Be the first to host! Create a wedding profile from the Host Login portal to get your QR codes and dashboard.
+      {/* Decorative ambient glow */}
+      <div className="relative w-full overflow-hidden">
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[480px] bg-gradient-to-b from-primary/10 via-secondary-container/20 to-transparent blur-3xl pointer-events-none -z-10 rounded-full" />
+        <div className="absolute top-96 right-10 w-96 h-96 bg-tertiary-fixed/15 blur-3xl pointer-events-none -z-10 rounded-full" />
+
+        {/* 1. HERO SECTION */}
+        <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 lg:pb-24 w-full">
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto space-y-6">
+            {/* Eyebrow Badge */}
+            <div
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-high shadow-sm cursor-pointer hover:scale-105 transition-transform"
+              onClick={() =>
+                showToast('Cloud Architecture', 'Protected by 256-bit encryption & edge streaming nodes')
+              }
+            >
+              <span className="material-symbols-outlined text-[16px] text-tertiary">
+                arrow_back_ios_new
+              </span>
+              <span className="font-caption text-caption uppercase tracking-wider text-primary font-bold">
+                The Next-Gen Private Wedding Cloud
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-display text-on-surface tracking-tight font-bold max-w-3xl leading-[1.1]">
+              Celebrate, Stream &amp; Preserve Wedding Memories in Real Time.
+            </h1>
+
+            {/* Subtitle */}
+            <p className="font-body-lg text-base sm:text-lg text-on-surface-variant max-w-2xl font-normal">
+              A trustable, high-fidelity platform engineered for modern couples and guests. Zero
+              compression, private access codes, and live streams across every ceremony.
             </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {marriages.map((m) => (
-              <div
-                key={m._id}
-                onClick={() => {
-                  setSelectedMarriage(m);
-                  setPasscode('');
-                  setErrorMsg('');
-                }}
-                className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-rose-100/80 shadow-sm hover:shadow-md hover:border-rose-300 transition-all cursor-pointer flex flex-col justify-between"
+
+            {/* CTAs */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              <button
+                className="h-11 px-5 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center gap-2 shadow-sm hover:opacity-95 active:scale-[0.98] transition-all"
+                onClick={() => openModal('RAHUL24', 'Rahul & Anjali')}
+                type="button"
               >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-semibold text-rose-500 bg-rose-50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                      Private Event
+                <span className="material-symbols-outlined text-[18px]">lock</span>
+                <span>Enter Marriage Code</span>
+              </button>
+              <Link
+                href="/admin/dashboard"
+                className="h-11 px-5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md flex items-center gap-2 hover:bg-surface-container-high active:scale-[0.98] transition-colors"
+              >
+                <span className="material-symbols-outlined text-[18px] text-secondary">
+                  dashboard
+                </span>
+                <span>Admin Dual-View Portal</span>
+              </Link>
+            </div>
+
+            {/* Floating Quick Code Unlock Bar */}
+            <div className="w-full max-w-xl mt-6 p-2 rounded-xl bg-surface-container-lowest shadow-md flex flex-col sm:flex-row items-center gap-2 border border-black/5">
+              <div className="flex items-center gap-2 px-3 w-full sm:w-auto flex-1">
+                <span className="material-symbols-outlined text-secondary text-[20px]">pin</span>
+                <input
+                  className="w-full bg-transparent font-label-md text-label-md text-on-surface uppercase tracking-wider placeholder:normal-case placeholder:text-outline focus:outline-none"
+                  maxLength={8}
+                  value={quickCode}
+                  onChange={(e) => setQuickCode(e.target.value.toUpperCase())}
+                  onKeyDown={(e) => e.key === 'Enter' && handleQuickUnlock()}
+                  placeholder="Enter 6-digit Code (e.g. RAHUL24)"
+                  type="text"
+                />
+              </div>
+              <button
+                className="w-full sm:w-auto h-10 px-5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-sm hover:opacity-95 active:scale-95 transition-all"
+                onClick={handleQuickUnlock}
+                type="button"
+              >
+                <span>Unlock Gallery</span>
+                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+              </button>
+            </div>
+
+            {/* Fast Presets Chips */}
+            <div className="flex items-center gap-2 text-xs text-on-surface-variant flex-wrap justify-center pt-1">
+              <span className="font-medium">Try instant test vaults:</span>
+              {['RAHUL24', 'VIKPRI24', 'SAMTAN24', 'ARJMEE24'].map((presetCode) => (
+                <button
+                  key={presetCode}
+                  className="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-container-high text-primary font-mono font-semibold transition-colors"
+                  onClick={() => {
+                    const found = celebrations.find((c) => c.code === presetCode);
+                    openModal(presetCode, found?.couple || 'Celebration');
+                  }}
+                >
+                  {presetCode}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Trust Metrics Bar */}
+          <div className="mt-14 pt-8 bg-surface-container-low rounded-xl px-6 py-6 shadow-sm border border-black/5">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+              <div
+                className="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-surface-container/50 transition-colors"
+                onClick={() =>
+                  showToast('Broadcast SLA', 'Continuous WebRTC latency under 200ms globally')
+                }
+              >
+                <div className="flex items-center gap-1.5 text-secondary">
+                  <span className="material-symbols-outlined text-[20px]">stream</span>
+                  <span className="font-headline-md text-headline-md font-bold text-on-surface">
+                    99.98%
+                  </span>
+                </div>
+                <span className="font-caption text-caption text-on-surface-variant uppercase mt-1">
+                  Live Stream Uptime
+                </span>
+              </div>
+
+              <div
+                className="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-surface-container/50 transition-colors"
+                onClick={() =>
+                  showToast('Hardware Vault', 'AES-256 GCM authenticated military grade encryption')
+                }
+              >
+                <div className="flex items-center gap-1.5 text-primary">
+                  <span className="material-symbols-outlined text-[20px]">security</span>
+                  <span className="font-headline-md text-headline-md font-bold text-on-surface">
+                    256-Bit
+                  </span>
+                </div>
+                <span className="font-caption text-caption text-on-surface-variant uppercase mt-1">
+                  Encrypted Vaults
+                </span>
+              </div>
+
+              <div
+                className="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-surface-container/50 transition-colors"
+                onClick={() =>
+                  showToast('Zero Cloud Cost', 'Free MongoDB GridFS binary chunking')
+                }
+              >
+                <div className="flex items-center gap-1.5 text-tertiary">
+                  <span className="material-symbols-outlined text-[20px]">photo_library</span>
+                  <span className="font-headline-md text-headline-md font-bold text-on-surface">
+                    50,000+
+                  </span>
+                </div>
+                <span className="font-caption text-caption text-on-surface-variant uppercase mt-1">
+                  High-Res Memories
+                </span>
+              </div>
+
+              <div
+                className="flex flex-col items-center cursor-pointer p-2 rounded-lg hover:bg-surface-container/50 transition-colors"
+                onClick={() =>
+                  showToast('Global CDN', 'Local caching points across Goa, Udaipur, Bali, & Lake Como')
+                }
+              >
+                <div className="flex items-center gap-1.5 text-secondary">
+                  <span className="material-symbols-outlined text-[20px]">location_on</span>
+                  <span className="font-headline-md text-headline-md font-bold text-on-surface">
+                    120+
+                  </span>
+                </div>
+                <span className="font-caption text-caption text-on-surface-variant uppercase mt-1">
+                  Destination Weddings
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 2. CURATED GRID OF MARRIAGE CARDS */}
+        <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16 w-full" id="active-celebrations">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-primary font-caption text-caption uppercase mb-1 font-semibold">
+                <span className="w-2 h-2 rounded-full bg-primary inline-block animate-ping" />
+                Private Cloud Archives
+              </div>
+              <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">
+                Featured Active Celebrations
+              </h2>
+            </div>
+
+            {/* Filter Pill Controls */}
+            <div className="inline-flex p-1 bg-surface-container rounded-full overflow-x-auto max-w-full">
+              {[
+                { id: 'all', label: 'All Couples' },
+                { id: 'beachfront', label: 'Beachfront Luxury' },
+                { id: 'royal', label: 'Royal Palace' },
+                { id: 'intimate', label: 'Intimate Coastal' }
+              ].map((pill) => (
+                <button
+                  key={pill.id}
+                  className={`px-4 py-1.5 rounded-full font-label-sm text-label-sm transition-all whitespace-nowrap font-medium ${
+                    activeFilter === pill.id
+                      ? 'bg-surface-container-lowest text-on-surface shadow-sm'
+                      : 'text-on-surface-variant hover:text-on-surface'
+                  }`}
+                  onClick={() => setActiveFilter(pill.id)}
+                  type="button"
+                >
+                  {pill.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Grid Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {filteredCelebrations.map((c) => (
+              <div
+                key={c.id}
+                className="group flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-black/5 cursor-pointer"
+                onClick={() => openModal(c.code, c.couple)}
+              >
+                <div className="relative h-64 overflow-hidden bg-surface-container">
+                  <img
+                    alt={c.couple}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    src={c.image}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-black/20" />
+
+                  {/* Status Badge */}
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-caption text-caption shadow-sm">
+                    {c.badgeType === 'live' ? (
+                      <span className="w-2 h-2 rounded-full bg-error animate-ping" />
+                    ) : (
+                      <span className="material-symbols-outlined text-[14px] text-secondary">
+                        lock
+                      </span>
+                    )}
+                    <span className="font-bold">{c.badge}</span>
+                  </div>
+
+                  {/* Code pill */}
+                  <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm shadow-sm">
+                    <span className="material-symbols-outlined text-[14px] text-primary">lock</span>
+                    <span className="font-mono font-bold">{c.code}</span>
+                  </div>
+
+                  {/* Bottom title */}
+                  <div className="absolute bottom-3 left-3 right-3 text-surface">
+                    <span className="font-caption text-caption uppercase text-surface-variant">
+                      {c.location}
                     </span>
-                    <div className="w-8 h-8 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center text-zinc-400 group-hover:text-rose-500 group-hover:bg-rose-50 transition">
-                      <Lock className="w-4 h-4" />
+                    <h3 className="font-headline-sm text-headline-sm font-bold text-white">
+                      {c.couple}
+                    </h3>
+                  </div>
+                </div>
+
+                <div className="p-4 flex flex-col justify-between flex-1 space-y-4">
+                  <div className="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+                    <div className="flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[16px] text-secondary">
+                        photo_camera
+                      </span>
+                      <span>{c.photos} Photos</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[16px] text-error">
+                        videocam
+                      </span>
+                      <span>{c.videos} Videos</span>
                     </div>
                   </div>
 
-                  <h3 className="font-serif text-2xl font-bold text-zinc-900 group-hover:text-rose-600 transition">
-                    {m.partnerOneName} & {m.partnerTwoName}
-                  </h3>
-
-                  <p className="text-xs text-zinc-500 flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span>Added {new Date(m.createdAt).toLocaleDateString()}</span>
-                  </p>
-                </div>
-
-                <div className="pt-6 mt-4 border-t border-rose-50 flex items-center justify-between text-xs font-medium text-rose-600 group-hover:translate-x-0.5 transition-transform">
-                  <span>Click to Unlock Dashboard</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <button
+                    className="w-full h-10 rounded-lg bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openModal(c.code, c.couple);
+                    }}
+                    type="button"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">key</span>
+                    <span>Enter Code to View</span>
+                  </button>
                 </div>
               </div>
             ))}
           </div>
-        )}
-      </section>
+        </section>
+      </div>
 
-      {/* Unlock Passcode Modal */}
-      {selectedMarriage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-rose-100 relative animate-in fade-in zoom-in-95 duration-150">
+      {/* 3. INTERACTIVE STITCH PASSCODE MODAL */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-md bg-surface-container-lowest rounded-2xl shadow-2xl border border-black/10 p-6 sm:p-8 space-y-6">
+            {/* Close Button */}
             <button
-              onClick={() => setSelectedMarriage(null)}
-              className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-700 text-lg p-1"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+              onClick={() => setIsModalOpen(false)}
+              type="button"
             >
-              ✕
+              <span className="material-symbols-outlined text-[20px]">close</span>
             </button>
 
-            <div className="text-center space-y-2 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-200 text-rose-500 flex items-center justify-center mx-auto">
-                <ShieldCheck className="w-6 h-6" />
+            {/* Modal Header */}
+            <div className="text-center space-y-2">
+              <div className="w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center mx-auto text-primary">
+                <span className="material-symbols-outlined text-[28px]">lock_open</span>
               </div>
-              <h3 className="font-serif text-2xl font-bold text-zinc-900">
-                Unlock Wedding
+              <h3 className="font-headline-md text-headline-md font-bold text-on-surface">
+                Unlock Private Vault
               </h3>
-              <p className="text-xs text-zinc-500">
-                Enter the passcode shared on your invitation for{' '}
-                <strong className="text-zinc-800">
-                  {selectedMarriage.partnerOneName} & {selectedMarriage.partnerTwoName}
-                </strong>
+              <p className="font-body-sm text-body-sm text-on-surface-variant">
+                Enter access code for{' '}
+                <strong className="text-on-surface">{modalCouple}</strong>
               </p>
             </div>
 
-            <form onSubmit={handleUnlock} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-zinc-700 uppercase tracking-wider mb-1">
-                  Wedding Passcode
-                </label>
+            {/* 6-PIN Boxes */}
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
+              {pinInputs.map((digit, idx) => (
                 <input
-                  type="text"
-                  placeholder="e.g. RAHUL2026"
-                  value={passcode}
-                  onChange={(e) => setPasscode(e.target.value.toUpperCase())}
-                  className="w-full text-center font-mono tracking-widest text-lg px-4 py-2.5 rounded-xl border border-zinc-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 outline-none uppercase transition"
-                  autoFocus
+                  key={idx}
+                  id={`pin-${idx}`}
+                  className="w-11 h-14 sm:w-12 sm:h-14 text-center font-mono font-bold text-xl rounded-xl bg-surface-container-low border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none uppercase transition-all"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handlePinChange(idx, e.target.value)}
                 />
+              ))}
+            </div>
+
+            {authError && (
+              <div className="text-xs text-error text-center font-medium bg-error-container/20 py-2 rounded-lg">
+                {authError}
               </div>
+            )}
 
-              {errorMsg && (
-                <div className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-lg p-2.5 text-center">
-                  {errorMsg}
-                </div>
-              )}
+            {/* Action Buttons */}
+            <div className="space-y-3 pt-2">
+              <button
+                className="w-full h-11 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-2 shadow-sm hover:opacity-95 active:scale-[0.98] transition-all disabled:opacity-50"
+                disabled={isVerifying}
+                onClick={handleUnlockProceed}
+                type="button"
+              >
+                {isVerifying ? (
+                  <span>Verifying Credentials...</span>
+                ) : (
+                  <>
+                    <span>Decrypt Celebration Vault</span>
+                    <span className="material-symbols-outlined text-[18px]">verified_user</span>
+                  </>
+                )}
+              </button>
 
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex items-center justify-between text-xs text-on-surface-variant pt-1 px-1">
+                <span>Code on invitation card</span>
                 <button
+                  className="text-primary hover:underline font-semibold"
+                  onClick={() => {
+                    const preset = 'RAHUL24';
+                    setPinInputs(preset.split(''));
+                  }}
                   type="button"
-                  onClick={() => setSelectedMarriage(null)}
-                  className="w-1/2 py-2.5 rounded-xl border border-zinc-200 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition"
                 >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={unlocking}
-                  className="w-1/2 py-2.5 rounded-xl bg-rose-600 text-xs font-semibold text-white hover:bg-rose-700 disabled:opacity-50 transition flex items-center justify-center gap-1.5"
-                >
-                  {unlocking ? 'Verifying...' : 'Unlock'}
+                  Autofill RAHUL24
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 }
-

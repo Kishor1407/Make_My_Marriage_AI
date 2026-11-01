@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,23 +9,102 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#fff1f2',
-          100: '#ffe4e6',
-          200: '#fecdd3',
-          500: '#f43f5e',
-          600: '#e11d48',
-          700: '#be123c',
-          900: '#881337'
-        },
-        gold: {
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706'
-        }
+        'surface': '#faf8ff',
+        'surface-dim': '#d2d9f4',
+        'surface-bright': '#faf8ff',
+        'surface-container-lowest': '#ffffff',
+        'surface-container-low': '#f2f3ff',
+        'surface-container': '#eaedff',
+        'surface-container-high': '#e2e7ff',
+        'surface-container-highest': '#dae2fd',
+        'on-surface': '#131b2e',
+        'on-surface-variant': '#41484e',
+        'inverse-surface': '#283044',
+        'inverse-on-surface': '#eef0ff',
+        'outline': '#71787f',
+        'outline-variant': '#c0c7cf',
+        'surface-tint': '#1e648d',
+        'primary': '#004b6f',
+        'primary-container': '#1d638c',
+        'on-primary': '#ffffff',
+        'on-primary-container': '#b3dcff',
+        'inverse-primary': '#91cdfb',
+        'primary-fixed': '#cae6ff',
+        'primary-fixed-dim': '#91cdfb',
+        'on-primary-fixed': '#001e2f',
+        'on-primary-fixed-variant': '#004b70',
+        'secondary': '#006687',
+        'secondary-container': '#88d6fd',
+        'on-secondary': '#ffffff',
+        'on-secondary-container': '#005d7b',
+        'secondary-fixed': '#c1e8ff',
+        'secondary-fixed-dim': '#82d0f7',
+        'on-secondary-fixed': '#001e2b',
+        'on-secondary-fixed-variant': '#004d66',
+        'tertiary': '#735c00',
+        'tertiary-container': '#cca72f',
+        'on-tertiary': '#ffffff',
+        'on-tertiary-container': '#4e3d00',
+        'tertiary-fixed': '#ffe088',
+        'tertiary-fixed-dim': '#e9c349',
+        'on-tertiary-fixed': '#241a00',
+        'on-tertiary-fixed-variant': '#574500',
+        'background': '#faf8ff',
+        'on-background': '#131b2e',
+        'surface-variant': '#dae2fd',
+        'error': '#ba1a1a',
+        'error-container': '#ffdad6',
+        'on-error': '#ffffff',
+        'on-error-container': '#93000a'
+      },
+      borderRadius: {
+        DEFAULT: '0.25rem',
+        sm: '0.25rem',
+        md: '0.5rem',
+        lg: '0.5rem',
+        xl: '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+        full: '9999px'
+      },
+      spacing: {
+        'space-xs': '0.25rem',
+        'space-sm': '0.5rem',
+        'space-md': '1rem',
+        'space-lg': '1.5rem',
+        'space-xl': '2.5rem',
+        gutter: '1.5rem',
+        'gutter-mobile': '1rem',
+        margin: '2rem',
+        'margin-mobile': '1rem'
+      },
+      fontFamily: {
+        display: ['Plus Jakarta Sans', 'sans-serif'],
+        'headline-lg': ['Plus Jakarta Sans', 'sans-serif'],
+        'headline-lg-mobile': ['Plus Jakarta Sans', 'sans-serif'],
+        'headline-md': ['Plus Jakarta Sans', 'sans-serif'],
+        'headline-sm': ['Plus Jakarta Sans', 'sans-serif'],
+        'body-lg': ['Inter', 'sans-serif'],
+        'body-md': ['Inter', 'sans-serif'],
+        'body-sm': ['Inter', 'sans-serif'],
+        'label-md': ['Inter', 'sans-serif'],
+        'label-sm': ['Inter', 'sans-serif'],
+        caption: ['Inter', 'sans-serif']
+      },
+      fontSize: {
+        display: ['3.5rem', { lineHeight: '1.1', letterSpacing: '-0.03em', fontWeight: '700' }],
+        'headline-lg': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.025em', fontWeight: '600' }],
+        'headline-lg-mobile': ['1.75rem', { lineHeight: '1.25', letterSpacing: '-0.02em', fontWeight: '600' }],
+        'headline-md': ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.02em', fontWeight: '600' }],
+        'headline-sm': ['1.125rem', { lineHeight: '1.4', letterSpacing: '-0.01em', fontWeight: '600' }],
+        'body-lg': ['1.125rem', { lineHeight: '1.6', letterSpacing: '-0.01em', fontWeight: '400' }],
+        'body-md': ['0.9375rem', { lineHeight: '1.55', letterSpacing: '-0.005em', fontWeight: '400' }],
+        'body-sm': ['0.8125rem', { lineHeight: '1.5', letterSpacing: '0em', fontWeight: '400' }],
+        'label-md': ['0.875rem', { lineHeight: '1.2', letterSpacing: '0em', fontWeight: '500' }],
+        'label-sm': ['0.75rem', { lineHeight: '1.2', letterSpacing: '0.02em', fontWeight: '500' }],
+        caption: ['0.6875rem', { lineHeight: '1.2', letterSpacing: '0.05em', fontWeight: '600' }]
       }
     }
   },
   plugins: []
 };
-

@@ -1,14 +1,16 @@
-import html2canvas from 'html2canvas';
-
 /**
  * Captures a DOM node and exports it as a high-resolution downloadable image.
- * Requires 0 backend compute resources.
+ * Dynamically loaded in the browser to prevent SSR build issues.
  */
 export async function downloadInvitationAsImage(
   element: HTMLElement,
   fileName: string = 'wedding-invitation.png'
 ): Promise<void> {
+  if (typeof window === 'undefined') return;
+
   try {
+    const html2canvas = (await import('html2canvas')).default;
+
     const canvas = await html2canvas(element, {
       scale: 2, // High DPI export
       useCORS: true,
@@ -27,4 +29,3 @@ export async function downloadInvitationAsImage(
     throw error;
   }
 }
-

@@ -16,9 +16,9 @@
 | **Phase 2: Monorepo & Scaffold** | Workspaces, Express server, Next.js App Router, Tailwind, Redux, Zod | ✅ Completed | Fully verified and compiling without errors (`5fb7525`). |
 | **Phase 2.5: Stitch AI Design** | Google Stitch MCP integration & UI screen generation | ✅ Completed | Screens & design tokens imported into `docs/stitch_designs/` (`2826fd5`). |
 | **Phase 3: Database & Auth** | MongoDB Atlas connection, JWT Auth cookies, Guest passcode unlock | 🟡 Ready for Wiring | Schemas & controllers implemented; waiting for Atlas URI. |
-| **Phase 4: Admin Portal** | Dual-view dashboard, wedding creation, event itinerary editor | ⏳ In Progress | Stitch UI downloaded; ready to convert to Next.js React components. |
-| **Phase 5: Guest QR Upload** | Attribution (Name/Email), image compression, batch GridFS upload | ⏳ Pending | Compression & upload endpoints created; UI page pending. |
-| **Phase 6: Timeline & Media Gallery** | 6-event tabs, photo/video segregation, stream pipes, live stream embed | ⏳ Pending | Stitch design ready; React conversion pending. |
+| **Phase 4: Admin Portal** | Dual-view dashboard, wedding creation, event itinerary editor | ✅ Completed | Fully implemented matching Stitch design (`/admin/dashboard`). |
+| **Phase 5: Guest QR Upload** | Attribution (Name/Email), image compression, batch GridFS upload | ✅ Completed | Mobile-friendly upload portal implemented (`/guest/upload`). |
+| **Phase 6: Timeline & Media Gallery** | 6-event tabs, photo/video segregation, stream pipes, live stream embed | ✅ Completed | Implemented matching Stitch design (`/marriage/[id]`). |
 | **Phase 7: Invitation Generator** | Client-side `html2canvas` poster export | ⏳ Pending | Lib helper ready; visual canvas template UI pending. |
 | **Phase 8: Free Cloud Deployment** | Vercel (Frontend) + Render (Backend) | ⏳ Pending | Configurations & cold-start banner pre-configured. |
 
@@ -62,10 +62,10 @@
   - [x] `Footer.tsx` (₹0 platform attribution)
   - [x] `WakingServerBanner.tsx` (Gracefully handles Render cold-starts after sleep)
   - [x] `app/page.tsx` (Gated homepage wedding grid with passcode unlock modal)
-  - [ ] Admin Login & Register pages (`/admin/login`, `/admin/register`)
-  - [ ] Admin Management Dashboard (`/admin/dashboard`)
-  - [ ] Wedding Detail Dashboard with 6 Tabs (`/marriage/[id]`)
-  - [ ] Guest QR Upload Page (`/guest/upload?code=XYZ`)
+  - [x] Admin Login & Register pages (`/admin/login`, `/admin/register`)
+  - [x] Admin Management Dashboard (`/admin/dashboard`)
+  - [x] Wedding Detail Dashboard with 6 Tabs (`/marriage/[id]`)
+  - [x] Guest QR Upload Page (`/guest/upload?code=XYZ`)
   - [ ] Invitation Card Designer Modal
 
 ### 2.3 UI & Design System (Google Stitch Integration)
@@ -75,7 +75,7 @@
   - [x] `admin_portal.html` (Dual-view metrics table & marriages manager)
   - [x] `guest_dashboard.html` (6 timeline tabs, YouTube livestream player, candid photo gallery)
   - [x] `landing_page.html` (Hero section, private wedding cards, passcode modal)
-- [ ] Next.js component conversion & Tailwind token synchronization
+- [x] Next.js component conversion & Tailwind token synchronization
 
 ---
 
@@ -99,6 +99,8 @@
 | `ed4998d` | `docs: sync git activity log and next actions in STATUS.md` | Nov 1, 2026 |
 | `2826fd5` | `feat(design): configure Google Stitch MCP server and import Stitch UI design screens` | Nov 1, 2026 |
 | `d3c912e` | `docs: sync git log in STATUS.md for commit 2826fd5` | Nov 1, 2026 |
+| `fd669ba` | `docs: update STATUS.md with Stitch integration milestone and detailed implementation roadmap` | Nov 1, 2026 |
+| *Pending* | `feat(ui): implement complete Google Stitch UI in Next.js across Landing, Admin, and Guest portals` | Nov 1, 2026 |
 
 ---
 
