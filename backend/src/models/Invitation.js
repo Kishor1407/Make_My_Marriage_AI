@@ -81,3 +81,4 @@ const invitationSchema = new mongoose.Schema(
 invitationSchema.index({ marriageId: 1, ceremony: 1 }, { unique: true });
 
 module.exports = mongoose.model('Invitation', invitationSchema);
+

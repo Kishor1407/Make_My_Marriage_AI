@@ -16,3 +16,4 @@ router.post('/', saveInvitation);
 router.post('/render-upload', uploadRenderedCard);
 
 module.exports = router;
+
