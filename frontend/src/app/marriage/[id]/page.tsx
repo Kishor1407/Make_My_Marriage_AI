@@ -900,7 +900,7 @@ export default function GuestDashboardPage() {
                 </div>
               </div>
 
-              <div className="pt-4 flex gap-2.5">
+              <div className="pt-4 flex flex-wrap gap-2.5">
                 <button
                   onClick={handleDownloadInviteImage}
                   className="flex-1 h-10 px-3 rounded-xl bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border border-neutral-300 shadow-xs"
@@ -908,6 +908,13 @@ export default function GuestDashboardPage() {
                   <AppIcon name="download" size={16} className="text-neutral-700" />
                   <span>Download Card</span>
                 </button>
+                <Link
+                  href={`/admin/invitations?code=${passcode}`}
+                  className="h-10 px-3.5 rounded-xl bg-[#0A0A0C] hover:bg-[#c81e38] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                >
+                  <AppIcon name="edit_note" size={15} />
+                  <span>Card Studio ↗</span>
+                </Link>
                 <button
                   onClick={() => {
                     showToast('Celebration added to your calendar!', 'success');

@@ -52,6 +52,16 @@ import {
   CheckCheck,
   Clock,
   CircleDot,
+  RotateCcw,
+  Flower2,
+  Landmark,
+  CloudSun,
+  ZoomIn,
+  RectangleHorizontal,
+  Save,
+  Mail,
+  User,
+  ConciergeBell,
   LucideProps
 } from 'lucide-react';
 
@@ -191,6 +201,34 @@ export default function AppIcon({ name, className = '', size = 18, ...props }: A
       return <Clock className={className} size={size} {...props} />;
     case 'radio_button_checked':
       return <CircleDot className={className} size={size} {...props} />;
+    case 'restart_alt':
+    case 'reset':
+      return <RotateCcw className={className} size={size} {...props} />;
+    case 'local_florist':
+    case 'flower':
+      return <Flower2 className={className} size={size} {...props} />;
+    case 'temple_hindu':
+      return <Landmark className={className} size={size} {...props} />;
+    case 'filter_drama':
+      return <CloudSun className={className} size={size} {...props} />;
+    case 'zoom_in':
+      return <ZoomIn className={className} size={size} {...props} />;
+    case 'aspect_ratio':
+      return <RectangleHorizontal className={className} size={size} {...props} />;
+    case 'save':
+      return <Save className={className} size={size} {...props} />;
+    case 'sunny':
+      return <Sun className={className} size={size} {...props} />;
+    case 'pin_drop':
+      return <MapPin className={className} size={size} {...props} />;
+    case 'mail':
+    case 'email':
+      return <Mail className={className} size={size} {...props} />;
+    case 'person':
+    case 'user':
+      return <User className={className} size={size} {...props} />;
+    case 'room_service':
+      return <ConciergeBell className={className} size={size} {...props} />;
     default:
       // Fallback to Material Symbols ligature if not in predefined map
       return (

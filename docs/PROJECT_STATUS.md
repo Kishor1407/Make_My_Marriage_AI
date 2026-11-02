@@ -18,7 +18,7 @@
 | **4.2** | **Dual-View Admin Portal** | ✅ **Completed** | Full Admin authentication (`/admin/login`, `/admin/register`, JWT cookies). Full CRUD (Add, Edit, Delete marriage vaults) matching Google Stitch design screen `b990b7f7`. |
 | **4.3** | **Six-Part Wedding Timeline** | ✅ **Completed** | Every wedding automatically provisions the canonical 6 rites: *Engagement, Mehndi, Haldi, Sangeet, Marriage (Holy Pheras), and Others (Candid/Table)* with dedicated event stats. |
 | **4.4** | **QR-Powered Photo Dump & Attribution** | ✅ **Completed** | Built desktop-first luxury portal `/guest/upload` matching Google Stitch screen `3cf03f76502a4afab50f13d1127ca03f`. Generates dynamic vector Table Standee QR codes. Uploads stream into Atlas GridFS tagged with guest `Name`, `Email`, and `Ceremony`. |
-| **4.5** | **Built-in Invitation Generator** | 🟡 **Next Up** | Digital poster designer with `html2canvas` client-side image rendering for instant poster downloads. |
+| **4.5** | **Built-in Invitation Generator** | 🟢 **UI Completed (API Next)** | Ceremonial Card Architect (`/admin/invitations` & `/invitations`) matching Stitch screen `110d273f`. Features 6-rite presets, 3 card silhouettes (Royal Mandap, Ivory Arch, Sunset Vow), live vector Standee QR embedding, 4:5 & 9:16 aspect ratios, WhatsApp text copy, Lightbox inspection, and `html2canvas` 300 DPI PNG exports. |
 | **4.6** | **Live Stream Integration** | 🟡 **Next Up** | YouTube Live embedded video player modal for remote family attendance. |
 | **4.7** | **Media Segregation (Photos & Videos)** | ✅ **Completed** | Segregated GridFS storage and API endpoints for Photo galleries vs curated official Videos. |
 
@@ -66,3 +66,4 @@
 2. **PRD 4.6 YouTube Live Stream Integration:**
    - Host pastes YouTube Live / RTMP link in event settings.
    - Interactive modal on guest timeline rendering live broadcast with real-time cheer reactions (❤️, 🌹).
+

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&amp;family=Hanken+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed-variant":"#474649","tertiary-fixed":"#ffdada","primary-container":"#c81e38","tertiary-fixed-dim":"#ffb3b5","inverse-on-surface":"#f1f0f9","secondary":"#5f5e60","outline-variant":"#e4bdbd","inverse-primary":"#ffb3b3","surface-container":"#eeedf6","surface":"#fbf8ff","error":"#ba1a1a","tertiary-container":"#bc3345","on-primary-fixed-variant":"#920021","secondary-container":"#e5e1e4","surface-container-low":"#f4f2fc","on-tertiary-fixed-variant":"#8f0c28","on-primary-container":"#ffdfde","on-surface":"#1a1b22","secondary-fixed":"#e5e1e4","surface-variant":"#e3e1ea","on-primary":"#ffffff","on-primary-fixed":"#400009","primary-fixed-dim":"#ffb3b3","surface-bright":"#fbf8ff","surface-dim":"#dad9e2","on-secondary-container":"#656466","on-tertiary-fixed":"#40000c","secondary-fixed-dim":"#c8c6c8","surface-tint":"#bc1131","outline":"#8f6f6f","surface-container-highest":"#e3e1ea","primary":"#a20025","on-surface-variant":"#5b4040","on-error":"#ffffff","on-background":"#1a1b22","on-error-container":"#93000a","background":"#fbf8ff","on-secondary":"#ffffff","on-tertiary":"#ffffff","tertiary":"#9a1830","surface-container-lowest":"#ffffff","inverse-surface":"#2f3037","surface-container-high":"#e8e7f0","on-tertiary-container":"#ffdfdf","error-container":"#ffdad6","primary-fixed":"#ffdad9","on-secondary-fixed":"#1c1b1d"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter-mobile":"1rem","space-lg":"1.75rem","gutter":"1.5rem","space-xl":"3rem","margin-mobile":"1.25rem","space-md":"1rem","space-sm":"0.5rem","margin":"4rem","space-xs":"0.25rem"},fontFamily:{"headline-md":["Bodoni Moda"],"headline-sm":["Bodoni Moda"],"body-lg":["Hanken Grotesk"],"headline-lg-mobile":["Bodoni Moda"],"body-md":["Hanken Grotesk"],"body-sm":["Hanken Grotesk"],"headline-lg":["Bodoni Moda"],"display-xl":["Bodoni Moda"],"body-xl":["Hanken Grotesk"],"label-lg":["Hanken Grotesk"],"label-sm":["Hanken Grotesk"],"display-lg":["Bodoni Moda"],"display-xl-mobile":["Bodoni Moda"],"label-md":["Hanken Grotesk"],"display-lg-mobile":["Bodoni Moda"]},fontSize:{"headline-md":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"500"}],"headline-sm":["22px",{lineHeight:"30px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"26px",letterSpacing:"0em",fontWeight:"400"}],"headline-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.01em",fontWeight:"500"}],"body-md":["14px",{lineHeight:"22px",letterSpacing:"0.005em",fontWeight:"400"}],"body-sm":["12px",{lineHeight:"18px",letterSpacing:"0.01em",fontWeight:"400"}],"headline-lg":["40px",{lineHeight:"48px",letterSpacing:"-0.02em",fontWeight:"500"}],"display-xl":["72px",{lineHeight:"80px",letterSpacing:"-0.03em",fontWeight:"400"}],"body-xl":["18px",{lineHeight:"28px",letterSpacing:"-0.005em",fontWeight:"400"}],"label-lg":["13px",{lineHeight:"18px",letterSpacing:"0.12em",fontWeight:"600"}],"label-sm":["10px",{lineHeight:"14px",letterSpacing:"0.18em",fontWeight:"600"}],"display-lg":["56px",{lineHeight:"64px",letterSpacing:"-0.025em",fontWeight:"400"}],"display-xl-mobile":["44px",{lineHeight:"52px",letterSpacing:"-0.02em",fontWeight:"400"}],"label-md":["11px",{lineHeight:"16px",letterSpacing:"0.15em",fontWeight:"600"}],"display-lg-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"400"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col pt-space-lg pb-space-lg"><div class="px-space-lg mb-space-lg flex items-center gap-space-sm"><img alt="Make My Marriage Emblem" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WpCf0D63FCD0CniLdF0ZbO_rf7M-AEt1QGtFrMsAX57pKaLPQlyTwsv1wplVytuHtgH1ifU2Qtpkqp0HRWPbtgSE8VfcPs15FzAlhVjFtr9YzBswy-ryBAqSc1oFo0n3BAaPBjEeL3z7M68WrM2ymwMNKmjQxMapYlYvl3tUiNTITQdht_M_3TY69riU7YNZv6FGR3qHV_-S381D03Kz7iWZBjj8RydLpAU_Dic7qpA2nOZt9j4M24I24"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm leading-tight text-on-surface">Make My Marriage</span><span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">Host Atelier OS</span></div></div><div class="px-space-lg mb-space-md"><div class="flex items-center justify-between px-space-sm py-space-xs bg-surface-container-low"><div class="flex items-center gap-space-xs"><span class="w-1.5 h-1.5 bg-primary"></span><span class="font-label-sm text-label-sm uppercase text-on-surface">Passkey Active</span></div><span class="font-label-sm text-label-sm text-on-surface-variant font-mono">#7704</span></div></div><nav class="flex-1 px-space-md space-y-space-xs overflow-y-auto" data-active-classes="bg-primary text-on-primary font-semibold"><div class="px-space-sm py-space-xs font-label-sm text-label-sm uppercase text-on-surface-variant tracking-widest">Main Curations</div><a class="flex items-center px-space-sm py-space-xs text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="bespoke-marriages" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">favorite</span>Bespoke Marriages</a><a aria-current="page" class="flex items-center px-space-sm py-space-xs transition-colors bg-primary text-on-primary font-semibold" data-path="invitation-studio" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">mail</span>Invitation Studio</a><a class="flex items-center px-space-sm py-space-xs text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="photo-vault" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">photo_camera</span>Photo Vault</a><a class="flex items-center px-space-sm py-space-xs text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="concierge-desk" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">room_service</span>Concierge</a><div class="pt-space-md px-space-sm py-space-xs font-label-sm text-label-sm uppercase text-on-surface-variant tracking-widest">Atelier Control</div><a class="flex items-center px-space-sm py-space-xs text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="guest-roster" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">group</span>Guest Roster</a><a class="flex items-center px-space-sm py-space-xs text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="ceremony-timeline" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">event</span>Timeline &amp; Itinerary</a><a class="flex items-center px-space-sm py-space-xs text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-md text-body-md" data-path="access-passkeys" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">vpn_key</span>Passkey Vault</a></nav><div class="px-space-md pt-space-md"><div class="flex items-center gap-space-sm p-space-sm bg-surface-container-low"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="min-w-0 flex-1"><p class="font-label-md text-label-md text-on-surface truncate">Curator Alexander</p><p class="font-label-sm text-label-sm text-on-surface-variant truncate">Master Atelier OS</p></div></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-20 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-sm"><span class="font-label-md text-label-md uppercase text-on-surface-variant tracking-widest">Host OS</span><span class="text-on-surface-variant font-label-md text-label-md">/</span><span class="font-label-md text-label-md uppercase text-on-surface font-semibold tracking-wider">Administrative Atelier</span></div><div class="flex items-center gap-space-lg"><nav class="hidden xl:flex items-center gap-space-md" data-active-classes="text-primary font-semibold"><a class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="bespoke-marriages" href="#">Bespoke Marriages</a><a aria-current="page" class="uppercase tracking-wider transition-colors text-primary font-semibold" data-path="invitation-studio" href="#">Invitation Studio</a><a class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="photo-vault" href="#">Photo Vault</a><a class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="concierge-desk" href="#">Concierge</a></nav><div class="flex items-center gap-space-sm"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-space-xs bg-surface-container-low"><span class="w-1.5 h-1.5 bg-primary"></span><span class="font-label-sm text-label-sm uppercase text-on-surface">Passkey Active</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-20 bg-surface min-h-screen px-space-lg py-space-xl"><div class="flex flex-col w-full space-y-space-xl">
+<!-- TOP CONTEXT & ACTION CONTROL BAR -->
+<section class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md pb-space-lg border-b border-surface-variant">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<span class="font-label-sm uppercase tracking-widest text-on-surface-variant">Host OS Concierge</span>
+<span class="text-xs">/</span>
+<span class="font-label-sm uppercase tracking-widest text-on-surface-variant">Invitation Studio</span>
+<span class="text-xs">/</span>
+<span class="font-label-sm uppercase tracking-widest text-primary font-semibold">Digital Card Suite</span>
+</div>
+<div class="flex items-center gap-space-md mt-space-xs flex-wrap">
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-normal">Ceremonial Card Architect</h1>
+<div class="inline-flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-high rounded-full">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm tracking-wider uppercase text-on-surface font-semibold font-mono">Vault #MMM-88219 • RAHUL24</span>
+</div>
+</div>
+</div>
+<!-- Global Toolbar Actions -->
+<div class="flex items-center gap-space-sm flex-wrap self-start xl:self-center">
+<button class="inline-flex items-center gap-space-xs px-space-md py-space-sm bg-surface-container-low text-on-surface font-label-md uppercase tracking-wider hover:bg-surface-container transition-all" id="btn-reset">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+<span>Reset Defaults</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-space-sm bg-surface-container-highest text-on-surface font-label-md uppercase tracking-wider hover:bg-surface-dim transition-all" id="btn-lightbox">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span>Lightbox Preview</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-lg py-space-sm bg-primary text-on-primary font-label-md uppercase tracking-widest shadow-md hover:bg-tertiary transition-all" id="btn-download">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Download Card (PNG)</span>
+<span class="text-[10px] opacity-80 pl-1 font-mono tracking-normal">300 DPI</span>
+</button>
+</div>
+</section>
+<!-- DUAL COLUMN WORKSPACE (40% CONTROL / 60% PREVIEW CANVAS) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-xl items-start">
+<!-- LEFT COLUMN: CONTROLS & FORM ARCHITECT (5 cols out of 12 = ~41.6%) -->
+<div class="xl:col-span-5 flex flex-col gap-space-lg">
+<!-- Rite Quick Tabs -->
+<div class="bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm uppercase tracking-widest text-primary font-bold">1. Select Rite</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Ceremony Context</h2>
+</div>
+<span class="font-label-sm text-on-surface-variant font-mono">6 Rites Configured</span>
+</div>
+<div class="grid grid-cols-3 sm:grid-cols-3 gap-space-xs" id="ceremony-tabs">
+<button class="rite-tab flex flex-col items-center justify-center p-space-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all text-center" data-rite="Engagement">
+<span class="font-label-sm uppercase tracking-wider">Engagement</span>
+<span class="text-[10px] text-on-secondary-container mt-0.5">Ring Ceremony</span>
+</button>
+<button class="rite-tab flex flex-col items-center justify-center p-space-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all text-center" data-rite="Mehndi">
+<span class="font-label-sm uppercase tracking-wider">Mehndi</span>
+<span class="text-[10px] text-on-secondary-container mt-0.5">Henna Haven</span>
+</button>
+<button class="rite-tab active-rite flex flex-col items-center justify-center p-space-sm bg-primary text-on-primary transition-all text-center shadow-sm" data-rite="Haldi">
+<span class="font-label-sm uppercase tracking-wider font-bold">Haldi</span>
+<span class="text-[10px] text-on-primary-container mt-0.5">Floral Shower</span>
+</button>
+<button class="rite-tab flex flex-col items-center justify-center p-space-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all text-center" data-rite="Sangeet">
+<span class="font-label-sm uppercase tracking-wider">Sangeet</span>
+<span class="text-[10px] text-on-secondary-container mt-0.5">Music Gala</span>
+</button>
+<button class="rite-tab flex flex-col items-center justify-center p-space-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all text-center" data-rite="Holy Pheras">
+<span class="font-label-sm uppercase tracking-wider">Holy Pheras</span>
+<span class="text-[10px] text-on-secondary-container mt-0.5">Vedic Vows</span>
+</button>
+<button class="rite-tab flex flex-col items-center justify-center p-space-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all text-center" data-rite="Reception">
+<span class="font-label-sm uppercase tracking-wider">Reception</span>
+<span class="text-[10px] text-on-secondary-container mt-0.5">Grand Gala</span>
+</button>
+</div>
+</div>
+<!-- Template Architectural Motif Selector -->
+<div class="bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm uppercase tracking-widest text-primary font-bold">2. Card Silhouette</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Design Framework</h2>
+</div>
+<span class="font-label-sm text-primary uppercase font-bold tracking-wider">Editorial Tier</span>
+</div>
+<div class="grid grid-cols-3 gap-space-sm" id="template-selector">
+<!-- Template 1: Royal Classic -->
+<div class="tpl-card cursor-pointer p-space-sm bg-surface-container-low flex flex-col gap-space-xs transition-all relative ring-2 ring-primary" data-tpl="mandap">
+<div class="h-20 bg-surface-container-high flex flex-col items-center justify-center p-2 relative overflow-hidden">
+<div class="w-full h-full border border-dashed border-primary/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[28px]">temple_hindu</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm uppercase text-on-surface font-bold truncate">Royal Mandap</span>
+<span class="text-[10px] text-on-surface-variant truncate">Heritage Filigree</span>
+</div>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary"></span>
+</div>
+<!-- Template 2: Ivory Botanical -->
+<div class="tpl-card cursor-pointer p-space-sm bg-surface-container-low flex flex-col gap-space-xs transition-all relative hover:bg-surface-container" data-tpl="botanical">
+<div class="h-20 bg-surface-container-high flex flex-col items-center justify-center p-2 relative overflow-hidden">
+<div class="w-full h-full border border-dashed border-outline/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[28px]">local_florist</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm uppercase text-on-surface font-semibold truncate">Ivory Arch</span>
+<span class="text-[10px] text-on-surface-variant truncate">Fine Botanical</span>
+</div>
+</div>
+<!-- Template 3: Minimal Sunset -->
+<div class="tpl-card cursor-pointer p-space-sm bg-surface-container-low flex flex-col gap-space-xs transition-all relative hover:bg-surface-container" data-tpl="sunset">
+<div class="h-20 bg-surface-container-high flex flex-col items-center justify-center p-2 relative overflow-hidden">
+<div class="w-full h-full border border-dashed border-outline/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[28px]">filter_drama</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm uppercase text-on-surface font-semibold truncate">Sunset Vow</span>
+<span class="text-[10px] text-on-surface-variant truncate">Sleek Archival</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Typography and Content Inputs -->
+<div class="bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm uppercase tracking-widest text-primary font-bold">3. Matrimonial Copy</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Typography Inputs</h2>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">edit_note</span>
+</div>
+<div class="space-y-space-md">
+<!-- Couple Names -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md uppercase tracking-wider text-on-surface-variant">Protagonists (Couple Headline)</label>
+<input class="w-full px-space-md py-space-sm bg-surface-container-low text-on-surface font-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-all" id="input-names" type="text" value="Rahul Sharma &amp; Anjali Mehta"/>
+</div>
+<!-- Ceremony Title & Subtitle -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-md uppercase tracking-wider text-on-surface-variant">Ceremony Title</label>
+<input class="w-full px-space-md py-space-sm bg-surface-container-low text-on-surface font-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-all" id="input-rite-title" type="text" value="HALDI &amp; FLORAL SHOWER"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md uppercase tracking-wider text-on-surface-variant">Invocation Header</label>
+<input class="w-full px-space-md py-space-sm bg-surface-container-low text-on-surface font-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-all" id="input-invocation" type="text" value="॥ श्री गणेशाय नमः ॥ • || Shubham Bhavatu ||"/>
+</div>
+</div>
+<!-- Date, Time & Auspicious Muhurat -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md uppercase tracking-wider text-on-surface-variant">Date &amp; Muhurat Timeframe</label>
+<input class="w-full px-space-md py-space-sm bg-surface-container-low text-on-surface font-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-all" id="input-date" type="text" value="Friday, December 14, 2026 • 10:30 AM (Muhurat: 11:15 AM Dhanu Lagna)"/>
+</div>
+<!-- Venue & Address -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md uppercase tracking-wider text-on-surface-variant">Venue &amp; Pavilion Location</label>
+<textarea class="w-full px-space-md py-space-sm bg-surface-container-low text-on-surface font-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-all resize-none" id="input-venue" rows="2">The Leela Palace Seaside, South Goa • Grand Sunset Lawn &amp; Promenade</textarea>
+</div>
+<!-- Blessings / Note -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md uppercase tracking-wider text-on-surface-variant">Family Blessing &amp; Monograph Epigraph</label>
+<input class="w-full px-space-md py-space-sm bg-surface-container-low text-on-surface font-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-all" id="input-blessing" type="text" value="With unconditional blessings of elders &amp; boundless joy in our hearts, we request your presence."/>
+</div>
+<!-- RSVP and Contact Line -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md uppercase tracking-wider text-on-surface-variant">RSVP &amp; Host Line</label>
+<input class="w-full px-space-md py-space-sm bg-surface-container-low text-on-surface font-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-1 focus:ring-primary transition-all" id="input-rsvp" type="text" value="Sharma &amp; Mehta Families • +91 98765 43210 • passkey: RAHUL24"/>
+</div>
+<!-- Interactive QR Code Standee Toggle -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">qr_code_2</span>
+<span class="font-label-md uppercase tracking-wider text-on-surface font-bold">Instant Photo Dump QR Code</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Generates live upload badge on invitation for effortless wedding photo deposits.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" id="toggle-qr" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Secondary Action Buttons -->
+<div class="pt-space-sm flex items-center justify-between gap-space-md border-t border-surface-variant">
+<button class="inline-flex items-center gap-space-xs px-space-md py-space-sm bg-surface-container text-on-surface font-label-sm uppercase tracking-wider hover:bg-surface-container-high transition-colors" id="btn-save-draft">
+<span class="material-symbols-outlined text-[16px]">save</span>
+<span>Save Draft</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-space-sm bg-surface-container-highest text-on-surface font-label-sm uppercase tracking-wider hover:bg-surface-dim transition-colors" id="btn-copy-wa">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span>Copy WhatsApp Text</span>
+</button>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: HIGH RESOLUTION LUXURY PREVIEW CANVAS (7 cols out of 12 = ~58.3%) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- Stage Bar Controls -->
+<div class="bg-surface-container-lowest px-space-lg py-space-sm shadow-sm flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">aspect_ratio</span>
+<span class="font-label-sm uppercase tracking-wider font-semibold">Stage Ratio:</span>
+</div>
+<div class="flex items-center bg-surface-container-low p-1 gap-1">
+<button class="px-space-sm py-1 bg-surface-container-lowest font-label-sm uppercase font-bold text-on-surface shadow-xs" id="ratio-45">4:5 Archival Card</button>
+<button class="px-space-sm py-1 font-label-sm uppercase text-on-surface-variant hover:text-on-surface" id="ratio-916">9:16 Insta Story</button>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm uppercase tracking-wider text-on-surface-variant px-space-sm font-mono">Zoom: 100%</span>
+<button class="p-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container" id="btn-zoom-toggle">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+<button class="p-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container" id="btn-fullscreen-toggle">
+<span class="material-symbols-outlined text-[20px]">fullscreen</span>
+</button>
+<button class="p-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container" id="btn-copy-link">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</div>
+<!-- Stage Canvas Container -->
+<div class="relative w-full bg-surface-container-low p-space-lg lg:p-space-xl flex justify-center items-center overflow-hidden shadow-inner min-h-[760px]" id="preview-stage">
+<!-- Background Architectural Dot Grid Texture -->
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#1a1b22 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Live Invitation Card Component -->
+<div class="relative w-full max-w-[520px] bg-surface-container-lowest text-on-surface shadow-xl p-space-lg sm:p-space-xl flex flex-col justify-between items-center text-center transition-all duration-300 transform border border-outline-variant/40" id="invitation-card">
+<!-- Architectural Ornate Corner Accents -->
+<div class="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-primary/50"></div>
+<div class="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-primary/50"></div>
+<div class="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-primary/50"></div>
+<div class="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-primary/50"></div>
+<!-- Subtle Inner Filigree Border -->
+<div class="absolute inset-4 border border-outline-variant/30 pointer-events-none"></div>
+<!-- CARD HEADER & MOTIF -->
+<div class="flex flex-col items-center gap-space-xs z-10 w-full pt-space-xs">
+<!-- Royal Mandap Kalash / Lotus Emblem SVG -->
+<div class="w-14 h-14 rounded-full bg-surface-container-low flex items-center justify-center text-primary shadow-xs">
+<svg class="w-9 h-9" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<circle cx="24" cy="24" r="22" stroke="currentColor" stroke-dasharray="2 3" stroke-width="1.2"></circle>
+<path d="M24 10C24 10 27 15 27 18C27 19.6569 25.6569 21 24 21C22.3431 21 21 19.6569 21 18C21 15 24 10 24 10Z" fill="currentColor"></path>
+<path d="M15 24C15 21 18 20 20 20C21.5 20 22 21 22 22C22 24.5 19 26 15 26V24Z" fill="currentColor"></path>
+<path d="M33 24C33 21 30 20 28 20C26.5 20 26 21 26 22C26 24.5 29 26 33 26V24Z" fill="currentColor"></path>
+<path d="M18 25H30V32C30 35.3137 27.3137 38 24 38C20.6863 38 18 35.3137 18 32V25Z" stroke="currentColor" stroke-width="1.5"></path>
+<circle cx="24" cy="31" fill="currentColor" r="2"></circle>
+</svg>
+</div>
+<!-- Auspicious Vedic Invocation -->
+<div class="font-label-sm uppercase tracking-widest text-primary font-bold mt-space-xs" id="preview-invocation">
+              ॥ श्री गणेशाय नमः ॥ • || Shubham Bhavatu ||
+            </div>
+<!-- Monograph Ceremony Subtext -->
+<span class="font-label-xs uppercase tracking-widest text-on-surface-variant font-mono text-[9px] mt-1">
+              HAUTE MATRIMONIAL MONOGRAPH • VOL. MMXXVI
+            </span>
+</div>
+<!-- COUPLE & CEREMONY BANNER -->
+<div class="flex flex-col items-center gap-space-sm z-10 w-full my-space-md">
+<p class="font-body-sm text-body-sm text-on-secondary italic font-light">
+              Together with their families, cordially invite you to attend
+            </p>
+<!-- Ceremony Ribbon Badge -->
+<div class="px-space-md py-1 bg-primary text-on-primary font-label-md uppercase tracking-widest shadow-xs">
+<span id="preview-rite-title">HALDI &amp; FLORAL SHOWER</span>
+</div>
+<!-- Couple Names Display -->
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-normal mt-space-xs leading-tight" id="preview-names">
+              Rahul Sharma &amp; Anjali Mehta
+            </h3>
+<div class="w-16 h-px bg-primary/40 my-space-xs"></div>
+<!-- Auspicious Blessing Quote -->
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm px-space-sm italic" id="preview-blessing">
+              "With the unconditional blessings of elders &amp; boundless joy in our hearts, we request your presence."
+            </p>
+</div>
+<!-- TIME, MUHURAT & VENUE BLOCK -->
+<div class="flex flex-col items-center gap-space-sm z-10 w-full bg-surface-container-low p-space-md">
+<!-- Auspicious Date & Time -->
+<div class="flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]">calendar_today</span>
+<span class="font-body-md text-body-md font-semibold" id="preview-date">Friday, December 14, 2026 • 10:30 AM</span>
+</div>
+<!-- Muhurat Badge -->
+<div class="inline-flex items-center gap-1 px-space-sm py-0.5 bg-tertiary-fixed text-on-tertiary-fixed font-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">stars</span>
+<span>Auspicious Muhurat: 11:15 AM (Dhanu Lagna)</span>
+</div>
+<!-- Venue & Pavilion -->
+<div class="flex items-center gap-space-xs text-on-surface-variant text-center max-w-sm mt-1">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">pin_drop</span>
+<span class="font-body-sm text-body-sm" id="preview-venue">
+                The Leela Palace Seaside, South Goa • Grand Sunset Lawn &amp; Pavilion
+              </span>
+</div>
+</div>
+<!-- CARD FOOTER: RSVP, PHOTO DUMP QR & WATERMARK -->
+<div class="flex flex-col items-center gap-space-md z-10 w-full pt-space-md">
+<!-- Live Standee QR Code Badge (Toggleable) -->
+<div class="flex items-center gap-space-md p-space-sm bg-surface-container-lowest shadow-xs max-w-xs border border-outline-variant/30" id="preview-qr-container">
+<!-- Inline High Contrast Minimal QR Code Representation -->
+<div class="w-14 h-14 bg-on-surface p-1 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full text-surface-container-lowest" fill="currentColor" viewbox="0 0 24 24">
+<path d="M2 2H10V10H2V2ZM4 4V8H8V4H4ZM2 14H10V22H2V14ZM4 16V20H8V16H4ZM14 2H22V10H14V2ZM16 4V8H20V4H16ZM14 14H16V16H14V14ZM18 14H20V16H18V14ZM20 16H22V18H20V16ZM14 18H16V20H14V18ZM18 18H20V20H18V18ZM16 20H18V22H16V20ZM20 20H22V22H20V20ZM12 4H14V6H12V4ZM12 8H14V10H12V8ZM4 12H6V14H4V12ZM8 12H10V14H8V12ZM12 12H14V14H12V12ZM16 12H18V14H16V12ZM20 12H22V14H20V12Z"></path>
+</svg>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-label-xs uppercase tracking-widest text-primary font-bold text-[9px]">GUEST VAULT ACCESS</span>
+<span class="font-body-sm text-body-sm font-semibold text-on-surface leading-tight">Scan for Instant Photo Dump</span>
+<span class="font-label-sm text-on-surface-variant font-mono text-[10px] mt-0.5">Passkey: RAHUL24</span>
+</div>
+</div>
+<!-- RSVP and Family Line -->
+<div class="flex flex-col items-center">
+<span class="font-label-sm uppercase tracking-widest text-on-secondary font-bold">With Best Compliments</span>
+<p class="font-body-sm text-body-sm text-on-surface font-medium" id="preview-rsvp">
+                Sharma &amp; Mehta Families • +91 98765 43210
+              </p>
+</div>
+<!-- Make My Marriage Atelier Insignia -->
+<div class="flex items-center gap-space-xs text-on-surface-variant/70 pt-space-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-sm uppercase tracking-widest text-[9px]">Make My Marriage • Private Wedding Cloud</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Tips and Resolution Notice -->
+<div class="bg-surface-container-lowest p-space-md shadow-sm flex items-center justify-between text-on-surface-variant text-body-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span>Ultra-HD vector rasterization ready (3200 × 4000 px print resolution).</span>
+</div>
+<span class="font-mono text-xs">Profile: CMYK/sRGB Balanced</span>
+</div>
+</div>
+</div>
+<!-- BOTTOM HORIZONTAL TRAY: CEREMONIAL PRESET SUITE (6 RITES) -->
+<section class="bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between flex-wrap gap-space-xs">
+<div>
+<span class="font-label-sm uppercase tracking-widest text-primary font-bold">Full Matrimonial Collateral</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Wedding Suite Ceremonial Collection</h2>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm uppercase tracking-wider text-on-surface-variant">6 Rites Configured</span>
+<button class="px-space-md py-space-xs bg-surface-container text-on-surface font-label-sm uppercase tracking-wider hover:bg-surface-container-high transition-colors" id="btn-export-all">
+          Export All 6 Invites (ZIP)
+        </button>
+</div>
+</div>
+<!-- 6 Presets Horizontal Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-space-md">
+<!-- Preset 1: Engagement -->
+<div class="bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm group hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase text-on-surface-variant font-mono">Rite 01</span>
+<span class="px-space-xs py-0.5 bg-surface-container-highest text-on-surface font-label-sm uppercase text-[9px]">Configured</span>
+</div>
+<div class="h-24 bg-surface-container-high flex flex-col items-center justify-center p-2 text-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">favorite</span>
+<span class="font-headline-sm text-[16px] text-on-surface mt-1 truncate">Engagement</span>
+<span class="text-[10px] text-on-surface-variant">Dec 12, 2026</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="tray-switch-btn flex-1 py-1 text-center bg-surface-container-lowest font-label-sm uppercase text-on-surface hover:bg-surface-container-high text-[10px]" data-switch="Engagement">Edit Rite</button>
+<button class="p-1 bg-surface-container-lowest text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">download</span></button>
+</div>
+</div>
+<!-- Preset 2: Mehndi -->
+<div class="bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm group hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase text-on-surface-variant font-mono">Rite 02</span>
+<span class="px-space-xs py-0.5 bg-surface-container-highest text-on-surface font-label-sm uppercase text-[9px]">Configured</span>
+</div>
+<div class="h-24 bg-surface-container-high flex flex-col items-center justify-center p-2 text-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">spa</span>
+<span class="font-headline-sm text-[16px] text-on-surface mt-1 truncate">Mehndi Haven</span>
+<span class="text-[10px] text-on-surface-variant">Dec 13, 2026</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="tray-switch-btn flex-1 py-1 text-center bg-surface-container-lowest font-label-sm uppercase text-on-surface hover:bg-surface-container-high text-[10px]" data-switch="Mehndi">Edit Rite</button>
+<button class="p-1 bg-surface-container-lowest text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">download</span></button>
+</div>
+</div>
+<!-- Preset 3: Haldi (Current Active) -->
+<div class="bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm relative ring-2 ring-primary">
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase text-primary font-bold font-mono">Rite 03</span>
+<span class="px-space-xs py-0.5 bg-primary text-on-primary font-label-sm uppercase text-[9px] font-bold">Now Editing</span>
+</div>
+<div class="h-24 bg-surface-container-high flex flex-col items-center justify-center p-2 text-center">
+<span class="material-symbols-outlined text-primary text-[24px]">sunny</span>
+<span class="font-headline-sm text-[16px] text-primary font-bold mt-1 truncate">Haldi Ceremony</span>
+<span class="text-[10px] text-on-surface-variant">Dec 14, 2026</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="flex-1 py-1 text-center bg-primary text-on-primary font-label-sm uppercase font-bold text-[10px]">Active Card</button>
+<button class="p-1 bg-surface-container-lowest text-primary"><span class="material-symbols-outlined text-[16px]">download</span></button>
+</div>
+</div>
+<!-- Preset 4: Sangeet -->
+<div class="bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm group hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase text-on-surface-variant font-mono">Rite 04</span>
+<span class="px-space-xs py-0.5 bg-surface-container-highest text-on-surface font-label-sm uppercase text-[9px]">Configured</span>
+</div>
+<div class="h-24 bg-surface-container-high flex flex-col items-center justify-center p-2 text-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">nightlife</span>
+<span class="font-headline-sm text-[16px] text-on-surface mt-1 truncate">Sangeet Gala</span>
+<span class="text-[10px] text-on-surface-variant">Dec 14 Evening</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="tray-switch-btn flex-1 py-1 text-center bg-surface-container-lowest font-label-sm uppercase text-on-surface hover:bg-surface-container-high text-[10px]" data-switch="Sangeet">Edit Rite</button>
+<button class="p-1 bg-surface-container-lowest text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">download</span></button>
+</div>
+</div>
+<!-- Preset 5: Holy Pheras -->
+<div class="bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm group hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase text-on-surface-variant font-mono">Rite 05</span>
+<span class="px-space-xs py-0.5 bg-surface-container-highest text-on-surface font-label-sm uppercase text-[9px]">Configured</span>
+</div>
+<div class="h-24 bg-surface-container-high flex flex-col items-center justify-center p-2 text-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">temple_hindu</span>
+<span class="font-headline-sm text-[16px] text-on-surface mt-1 truncate">Holy Pheras</span>
+<span class="text-[10px] text-on-surface-variant">Dec 15, 2026</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="tray-switch-btn flex-1 py-1 text-center bg-surface-container-lowest font-label-sm uppercase text-on-surface hover:bg-surface-container-high text-[10px]" data-switch="Holy Pheras">Edit Rite</button>
+<button class="p-1 bg-surface-container-lowest text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">download</span></button>
+</div>
+</div>
+<!-- Preset 6: Royal Reception -->
+<div class="bg-surface-container-low p-space-md flex flex-col justify-between gap-space-sm group hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="font-label-sm uppercase text-on-surface-variant font-mono">Rite 06</span>
+<span class="px-space-xs py-0.5 bg-surface-container-highest text-on-surface font-label-sm uppercase text-[9px]">Configured</span>
+</div>
+<div class="h-24 bg-surface-container-high flex flex-col items-center justify-center p-2 text-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[24px]">celebration</span>
+<span class="font-headline-sm text-[16px] text-on-surface mt-1 truncate">Royal Reception</span>
+<span class="text-[10px] text-on-surface-variant">Dec 16, 2026</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="tray-switch-btn flex-1 py-1 text-center bg-surface-container-lowest font-label-sm uppercase text-on-surface hover:bg-surface-container-high text-[10px]" data-switch="Reception">Edit Rite</button>
+<button class="p-1 bg-surface-container-lowest text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">download</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- LIGHTBOX MODAL OVERLAY (Pure Vanilla JS Interaction) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/80 backdrop-blur-md hidden items-center justify-center p-space-lg" id="lightbox-modal">
+<div class="relative bg-surface max-w-2xl w-full p-space-xl flex flex-col items-center shadow-2xl">
+<button class="absolute top-4 right-4 p-2 text-on-surface-variant hover:text-on-surface" id="lightbox-close">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+<div class="flex items-center gap-space-xs mb-space-md">
+<span class="material-symbols-outlined text-primary">verified</span>
+<span class="font-label-sm uppercase tracking-widest text-primary font-bold">Lightbox Render Inspection</span>
+</div>
+<div class="w-full flex justify-center" id="lightbox-clone"></div>
+<div class="mt-space-lg flex items-center gap-space-md">
+<button class="px-space-lg py-space-sm bg-primary text-on-primary font-label-md uppercase tracking-wider" id="lightbox-download">
+          Download Certified Print File
+        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- INTERACTIVE SCRIPTS: LIVE CARD PREVIEW BINDINGS -->
+<script>
+  (function initStudio() {
+    // Inputs & Preview Targets
+    const inputNames = document.getElementById('input-names');
+    const inputRiteTitle = document.getElementById('input-rite-title');
+    const inputInvocation = document.getElementById('input-invocation');
+    const inputDate = document.getElementById('input-date');
+    const inputVenue = document.getElementById('input-venue');
+    const inputBlessing = document.getElementById('input-blessing');
+    const inputRsvp = document.getElementById('input-rsvp');
+    const toggleQr = document.getElementById('toggle-qr');
+
+    const previewNames = document.getElementById('preview-names');
+    const previewRiteTitle = document.getElementById('preview-rite-title');
+    const previewInvocation = document.getElementById('preview-invocation');
+    const previewDate = document.getElementById('preview-date');
+    const previewVenue = document.getElementById('preview-venue');
+    const previewBlessing = document.getElementById('preview-blessing');
+    const previewRsvp = document.getElementById('preview-rsvp');
+    const previewQrContainer = document.getElementById('preview-qr-container');
+    const cardElement = document.getElementById('invitation-card');
+
+    // Realtime live updating
+    inputNames?.addEventListener('input', (e) => previewNames.textContent = e.target.value);
+    inputRiteTitle?.addEventListener('input', (e) => previewRiteTitle.textContent = e.target.value);
+    inputInvocation?.addEventListener('input', (e) => previewInvocation.textContent = e.target.value);
+    inputDate?.addEventListener('input', (e) => previewDate.textContent = e.target.value);
+    inputVenue?.addEventListener('input', (e) => previewVenue.textContent = e.target.value);
+    inputBlessing?.addEventListener('input', (e) => previewBlessing.textContent = `"${e.target.value}"`);
+    inputRsvp?.addEventListener('input', (e) => previewRsvp.textContent = e.target.value);
+
+    // Toggle QR Badge
+    toggleQr?.addEventListener('change', (e) => {
+      previewQrContainer.style.display = e.target.checked ? 'flex' : 'none';
+    });
+
+    // Rite Switch Presets Data
+    const riteData = {
+      'Engagement': {
+        title: 'ENGAGEMENT & RING CEREMONY',
+        invocation: '॥ ॐ श्री गणेशाय नमः ॥ • || Preethi Sangam ||',
+        date: 'Wednesday, December 12, 2026 • 06:00 PM',
+        blessing: 'Two hearts unite as families weave an eternal bond of love and auspicious union.',
+      },
+      'Mehndi': {
+        title: 'MEHNDI & HENNA HAVEN',
+        invocation: '॥ सौभाग्यास्तु ॥ • || Sacred Henna Rite ||',
+        date: 'Thursday, December 13, 2026 • 03:00 PM',
+        blessing: 'Amidst crimson henna, fragrant marigolds, and heirloom family melodies.',
+      },
+      'Haldi': {
+        title: 'HALDI & FLORAL SHOWER',
+        invocation: '॥ श्री गणेशाय नमः ॥ • || Shubham Bhavatu ||',
+        date: 'Friday, December 14, 2026 • 10:30 AM (Muhurat: 11:15 AM Dhanu Lagna)',
+        blessing: 'With the unconditional blessings of elders & boundless joy in our hearts, we request your presence.',
+      },
+      'Sangeet': {
+        title: 'SANGEET GALA & CELEBRATION',
+        invocation: '॥ रस माधुर्यम् ॥ • || Rhythms of Togetherness ||',
+        date: 'Friday, December 14, 2026 • 07:30 PM Onwards',
+        blessing: 'An evening of scintillating music, joyous choreography, and boundless happiness.',
+      },
+      'Holy Pheras': {
+        title: 'HOLY PHERAS & VEDIC NUPTIALS',
+        invocation: '॥ सप्तपदी संस्कार ॥ • || Seven Sacred Vows ||',
+        date: 'Saturday, December 15, 2026 • 11:00 AM (Auspicious Vivaha Lagna: 11:48 AM)',
+        blessing: 'Before the sacred Agni and respected elders, two lives converge into one timeless journey.',
+      },
+      'Reception': {
+        title: 'ROYAL MATRIMONIAL RECEPTION',
+        invocation: '॥ शुभ विवाह अभिनन्दन ॥ • || Imperial Banquet ||',
+        date: 'Sunday, December 16, 2026 • 07:00 PM Onwards',
+        blessing: 'Join us to honor the newly wedded couple under starlit skies and gracious hospitality.',
+      }
+    };
+
+    function applyRite(name) {
+      if (!riteData[name]) return;
+      const data = riteData[name];
+      inputRiteTitle.value = data.title;
+      previewRiteTitle.textContent = data.title;
+      inputInvocation.value = data.invocation;
+      previewInvocation.textContent = data.invocation;
+      inputDate.value = data.date;
+      previewDate.textContent = data.date;
+      inputBlessing.value = data.blessing;
+      previewBlessing.textContent = `"${data.blessing}"`;
+
+      // Update Top Tabs
+      document.querySelectorAll('.rite-tab').forEach(tab => {
+        if (tab.getAttribute('data-rite') === name) {
+          tab.className = 'rite-tab active-rite flex flex-col items-center justify-center p-space-sm bg-primary text-on-primary transition-all text-center shadow-sm';
+        } else {
+          tab.className = 'rite-tab flex flex-col items-center justify-center p-space-sm bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all text-center';
+        }
+      });
+    }
+
+    document.querySelectorAll('.rite-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const riteName = tab.getAttribute('data-rite');
+        applyRite(riteName);
+      });
+    });
+
+    document.querySelectorAll('.tray-switch-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const riteName = btn.getAttribute('data-switch');
+        applyRite(riteName);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Ratio Toggle (4:5 vs 9:16)
+    const ratio45 = document.getElementById('ratio-45');
+    const ratio916 = document.getElementById('ratio-916');
+
+    ratio45?.addEventListener('click', () => {
+      cardElement.classList.remove('max-w-[420px]', 'min-h-[820px]');
+      cardElement.classList.add('max-w-[520px]');
+      ratio45.className = 'px-space-sm py-1 bg-surface-container-lowest font-label-sm uppercase font-bold text-on-surface shadow-xs';
+      ratio916.className = 'px-space-sm py-1 font-label-sm uppercase text-on-surface-variant hover:text-on-surface';
+    });
+
+    ratio916?.addEventListener('click', () => {
+      cardElement.classList.remove('max-w-[520px]');
+      cardElement.classList.add('max-w-[420px]', 'min-h-[820px]');
+      ratio916.className = 'px-space-sm py-1 bg-surface-container-lowest font-label-sm uppercase font-bold text-on-surface shadow-xs';
+      ratio45.className = 'px-space-sm py-1 font-label-sm uppercase text-on-surface-variant hover:text-on-surface';
+    });
+
+    // Template Selector Styling
+    document.querySelectorAll('.tpl-card').forEach(tpl => {
+      tpl.addEventListener('click', () => {
+        document.querySelectorAll('.tpl-card').forEach(t => {
+          t.classList.remove('ring-2', 'ring-primary');
+          const indicator = t.querySelector('.absolute.top-1\\.5.right-1\\.5');
+          if (indicator) indicator.remove();
+        });
+        tpl.classList.add('ring-2', 'ring-primary');
+        const dot = document.createElement('span');
+        dot.className = 'absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary';
+        tpl.appendChild(dot);
+      });
+    });
+
+    // Download & Feedback
+    const btnDownload = document.getElementById('btn-download');
+    btnDownload?.addEventListener('click', () => {
+      const orig = btnDownload.innerHTML;
+      btnDownload.innerHTML = `<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Rendering 300 DPI...</span>`;
+      setTimeout(() => {
+        btnDownload.innerHTML = `<span class="material-symbols-outlined text-[18px]">done</span><span>Exported Successfully</span>`;
+        setTimeout(() => btnDownload.innerHTML = orig, 2200);
+      }, 1000);
+    });
+
+    // WhatsApp Copy
+    const btnCopyWa = document.getElementById('btn-copy-wa');
+    btnCopyWa?.addEventListener('click', () => {
+      const text = `${previewRiteTitle.textContent}\n${previewNames.textContent}\n${previewDate.textContent}\nVenue: ${previewVenue.textContent}\nPhoto Vault Passkey: RAHUL24`;
+      navigator.clipboard?.writeText(text);
+      const orig = btnCopyWa.innerHTML;
+      btnCopyWa.innerHTML = `<span class="material-symbols-outlined text-[16px]">check</span><span>Copied to Clipboard!</span>`;
+      setTimeout(() => btnCopyWa.innerHTML = orig, 1800);
+    });
+
+    // Lightbox modal toggle
+    const btnLightbox = document.getElementById('btn-lightbox');
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxClone = document.getElementById('lightbox-clone');
+
+    btnLightbox?.addEventListener('click', () => {
+      lightboxClone.innerHTML = cardElement.outerHTML;
+      lightboxModal.classList.remove('hidden');
+      lightboxModal.classList.add('flex');
+    });
+
+    lightboxClose?.addEventListener('click', () => {
+      lightboxModal.classList.add('hidden');
+      lightboxModal.classList.remove('flex');
+    });
+
+  })();
+</script></main></div></body></html>
