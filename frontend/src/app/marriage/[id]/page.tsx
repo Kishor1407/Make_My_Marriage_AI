@@ -73,6 +73,23 @@ export default function GuestDashboardPage() {
 
   const invitationRef = useRef<HTMLDivElement>(null);
   const wishesTrackRef = useRef<HTMLDivElement>(null);
+  const [customInviteUrl, setCustomInviteUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (passcode) {
+      api.get(`/invitations/${passcode}?ceremony=HALDI`)
+        .then((res) => {
+          if (res.data?.data?.cardImageUrl) {
+            const backendBase = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:5000';
+            const imgUrl = res.data.data.cardImageUrl.startsWith('http')
+              ? res.data.data.cardImageUrl
+              : `${backendBase}${res.data.data.cardImageUrl}`;
+            setCustomInviteUrl(imgUrl);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [passcode]);
 
   const showToast = (text: string, type: 'info' | 'success' | 'crimson' = 'info') => {
     setToastMsg({ text, type });
@@ -889,7 +906,7 @@ export default function GuestDashboardPage() {
                   <img
                     alt="Artisanal invitation card"
                     className="w-full h-full object-contain p-2 group-hover:scale-102 transition-transform duration-300"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk"
+                    src={customInviteUrl || "https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk"}
                   />
                   <div className="absolute bottom-3 right-3">
                     <button className="px-3 py-1.5 rounded-lg bg-neutral-900/85 backdrop-blur-md text-white text-xs font-semibold flex items-center gap-1.5 hover:bg-[#c81e38] transition-colors shadow-sm">
@@ -1354,7 +1371,7 @@ export default function GuestDashboardPage() {
               <img
                 alt="Full card preview"
                 className="max-h-[440px] object-contain rounded-xl shadow-sm border border-neutral-200"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk"
+                src={customInviteUrl || "https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk"}
               />
             </div>
             <div className="p-4 bg-neutral-50 border-t border-neutral-200 flex justify-end gap-2">

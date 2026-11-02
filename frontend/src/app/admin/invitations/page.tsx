@@ -92,7 +92,9 @@ function InvitationStudioContent() {
   const [includeQr, setIncludeQr] = useState(true);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
   const [isExporting, setIsExporting] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [loadedRitesData, setLoadedRitesData] = useState<Record<string, any>>({});
   const [toastMsg, setToastMsg] = useState<{ text: string; type?: 'info' | 'success' | 'crimson' } | null>(null);
 
   // Editable Form Inputs
@@ -114,14 +116,29 @@ function InvitationStudioContent() {
   // Switch ceremony rite
   const handleSelectRite = useCallback((rite: CeremonyRite) => {
     setActiveRite(rite);
-    const preset = RITE_PRESETS[rite];
-    setRiteTitle(preset.title);
-    setInvocation(preset.invocation);
-    setDateTime(preset.date);
-    setVenue(preset.venue);
-    setBlessing(preset.blessing);
-    showToast(`Loaded ceremonial template for ${rite}`, 'info');
-  }, []);
+    const saved = loadedRitesData[rite.toUpperCase()] || loadedRitesData[rite];
+    if (saved && !saved.isDefault) {
+      if (saved.coupleNames) setCoupleNames(saved.coupleNames);
+      if (saved.riteTitle) setRiteTitle(saved.riteTitle);
+      if (saved.invocation) setInvocation(saved.invocation);
+      if (saved.dateTime) setDateTime(saved.dateTime);
+      if (saved.venue) setVenue(saved.venue);
+      if (saved.blessing) setBlessing(saved.blessing);
+      if (saved.rsvp) setRsvp(saved.rsvp);
+      if (saved.templateStyle) setActiveTemplate(saved.templateStyle);
+      if (saved.cardRatio) setCardRatio(saved.cardRatio);
+      if (saved.includeQr !== undefined) setIncludeQr(saved.includeQr);
+      showToast(`Loaded saved ceremonial template for ${rite}`, 'success');
+    } else {
+      const preset = RITE_PRESETS[rite];
+      setRiteTitle(preset.title);
+      setInvocation(preset.invocation);
+      setDateTime(preset.date);
+      setVenue(preset.venue);
+      setBlessing(preset.blessing);
+      showToast(`Loaded ceremonial template for ${rite}`, 'info');
+    }
+  }, [loadedRitesData]);
 
   // Fetch marriage details & generate vector QR
   useEffect(() => {
@@ -140,6 +157,33 @@ function InvitationStudioContent() {
         .then((url) => setQrCodeDataUrl(url))
         .catch(() => {});
     }
+
+    // Load existing invitations from Atlas API
+    api.get(`/invitations/${marriageCode}`)
+      .then((res) => {
+        if (res.data?.data && Array.isArray(res.data.data)) {
+          const map: Record<string, any> = {};
+          res.data.data.forEach((inv: any) => {
+            map[inv.ceremony] = inv;
+          });
+          setLoadedRitesData(map);
+
+          const savedActive = map['HALDI'] || map[activeRite.toUpperCase()];
+          if (savedActive && !savedActive.isDefault) {
+            if (savedActive.coupleNames) setCoupleNames(savedActive.coupleNames);
+            if (savedActive.riteTitle) setRiteTitle(savedActive.riteTitle);
+            if (savedActive.invocation) setInvocation(savedActive.invocation);
+            if (savedActive.dateTime) setDateTime(savedActive.dateTime);
+            if (savedActive.venue) setVenue(savedActive.venue);
+            if (savedActive.blessing) setBlessing(savedActive.blessing);
+            if (savedActive.rsvp) setRsvp(savedActive.rsvp);
+            if (savedActive.templateStyle) setActiveTemplate(savedActive.templateStyle);
+            if (savedActive.cardRatio) setCardRatio(savedActive.cardRatio);
+            if (savedActive.includeQr !== undefined) setIncludeQr(savedActive.includeQr);
+          }
+        }
+      })
+      .catch(() => {});
 
     // Attempt to load couple names from Atlas
     api.get(`/marriages/${marriageCode}`)
@@ -167,7 +211,41 @@ function InvitationStudioContent() {
     showToast('Reset all fields to master atelier defaults', 'info');
   };
 
-  // Export card as high-res PNG using html2canvas
+  // Save customized invitation to MongoDB Atlas via API
+  const handleSaveToVault = async () => {
+    setIsSaving(true);
+    try {
+      const payload = {
+        marriageCode,
+        ceremony: activeRite,
+        templateStyle: activeTemplate,
+        cardRatio,
+        coupleNames,
+        riteTitle,
+        invocation,
+        dateTime,
+        venue,
+        blessing,
+        rsvp,
+        includeQr
+      };
+
+      const res = await api.post('/invitations', payload);
+      if (res.data?.success) {
+        showToast(`Saved invitation for ${activeRite} to MongoDB Atlas!`, 'success');
+        setLoadedRitesData((prev) => ({
+          ...prev,
+          [activeRite.toUpperCase()]: res.data.data
+        }));
+      }
+    } catch (err: any) {
+      showToast(err.message || 'Failed to save invitation', 'crimson');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Export card as high-res PNG using html2canvas & upload snapshot
   const handleDownloadCard = async () => {
     if (!cardRef.current) return;
     setIsExporting(true);
@@ -176,6 +254,18 @@ function InvitationStudioContent() {
       const fileName = `${marriageCode.toLowerCase()}-${activeRite.toLowerCase().replace(/\s+/g, '-')}-invitation.png`;
       await downloadInvitationAsImage(cardRef.current, fileName);
       showToast(`Exported 300 DPI invitation for ${activeRite}!`, 'success');
+
+      // Save rendered snapshot to GridFS asynchronously
+      try {
+        const html2canvas = (await import('html2canvas')).default;
+        const canvas = await html2canvas(cardRef.current, { scale: 1.5, useCORS: true });
+        const dataUrl = canvas.toDataURL('image/png');
+        api.post('/invitations/render-upload', {
+          marriageCode,
+          ceremony: activeRite,
+          imageBase64: dataUrl
+        }).catch(() => {});
+      } catch {}
     } catch {
       showToast('Rendering completed (or preview in lightbox)', 'info');
     } finally {
@@ -375,6 +465,16 @@ function InvitationStudioContent() {
               >
                 <AppIcon name="visibility" size={15} />
                 <span>Lightbox Preview</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSaveToVault}
+                disabled={isSaving}
+                className="px-4 py-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm disabled:opacity-50"
+              >
+                <AppIcon name="save" size={15} className="text-white" />
+                <span>{isSaving ? 'Saving...' : 'Save to Vault'}</span>
               </button>
 
               <button
@@ -641,11 +741,12 @@ function InvitationStudioContent() {
                 <div className="pt-3 flex items-center justify-between gap-3 border-t border-neutral-100">
                   <button
                     type="button"
-                    onClick={() => showToast('Draft saved to local browser cache', 'success')}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-100 text-neutral-700 text-xs font-bold uppercase tracking-wider hover:bg-neutral-200 transition-colors"
+                    onClick={handleSaveToVault}
+                    disabled={isSaving}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-neutral-900 text-white text-xs font-bold uppercase tracking-wider hover:bg-neutral-800 transition-colors disabled:opacity-50"
                   >
-                    <AppIcon name="save" size={14} />
-                    <span>Save Draft</span>
+                    <AppIcon name="save" size={14} className="text-white" />
+                    <span>{isSaving ? 'Saving...' : 'Save to Vault'}</span>
                   </button>
 
                   <button
@@ -1083,3 +1184,4 @@ export default function InvitationStudioPage() {
     </Suspense>
   );
 }
+
