@@ -62,6 +62,12 @@ import {
   Mail,
   User,
   ConciergeBell,
+  Volume2,
+  VolumeX,
+  Pause,
+  Gift,
+  Radio,
+  ArrowUpDown,
   LucideProps
 } from 'lucide-react';
 
@@ -229,6 +235,19 @@ export default function AppIcon({ name, className = '', size = 18, ...props }: A
       return <User className={className} size={size} {...props} />;
     case 'room_service':
       return <ConciergeBell className={className} size={size} {...props} />;
+    case 'volume_up':
+      return <Volume2 className={className} size={size} {...props} />;
+    case 'volume_off':
+      return <VolumeX className={className} size={size} {...props} />;
+    case 'pause':
+      return <Pause className={className} size={size} {...props} />;
+    case 'redeem':
+      return <Gift className={className} size={size} {...props} />;
+    case 'sensors':
+    case 'graphic_eq':
+      return <Radio className={className} size={size} {...props} />;
+    case 'swap_vert':
+      return <ArrowUpDown className={className} size={size} {...props} />;
     default:
       // Fallback to Material Symbols ligature if not in predefined map
       return (

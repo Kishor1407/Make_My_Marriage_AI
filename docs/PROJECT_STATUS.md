@@ -19,8 +19,8 @@
 | **4.3** | **Six-Part Wedding Timeline** | ✅ **Completed** | Every wedding automatically provisions the canonical 6 rites: *Engagement, Mehndi, Haldi, Sangeet, Marriage (Holy Pheras), and Others (Candid/Table)* with dedicated event stats. |
 | **4.4** | **QR-Powered Photo Dump & Attribution** | ✅ **Completed** | Built desktop-first luxury portal `/guest/upload` matching Google Stitch screen `3cf03f76502a4afab50f13d1127ca03f`. Generates dynamic vector Table Standee QR codes. Uploads stream into Atlas GridFS tagged with guest `Name`, `Email`, and `Ceremony`. |
 | **4.5** | **Built-in Invitation Generator** | ✅ **Completed** | Full end-to-end Ceremonial Card Architect (`/admin/invitations` & `/invitations`) matching Stitch screen `110d273f`. Complete backend integration (`GET /api/v1/invitations/:code`, `POST /api/v1/invitations`, and `POST /api/v1/invitations/render-upload` to GridFS). Supports 6-rite presets, 3 card silhouettes (Royal Mandap, Ivory Arch, Sunset Vow), live vector Standee QR embedding, 4:5 & 9:16 aspect ratios, WhatsApp text copy, Lightbox inspection, and `html2canvas` 300 DPI PNG exports. |
-| **4.6** | **Live Stream Integration** | 🟡 **Next Up** | YouTube Live embedded video player modal for remote family attendance. |
-| **4.7** | **Media Segregation (Photos & Videos)** | ✅ **Completed** | Segregated GridFS storage and API endpoints for Photo galleries vs curated official Videos. |
+| **4.6** | **Live Stream Integration** | ✅ **Completed** | Full end-to-end Ceremonial Live Cinema matching Stitch screen `ed30167a` (`/marriage/[id]/cinema` & `/cinema`). Embedded 16:9 responsive YouTube Live player (`getYouTubeEmbedUrl`), 6-canonical-rite channel switcher, interactive Virtual Aashirwaad cheer reaction ribbon (❤️, 🌹, 🪔, 👏, 🎉) with floating particle engine, live viewer counters, live remote guestbook, and Host Admin Stream Studio modal backed by `PUT /api/v1/events/config/stream` and `GET /api/v1/events/marriage/:code`. |
+| **4.7** | **Media Segregation (Photos & Videos)** | 🟡 **Next Up** | Dedicated video player showcase for official GridFS-stored video reels vs candid photo galleries. |
 
 ---
 

@@ -579,6 +579,14 @@ export default function GuestDashboardPage() {
 
             {/* Quick Interaction Bar in Crisp White */}
             <div className="flex items-center gap-2 flex-wrap">
+              <Link
+                href={`/marriage/${passcode.toLowerCase()}/cinema`}
+                className="px-3.5 py-2 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold flex items-center gap-1.5 shadow-md transition-all active:scale-95 animate-pulse"
+              >
+                <AppIcon name="videocam" size={16} />
+                <span>Live Cinema</span>
+              </Link>
+
               <button
                 onClick={() => {
                   if (typeof window !== 'undefined') {
@@ -1217,6 +1225,13 @@ export default function GuestDashboardPage() {
               </div>
 
               <div className="flex items-center gap-2">
+                <Link
+                  href={`/marriage/${passcode.toLowerCase()}/cinema`}
+                  className="px-3 py-1.5 rounded-lg bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm"
+                >
+                  <AppIcon name="aspect_ratio" size={14} />
+                  <span>Full Cinema</span>
+                </Link>
                 <button
                   onClick={() => showToast('Switched to Drone Overhead 4K view', 'info')}
                   className="px-3 py-1.5 rounded-lg bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-semibold border border-neutral-200"

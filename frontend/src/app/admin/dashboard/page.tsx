@@ -470,6 +470,14 @@ export default function AdminDashboardPage() {
               <span>Invitation Studio</span>
             </Link>
 
+            <Link
+              href="/cinema"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-neutral-600 hover:bg-neutral-100 hover:text-black transition-all cursor-pointer"
+            >
+              <AppIcon name="videocam" size={18} className="text-[#C81E38]" />
+              <span>Live Stream Cinema</span>
+            </Link>
+
             <button
               onClick={() => showToast('Events & Timeline manager active for registered vaults.', 'info')}
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-neutral-600 hover:bg-neutral-100 hover:text-black transition-all cursor-pointer"
@@ -783,6 +791,14 @@ export default function AdminDashboardPage() {
                       </div>
 
                       <div className="flex items-center gap-3">
+                        <Link
+                          href={`/marriage/${featuredVault.code.toLowerCase()}/cinema?admin=true`}
+                          className="px-4 py-2.5 rounded-xl bg-neutral-100 hover:bg-[#C81E38] hover:text-white text-neutral-800 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer border border-neutral-200"
+                        >
+                          <AppIcon name="videocam" size={16} />
+                          <span>Stream Studio</span>
+                        </Link>
+
                         <Link
                           href={`/admin/invitations?code=${featuredVault.code}`}
                           className="px-4 py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer border border-neutral-200"

@@ -231,9 +231,41 @@ async function testAllFeatures() {
   assert(!!renderUploadData.streamUrl, 'Rendered card streamUrl created');
 
   // -------------------------------------------------------------
-  // SUITE 6: Teardown & Cascading Cleanup
+  // SUITE 6: Live Stream Integration & Virtual Cinema (PRD 4.6)
   // -------------------------------------------------------------
-  console.log('\n--- SUITE 6: Teardown & Clean Database State ---');
+  console.log('\n--- SUITE 6: Live Stream Integration (PRD 4.6) ---');
+  // Update stream configuration via Host Stream Studio API
+  const streamConfigRes = await fetch(`${BASE_URL}/events/config/stream`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      marriageCode: testCode,
+      ceremony: 'HALDI',
+      liveStreamUrl: 'https://www.youtube.com/watch?v=live_test_broadcast',
+      streamStatus: 'LIVE',
+      customTitle: 'The Golden Haldi & Floral Shower'
+    })
+  });
+  const streamConfigData = await streamConfigRes.json();
+  assert(streamConfigRes.status === 200, 'Update stream config returns HTTP 200');
+  assert(streamConfigData.data?.streamStatus === 'LIVE', 'Stream broadcast state updated to LIVE');
+  assert(streamConfigData.data?.liveStreamUrl.includes('live_test_broadcast'), 'YouTube Live link correctly stored');
+
+  // Verify guest can fetch events and view stream link
+  const guestEventsRes = await fetch(`${BASE_URL}/events/marriage/${testCode}`);
+  const guestEventsData = await guestEventsRes.json();
+  assert(guestEventsRes.status === 200, 'Fetch events for marriage returns HTTP 200');
+  const haldiEvent = guestEventsData.data.find((e) => e.eventType === 'HALDI');
+  assert(haldiEvent?.streamStatus === 'LIVE', 'Guest receives LIVE broadcast status');
+  assert(haldiEvent?.liveStreamUrl.includes('live_test_broadcast'), 'Guest receives active YouTube live stream URL');
+
+  // -------------------------------------------------------------
+  // SUITE 7: Teardown & Cascading Cleanup
+  // -------------------------------------------------------------
+  console.log('\n--- SUITE 7: Teardown & Clean Database State ---');
   const delRes = await fetch(`${BASE_URL}/marriages/${marriageId}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` }

@@ -38,6 +38,15 @@ const eventSchema = new mongoose.Schema(
       default: null,
       trim: true
     },
+    streamStatus: {
+      type: String,
+      enum: ['SCHEDULED', 'LIVE', 'CONCLUDED'],
+      default: 'SCHEDULED'
+    },
+    viewerCount: {
+      type: Number,
+      default: 142
+    },
     eventStats: {
       photoCount: {
         type: Number,
