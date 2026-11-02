@@ -4,9 +4,9 @@
   "description": "Next.js Frontend for Make My Marriage",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 5173",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 5173",
     "lint": "next lint"
   },
   "dependencies": {

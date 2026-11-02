@@ -29,7 +29,7 @@ const createMarriage = async (req, res, next) => {
     }
 
     // Generate QR Code data URL pointing to guest upload page
-    const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const uploadUrl = `${frontendBaseUrl}/guest/upload?code=${code}`;
     const qrCodeUrl = await generateQRCodeDataUrl(uploadUrl);
 
@@ -114,7 +114,7 @@ const getMarriageById = async (req, res, next) => {
     // Ensure QR code URL exists
     if (!marriage.qrCodeUrl) {
       try {
-        const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
         marriage.qrCodeUrl = await generateQRCodeDataUrl(`${frontendBaseUrl}/guest/upload?code=${marriage.marriageCode}`);
         await marriage.save();
       } catch (err) {
@@ -166,7 +166,7 @@ const updateMarriage = async (req, res, next) => {
         return res.status(400).json({ error: `Marriage code "${newCode}" is already in use.` });
       }
       marriage.marriageCode = newCode;
-      const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+      const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
       marriage.qrCodeUrl = await generateQRCodeDataUrl(`${frontendBaseUrl}/guest/upload?code=${newCode}`);
     }
 
