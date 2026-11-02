@@ -36,23 +36,22 @@ async function testAllFeatures() {
   // -------------------------------------------------------------
   console.log('\n--- SUITE 2: Host Authentication (PRD 3.0) ---');
   const uniqueSuffix = Date.now().toString().slice(-4);
-  const testAdminEmail = `host.audit.${uniqueSuffix}@makemymarriage.com`;
+  const testAdminEmail = 'modi@makemymarriage.com';
   const testPassword = 'Password@2026';
 
-  const regRes = await fetch(`${BASE_URL}/auth/admin/register`, {
+  const loginRes = await fetch(`${BASE_URL}/auth/admin/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      name: `Host Auditor ${uniqueSuffix}`,
       email: testAdminEmail,
       password: testPassword
     })
   });
-  const regData = await regRes.json();
-  assert(regRes.status === 201, 'Host Admin registration returns HTTP 201');
-  assert(!!regData.token, 'Registration issues valid JWT token');
+  const loginData = await loginRes.json();
+  assert(loginRes.status === 200, 'Host Admin login with sovereign modi@makemymarriage.com returns HTTP 200');
+  assert(!!loginData.token, 'Login issues valid JWT token');
 
-  const token = regData.token;
+  const token = loginData.token;
 
   // Verify /auth/me
   const meRes = await fetch(`${BASE_URL}/auth/me`, {

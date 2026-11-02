@@ -35,8 +35,17 @@ interface PhotoMoment {
 export default function GuestDashboardPage() {
   const params = useParams();
   const router = useRouter();
-  const rawId = (params?.id as string) || 'rahul24';
+  const rawId = (params?.id as string) || 'rajsim24';
   const passcode = rawId.toUpperCase();
+
+  // Dynamic Marriage Vault State
+  const [coupleTitle, setCoupleTitle] = useState('Raj Malhotra & Simran Singh');
+  const [coupleInitials, setCoupleInitials] = useState('R&S');
+  const [venueTitle, setVenueTitle] = useState('The Grand Oberoi Amarvilas, Agra');
+  const [datesTitle, setDatesTitle] = useState('October 18–20, 2024');
+  const [vaultStatus, setVaultStatus] = useState('Celebrated (Past)');
+  const [coverPhoto, setCoverPhoto] = useState('https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk');
+  const [guestCount, setGuestCount] = useState(125);
 
   // Active Ceremony & Media State
   const [activeEvent, setActiveEvent] = useState<'engagement' | 'mehndi' | 'haldi' | 'sangeet' | 'marriage' | 'others'>('haldi');
@@ -77,6 +86,26 @@ export default function GuestDashboardPage() {
 
   useEffect(() => {
     if (passcode) {
+      // 1. Fetch real marriage vault details from MongoDB Atlas
+      api.get(`/marriages/${passcode}`)
+        .then((res) => {
+          if (res.data?.data) {
+            const m = res.data.data;
+            const fullTitle = `${m.partnerOneName} & ${m.partnerTwoName}`;
+            setCoupleTitle(fullTitle);
+            const init1 = (m.partnerOneName || 'R')[0];
+            const init2 = (m.partnerTwoName || 'S')[0];
+            setCoupleInitials(`${init1}&${init2}`);
+            if (m.venue) setVenueTitle(m.venue);
+            if (m.dates) setDatesTitle(m.dates);
+            if (m.status) setVaultStatus(m.status);
+            if (m.coverImage) setCoverPhoto(m.coverImage);
+            if (m.globalStats?.totalGuestsEngaged) setGuestCount(m.globalStats.totalGuestsEngaged);
+          }
+        })
+        .catch(() => {});
+
+      // 2. Fetch real invitations
       api.get(`/invitations/${passcode}?ceremony=HALDI`)
         .then((res) => {
           if (res.data?.data?.cardImageUrl) {
@@ -85,6 +114,32 @@ export default function GuestDashboardPage() {
               ? res.data.data.cardImageUrl
               : `${backendBase}${res.data.data.cardImageUrl}`;
             setCustomInviteUrl(imgUrl);
+          }
+        })
+        .catch(() => {});
+
+      // 3. Fetch real gallery candid moments & video reels from GridFS
+      api.get(`/media/gallery/${passcode}`)
+        .then((res) => {
+          if (res.data?.photos && Array.isArray(res.data.photos) && res.data.photos.length > 0) {
+            const backendBase = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:5000';
+            const loadedMoments: PhotoMoment[] = res.data.photos.map((p: any) => ({
+              id: p.id,
+              src: p.streamUrl.startsWith('http') ? p.streamUrl : `${backendBase}${p.streamUrl}`,
+              author: p.uploaderName || 'Wedding Guest',
+              timeAgo: p.uploadDate ? new Date(p.uploadDate).toLocaleDateString() : 'Just now',
+              location: `${p.ceremony || 'Ceremony'} Celebration`,
+              side: 'both',
+              isFavorite: true,
+              likes: 15,
+              liked: false
+            }));
+
+            setMoments((prev) => {
+              const ids = new Set(loadedMoments.map((m) => m.id));
+              const remaining = prev.filter((m) => !ids.has(m.id));
+              return [...loadedMoments, ...remaining];
+            });
           }
         })
         .catch(() => {});
@@ -488,12 +543,12 @@ export default function GuestDashboardPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="w-13 h-13 px-3 py-2.5 rounded-2xl bg-gradient-to-br from-[#c81e38] via-[#9e1b32] to-[#680014] text-white flex items-center justify-center font-editorial font-bold text-xl shadow-md shrink-0">
-                R&amp;A
+                {coupleInitials}
               </div>
               <div>
                 <div className="flex items-center gap-2.5 flex-wrap">
                   <h1 className="font-editorial font-bold text-2xl sm:text-3xl text-[#0a0a0c] tracking-tight">
-                    Rahul &amp; Anjali
+                    {coupleTitle}
                   </h1>
                   <AppIcon
                     name="verified"
@@ -503,15 +558,17 @@ export default function GuestDashboardPage() {
                   />
                   <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#c81e38]/10 text-[#c81e38] border border-[#c81e38]/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#c81e38] animate-pulse"></span>
-                    <span>{currentCeremony.status}</span>
+                    <span>{vaultStatus}</span>
                   </span>
                 </div>
                 <p className="text-xs text-neutral-600 flex items-center gap-2 mt-1 flex-wrap">
-                  <span>The Leela Palace Seaside, Goa</span>
+                  <span>{venueTitle}</span>
                   <span className="text-neutral-300">•</span>
-                  <span className="text-[#c81e38] font-medium">{moments.length * 35} Photos &amp; 3 Live Reels</span>
+                  <span>{datesTitle}</span>
                   <span className="text-neutral-300">•</span>
-                  <span className="text-neutral-800 font-semibold">320 Guests Connected</span>
+                  <span className="text-[#c81e38] font-medium">{moments.length} Photos &amp; Reels</span>
+                  <span className="text-neutral-300">•</span>
+                  <span className="text-neutral-800 font-semibold">{guestCount} Guests Connected</span>
                   <span className="text-neutral-300">•</span>
                   <span className="text-[11px] font-mono font-bold text-[#c81e38] bg-neutral-100 px-2 py-0.5 rounded border border-neutral-200">
                     Passcode: {passcode}
@@ -1359,7 +1416,7 @@ export default function GuestDashboardPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="w-full max-w-xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-neutral-200 max-h-[90vh] flex flex-col">
             <div className="p-4 bg-neutral-50 flex items-center justify-between border-b border-neutral-200">
-              <h3 className="font-editorial font-bold text-sm text-[#0a0a0c]">Rahul &amp; Anjali • Wedding Invitation</h3>
+              <h3 className="font-editorial font-bold text-sm text-[#0a0a0c]">{coupleTitle} • Wedding Invitation</h3>
               <button
                 onClick={() => setIsInviteModalOpen(false)}
                 className="w-7 h-7 rounded-full flex items-center justify-center text-neutral-500 hover:text-black"
@@ -1460,7 +1517,7 @@ export default function GuestDashboardPage() {
                 <textarea
                   required
                   rows={3}
-                  placeholder="Write your heartfelt wishes for Rahul & Anjali..."
+                  placeholder={`Write your heartfelt wishes for ${coupleTitle}...`}
                   value={wishText}
                   onChange={(e) => setWishText(e.target.value)}
                   className="w-full p-3 bg-neutral-50 border border-neutral-300 rounded-xl text-xs text-[#0a0a0c] focus:outline-none focus:border-[#c81e38] focus:bg-white"
@@ -1506,7 +1563,7 @@ export default function GuestDashboardPage() {
                 type="text"
                 required
                 maxLength={8}
-                placeholder="e.g. RAHUL24"
+                placeholder="e.g. RAJSIM24"
                 value={newSwitchCode}
                 onChange={(e) => setNewSwitchCode(e.target.value.toUpperCase())}
                 className="w-full h-11 px-3 bg-neutral-50 border border-neutral-300 rounded-xl text-center text-base font-bold tracking-widest uppercase focus:outline-none focus:border-[#c81e38] focus:bg-white"

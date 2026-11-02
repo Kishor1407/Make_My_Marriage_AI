@@ -344,9 +344,13 @@ const getMarriageGallery = async (req, res, next) => {
     }
 
     const db = mongoose.connection.db;
-    const query = {
-      'metadata.mediaType': 'PHOTO'
-    };
+    const query = {};
+
+    if (req.query.mediaType && req.query.mediaType.toUpperCase() !== 'ALL') {
+      query['metadata.mediaType'] = req.query.mediaType.toUpperCase();
+    } else {
+      query['metadata.mediaType'] = { $in: ['PHOTO', 'VIDEO'] };
+    }
 
     if (marriage) {
       query.$or = [
@@ -380,7 +384,8 @@ const getMarriageGallery = async (req, res, next) => {
         venue: marriage.venue,
         dates: marriage.dates,
         status: marriage.status,
-        totalPhotos: marriage.globalStats?.totalPhotos || files.length
+        totalPhotos: marriage.globalStats?.totalPhotos || files.filter(f => f.metadata?.mediaType === 'PHOTO').length,
+        totalVideos: marriage.globalStats?.totalVideos || files.filter(f => f.metadata?.mediaType === 'VIDEO').length
       } : null,
       photos: files.map((f) => ({
         id: f._id.toString(),
@@ -389,6 +394,8 @@ const getMarriageGallery = async (req, res, next) => {
         uploaderName: f.metadata?.uploaderName || 'Wedding Guest',
         uploaderEmail: f.metadata?.uploaderEmail || 'guest@wedding.local',
         ceremony: f.metadata?.ceremony || 'HALDI',
+        mediaType: f.metadata?.mediaType || 'PHOTO',
+        contentType: f.contentType || (f.metadata?.mediaType === 'VIDEO' ? 'video/mp4' : 'image/png'),
         streamUrl: `/api/v1/media/stream/${f._id.toString()}`
       }))
     });

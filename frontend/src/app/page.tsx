@@ -9,7 +9,7 @@ export default function LandingPage() {
   const router = useRouter();
 
   // 6-PIN code input boxes state
-  const [pinDigits, setPinDigits] = useState(['R', 'A', 'H', 'U', 'L', '2']);
+  const [pinDigits, setPinDigits] = useState(['R', 'A', 'J', 'S', 'I', 'M']);
   const pinInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // Modals state
@@ -152,13 +152,14 @@ export default function LandingPage() {
               {/* Sample Passcode Quick Presets */}
               <div className="mt-6 pt-5 border-t border-neutral-100 space-y-2">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
-                  Quick Access Vault Presets:
+                  Bollywood Celebration Vault Presets:
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {[
-                    { code: 'RAHUL24', couple: 'Rahul & Anjali' },
-                    { code: 'VIKPRI24', couple: 'Vikram & Priya' },
-                    { code: 'ARJMEE24', couple: 'Arjun & Meera' }
+                    { code: 'RAJSIM24', couple: 'Raj & Simran (DDLJ)' },
+                    { code: 'LAILAM25', couple: 'Laila & Majnu' },
+                    { code: 'HEERRAN26', couple: 'Heer & Ranjha' },
+                    { code: 'BUNNYNA27', couple: 'Bunny & Naina (YJHD)' }
                   ].map((p) => (
                     <button
                       key={p.code}
@@ -188,7 +189,15 @@ export default function LandingPage() {
               <div className="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-md">
                 <div className="relative h-44 w-full overflow-hidden">
                   <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6fO2qwvTXCfSdcSEAgwTCIMP1jaIcPkXdwV1FvCCfRf-5VXAht5OOoK8UVDtX1oKoT7d5ct1kJud_LU-NKa4K2WFtWFsbkcpXkVrOeiyWbILkWUk0yl1B0bLlluiXV-4HRdQKfXgX_tfqnEVrxhD9ovCQkgVUBOCAXAvTTc1-C8m24DOCobWWg9XTZrEW73NIl0UmbSPaiEJF3KsOxOvq6wQoNjplpbCLpORhFno"
+                    src={
+                      fullCode.startsWith('LAI')
+                        ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc9C1voRVWDpitAXvHixh6nqQ4Fr79mnyuw9Xe3IcAQgZAd-Uv3awiaBCqPc9wnryGg6K_YtjvXw33aS0iPw333R8nNhGrxKssGs9kAEFQutT4sDRp5swxSF4PKKzpyne6cjdxSMvTeL4C-gEgct3msqLoQmVt6GrsyBYVuNDf8XOEWyRE8h2qqZjSVu1Q0NDPzcE68G9R3cAcloU2HG0DmHfapfJmWYtk0quRUrg'
+                        : fullCode.startsWith('HEE')
+                        ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuDSFCd_cy05beANlWSREfxP3NXg8ctYEY9AVrp-_XUcFVt_w_abbeTJoNmpWgcl8BVyWp4mMIEKmkoQCot9EjdJ8Qctuj_og0TdF89uVPf1ArAbEHmfMvwAjzk11O8dlquI1hLl94jYCQPEmyWg6L3oF39f_dnAAHfgwtKtVrHHwXAxAnTWY3rVge3SuEwTHGpMbYt9YVQpN3S6n00H5ow31iMzhlMSaFkbEID1-jQ'
+                        : fullCode.startsWith('BUN')
+                        ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk'
+                        : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk'
+                    }
                     alt="Wedding Preview"
                     className="w-full h-full object-cover"
                   />
@@ -197,7 +206,13 @@ export default function LandingPage() {
                       Live Celebration Standee
                     </span>
                     <h3 className="font-editorial text-xl sm:text-2xl font-bold text-white leading-tight">
-                      {fullCode.startsWith('VIK') ? 'Vikram & Priya' : fullCode.startsWith('ARJ') ? 'Arjun & Meera' : 'Rahul & Anjali'}
+                      {fullCode.startsWith('LAI')
+                        ? 'Qais (Majnu) & Laila'
+                        : fullCode.startsWith('HEE')
+                        ? 'Dido Ranjha & Heer Sial'
+                        : fullCode.startsWith('BUN')
+                        ? 'Bunny & Naina Talwar'
+                        : 'Raj Malhotra & Simran Singh'}
                     </h3>
                   </div>
                 </div>
@@ -205,8 +220,16 @@ export default function LandingPage() {
                 <div className="p-4 bg-white border-t border-neutral-200 flex items-center justify-between text-xs">
                   <div>
                     <p className="text-neutral-500 font-medium">Destination Sanctuary</p>
-                    <p className="font-semibold text-[#0A0A0C] mt-0.5">The Leela Palace Seaside, Goa</p>
-                    <p className="text-[11px] text-[#C81E38] font-bold mt-1">Key: {fullCode || 'RAHUL24'}</p>
+                    <p className="font-semibold text-[#0A0A0C] mt-0.5">
+                      {fullCode.startsWith('LAI')
+                        ? 'The Khyber Resort & Valley, Gulmarg'
+                        : fullCode.startsWith('HEE')
+                        ? 'Umaid Bhawan Palace, Jodhpur'
+                        : fullCode.startsWith('BUN')
+                        ? 'The Oberoi Udaivilas, Udaipur'
+                        : 'The Grand Oberoi Amarvilas, Agra'}
+                    </p>
+                    <p className="text-[11px] text-[#C81E38] font-bold mt-1">Key: {fullCode || 'RAJSIM24'}</p>
                   </div>
                   <div className="p-2 bg-neutral-50 rounded-xl border border-neutral-200">
                     <AppIcon name="qr_code_2" size={28} className="text-[#0A0A0C]" />
@@ -244,53 +267,72 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-neutral-200">
             <div>
               <h2 className="font-editorial text-2xl sm:text-3xl font-bold text-[#0A0A0C]">
-                Active Wedding Celebrations
+                Iconic Bollywood Celebrations
               </h2>
-              <p className="text-xs text-neutral-600 mt-1">Live streaming, photo drops, and ceremony feeds happening now.</p>
+              <p className="text-xs text-neutral-600 mt-1">Live streaming, candid guest drops, and cinema-grade celebration vaults.</p>
             </div>
             <Link
               href="/admin/login"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-bold text-[#0A0A0C] border border-neutral-200 transition-colors w-fit shadow-xs"
             >
               <AppIcon name="add_circle" size={16} className="text-[#C81E38]" />
-              <span>Architect New Vault</span>
+              <span>Host Admin Portal</span>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                id: 'rahul24',
-                couple: 'Rahul & Anjali',
-                code: 'RAHUL24',
-                venue: 'The Leela Palace Seaside, Goa',
-                status: 'Haldi Live Now',
-                photos: 145,
-                videos: 3,
-                guests: 320,
-                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD6fO2qwvTXCfSdcSEAgwTCIMP1jaIcPkXdwV1FvCCfRf-5VXAht5OOoK8UVDtX1oKoT7d5ct1kJud_LU-NKa4K2WFtWFsbkcpXkVrOeiyWbILkWUk0yl1B0bLlluiXV-4HRdQKfXgX_tfqnEVrxhD9ovCQkgVUBOCAXAvTTc1-C8m24DOCobWWg9XTZrEW73NIl0UmbSPaiEJF3KsOxOvq6wQoNjplpbCLpORhFno'
+                id: 'rajsim24',
+                couple: 'Raj & Simran',
+                badge: 'DDLJ • Dilwale Dulhania Le Jayenge',
+                code: 'RAJSIM24',
+                dates: 'October 18–20, 2024',
+                venue: 'The Grand Oberoi Amarvilas, Agra',
+                status: 'Celebrated (Past)',
+                photos: 5,
+                videos: 1,
+                guests: 125,
+                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk'
               },
               {
-                id: 'vikpri24',
-                couple: 'Vikram & Priya',
-                code: 'VIKPRI24',
-                venue: 'Umaid Bhawan Palace, Jodhpur',
-                status: 'Sangeet Tomorrow',
-                photos: 420,
-                videos: 6,
-                guests: 580,
+                id: 'lailam25',
+                couple: 'Qais (Majnu) & Laila',
+                badge: 'Laila Majnu • Kashmir Romance',
+                code: 'LAILAM25',
+                dates: 'November 14–16, 2025',
+                venue: 'The Khyber Himalayan Resort, Gulmarg',
+                status: 'Celebrated (Past)',
+                photos: 4,
+                videos: 1,
+                guests: 113,
                 img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc9C1voRVWDpitAXvHixh6nqQ4Fr79mnyuw9Xe3IcAQgZAd-Uv3awiaBCqPc9wnryGg6K_YtjvXw33aS0iPw333R8nNhGrxKssGs9kAEFQutT4sDRp5swxSF4PKKzpyne6cjdxSMvTeL4C-gEgct3msqLoQmVt6GrsyBYVuNDf8XOEWyRE8h2qqZjSVu1Q0NDPzcE68G9R3cAcloU2HG0DmHfapfJmWYtk0quRUrg'
               },
               {
-                id: 'arjmee24',
-                couple: 'Arjun & Meera',
-                code: 'ARJMEE24',
-                venue: 'The Oberoi Udaivilas, Udaipur',
-                status: 'RSVP Checkpoints Active',
-                photos: 88,
-                videos: 2,
-                guests: 240,
+                id: 'heerran26',
+                couple: 'Dido Ranjha & Heer Sial',
+                badge: 'Heer Ranjha • Eternal Romance',
+                code: 'HEERRAN26',
+                dates: 'December 18–20, 2026',
+                venue: 'Umaid Bhawan Palace, Jodhpur',
+                status: 'Live Realtime',
+                photos: 4,
+                videos: 1,
+                guests: 113,
                 img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDSFCd_cy05beANlWSREfxP3NXg8ctYEY9AVrp-_XUcFVt_w_abbeTJoNmpWgcl8BVyWp4mMIEKmkoQCot9EjdJ8Qctuj_og0TdF89uVPf1ArAbEHmfMvwAjzk11O8dlquI1hLl94jYCQPEmyWg6L3oF39f_dnAAHfgwtKtVrHHwXAxAnTWY3rVge3SuEwTHGpMbYt9YVQpN3S6n00H5ow31iMzhlMSaFkbEID1-jQ'
+              },
+              {
+                id: 'bunnyna27',
+                couple: 'Bunny & Naina Talwar',
+                badge: 'YJHD • Yeh Jawaani Hai Deewani',
+                code: 'BUNNYNA27',
+                dates: 'March 24–26, 2027',
+                venue: 'The Oberoi Udaivilas, Udaipur',
+                status: 'Scheduled (Future)',
+                photos: 5,
+                videos: 1,
+                guests: 137,
+                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk'
               }
             ].map((vault) => (
               <div
@@ -309,32 +351,40 @@ export default function LandingPage() {
                         {vault.status}
                       </span>
                     </div>
+                    <div className="absolute bottom-2 left-2 right-2">
+                      <span className="text-[10px] bg-black/70 backdrop-blur-xs text-white px-2 py-0.5 rounded font-medium truncate block">
+                        {vault.badge}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="p-5 space-y-2">
+                  <div className="p-4 space-y-2">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-editorial text-xl font-bold text-[#0A0A0C]">{vault.couple}</h3>
+                      <h3 className="font-editorial text-lg font-bold text-[#0A0A0C]">{vault.couple}</h3>
                       <span className="font-mono text-xs font-bold text-[#C81E38] bg-[#C81E38]/10 px-2 py-0.5 rounded border border-[#C81E38]/20">
                         {vault.code}
                       </span>
                     </div>
-                    <p className="text-xs text-neutral-500 flex items-center gap-1">
-                      <AppIcon name="location_on" size={15} className="text-[#C81E38]" />
-                      <span>{vault.venue}</span>
+                    <p className="text-[11px] font-semibold text-neutral-600">
+                      📅 {vault.dates}
                     </p>
-                    <div className="pt-2 flex items-center gap-3 text-xs text-neutral-600">
+                    <p className="text-xs text-neutral-500 flex items-center gap-1 line-clamp-1">
+                      <AppIcon name="location_on" size={14} className="text-[#C81E38] shrink-0" />
+                      <span className="truncate">{vault.venue}</span>
+                    </p>
+                    <div className="pt-1.5 flex items-center gap-2 text-[11px] text-neutral-600">
                       <span><strong>{vault.photos}</strong> Photos</span>
                       <span>•</span>
-                      <span><strong>{vault.videos}</strong> Reels</span>
+                      <span><strong>{vault.videos}</strong> Reel</span>
                       <span>•</span>
                       <span><strong>{vault.guests}</strong> Guests</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-5 pt-0">
+                <div className="p-4 pt-0">
                   <Link
-                    href={`/marriage/${vault.id}`}
+                    href={`/marriage/${vault.code.toLowerCase()}`}
                     className="w-full py-2.5 rounded-xl bg-neutral-50 hover:bg-[#C81E38] hover:text-white border border-neutral-200 text-neutral-900 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs"
                   >
                     <span>Enter Vault</span>

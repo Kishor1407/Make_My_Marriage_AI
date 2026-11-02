@@ -33,19 +33,19 @@ interface FeedCardItem {
 function GuestUploadPortalContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const rawCode = (searchParams?.get('code') || 'RAHUL24').toUpperCase();
+  const rawCode = (searchParams?.get('code') || 'RAJSIM24').toUpperCase();
 
   // Core State
   const [marriageCode, setMarriageCode] = useState(rawCode);
-  const [partnerNames, setPartnerNames] = useState('Rahul & Anjali');
+  const [partnerNames, setPartnerNames] = useState('Raj Malhotra & Simran Singh');
   const [activeCeremony, setActiveCeremony] = useState('Haldi');
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
-  const [syncedPhotosCount, setSyncedPhotosCount] = useState<number>(520);
-  const [contributorsCount, setContributorsCount] = useState<number>(42);
+  const [syncedPhotosCount, setSyncedPhotosCount] = useState<number>(5);
+  const [contributorsCount, setContributorsCount] = useState<number>(125);
 
   // Step 1: Guest Attribution & Identity (PRD 4.4)
-  const [guestName, setGuestName] = useState('Uncle John');
-  const [guestEmail, setGuestEmail] = useState('john.sharma@luxemail.com');
+  const [guestName, setGuestName] = useState('Bauji (Baldev Singh)');
+  const [guestEmail, setGuestEmail] = useState('baldev.singh@punjab.local');
 
   // Step 2: Ceremony Selector (PRD 4.3 Six Rites)
   const ceremonies = [
@@ -71,8 +71,8 @@ function GuestUploadPortalContent() {
       id: 'feed-1',
       src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAtm2bhCNM2CXP-0DTysfeL0mLmn3hW_JL5sh0moUFIqXzksahCLNtHGeTw9GNEsqXGfWHc4g-Qkfh007Skqs7fEvDCEp6P4tSJBwjEFK8kQZWfCaV7ys-f7kSTqc05YbVM_EbUeJ6o1dtKpSZM-LAihQNHQPreD9OAod4DJ1zJjEu4za-DG3YjFO8ysFmpBr3X02AJ-LseKk4amMB3vxtgnzQ3FoTmD6VMY2bGYOw',
       stage: 'Haldi Lawn Stage',
-      author: 'Uncle John',
-      email: 'john@email.com',
+      author: 'Bauji (Baldev Singh)',
+      email: 'baldev.singh@punjab.local',
       deviceInfo: 'Just now • Canon EOS R5',
       timeAgo: 'Just now',
       likes: 18,
@@ -82,8 +82,8 @@ function GuestUploadPortalContent() {
       id: 'feed-2',
       src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuARYmudv2I8_HaPYAiB0j8uXFIhb2eWvx7LjfVbfbksRW5bgFlKeffut-uorqvIRzz2j8maeuzNjjtYtVq8G9ltoo3GPK5rd7co2jSDMOu-aHNFbg7eukoOn_AfrClX5DjRp4T2SzSvswIW6SgLuBAWQL-WXMUqsAiYVCbG8gcVnoPcTZmHli9eoJ0A3_1e25yhQp8m-OL-H-8aFRC3ioczAepIgiHrBLTSDiBBMAI',
       stage: 'Groom Lawn Pavilion',
-      author: 'Pooja & Kabir',
-      email: 'pooja.k@gmail.com',
+      author: 'Chutki (Rajeshwari)',
+      email: 'chutki@london.local',
       deviceInfo: '4m ago • iPhone 16 Pro',
       timeAgo: '4m ago',
       likes: 32,
@@ -93,8 +93,8 @@ function GuestUploadPortalContent() {
       id: 'feed-3',
       src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDfERpum8GTxwenz_dTA4ZZXs-UqnZoZgWfe86mb6kEQyDx-6aXfmXAeYZVsT9Q6kPtyWL7AQ_qNsOeuQrPuupahnyTX5PwlN4pZr1fXvJAxOQNdkwOCKd67kXnbah6k-onOQAMVKXpUCinE91S3YwHSBLPN8pZbc2z4HHw23nudcJuoD-6sgZHnmz0n6uNBXiUpmVUiSFhUf1o4xA59KcantMWTK7Ax58eQdZshfM',
       stage: 'Bridal Cabana',
-      author: 'Meera Chachi',
-      email: 'm.chachi@yahoo.com',
+      author: 'Lajwanti (Lajjo)',
+      email: 'lajjo@punjab.local',
       deviceInfo: '12m ago • Fuji X-T5',
       timeAgo: '12m ago',
       likes: 45,
