@@ -207,12 +207,7 @@ export default function AdminDashboardPage() {
           }));
 
           if (apiWeddings.length > 0) {
-            // Merge with local seed so that demo cards stay available
-            setWeddings((prev) => {
-              const ids = new Set(apiWeddings.map((w) => w.code));
-              const remaining = prev.filter((p) => !ids.has(p.code));
-              return [...apiWeddings, ...remaining];
-            });
+            setWeddings(apiWeddings);
           }
         }
       })
@@ -361,7 +356,7 @@ export default function AdminDashboardPage() {
         statusText: 'Scheduled',
         totalPhotos: 0,
         totalVideos: 0,
-        guestsEngaged: 150,
+        guestsEngaged: 0,
         coverImage: selectedCover,
         ceremonies: selectedEvents,
         isFeatured: false
@@ -573,7 +568,7 @@ export default function AdminDashboardPage() {
               Portal Gateway
             </Link>
             <Link
-              href="/marriage/rahul24"
+              href={featuredVault?.code ? `/marriage/${featuredVault.code.toLowerCase()}` : '/marriage/rajsim24'}
               className="px-3.5 py-1.5 rounded-xl bg-primary hover:bg-[#9E1B32] text-white text-xs font-bold shadow-sm shadow-primary/20 transition-all flex items-center gap-1.5"
             >
               <span>Guest View</span>
@@ -657,12 +652,12 @@ export default function AdminDashboardPage() {
 
               <div className="bg-white p-5 rounded-2xl border border-neutral-200 shadow-sm flex flex-col justify-between">
                 <div className="flex items-center justify-between text-neutral-500">
-                  <span className="text-[11px] font-bold uppercase tracking-wider">Edge Host Latency</span>
-                  <AppIcon name="spa" size={18} className="text-primary" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider">Cloud Storage Tier</span>
+                  <AppIcon name="shield" size={18} className="text-primary" />
                 </div>
                 <div className="mt-4 flex items-baseline gap-2">
-                  <span className="font-editorial text-3xl font-bold text-[#0A0A0C]">99.98%</span>
-                  <span className="text-[11px] text-emerald-600 font-bold uppercase tracking-wider">256-Bit TLS</span>
+                  <span className="font-editorial text-2xl font-bold text-[#0A0A0C]">₹0 Cost</span>
+                  <span className="text-[11px] text-emerald-600 font-bold uppercase tracking-wider">Atlas GridFS</span>
                 </div>
               </div>
             </div>

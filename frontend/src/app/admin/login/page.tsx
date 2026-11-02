@@ -141,7 +141,7 @@ export default function AdminLoginPage() {
             </Link>
           </p>
           <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200 text-[11px] text-neutral-600">
-            <span className="text-[#0A0A0C] font-semibold">Demo Host:</span> host@makemymarriage.com / WeddingHost2026!
+            <span className="text-[#0A0A0C] font-semibold">Sovereign Admin:</span> modi@makemymarriage.com / Password@2026
           </div>
         </div>
       </div>

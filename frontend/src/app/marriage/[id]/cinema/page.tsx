@@ -103,44 +103,12 @@ export default function LiveStreamCinemaPage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const cinemaViewportRef = useRef<HTMLDivElement>(null);
 
-  // Floating Celebration Reaction Counters
-  const [reactions, setReactions] = useState({
-    love: 342,
-    rose: 189,
-    diya: 512,
-    claps: 276,
-    shagun: 405
-  });
   const [particles, setParticles] = useState<Array<{ id: number; emoji: string; left: number; top: number }>>([]);
-
-  // Live Guestbook Comments
-  const [comments, setComments] = useState<GuestComment[]>([
-    {
-      id: 'c1',
-      author: 'Meera & Vikram Kapoor (London)',
-      location: 'Mayfair, UK',
-      text: 'Radiant blessings to both our families! Watching the shower live from Mayfair in 1080p!'
-    },
-    {
-      id: 'c2',
-      author: 'Aanand Oberoi (New York)',
-      location: 'Manhattan, USA',
-      text: 'Hearty congratulations Raj & Simran! The Amarvilas setting is sublime.'
-    },
-    {
-      id: 'c3',
-      author: 'Bauji (Baldev Singh)',
-      location: 'Punjab Mandi',
-      text: 'Bohot bohot aashirwaad dono bacchon ko! Rab mehar kare.',
-      isHost: true
-    }
-  ]);
-  const [newComment, setNewComment] = useState('');
 
   // Host Admin Modal State
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [adminCeremony, setAdminCeremony] = useState<'ENGAGEMENT' | 'MEHNDI' | 'HALDI' | 'SANGEET' | 'MARRIAGE' | 'OTHERS'>('HALDI');
-  const [adminStreamUrl, setAdminStreamUrl] = useState('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+  const [adminStreamUrl, setAdminStreamUrl] = useState('');
   const [adminStreamStatus, setAdminStreamStatus] = useState<'SCHEDULED' | 'LIVE' | 'CONCLUDED'>('LIVE');
   const [isSavingConfig, setIsSavingConfig] = useState(false);
 
@@ -203,18 +171,16 @@ export default function LiveStreamCinemaPage() {
     customTitle: 'Haldi & Marigold Shower of Blessings',
     eventTime: '10:30 AM IST',
     venueAddress: 'Mustard Courtyard Lawn, Amarvilas',
-    liveStreamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    liveStreamUrl: '',
     streamStatus: 'LIVE',
-    viewerCount: 142
+    viewerCount: 0
   };
 
   const activeRitualInfo = RITUAL_DETAILS[activeEvent.eventType] || RITUAL_DETAILS.HALDI;
   const embedUrl = getYouTubeEmbedUrl(activeEvent.liveStreamUrl);
 
-  // Floating Particle Emitter
-  const triggerReaction = (key: keyof typeof reactions, emoji: string) => {
-    setReactions((prev) => ({ ...prev, [key]: prev[key] + 1 }));
-
+  // Floating Particle Emitter for Interactive Cheer
+  const triggerReaction = (emoji: string) => {
     const newParticles = Array.from({ length: 6 }).map((_, i) => ({
       id: Date.now() + i,
       emoji,
@@ -226,25 +192,7 @@ export default function LiveStreamCinemaPage() {
     setTimeout(() => {
       setParticles((prev) => prev.filter((p) => !newParticles.some((np) => np.id === p.id)));
     }, 2200);
-  };
-
-  // Post live comment
-  const handlePostComment = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newComment.trim()) return;
-
-    const newEntry: GuestComment = {
-      id: `c_${Date.now()}`,
-      author: user ? user.name : 'Virtual Guest',
-      location: 'Remote Sanctuary',
-      text: newComment.trim(),
-      isHost: user?.role === 'ADMIN'
-    };
-
-    setComments((prev) => [newEntry, ...prev]);
-    setNewComment('');
-    showToast('Your blessing was broadcast to the live marquee!');
-    triggerReaction('diya', '🪔');
+    showToast(`Showered ${emoji} on the mandap!`);
   };
 
   // Fullscreen Toggle
@@ -435,14 +383,31 @@ export default function LiveStreamCinemaPage() {
                 ref={cinemaViewportRef}
                 className="relative w-full aspect-video rounded-3xl overflow-hidden bg-black shadow-2xl border border-neutral-200 select-none group"
               >
-                {/* Active YouTube Live Player Embed */}
-                <iframe
-                  src={embedUrl}
-                  title={`${partnerNames} - ${activeEvent.customTitle || activeEvent.eventType}`}
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
+                {/* Active YouTube Live Player Embed or Regal Standby Canvas */}
+                {embedUrl ? (
+                  <iframe
+                    src={embedUrl}
+                    title={`${partnerNames} - ${activeEvent.customTitle || activeEvent.eventType}`}
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center text-center p-8 bg-gradient-to-b from-neutral-900 via-black to-neutral-950 text-white relative">
+                    <div className="w-16 h-16 rounded-2xl bg-[#C81E38]/20 border border-[#C81E38]/40 flex items-center justify-center text-[#FFB3B3] mb-4 shadow-lg">
+                      <AppIcon name="videocam" size={32} />
+                    </div>
+                    <span className="text-[11px] font-mono tracking-widest uppercase text-[#FFB3B3] mb-1">
+                      {activeEvent.eventType} Ceremonial Channel
+                    </span>
+                    <h3 className="font-editorial text-2xl font-bold text-white mb-2">
+                      {activeEvent.customTitle || activeRitualInfo.ritualName}
+                    </h3>
+                    <p className="text-xs text-neutral-400 max-w-md mx-auto">
+                      Ceremonial live broadcast scheduled for {activeEvent.eventTime || 'muhurat'}. Official video streams are curated directly from the Admin Studio.
+                    </p>
+                  </div>
+                )}
 
                 {/* Floating Particles Canvas */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
@@ -517,49 +482,49 @@ export default function LiveStreamCinemaPage() {
               <div className="bg-white rounded-3xl p-5 sm:p-6 border border-neutral-200 shadow-md flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
                 <div>
                   <h4 className="font-editorial text-base font-bold text-[#0A0A0C]">Virtual Aashirwaad &amp; Cheer</h4>
-                  <p className="text-xs text-neutral-500">Send sacred blessings directly into the mandap live stream</p>
+                  <p className="text-xs text-neutral-500">Tap to shower real celebratory blessings onto the stage</p>
                 </div>
 
                 <div className="flex items-center flex-wrap gap-2">
                   <button
-                    onClick={() => triggerReaction('love', '❤️')}
+                    onClick={() => triggerReaction('❤️')}
                     className="px-3.5 py-2 rounded-2xl bg-neutral-100 hover:bg-[#C81E38]/10 hover:border-[#C81E38] border border-neutral-200 text-xs font-bold text-[#0A0A0C] flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs"
                   >
-                    <span className="text-base">❤️</span>
-                    <span>{reactions.love}</span>
+                    <span>❤️</span>
+                    <span>Love</span>
                   </button>
                   <button
-                    onClick={() => triggerReaction('rose', '🌹')}
+                    onClick={() => triggerReaction('🌹')}
                     className="px-3.5 py-2 rounded-2xl bg-neutral-100 hover:bg-[#C81E38]/10 hover:border-[#C81E38] border border-neutral-200 text-xs font-bold text-[#0A0A0C] flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs"
                   >
-                    <span className="text-base">🌹</span>
-                    <span>{reactions.rose}</span>
+                    <span>🌹</span>
+                    <span>Roses</span>
                   </button>
                   <button
-                    onClick={() => triggerReaction('diya', '🪔')}
+                    onClick={() => triggerReaction('🪔')}
                     className="px-3.5 py-2 rounded-2xl bg-neutral-100 hover:bg-[#C81E38]/10 hover:border-[#C81E38] border border-neutral-200 text-xs font-bold text-[#0A0A0C] flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs"
                   >
-                    <span className="text-base">🪔</span>
-                    <span>{reactions.diya}</span>
+                    <span>🪔</span>
+                    <span>Aashirwaad</span>
                   </button>
                   <button
-                    onClick={() => triggerReaction('claps', '👏')}
+                    onClick={() => triggerReaction('👏')}
                     className="px-3.5 py-2 rounded-2xl bg-neutral-100 hover:bg-[#C81E38]/10 hover:border-[#C81E38] border border-neutral-200 text-xs font-bold text-[#0A0A0C] flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs"
                   >
-                    <span className="text-base">👏</span>
-                    <span>{reactions.claps}</span>
+                    <span>👏</span>
+                    <span>Ovation</span>
                   </button>
                   <button
-                    onClick={() => triggerReaction('shagun', '🎉')}
+                    onClick={() => triggerReaction('🎉')}
                     className="px-3.5 py-2 rounded-2xl bg-neutral-100 hover:bg-[#C81E38]/10 hover:border-[#C81E38] border border-neutral-200 text-xs font-bold text-[#0A0A0C] flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-xs"
                   >
-                    <span className="text-base">🎉</span>
-                    <span>{reactions.shagun}</span>
+                    <span>🎉</span>
+                    <span>Shagun</span>
                   </button>
                 </div>
               </div>
 
-              {/* Curated Matrimonial Dossier & Real-time Live Commentary Grid */}
+              {/* Curated Matrimonial Dossier & Stream Architecture Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Ritual Significance Card */}
                 <div className="bg-white rounded-3xl p-6 border border-neutral-200 shadow-sm space-y-3">
@@ -581,44 +546,43 @@ export default function LiveStreamCinemaPage() {
                   </div>
                 </div>
 
-                {/* Live Remote Guestbook */}
+                {/* Ceremonial Stream Architecture Card */}
                 <div className="bg-white rounded-3xl p-6 border border-neutral-200 shadow-sm flex flex-col justify-between space-y-3">
                   <div>
                     <div className="flex items-center justify-between text-xs mb-2">
                       <span className="font-bold text-[#C81E38] uppercase tracking-wider text-[11px]">
-                        Live Remote Guestbook
+                        Stream Protocol &amp; Security
                       </span>
-                      <span className="text-neutral-400 font-mono">Instant Feed</span>
+                      <span className="text-emerald-600 font-mono font-bold">256-Bit TLS</span>
                     </div>
 
-                    <div className="space-y-2 h-32 overflow-y-auto pr-1">
-                      {comments.map((c) => (
-                        <div key={c.id} className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100 text-xs space-y-0.5">
-                          <div className="flex items-center justify-between">
-                            <span className="font-bold text-[#0A0A0C]">{c.author}</span>
-                            <span className="text-[10px] text-neutral-400">{c.location}</span>
-                          </div>
-                          <p className="text-neutral-600 italic">&ldquo;{c.text}&rdquo;</p>
-                        </div>
-                      ))}
+                    <div className="space-y-2 pt-1 text-xs text-neutral-600">
+                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
+                        <span className="font-medium text-neutral-700">Video Resolution</span>
+                        <span className="font-mono font-bold text-[#0A0A0C]">1080p60 FHD • Dolby 5.1</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
+                        <span className="font-medium text-neutral-700">Storage Architecture</span>
+                        <span className="font-mono font-bold text-[#0A0A0C]">MongoDB Atlas GridFS</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
+                        <span className="font-medium text-neutral-700">Curatorial Tier</span>
+                        <span className="font-mono font-bold text-[#C81E38]">Host Atelier Authenticated</span>
+                      </div>
                     </div>
                   </div>
 
-                  <form onSubmit={handlePostComment} className="pt-2 flex items-center gap-2">
-                    <input
-                      type="text"
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      placeholder="Inscribe a blessing to the couple..."
-                      className="flex-1 px-3 py-2 rounded-xl bg-neutral-50 border border-neutral-200 text-xs text-[#0A0A0C] focus:outline-none focus:border-[#C81E38] focus:bg-white"
-                    />
-                    <button
-                      type="submit"
-                      className="px-4 py-2 rounded-xl bg-[#0A0A0C] hover:bg-[#C81E38] text-white text-xs font-bold transition-colors cursor-pointer"
+                  <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
+                    <p className="text-[11px] text-neutral-500">
+                      Live video calibrated dynamically for network throughput.
+                    </p>
+                    <Link
+                      href={`/marriage/${marriageCode.toLowerCase()}/vault`}
+                      className="text-xs font-bold text-[#C81E38] hover:underline"
                     >
-                      Send
-                    </button>
-                  </form>
+                      Media Vault →
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

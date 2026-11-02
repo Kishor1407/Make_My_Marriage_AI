@@ -70,7 +70,7 @@ export default function Navbar() {
               Explore Marriages
             </Link>
             <Link
-              href="/marriage/rahul24"
+              href="/marriage/rajsim24"
               className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
                 pathname?.startsWith('/marriage')
                   ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
@@ -80,7 +80,7 @@ export default function Navbar() {
               Guest Experience
             </Link>
             <Link
-              href="/guest/upload?code=RAHUL24"
+              href="/guest/upload?code=RAJSIM24"
               className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
                 pathname?.startsWith('/guest')
                   ? 'bg-[#c81e38] text-white font-semibold shadow-sm'

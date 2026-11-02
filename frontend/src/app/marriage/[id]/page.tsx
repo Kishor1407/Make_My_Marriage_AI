@@ -8,18 +8,6 @@ import { downloadInvitationAsImage } from '@/lib/invitation';
 import api from '@/lib/api';
 import AppIcon from '@/components/AppIcon';
 
-interface WishItem {
-  id: string;
-  initials: string;
-  author: string;
-  relation: string;
-  timeAgo: string;
-  text: string;
-  tag: string;
-  likes: number;
-  badgeBg: string;
-}
-
 interface PhotoMoment {
   id: string;
   src: string;
@@ -57,69 +45,24 @@ export default function GuestDashboardPage() {
   const [datesTitle, setDatesTitle] = useState('October 18–20, 2024');
   const [vaultStatus, setVaultStatus] = useState('Celebrated (Past)');
   const [coverPhoto, setCoverPhoto] = useState('https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk');
-  const [guestCount, setGuestCount] = useState(125);
+  const [guestCount, setGuestCount] = useState(0);
 
   // Active Ceremony & Media State
   const [activeEvent, setActiveEvent] = useState<'engagement' | 'mehndi' | 'haldi' | 'sangeet' | 'marriage' | 'others'>('haldi');
   const [activeMediaTab, setActiveMediaTab] = useState<'photos' | 'videos'>('photos');
   const [activeFilter, setActiveFilter] = useState<'all' | 'bride' | 'groom' | 'favorites'>('all');
+  const [dbEvents, setDbEvents] = useState<any[]>([]);
 
   // Interactive Counters & Modals
-  const [totalCheers, setTotalCheers] = useState(1428);
+  const [totalCheers, setTotalCheers] = useState(0);
   const [isLivePlayerModalOpen, setIsLivePlayerModalOpen] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [curatedReels, setCuratedReels] = useState<CuratedReel[]>([
-    {
-      id: 'r1',
-      filename: 'zara-sa-jhoom-loon.mp4',
-      title: 'Zara Sa Jhoom Loon — Sangeet Finale Choreography',
-      ceremony: 'SANGEET',
-      duration: '02:45',
-      curatorName: 'Simran & Raj',
-      posterUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCA55Hy4h3141dkGq_vL33-UITtTVym4N09dB435L9BjwGMwIw7qcGByK20-Lsb-u1AdvBVBotHwhFsD_xZGKn3aKbQ-b_v6gX7Oq384UMS9cyoHkNSiTJDV16jyYXE88p46TpdxVynimUhuHMtJRT3u_w38tGH8CCSOjmkeksIROJ0jOI2J9A-DB_vXZ_r0fS1NbZsl-5D6bSeDQHUE9EZFTXYjyBpQtT1Ka6rOok',
-      streamUrl: '/api/v1/media/stream/default',
-      plays: 1840
-    },
-    {
-      id: 'r2',
-      filename: 'golden-haldi-glow.mp4',
-      title: 'The Golden Haldi Glow — Candid Marigold Shower',
-      ceremony: 'HALDI',
-      duration: '01:30',
-      curatorName: "Bauji's Blessing",
-      posterUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAl4Vx7mJmEXstmCeOn1bUixfHWsEupWLRip3rsJ0bhIcIP2eZstjzJ83o5pG9uHPUAWKYRSqxoIYpd8m61iExk-v93aqLRVMq2x1vYsAcXX4fxKbkn0CSFI9VZBGPwrFn64qGzhTibRO5kB20GnrCjBltv0G8JSpIopkHoNqhplARD8eMVUKsHWDpAHlu7tsshMZzHbHVqniTRFWw0nkgKvWykZlXWgUHGz7kf42k',
-      streamUrl: '/api/v1/media/stream/default',
-      plays: 940
-    },
-    {
-      id: 'r3',
-      filename: 'chenab-flute-mehndi.mp4',
-      title: 'Chenab Flute & Kashmiri Sunset Ritual',
-      ceremony: 'MEHNDI',
-      duration: '03:15',
-      curatorName: 'Host Concierge Protocol',
-      posterUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCr8JaetGPE7YDWY2Tkchy9X0cn6zz9VIBwVFNELtgTAqvBkLdRwZSl8kdZZ5QKyZyo98B-q2cVFZldcWeWQlQg8fT0v2FNJL8wdVlPCCuymd4-mu-dIYe1xkGYJSBekNvHOGJ8lvlUODhwx_uULIQOmCMBXiACsZN75CV2f8bA6-wDtgu60O8jPxKDYsq0Mcg6FmClli07FIXMm1O3j109A30cv4GgoIdlfb1xV8U',
-      streamUrl: '/api/v1/media/stream/default',
-      plays: 1120
-    },
-    {
-      id: 'r4',
-      filename: 'saat-phere-vedic.mp4',
-      title: 'Saat Phere & Sindoor Daan — Sacred Rites & Vows',
-      ceremony: 'MARRIAGE',
-      duration: '04:10',
-      curatorName: 'Official Studio',
-      posterUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAbSFnFnI5Jpuh7ZvGS3KHTjNtzsxn8QClt8G1aEU_khuiHUXftjAUcu-p9vNEMI-JMpDPb9BN4GRuhajwvB-ztl8XyeKA1qvKfmj5XKAlLIDbe_Me-D9NIu0rO56VD6LfDF0SYO7fuVQZk7xSgh_Sk2mc1JykfqYjlf4hnAGRMBsd1xmlZcO9CfZJE9zN3Pjj88uorqmbaMzrU2tWQb8eRyG45powg3Ql5fZxWlK0',
-      streamUrl: '/api/v1/media/stream/default',
-      plays: 3490
-    }
-  ]);
+  const [curatedReels, setCuratedReels] = useState<CuratedReel[]>([]);
   const [selectedReel, setSelectedReel] = useState<CuratedReel | null>(null);
   const [isReelModalOpen, setIsReelModalOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
-  const [isWishesModalOpen, setIsWishesModalOpen] = useState(false);
   const [isSwitchCodeModalOpen, setIsSwitchCodeModalOpen] = useState(false);
   const [newSwitchCode, setNewSwitchCode] = useState('');
   const [toastMsg, setToastMsg] = useState<{ text: string; type?: 'info' | 'success' | 'crimson' } | null>(null);
@@ -127,21 +70,14 @@ export default function GuestDashboardPage() {
   // Floating Celebration Particles
   const [particles, setParticles] = useState<Array<{ id: number; emoji: string; x: number; y: number }>>([]);
 
-  // Wishes Form State
-  const [wishAuthor, setWishAuthor] = useState('');
-  const [wishRelation, setWishRelation] = useState("Bride's Friend • Table 3");
-  const [wishText, setWishText] = useState('');
-  const [wishTag, setWishTag] = useState('Golden Haldi Glow ✨');
-
   // Media Upload State
-  const [uploaderName, setUploaderName] = useState('Rohan Varma');
+  const [uploaderName, setUploaderName] = useState('');
   const [uploaderCeremony, setUploaderCeremony] = useState('Haldi (Active Event)');
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const invitationRef = useRef<HTMLDivElement>(null);
-  const wishesTrackRef = useRef<HTMLDivElement>(null);
   const [customInviteUrl, setCustomInviteUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -178,12 +114,21 @@ export default function GuestDashboardPage() {
         })
         .catch(() => {});
 
-      // 3. Fetch real gallery candid moments & video reels from GridFS (PRD 4.7)
+      // 3. Fetch real scheduled ceremonies & live streams from Event model
+      api.get(`/events/marriage/${passcode}`)
+        .then((res) => {
+          if (res.data?.data && Array.isArray(res.data.data)) {
+            setDbEvents(res.data.data);
+          }
+        })
+        .catch(() => {});
+
+      // 4. Fetch real gallery candid moments & video reels from GridFS (PRD 4.7)
       const backendBase = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:5000';
 
       api.get(`/media/gallery/${passcode}?mediaType=PHOTO`)
         .then((res) => {
-          if (res.data?.photos && Array.isArray(res.data.photos) && res.data.photos.length > 0) {
+          if (res.data?.photos && Array.isArray(res.data.photos)) {
             const loadedMoments: PhotoMoment[] = res.data.photos.map((p: any) => ({
               id: p.id,
               src: p.streamUrl.startsWith('http') ? p.streamUrl : `${backendBase}${p.streamUrl}`,
@@ -192,20 +137,15 @@ export default function GuestDashboardPage() {
               location: `${p.ceremony || 'Ceremony'} Celebration`,
               side: 'both',
               isFavorite: true,
-              likes: 15,
+              likes: 0,
               liked: false
             }));
-
-            setMoments((prev) => {
-              const ids = new Set(loadedMoments.map((m) => m.id));
-              const remaining = prev.filter((m) => !ids.has(m.id));
-              return [...loadedMoments, ...remaining];
-            });
+            setMoments(loadedMoments);
           }
         })
         .catch(() => {});
 
-      // 4. Fetch official curated video reels (PRD 4.7)
+      // 5. Fetch official curated video reels (PRD 4.7)
       api.get(`/media/gallery/${passcode}?mediaType=VIDEO`)
         .then((res) => {
           const rawVideos = res.data?.videos || res.data?.media || [];
@@ -216,9 +156,9 @@ export default function GuestDashboardPage() {
               title: v.title || `${v.ceremony || 'Celebration'} Official Highlight Reel`,
               ceremony: v.ceremony || 'SANGEET',
               duration: v.duration || '02:45',
-              curatorName: v.curatorName || v.uploaderName || 'Simran & Raj',
+              curatorName: v.curatorName || v.uploaderName || 'Wedding Hosts',
               posterUrl: v.posterUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuCA55Hy4h3141dkGq_vL33-UITtTVym4N09dB435L9BjwGMwIw7qcGByK20-Lsb-u1AdvBVBotHwhFsD_xZGKn3aKbQ-b_v6gX7Oq384UMS9cyoHkNSiTJDV16jyYXE88p46TpdxVynimUhuHMtJRT3u_w38tGH8CCSOjmkeksIROJ0jOI2J9A-DB_vXZ_r0fS1NbZsl-5D6bSeDQHUE9EZFTXYjyBpQtT1Ka6rOok',
-              plays: v.plays || Math.floor(Math.random() * 2000) + 800,
+              plays: v.plays || 0,
               streamUrl: v.streamUrl?.startsWith('http')
                 ? v.streamUrl
                 : `${backendBase}${v.streamUrl}`
@@ -255,215 +195,21 @@ export default function GuestDashboardPage() {
     }, 2400);
   };
 
-  // Wishes Ribbon Data in Pure White Edition
-  const [wishesList, setWishesList] = useState<WishItem[]>([
-    {
-      id: 'w1',
-      initials: 'PK',
-      author: 'Pooja & Kabir',
-      relation: "Bride's Bestie • Table 2",
-      timeAgo: '2m ago',
-      text: 'May your lives be showered with golden joy! Beautiful Haldi glow on both of you!',
-      tag: 'Golden Haldi Glow ✨',
-      likes: 24,
-      badgeBg: 'bg-[#c81e38]'
-    },
-    {
-      id: 'w2',
-      initials: 'ND',
-      author: 'Nani & Dadu',
-      relation: 'Elders • Blessings Vault',
-      timeAgo: '8m ago',
-      text: 'Lots of blessings, stay happy and keep laughing together always. Sada Sukhi Raho!',
-      tag: 'Aashirwaad 🪔',
-      likes: 52,
-      badgeBg: 'bg-[#9e1b32]'
-    },
-    {
-      id: 'w3',
-      initials: 'TG',
-      author: 'Team Groom',
-      relation: 'College Crew • Stage 1',
-      timeAgo: '14m ago',
-      text: 'Rahul brother! Dance solo rehearsal is done. Sangeet stage belongs to us tonight!',
-      tag: 'Sangeet Ready 💃🕺',
-      likes: 19,
-      badgeBg: 'bg-[#111113]'
-    },
-    {
-      id: 'w4',
-      initials: 'UV',
-      author: 'Uncle Vijay & Neha',
-      relation: 'Chachu & Chachi • London 🇬🇧',
-      timeAgo: '22m ago',
-      text: 'Sending warmest hugs & hearty congratulations from London! Gorgeous decor and smiles!',
-      tag: 'Soulmates Forever 💛',
-      likes: 37,
-      badgeBg: 'bg-[#680014]'
-    }
-  ]);
+  // Photo Gallery Moments Data from GridFS
+  const [moments, setMoments] = useState<PhotoMoment[]>([]);
 
-  // Photo Gallery Moments Data
-  const [moments, setMoments] = useState<PhotoMoment[]>([
-    {
-      id: 'm1',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD6fO2qwvTXCfSdcSEAgwTCIMP1jaIcPkXdwV1FvCCfRf-5VXAht5OOoK8UVDtX1oKoT7d5ct1kJud_LU-NKa4K2WFtWFsbkcpXkVrOeiyWbILkWUk0yl1B0bLlluiXV-4HRdQKfXgX_tfqnEVrxhD9ovCQkgVUBOCAXAvTTc1-C8m24DOCobWWg9XTZrEW73NIl0UmbSPaiEJF3KsOxOvq6wQoNjplpbCLpORhFno',
-      author: 'Sneha Kapoor',
-      timeAgo: '12m ago',
-      location: 'Sunset Lawn',
-      side: 'bride',
-      isFavorite: true,
-      likes: 28,
-      liked: false
-    },
-    {
-      id: 'm2',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB6MRTTXoRrWySf_l-mY2bjxELks2XFvF5LT44DQdAGO0xbQLFiGIhqpDilArt9gzII0SiVZLlJRYDYBGCW2IVsCnslxsAECqYv_0S_Fw--JzfvYf2NSncO3EaSHLbcU_EdAlNcUmSQvm05uLZ7QsaYfb4qXSp5tnTDOSDlgNqXjP9YtJH8LI774fKWNBe7lXI1C4yFAiJFZ1FCkBesYbL_Oxko78nWRXO0moV9WEE',
-      author: 'Amit Shah',
-      timeAgo: '28m ago',
-      location: 'Floral Shower',
-      side: 'groom',
-      isFavorite: true,
-      likes: 45,
-      liked: true
-    },
-    {
-      id: 'm3',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCSAyS6GAi99VTMHIvTf5JSX-jf277X70o9FketT2aE27oDfeLaV9nnMWpVXdvr9GVCRz4cslwVGq5md1CgHRc6izT848ks8GgGbRKIEIjT8u6qi20tmhYD3Yceo7USOirHRfSdRw7pXHG5J5q5sk9Izw6vZYWqfRr1Ltf1hfzPeF2MRoN8TGaLmQWxKQbJcNBeQ6ZzdIzBAMrIv878VQBn2MdTkcttpbkD1yGWfeE',
-      author: 'Priya Mehta',
-      timeAgo: '45m ago',
-      location: 'Ritual Urli',
-      side: 'bride',
-      isFavorite: false,
-      likes: 17,
-      liked: false
-    },
-    {
-      id: 'm4',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBClr4MQqyHpa4W3AEfeX2NGZZ4YI7qsdIyiUxL_d73JwnskMbacxWB3W9-SZV5R1Z64QK_dg7a2LNHAj5YIskCv8GrWHGqBPnrkc0EOTbdFRv86Aag3c42paV6zh6zXFkiCndEhEtMBHZEBu8oAcVXje0K7spB3wiDMlIzDqRAHPAivZuuz30Qc6QcBRvggzenQ2AEtk3cMDSDj5GO9QDG-4cclBZdTKsPOODEmuY',
-      author: 'Karan Oberoi',
-      timeAgo: '1h ago',
-      location: 'Groom Squad',
-      side: 'groom',
-      isFavorite: true,
-      likes: 33,
-      liked: false
-    }
-  ]);
-
-  // Ceremonies Data
-  const ceremonies = {
-    engagement: {
-      title: 'The Ring Exchange & Royal Feast',
-      sequence: 'Ceremony 01 of 06',
-      date: 'Thu, Dec 12, 2026',
-      time: '6:00 PM - 10:00 PM',
-      venue: 'Crystal Ballroom, The Taj, Mumbai',
-      status: 'Concluded',
-      streamBadge: 'Recorded in 4K',
-      streamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-      viewers: 'Concluded'
-    },
-    mehndi: {
-      title: 'Henna & Sunset Melodies',
-      sequence: 'Ceremony 02 of 06',
-      date: 'Fri, Dec 13, 2026',
-      time: '3:30 PM - 7:00 PM',
-      venue: 'Beachside Lawn, The Leela, Goa',
-      status: 'Concluded',
-      streamBadge: 'High-Res Archive',
-      streamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-      viewers: 'Concluded'
-    },
-    haldi: {
-      title: 'The Haldi & Floral Shower',
-      sequence: 'Ceremony 03 of 06',
-      date: 'Sat, Dec 14, 2026',
-      time: '10:30 AM - 1:00 PM',
-      venue: 'Sunbreeze Beach Lawn, The Leela, Goa',
-      status: 'In Progress • Live',
-      streamBadge: 'Live 1080p Stream',
-      streamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1',
-      viewers: '84 Watching'
-    },
-    sangeet: {
-      title: 'Sangeet Gala & DJ Night',
-      sequence: 'Ceremony 04 of 06',
-      date: 'Sat, Dec 14, 2026',
-      time: '7:30 PM - 1:00 AM',
-      venue: 'Grand Marquee, The Leela, Goa',
-      status: 'Tonight at 7:30 PM',
-      streamBadge: 'Starts at 7:30 PM',
-      streamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-      viewers: 'Starting Soon'
-    },
-    marriage: {
-      title: 'The Sacred Pheras & Wedding Vows',
-      sequence: 'Ceremony 05 of 06',
-      date: 'Sun, Dec 15, 2026',
-      time: '4:30 PM - 8:00 PM',
-      venue: 'Sunset Mandap, The Leela Seaside, Goa',
-      status: 'Tomorrow Sunset',
-      streamBadge: 'Scheduled Live',
-      streamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-      viewers: 'Tomorrow'
-    },
-    others: {
-      title: 'Afterparty & Morning Breakfast',
-      sequence: 'Ceremony 06 of 06',
-      date: 'Mon, Dec 16, 2026',
-      time: '12:00 AM Onwards',
-      venue: 'Cabana Lounge, Goa',
-      status: 'Upcoming',
-      streamBadge: 'Exclusive Lounge',
-      streamUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-      viewers: 'VIP'
-    }
-  };
-
-  const currentCeremony = ceremonies[activeEvent];
-
-  // Ribbon scroll helper
-  const scrollWishes = (offset: number) => {
-    if (wishesTrackRef.current) {
-      wishesTrackRef.current.scrollBy({ left: offset, behavior: 'smooth' });
-    }
-  };
-
-  // Like a wish card
-  const handleLikeWish = (id: string) => {
-    setWishesList((prev) =>
-      prev.map((w) => (w.id === id ? { ...w, likes: w.likes + 1 } : w))
-    );
-    triggerPetalBurst('❤️');
-  };
-
-  // Submit new blessing
-  const handleSubmitWish = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!wishAuthor.trim() || !wishText.trim()) {
-      showToast('Please enter your name and blessing message.', 'crimson');
-      return;
-    }
-
-    const newWish: WishItem = {
-      id: `w_${Date.now()}`,
-      initials: wishAuthor.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase(),
-      author: wishAuthor.trim(),
-      relation: wishRelation,
-      timeAgo: 'Just now',
-      text: wishText.trim(),
-      tag: wishTag,
-      likes: 1,
-      badgeBg: 'bg-[#c81e38]'
-    };
-
-    setWishesList([newWish, ...wishesList]);
-    setWishAuthor('');
-    setWishText('');
-    setIsWishesModalOpen(false);
-    showToast('Your blessing was broadcast to the live celebration ribbon!', 'success');
-    triggerPetalBurst('🪔');
+  // Dynamic Ceremonies Data from MongoDB Atlas
+  const activeEventDoc = dbEvents.find((e: any) => e.eventType?.toLowerCase() === activeEvent.toLowerCase());
+  const currentCeremony = {
+    title: activeEventDoc?.customTitle || `${activeEvent.charAt(0).toUpperCase() + activeEvent.slice(1)} Rite & Celebration`,
+    sequence: 'Ceremonial Rite',
+    date: activeEventDoc?.eventDate || datesTitle,
+    time: activeEventDoc?.eventTime || 'Muhurat Scheduled',
+    venue: activeEventDoc?.venueAddress || venueTitle,
+    status: activeEventDoc?.streamStatus === 'LIVE' ? 'In Progress • Live' : activeEventDoc?.streamStatus || 'Scheduled',
+    streamBadge: activeEventDoc?.streamStatus === 'LIVE' ? 'Live Stream Active' : 'Ceremony Schedule',
+    streamUrl: activeEventDoc?.liveStreamUrl || '',
+    viewers: activeEventDoc?.viewerCount ? `${activeEventDoc.viewerCount} Guests Watching` : 'Private Broadcast'
   };
 
   // Upload Photos with Client-Side Compression
@@ -685,11 +431,11 @@ export default function GuestDashboardPage() {
               </button>
 
               <button
-                onClick={() => setIsWishesModalOpen(true)}
+                onClick={(e) => triggerPetalBurst('🪔', e)}
                 className="px-3.5 py-2 rounded-xl bg-[#c81e38]/10 hover:bg-[#c81e38]/15 text-[#c81e38] border border-[#c81e38]/30 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-xs"
               >
                 <AppIcon name="favorite" size={16} className="text-[#c81e38]" fill="currentColor" />
-                <span>Send Blessing</span>
+                <span>Shower Blessings</span>
               </button>
 
               <button
@@ -711,168 +457,69 @@ export default function GuestDashboardPage() {
             </div>
           </div>
 
-          {/* LUXURY: Live Wishes & Shagun Experience Section */}
+          {/* LUXURY: Real-time Interactive Celebration & Cheers Bar */}
           <div className="mt-5 border-t border-neutral-200 pt-4 px-4 sm:px-6 bg-gradient-to-b from-[#c81e38]/5 via-[#fafafa] to-white">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3.5">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c81e38] opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-[#c81e38]"></span>
-                    </span>
-                    <h2 className="font-editorial font-bold text-base sm:text-lg text-[#0a0a0c] flex items-center gap-1.5 tracking-wide">
-                      Real-time Guest Blessings &amp; Shagun
-                    </h2>
-                  </div>
-                  <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold bg-white text-[#c81e38] border border-neutral-200 shadow-xs">
-                    <AppIcon name="favorite" size={13} className="text-[#c81e38]" fill="currentColor" />
-                    <span>{totalCheers.toLocaleString()} cheers showered</span>
+            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c81e38] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[#c81e38]"></span>
                   </span>
+                  <h2 className="font-editorial font-bold text-base sm:text-lg text-[#0a0a0c] flex items-center gap-1.5 tracking-wide">
+                    Live Guest Blessings &amp; Shagun
+                  </h2>
                 </div>
-
-                {/* Quick One-Tap Floating Reactions Bar + Action Trigger */}
-                <div className="flex items-center gap-2 flex-wrap justify-between sm:justify-end">
-                  <div className="flex items-center gap-1 bg-white p-1 rounded-xl shadow-xs border border-neutral-200">
-                    <span className="text-[11px] font-medium text-neutral-500 px-1 hidden lg:inline">Quick Cheer:</span>
-                    <button
-                      onClick={(e) => triggerPetalBurst('✨', e)}
-                      className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
-                      title="Shine"
-                    >
-                      ✨ Shine
-                    </button>
-                    <button
-                      onClick={(e) => triggerPetalBurst('❤️', e)}
-                      className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
-                      title="Love"
-                    >
-                      ❤️ Love
-                    </button>
-                    <button
-                      onClick={(e) => triggerPetalBurst('🌹', e)}
-                      className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
-                      title="Rose Petals"
-                    >
-                      🌹 Roses
-                    </button>
-                    <button
-                      onClick={(e) => triggerPetalBurst('🥂', e)}
-                      className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
-                      title="Toast"
-                    >
-                      🥂 Cheers
-                    </button>
-                    <button
-                      onClick={(e) => triggerPetalBurst('🪔', e)}
-                      className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
-                      title="Aashirwaad"
-                    >
-                      🪔 Aashirwaad
-                    </button>
-                    <button
-                      onClick={(e) => triggerPetalBurst('🧿', e)}
-                      className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
-                      title="Nazar Na Lage"
-                    >
-                      🧿 Nazar
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() => setIsWishesModalOpen(true)}
-                    className="px-4 py-1.5 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-sm flex items-center gap-1.5 transition-all active:scale-95"
-                  >
-                    <AppIcon name="edit_note" size={15} />
-                    <span>+ Add Blessing</span>
-                  </button>
-                </div>
+                <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold bg-white text-[#c81e38] border border-neutral-200 shadow-xs">
+                  <AppIcon name="favorite" size={13} className="text-[#c81e38]" fill="currentColor" />
+                  <span>{totalCheers.toLocaleString()} cheers showered</span>
+                </span>
               </div>
 
-              {/* Live Wish Cards Carousel Ribbon in Crisp White */}
-              <div className="relative group">
-                <div
-                  ref={wishesTrackRef}
-                  className="flex gap-3 overflow-x-auto pb-2 pt-1 hide-scrollbar scroll-smooth"
-                >
-                  {wishesList.map((item) => (
-                    <div
-                      key={item.id}
-                      className="min-w-[280px] sm:min-w-[310px] max-w-[320px] shrink-0 p-4 rounded-2xl bg-white border border-neutral-200/80 shadow-sm flex flex-col justify-between hover:border-[#c81e38]/50 transition-all"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between gap-2 mb-2">
-                          <div className="flex items-center gap-2.5">
-                            <div className={`w-8 h-8 rounded-full ${item.badgeBg} text-white font-bold text-xs flex items-center justify-center shadow-xs`}>
-                              {item.initials}
-                            </div>
-                            <div>
-                              <h4 className="text-xs font-bold text-[#0a0a0c] leading-tight">{item.author}</h4>
-                              <p className="text-[10px] text-[#c81e38] font-semibold tracking-wide">{item.relation}</p>
-                            </div>
-                          </div>
-                          <span className="text-[10px] font-medium text-neutral-400">{item.timeAgo}</span>
-                        </div>
-                        <p className="text-xs text-neutral-700 italic leading-relaxed">
-                          "{item.text}"
-                        </p>
-                        <div className="mt-2.5 flex items-center gap-1.5">
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-neutral-100 text-neutral-700 border border-neutral-200">
-                            {item.tag}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="mt-3.5 pt-2.5 border-t border-neutral-100 flex items-center justify-between">
-                        <button
-                          onClick={() => handleLikeWish(item.id)}
-                          className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-[#c81e38] transition-colors"
-                        >
-                          <AppIcon name="favorite" size={16} className="text-[#c81e38]" fill="currentColor" />
-                          <span className="text-[11px] font-bold text-neutral-800">{item.likes}</span>
-                        </button>
-                        <div className="flex items-center gap-1">
-                          <button
-                            onClick={(e) => { triggerPetalBurst('❤️', e); handleLikeWish(item.id); }}
-                            className="w-6 h-6 rounded-md hover:bg-neutral-100 text-xs flex items-center justify-center"
-                            title="Love"
-                          >
-                            ❤️
-                          </button>
-                          <button
-                            onClick={(e) => { triggerPetalBurst('🌹', e); handleLikeWish(item.id); }}
-                            className="w-6 h-6 rounded-md hover:bg-neutral-100 text-xs flex items-center justify-center"
-                            title="Roses"
-                          >
-                            🌹
-                          </button>
-                          <button
-                            onClick={(e) => { triggerPetalBurst('🥂', e); handleLikeWish(item.id); }}
-                            className="w-6 h-6 rounded-md hover:bg-neutral-100 text-xs flex items-center justify-center"
-                            title="Toast"
-                          >
-                            🥂
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Carousel Scroll Arrow Helpers */}
+              {/* Quick One-Tap Floating Reactions Bar */}
+              <div className="flex items-center gap-1 bg-white p-1 rounded-xl shadow-xs border border-neutral-200 flex-wrap">
+                <span className="text-[11px] font-medium text-neutral-500 px-1 hidden md:inline">Quick Blessing:</span>
                 <button
-                  onClick={() => scrollWishes(-280)}
-                  className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-8 h-8 rounded-full bg-white shadow-md border border-neutral-200 text-neutral-800 items-center justify-center hover:bg-[#c81e38] hover:text-white transition-all"
-                  title="Scroll left"
+                  onClick={(e) => triggerPetalBurst('✨', e)}
+                  className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
+                  title="Shine"
                 >
-                  <AppIcon name="chevron_left" size={18} />
+                  ✨ Shine
                 </button>
                 <button
-                  onClick={() => scrollWishes(280)}
-                  className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-8 h-8 rounded-full bg-white shadow-md border border-neutral-200 text-neutral-800 items-center justify-center hover:bg-[#c81e38] hover:text-white transition-all"
-                  title="Scroll right"
+                  onClick={(e) => triggerPetalBurst('❤️', e)}
+                  className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
+                  title="Love"
                 >
-                  <AppIcon name="chevron_right" size={18} />
+                  ❤️ Love
+                </button>
+                <button
+                  onClick={(e) => triggerPetalBurst('🌹', e)}
+                  className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
+                  title="Rose Petals"
+                >
+                  🌹 Roses
+                </button>
+                <button
+                  onClick={(e) => triggerPetalBurst('🥂', e)}
+                  className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
+                  title="Toast"
+                >
+                  🥂 Cheers
+                </button>
+                <button
+                  onClick={(e) => triggerPetalBurst('🪔', e)}
+                  className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
+                  title="Aashirwaad"
+                >
+                  🪔 Aashirwaad
+                </button>
+                <button
+                  onClick={(e) => triggerPetalBurst('🧿', e)}
+                  className="px-2.5 py-1 rounded-lg hover:bg-neutral-100 hover:text-neutral-900 text-xs font-medium text-neutral-700 transition-transform active:scale-125"
+                  title="Nazar Na Lage"
+                >
+                  🧿 Nazar
                 </button>
               </div>
             </div>
@@ -884,77 +531,40 @@ export default function GuestDashboardPage() {
           {/* 6-Ceremony Switcher Bar */}
           <div className="overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 hide-scrollbar">
             <div className="flex items-center gap-2 min-w-max p-1.5 bg-white rounded-2xl border border-neutral-200/80 shadow-xs">
-              <button
-                onClick={() => setActiveEvent('engagement')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'engagement'
-                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                  : 'text-neutral-600 hover:text-neutral-950'
-                  }`}
-              >
-                <AppIcon name="diamond" size={16} />
-                <span>Engagement</span>
-                <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">24</span>
-              </button>
-
-              <button
-                onClick={() => setActiveEvent('mehndi')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'mehndi'
-                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                  : 'text-neutral-600 hover:text-neutral-950'
-                  }`}
-              >
-                <AppIcon name="spa" size={16} />
-                <span>Mehndi</span>
-                <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">38</span>
-              </button>
-
-              <button
-                onClick={() => setActiveEvent('haldi')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs transition-all ${activeEvent === 'haldi'
-                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                  : 'text-neutral-600 hover:text-neutral-950 font-medium'
-                  }`}
-              >
-                <AppIcon name="wb_sunny" size={16} className="text-white" />
-                <span>Haldi</span>
-                <span className="px-2 py-0.5 rounded-full bg-black/25 text-white text-[10px] font-bold">Active • 145</span>
-              </button>
-
-              <button
-                onClick={() => setActiveEvent('sangeet')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'sangeet'
-                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                  : 'text-neutral-600 hover:text-neutral-950'
-                  }`}
-              >
-                <AppIcon name="music_note" size={16} />
-                <span>Sangeet</span>
-                <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">Tonight</span>
-              </button>
-
-              <button
-                onClick={() => setActiveEvent('marriage')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'marriage'
-                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                  : 'text-neutral-600 hover:text-neutral-950'
-                  }`}
-              >
-                <AppIcon name="favorite" size={16} fill="currentColor" />
-                <span>Wedding</span>
-                <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">Tomorrow</span>
-              </button>
-
-              <button
-                onClick={() => setActiveEvent('others')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'others'
-                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                  : 'text-neutral-600 hover:text-neutral-950'
-                  }`}
-              >
-                <AppIcon name="interests" size={16} />
-                <span>Afterparty</span>
-                <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[10px] text-neutral-600">5</span>
-              </button>
+              {[
+                { key: 'engagement' as const, label: 'Engagement', icon: 'diamond' },
+                { key: 'mehndi' as const, label: 'Mehndi', icon: 'spa' },
+                { key: 'haldi' as const, label: 'Haldi', icon: 'wb_sunny' },
+                { key: 'sangeet' as const, label: 'Sangeet', icon: 'music_note' },
+                { key: 'marriage' as const, label: 'Wedding', icon: 'favorite' },
+                { key: 'others' as const, label: 'Afterparty', icon: 'interests' },
+              ].map(({ key, label, icon }) => {
+                const ev = dbEvents.find((e: any) => e.eventType?.toLowerCase() === key);
+                const isSelected = activeEvent === key;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setActiveEvent(key)}
+                    className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${
+                      isSelected
+                        ? 'bg-[#c81e38] text-white font-bold shadow-sm'
+                        : 'text-neutral-600 hover:text-neutral-950'
+                    }`}
+                  >
+                    <AppIcon name={icon} size={16} fill={key === 'marriage' ? 'currentColor' : undefined} />
+                    <span>{label}</span>
+                    {ev?.streamStatus === 'LIVE' ? (
+                      <span className="px-1.5 py-0.5 rounded-full bg-emerald-500 text-white text-[9px] font-bold animate-pulse">
+                        LIVE
+                      </span>
+                    ) : ev?.streamStatus ? (
+                      <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[9px] text-neutral-600">
+                        {ev.streamStatus}
+                      </span>
+                    ) : null}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -1107,7 +717,7 @@ export default function GuestDashboardPage() {
                     }`}
                 >
                   <AppIcon name="image" size={16} />
-                  <span>Photos ({moments.length * 35})</span>
+                  <span>Photos ({moments.length})</span>
                 </button>
                 <button
                   onClick={() => setActiveMediaTab('videos')}
@@ -1192,105 +802,127 @@ export default function GuestDashboardPage() {
 
                 {/* 2x2 Curated Video Reels Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {curatedReels.map((reel) => (
-                    <div
-                      key={reel.id}
-                      onClick={() => {
-                        setSelectedReel(reel);
-                        setIsReelModalOpen(true);
-                      }}
-                      className="group relative bg-white rounded-2xl overflow-hidden border border-neutral-200/80 shadow-xs hover:shadow-lg transition-all cursor-pointer flex flex-col"
-                    >
-                      <div className="relative aspect-video bg-black overflow-hidden">
-                        <img
-                          src={reel.posterUrl}
-                          alt={reel.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35"></div>
+                  {curatedReels.length === 0 ? (
+                    <div className="col-span-full py-12 text-center bg-white rounded-2xl border border-neutral-200">
+                      <AppIcon name="videocam" size={36} className="mx-auto text-neutral-300 mb-2" />
+                      <p className="text-sm font-semibold text-neutral-700">No curated reels uploaded yet</p>
+                      <p className="text-xs text-neutral-400 mt-1">Official highlight reels will appear here once published by the couple.</p>
+                    </div>
+                  ) : (
+                    curatedReels.map((reel) => (
+                      <div
+                        key={reel.id}
+                        onClick={() => {
+                          setSelectedReel(reel);
+                          setIsReelModalOpen(true);
+                        }}
+                        className="group relative bg-white rounded-2xl overflow-hidden border border-neutral-200/80 shadow-xs hover:shadow-lg transition-all cursor-pointer flex flex-col"
+                      >
+                        <div className="relative aspect-video bg-black overflow-hidden">
+                          <img
+                            src={reel.posterUrl}
+                            alt={reel.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35"></div>
 
-                        <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                          <span className="px-2.5 py-1 bg-[#c81e38] text-white text-[10px] uppercase font-bold tracking-wider rounded">
-                            {reel.ceremony}
-                          </span>
-                          <span className="px-2 py-0.5 bg-black/70 backdrop-blur-md text-white font-mono text-[10px] rounded flex items-center gap-1">
-                            <span className="material-symbols-outlined text-[12px] text-[#c81e38]">schedule</span>
-                            {reel.duration}
-                          </span>
-                        </div>
+                          <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                            <span className="px-2.5 py-1 bg-[#c81e38] text-white text-[10px] uppercase font-bold tracking-wider rounded">
+                              {reel.ceremony}
+                            </span>
+                            <span className="px-2 py-0.5 bg-black/70 backdrop-blur-md text-white font-mono text-[10px] rounded flex items-center gap-1">
+                              <span className="material-symbols-outlined text-[12px] text-[#c81e38]">schedule</span>
+                              {reel.duration}
+                            </span>
+                          </div>
 
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-14 h-14 rounded-full bg-white/85 backdrop-blur-md text-[#c81e38] flex items-center justify-center shadow-2xl group-hover:scale-110 group-hover:bg-[#c81e38] group-hover:text-white transition-all">
-                            <AppIcon name="play" size={26} />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-14 h-14 rounded-full bg-white/85 backdrop-blur-md text-[#c81e38] flex items-center justify-center shadow-2xl group-hover:scale-110 group-hover:bg-[#c81e38] group-hover:text-white transition-all">
+                              <AppIcon name="play" size={26} />
+                            </div>
+                          </div>
+
+                          <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white text-[11px]">
+                            <span className="truncate pr-2 font-medium">{reel.title}</span>
+                            <span className="font-mono text-[10px] opacity-75 shrink-0">4K DCI</span>
                           </div>
                         </div>
 
-                        <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-white text-[11px]">
-                          <span className="truncate pr-2 font-medium">{reel.title}</span>
-                          <span className="font-mono text-[10px] opacity-75 shrink-0">4K DCI</span>
+                        <div className="p-3.5 flex items-center justify-between text-xs">
+                          <span className="text-neutral-500 font-medium">Curated by: {reel.curatorName}</span>
+                          <span className="text-[#c81e38] font-bold flex items-center gap-1">
+                            <AppIcon name="videocam" size={14} /> Stream 4K Reel
+                          </span>
                         </div>
                       </div>
-
-                      <div className="p-3.5 flex items-center justify-between text-xs">
-                        <span className="text-neutral-500 font-medium">Curated by: {reel.curatorName}</span>
-                        <span className="text-[#c81e38] font-bold flex items-center gap-1">
-                          <AppIcon name="videocam" size={14} /> Stream 4K Reel
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </div>
             ) : (
               /* Responsive Candid Moments Grid */
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredMoments.map((moment, idx) => (
-                  <div
-                    key={moment.id}
-                    onClick={() => {
-                      setLightboxIndex(idx);
-                      setIsLightboxOpen(true);
-                    }}
-                    className="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-white shadow-sm border border-neutral-200/80 cursor-pointer"
-                  >
-                    <img
-                      alt={moment.author}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      src={moment.src}
-                    />
+                {filteredMoments.length === 0 ? (
+                  <div className="col-span-full py-16 text-center bg-white rounded-2xl border border-neutral-200">
+                    <AppIcon name="photo_camera" size={40} className="mx-auto text-neutral-300 mb-2" />
+                    <p className="text-sm font-semibold text-neutral-700">No candid photos uploaded yet for this ceremony</p>
+                    <p className="text-xs text-neutral-400 mt-1">Be the first guest to capture and upload a cherished moment!</p>
+                    <button
+                      onClick={() => setIsUploadModalOpen(true)}
+                      className="mt-4 px-4 py-2 bg-[#c81e38] text-white text-xs font-semibold rounded-xl hover:bg-[#9e1b32] transition-colors"
+                    >
+                      Upload Photo
+                    </button>
+                  </div>
+                ) : (
+                  filteredMoments.map((moment, idx) => (
+                    <div
+                      key={moment.id}
+                      onClick={() => {
+                        setLightboxIndex(idx);
+                        setIsLightboxOpen(true);
+                      }}
+                      className="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-white shadow-sm border border-neutral-200/80 cursor-pointer"
+                    >
+                      <img
+                        alt={moment.author}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        src={moment.src}
+                      />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-between">
-                      <div className="flex justify-end gap-1.5">
-                        <button
-                          onClick={(e) => handleToggleMomentLike(idx, e)}
-                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${moment.liked
-                            ? 'bg-[#c81e38] text-white'
-                            : 'bg-white/20 backdrop-blur-md text-white hover:bg-[#c81e38]'
-                            }`}
-                        >
-                          <AppIcon
-                            name="favorite"
-                            size={18}
-                            className={moment.liked ? "text-white" : "text-white/80"}
-                            fill={moment.liked ? "currentColor" : "none"}
-                          />
-                        </button>
-                        <a
-                          href={moment.src}
-                          download={`memory-${idx}.jpg`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 flex items-center justify-center transition-colors"
-                        >
-                          <AppIcon name="download" size={18} />
-                        </a>
-                      </div>
-                      <div>
-                        <p className="text-xs font-semibold text-white">{moment.author}</p>
-                        <p className="text-[10px] text-white/80">{moment.timeAgo} • {moment.location}</p>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-between">
+                        <div className="flex justify-end gap-1.5">
+                          <button
+                            onClick={(e) => handleToggleMomentLike(idx, e)}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${moment.liked
+                              ? 'bg-[#c81e38] text-white'
+                              : 'bg-white/20 backdrop-blur-md text-white hover:bg-[#c81e38]'
+                              }`}
+                          >
+                            <AppIcon
+                              name="favorite"
+                              size={18}
+                              className={moment.liked ? "text-white" : "text-white/80"}
+                              fill={moment.liked ? "currentColor" : "none"}
+                            />
+                          </button>
+                          <a
+                            href={moment.src}
+                            download={`memory-${idx}.jpg`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white/40 flex items-center justify-center transition-colors"
+                          >
+                            <AppIcon name="download" size={18} />
+                          </a>
+                        </div>
+                        <div>
+                          <p className="text-xs font-semibold text-white">{moment.author}</p>
+                          <p className="text-[10px] text-white/80">{moment.timeAgo} • {moment.location}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             )}
 
@@ -1301,18 +933,18 @@ export default function GuestDashboardPage() {
                   <AppIcon name="flare" size={24} />
                 </div>
                 <div>
-                  <h4 className="font-editorial font-bold text-sm text-[#0a0a0c]">Tonight: Sangeet Dance Battles Live</h4>
-                  <p className="text-xs text-neutral-600">Stream starts at 7:30 PM with interactive voting for Bride vs Groom choreography!</p>
+                  <h4 className="font-editorial font-bold text-sm text-[#0a0a0c]">Live Celebration Moments &amp; Highlights</h4>
+                  <p className="text-xs text-neutral-600">Drop your candids or watch the live broadcast with friends and family.</p>
                 </div>
               </div>
               <button
                 onClick={() => {
-                  setUploaderCeremony('Sangeet');
+                  setUploaderCeremony(`${activeEvent.toUpperCase()} Celebration`);
                   setIsUploadModalOpen(true);
                 }}
                 className="px-4 py-2 rounded-xl bg-white hover:bg-[#c81e38] hover:text-white text-neutral-800 border border-neutral-200 text-xs font-semibold transition-all shrink-0 shadow-xs"
               >
-                Queue Sangeet Clip
+                Upload Memory
               </button>
             </div>
           </div>
@@ -1351,13 +983,21 @@ export default function GuestDashboardPage() {
             </div>
 
             <div className="relative w-full aspect-video bg-black overflow-hidden flex items-center justify-center">
-              <iframe
-                src={currentCeremony.streamUrl}
-                title="Live Wedding Stream"
-                className="w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+              {currentCeremony.streamUrl ? (
+                <iframe
+                  src={currentCeremony.streamUrl}
+                  title="Live Wedding Stream"
+                  className="w-full h-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="text-center p-8 text-neutral-400">
+                  <AppIcon name="videocam" size={48} className="mx-auto text-neutral-600 mb-2" />
+                  <p className="text-sm font-semibold text-white">Broadcast Standby</p>
+                  <p className="text-xs text-neutral-400 mt-1">Live streaming will commence when the hosts go live for this ceremony.</p>
+                </div>
+              )}
             </div>
 
             <div className="p-4 bg-white flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-neutral-200">
@@ -1699,100 +1339,7 @@ export default function GuestDashboardPage() {
         </div>
       )}
 
-      {/* ENHANCED MODAL 5: Interactive Blessing & Shagun Creator Modal */}
-      {isWishesModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-200">
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-neutral-200 overflow-hidden">
-            <div className="p-5 bg-gradient-to-r from-[#c81e38]/10 via-neutral-50 to-white flex items-center justify-between border-b border-neutral-200">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-[#c81e38]/10 text-[#c81e38] flex items-center justify-center border border-[#c81e38]/30">
-                  <AppIcon name="favorite" size={22} className="text-[#c81e38]" fill="currentColor" />
-                </div>
-                <div>
-                  <h3 className="font-editorial font-bold text-base text-[#0a0a0c]">Send Wedding Blessing &amp; Shagun</h3>
-                  <p className="text-[11px] text-neutral-500">Broadcast your warm wishes directly to the couple</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setIsWishesModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black"
-              >
-                <AppIcon name="close" size={18} />
-              </button>
-            </div>
 
-            <form onSubmit={handleSubmitWish} className="p-5 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-700 mb-1">Your Name</label>
-                  <input
-                    required
-                    type="text"
-                    placeholder="e.g. Pooja & Kabir"
-                    value={wishAuthor}
-                    onChange={(e) => setWishAuthor(e.target.value)}
-                    className="w-full h-10 px-3 bg-neutral-50 border border-neutral-300 rounded-xl text-xs text-[#0a0a0c] focus:outline-none focus:border-[#c81e38] focus:bg-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-neutral-700 mb-1">Relation / Table</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Bride's Friend • Table 2"
-                    value={wishRelation}
-                    onChange={(e) => setWishRelation(e.target.value)}
-                    className="w-full h-10 px-3 bg-neutral-50 border border-neutral-300 rounded-xl text-xs text-[#0a0a0c] focus:outline-none focus:border-[#c81e38] focus:bg-white"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 mb-1">Blessing Theme / Ceremony Tag</label>
-                <select
-                  value={wishTag}
-                  onChange={(e) => setWishTag(e.target.value)}
-                  className="w-full h-10 px-3 bg-neutral-50 border border-neutral-300 rounded-xl text-xs text-[#0a0a0c] focus:outline-none focus:border-[#c81e38] focus:bg-white"
-                >
-                  <option>Golden Haldi Glow ✨</option>
-                  <option>Aashirwaad 🪔</option>
-                  <option>Sangeet Ready 💃🕺</option>
-                  <option>Soulmates Forever 💛</option>
-                  <option>Nazar Na Lage 🧿</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-neutral-700 mb-1">Your Blessing Message</label>
-                <textarea
-                  required
-                  rows={3}
-                  placeholder={`Write your heartfelt wishes for ${coupleTitle}...`}
-                  value={wishText}
-                  onChange={(e) => setWishText(e.target.value)}
-                  className="w-full p-3 bg-neutral-50 border border-neutral-300 rounded-xl text-xs text-[#0a0a0c] focus:outline-none focus:border-[#c81e38] focus:bg-white"
-                />
-              </div>
-
-              <div className="pt-2 flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsWishesModalOpen(false)}
-                  className="px-4 py-2 rounded-xl text-xs font-semibold text-neutral-600 hover:text-black"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-md flex items-center gap-1.5"
-                >
-                  <AppIcon name="send" size={16} />
-                  <span>Broadcast Blessing</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
       {/* MODAL 6: Switch Passcode Modal */}
       {isSwitchCodeModalOpen && (

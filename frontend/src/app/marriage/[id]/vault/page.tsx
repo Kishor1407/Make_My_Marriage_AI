@@ -68,9 +68,9 @@ export default function MediaVaultPage() {
     dates: 'October 18–20, 2024',
     venue: 'The Grand Oberoi Amarvilas & Mustard Meadows, Agra',
     status: 'Completed (Celebrated)',
-    totalPhotos: 420,
-    totalVideos: 4,
-    totalGuestsEngaged: 240
+    totalPhotos: 0,
+    totalVideos: 0,
+    totalGuestsEngaged: 0
   });
 
   const [activeTab, setActiveTab] = useState<'reels' | 'candid'>('reels');
@@ -493,7 +493,7 @@ export default function MediaVaultPage() {
                         activeTab === 'reels' ? 'bg-[#7a001a] text-white' : 'bg-neutral-200 text-neutral-700'
                       }`}
                     >
-                      {reels.length > 0 ? reels.length : 4}
+                      {reels.length}
                     </span>
                     <span className="px-1.5 py-0.5 text-[9px] uppercase tracking-widest font-extrabold bg-[#ffd700] text-black rounded">
                       👑 Host Curated
@@ -529,8 +529,8 @@ export default function MediaVaultPage() {
                 const count =
                   ceremony === 'ALL'
                     ? activeTab === 'reels'
-                      ? reels.length || 4
-                      : candids.length || 420
+                      ? reels.length
+                      : candids.length
                     : activeTab === 'reels'
                     ? reels.filter(r => r.ceremony.toUpperCase() === ceremony).length
                     : candids.filter(c => c.ceremony.toUpperCase() === ceremony).length;
@@ -759,7 +759,7 @@ export default function MediaVaultPage() {
                     Crowdsourced Candid Photo Dumps ({filteredCandids.length})
                   </h2>
                   <p className="text-xs text-neutral-500 mt-1">
-                    Uploaded via Table Standee QR Codes • Scanned from 34 Banquet Tables.
+                    Uploaded via Table Standee QR Codes into the couple&apos;s sovereign archive.
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -780,37 +780,56 @@ export default function MediaVaultPage() {
               </div>
 
               {/* Candid Masonry Collage */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredCandids.map((candid, idx) => (
-                  <div
-                    key={candid.id}
-                    onClick={() => {
-                      setActivePhoto(candid);
-                      setIsPhotoLightboxOpen(true);
-                    }}
-                    className="bg-white rounded-xl p-2 border border-neutral-200/80 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col gap-2 group"
+              {filteredCandids.length === 0 ? (
+                <div className="p-12 text-center bg-white rounded-2xl border border-neutral-200/80 shadow-xs space-y-3">
+                  <div className="w-14 h-14 rounded-2xl bg-[#a20025]/10 text-[#a20025] flex items-center justify-center mx-auto">
+                    <span className="material-symbols-outlined text-[32px]">photo_library</span>
+                  </div>
+                  <h3 className="font-serif text-lg font-bold text-neutral-900">No Candid Photos in Vault Yet</h3>
+                  <p className="text-xs text-neutral-500 max-w-sm mx-auto">
+                    Guests can scan their table QR code or tap below to drop photos into this ceremonial vault.
+                  </p>
+                  <Link
+                    href={`/guest/upload?code=${marriage.marriageCode}`}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#a20025] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#8f001f] transition-all shadow-sm"
                   >
-                    <div className="w-full aspect-[4/5] bg-neutral-100 rounded-lg overflow-hidden relative">
-                      <img
-                        alt={candid.uploaderName}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        src={candid.streamUrl}
-                      />
-                      <div className="absolute top-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-md rounded text-[10px] uppercase font-bold text-white">
-                        {candid.ceremony}
+                    <span className="material-symbols-outlined text-[18px]">add_a_photo</span>
+                    <span>Upload Candid Photos</span>
+                  </Link>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {filteredCandids.map((candid) => (
+                    <div
+                      key={candid.id}
+                      onClick={() => {
+                        setActivePhoto(candid);
+                        setIsPhotoLightboxOpen(true);
+                      }}
+                      className="bg-white rounded-xl p-2 border border-neutral-200/80 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col gap-2 group"
+                    >
+                      <div className="w-full aspect-[4/5] bg-neutral-100 rounded-lg overflow-hidden relative">
+                        <img
+                          alt={candid.uploaderName}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          src={candid.streamUrl}
+                        />
+                        <div className="absolute top-2 right-2 px-2 py-0.5 bg-black/60 backdrop-blur-md rounded text-[10px] uppercase font-bold text-white">
+                          {candid.ceremony}
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between text-[11px] text-neutral-600 px-1">
+                        <span className="font-medium text-neutral-900 truncate">
+                          {candid.uploaderName || 'Wedding Guest'}
+                        </span>
+                        <span className="font-mono text-neutral-400 text-[10px]">
+                          {candid.uploadDate ? new Date(candid.uploadDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Verified'}
+                        </span>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between text-[11px] text-neutral-600 px-1">
-                      <span className="font-medium text-neutral-900 truncate">
-                        Table {((idx % 12) + 1)} • {candid.uploaderName}
-                      </span>
-                      <span className="font-mono text-neutral-400 text-[10px]">
-                        {idx % 2 === 0 ? '10:42 PM' : '11:15 PM'}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
               <div className="p-4 text-center bg-neutral-50 rounded-xl border border-neutral-200/60 text-neutral-500 text-xs uppercase tracking-wider">
                 Displaying {filteredCandids.length} guest-submitted candid snapshots • Admin moderation active.

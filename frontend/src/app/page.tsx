@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AppIcon from '@/components/AppIcon';
+import api from '@/lib/api';
 
 export default function LandingPage() {
   const router = useRouter();
@@ -11,6 +12,9 @@ export default function LandingPage() {
   // 6-PIN code input boxes state
   const [pinDigits, setPinDigits] = useState(['R', 'A', 'J', 'S', 'I', 'M']);
   const pinInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  // Marriages loaded dynamically from MongoDB Atlas
+  const [marriages, setMarriages] = useState<any[]>([]);
 
   // Modals state
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
@@ -23,6 +27,17 @@ export default function LandingPage() {
   };
 
   const fullCode = pinDigits.join('').toUpperCase();
+
+  // Load real marriages from backend
+  useEffect(() => {
+    api.get('/marriages')
+      .then((res) => {
+        if (res.data?.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
+          setMarriages(res.data.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Handle single digit PIN changes with auto-focus forward
   const handleDigitChange = (index: number, value: string) => {
@@ -186,56 +201,47 @@ export default function LandingPage() {
               </div>
 
               {/* Acrylic Standee Preview */}
-              <div className="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-md">
-                <div className="relative h-44 w-full overflow-hidden">
-                  <img
-                    src={
-                      fullCode.startsWith('LAI')
-                        ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc9C1voRVWDpitAXvHixh6nqQ4Fr79mnyuw9Xe3IcAQgZAd-Uv3awiaBCqPc9wnryGg6K_YtjvXw33aS0iPw333R8nNhGrxKssGs9kAEFQutT4sDRp5swxSF4PKKzpyne6cjdxSMvTeL4C-gEgct3msqLoQmVt6GrsyBYVuNDf8XOEWyRE8h2qqZjSVu1Q0NDPzcE68G9R3cAcloU2HG0DmHfapfJmWYtk0quRUrg'
-                        : fullCode.startsWith('HEE')
-                        ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuDSFCd_cy05beANlWSREfxP3NXg8ctYEY9AVrp-_XUcFVt_w_abbeTJoNmpWgcl8BVyWp4mMIEKmkoQCot9EjdJ8Qctuj_og0TdF89uVPf1ArAbEHmfMvwAjzk11O8dlquI1hLl94jYCQPEmyWg6L3oF39f_dnAAHfgwtKtVrHHwXAxAnTWY3rVge3SuEwTHGpMbYt9YVQpN3S6n00H5ow31iMzhlMSaFkbEID1-jQ'
-                        : fullCode.startsWith('BUN')
-                        ? 'https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk'
-                        : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk'
-                    }
-                    alt="Wedding Preview"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
-                    <span className="text-[10px] uppercase font-bold text-[#FFB3B3] tracking-widest">
-                      Live Celebration Standee
-                    </span>
-                    <h3 className="font-editorial text-xl sm:text-2xl font-bold text-white leading-tight">
-                      {fullCode.startsWith('LAI')
-                        ? 'Qais (Majnu) & Laila'
-                        : fullCode.startsWith('HEE')
-                        ? 'Dido Ranjha & Heer Sial'
-                        : fullCode.startsWith('BUN')
-                        ? 'Bunny & Naina Talwar'
-                        : 'Raj Malhotra & Simran Singh'}
-                    </h3>
-                  </div>
-                </div>
+              {(() => {
+                const activeMarriage = marriages.find((m) => m.marriageCode?.toUpperCase() === fullCode) || marriages[0] || {
+                  partnerOneName: 'Raj Malhotra',
+                  partnerTwoName: 'Simran Singh',
+                  marriageCode: 'RAJSIM24',
+                  venue: 'The Grand Oberoi Amarvilas, Agra',
+                  coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk'
+                };
+                return (
+                  <div className="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-md">
+                    <div className="relative h-44 w-full overflow-hidden">
+                      <img
+                        src={activeMarriage.coverImage}
+                        alt="Wedding Preview"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
+                        <span className="text-[10px] uppercase font-bold text-[#FFB3B3] tracking-widest">
+                          Live Celebration Standee
+                        </span>
+                        <h3 className="font-editorial text-xl sm:text-2xl font-bold text-white leading-tight">
+                          {activeMarriage.partnerOneName} &amp; {activeMarriage.partnerTwoName}
+                        </h3>
+                      </div>
+                    </div>
 
-                <div className="p-4 bg-white border-t border-neutral-200 flex items-center justify-between text-xs">
-                  <div>
-                    <p className="text-neutral-500 font-medium">Destination Sanctuary</p>
-                    <p className="font-semibold text-[#0A0A0C] mt-0.5">
-                      {fullCode.startsWith('LAI')
-                        ? 'The Khyber Resort & Valley, Gulmarg'
-                        : fullCode.startsWith('HEE')
-                        ? 'Umaid Bhawan Palace, Jodhpur'
-                        : fullCode.startsWith('BUN')
-                        ? 'The Oberoi Udaivilas, Udaipur'
-                        : 'The Grand Oberoi Amarvilas, Agra'}
-                    </p>
-                    <p className="text-[11px] text-[#C81E38] font-bold mt-1">Key: {fullCode || 'RAJSIM24'}</p>
+                    <div className="p-4 bg-white border-t border-neutral-200 flex items-center justify-between text-xs">
+                      <div>
+                        <p className="text-neutral-500 font-medium">Destination Sanctuary</p>
+                        <p className="font-semibold text-[#0A0A0C] mt-0.5">
+                          {activeMarriage.venue}
+                        </p>
+                        <p className="text-[11px] text-[#C81E38] font-bold mt-1">Key: {activeMarriage.marriageCode || fullCode}</p>
+                      </div>
+                      <div className="p-2 bg-neutral-50 rounded-xl border border-neutral-200">
+                        <AppIcon name="qr_code_2" size={28} className="text-[#0A0A0C]" />
+                      </div>
+                    </div>
                   </div>
-                  <div className="p-2 bg-neutral-50 rounded-xl border border-neutral-200">
-                    <AppIcon name="qr_code_2" size={28} className="text-[#0A0A0C]" />
-                  </div>
-                </div>
-              </div>
+                );
+              })()}
 
               {/* Bottom Quick Triggers */}
               <div className="grid grid-cols-2 gap-2 mt-4">
@@ -281,118 +287,113 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                id: 'rajsim24',
-                couple: 'Raj & Simran',
-                badge: 'DDLJ • Dilwale Dulhania Le Jayenge',
-                code: 'RAJSIM24',
-                dates: 'October 18–20, 2024',
-                venue: 'The Grand Oberoi Amarvilas, Agra',
-                status: 'Celebrated (Past)',
-                photos: 5,
-                videos: 1,
-                guests: 125,
-                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk'
-              },
-              {
-                id: 'lailam25',
-                couple: 'Qais (Majnu) & Laila',
-                badge: 'Laila Majnu • Kashmir Romance',
-                code: 'LAILAM25',
-                dates: 'November 14–16, 2025',
-                venue: 'The Khyber Himalayan Resort, Gulmarg',
-                status: 'Celebrated (Past)',
-                photos: 4,
-                videos: 1,
-                guests: 113,
-                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc9C1voRVWDpitAXvHixh6nqQ4Fr79mnyuw9Xe3IcAQgZAd-Uv3awiaBCqPc9wnryGg6K_YtjvXw33aS0iPw333R8nNhGrxKssGs9kAEFQutT4sDRp5swxSF4PKKzpyne6cjdxSMvTeL4C-gEgct3msqLoQmVt6GrsyBYVuNDf8XOEWyRE8h2qqZjSVu1Q0NDPzcE68G9R3cAcloU2HG0DmHfapfJmWYtk0quRUrg'
-              },
-              {
-                id: 'heerran26',
-                couple: 'Dido Ranjha & Heer Sial',
-                badge: 'Heer Ranjha • Eternal Romance',
-                code: 'HEERRAN26',
-                dates: 'December 18–20, 2026',
-                venue: 'Umaid Bhawan Palace, Jodhpur',
-                status: 'Live Realtime',
-                photos: 4,
-                videos: 1,
-                guests: 113,
-                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDSFCd_cy05beANlWSREfxP3NXg8ctYEY9AVrp-_XUcFVt_w_abbeTJoNmpWgcl8BVyWp4mMIEKmkoQCot9EjdJ8Qctuj_og0TdF89uVPf1ArAbEHmfMvwAjzk11O8dlquI1hLl94jYCQPEmyWg6L3oF39f_dnAAHfgwtKtVrHHwXAxAnTWY3rVge3SuEwTHGpMbYt9YVQpN3S6n00H5ow31iMzhlMSaFkbEID1-jQ'
-              },
-              {
-                id: 'bunnyna27',
-                couple: 'Bunny & Naina Talwar',
-                badge: 'YJHD • Yeh Jawaani Hai Deewani',
-                code: 'BUNNYNA27',
-                dates: 'March 24–26, 2027',
-                venue: 'The Oberoi Udaivilas, Udaipur',
-                status: 'Scheduled (Future)',
-                photos: 5,
-                videos: 1,
-                guests: 137,
-                img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk'
-              }
-            ].map((vault) => (
-              <div
-                key={vault.id}
-                className="group bg-white rounded-2xl border border-neutral-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <img
-                      src={vault.img}
-                      alt={vault.couple}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-3 right-3">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#C81E38] text-white shadow">
-                        {vault.status}
-                      </span>
+            {(marriages.length > 0
+              ? marriages
+              : [
+                  {
+                    partnerOneName: 'Raj Malhotra',
+                    partnerTwoName: 'Simran Singh',
+                    marriageCode: 'RAJSIM24',
+                    dates: 'October 18–20, 2024',
+                    venue: 'The Grand Oberoi Amarvilas, Agra',
+                    status: 'Celebrated (Past)',
+                    coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk',
+                    globalStats: { totalPhotos: 5, totalVideos: 1, totalGuestsEngaged: 125 }
+                  },
+                  {
+                    partnerOneName: 'Qais (Majnu)',
+                    partnerTwoName: 'Laila',
+                    marriageCode: 'LAILAM25',
+                    dates: 'November 14–16, 2025',
+                    venue: 'The Khyber Himalayan Resort, Gulmarg',
+                    status: 'Celebrated (Past)',
+                    coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc9C1voRVWDpitAXvHixh6nqQ4Fr79mnyuw9Xe3IcAQgZAd-Uv3awiaBCqPc9wnryGg6K_YtjvXw33aS0iPw333R8nNhGrxKssGs9kAEFQutT4sDRp5swxSF4PKKzpyne6cjdxSMvTeL4C-gEgct3msqLoQmVt6GrsyBYVuNDf8XOEWyRE8h2qqZjSVu1Q0NDPzcE68G9R3cAcloU2HG0DmHfapfJmWYtk0quRUrg',
+                    globalStats: { totalPhotos: 4, totalVideos: 1, totalGuestsEngaged: 113 }
+                  },
+                  {
+                    partnerOneName: 'Dido Ranjha',
+                    partnerTwoName: 'Heer Sial',
+                    marriageCode: 'HEERRAN26',
+                    dates: 'December 18–20, 2026',
+                    venue: 'Umaid Bhawan Palace, Jodhpur',
+                    status: 'Live Realtime',
+                    coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDSFCd_cy05beANlWSREfxP3NXg8ctYEY9AVrp-_XUcFVt_w_abbeTJoNmpWgcl8BVyWp4mMIEKmkoQCot9EjdJ8Qctuj_og0TdF89uVPf1ArAbEHmfMvwAjzk11O8dlquI1hLl94jYCQPEmyWg6L3oF39f_dnAAHfgwtKtVrHHwXAxAnTWY3rVge3SuEwTHGpMbYt9YVQpN3S6n00H5ow31iMzhlMSaFkbEID1-jQ',
+                    globalStats: { totalPhotos: 4, totalVideos: 1, totalGuestsEngaged: 113 }
+                  },
+                  {
+                    partnerOneName: 'Bunny',
+                    partnerTwoName: 'Naina Talwar',
+                    marriageCode: 'BUNNYNA27',
+                    dates: 'March 24–26, 2027',
+                    venue: 'The Oberoi Udaivilas, Udaipur',
+                    status: 'Scheduled (Future)',
+                    coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk',
+                    globalStats: { totalPhotos: 5, totalVideos: 1, totalGuestsEngaged: 137 }
+                  }
+                ]
+            ).map((vault: any) => {
+              const code = (vault.marriageCode || vault.code || '').toUpperCase();
+              const couple = vault.partnerOneName ? `${vault.partnerOneName} & ${vault.partnerTwoName}` : (vault.couple || 'Matrimonial Couple');
+              const photosCount = vault.globalStats?.totalPhotos ?? vault.photos ?? 0;
+              const videosCount = vault.globalStats?.totalVideos ?? vault.videos ?? 0;
+              const guestsCount = vault.globalStats?.totalGuestsEngaged ?? vault.guests ?? 0;
+              const coverImg = vault.coverImage || vault.img;
+
+              return (
+                <div
+                  key={vault._id || vault.id || code}
+                  className="group bg-white rounded-2xl border border-neutral-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="relative h-48 w-full overflow-hidden">
+                      <img
+                        src={coverImg}
+                        alt={couple}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-3 right-3">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#C81E38] text-white shadow">
+                          {vault.status || 'Active Vault'}
+                        </span>
+                      </div>
                     </div>
-                    <div className="absolute bottom-2 left-2 right-2">
-                      <span className="text-[10px] bg-black/70 backdrop-blur-xs text-white px-2 py-0.5 rounded font-medium truncate block">
-                        {vault.badge}
-                      </span>
+
+                    <div className="p-4 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-editorial text-lg font-bold text-[#0A0A0C]">{couple}</h3>
+                        <span className="font-mono text-xs font-bold text-[#C81E38] bg-[#C81E38]/10 px-2 py-0.5 rounded border border-[#C81E38]/20">
+                          {code}
+                        </span>
+                      </div>
+                      <p className="text-[11px] font-semibold text-neutral-600">
+                        📅 {vault.dates || 'Celebration Schedule'}
+                      </p>
+                      <p className="text-xs text-neutral-500 flex items-center gap-1 line-clamp-1">
+                        <AppIcon name="location_on" size={14} className="text-[#C81E38] shrink-0" />
+                        <span className="truncate">{vault.venue}</span>
+                      </p>
+                      <div className="pt-1.5 flex items-center gap-2 text-[11px] text-neutral-600">
+                        <span><strong>{photosCount}</strong> Photos</span>
+                        <span>•</span>
+                        <span><strong>{videosCount}</strong> Reels</span>
+                        <span>•</span>
+                        <span><strong>{guestsCount}</strong> Guests</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="p-4 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-editorial text-lg font-bold text-[#0A0A0C]">{vault.couple}</h3>
-                      <span className="font-mono text-xs font-bold text-[#C81E38] bg-[#C81E38]/10 px-2 py-0.5 rounded border border-[#C81E38]/20">
-                        {vault.code}
-                      </span>
-                    </div>
-                    <p className="text-[11px] font-semibold text-neutral-600">
-                      📅 {vault.dates}
-                    </p>
-                    <p className="text-xs text-neutral-500 flex items-center gap-1 line-clamp-1">
-                      <AppIcon name="location_on" size={14} className="text-[#C81E38] shrink-0" />
-                      <span className="truncate">{vault.venue}</span>
-                    </p>
-                    <div className="pt-1.5 flex items-center gap-2 text-[11px] text-neutral-600">
-                      <span><strong>{vault.photos}</strong> Photos</span>
-                      <span>•</span>
-                      <span><strong>{vault.videos}</strong> Reel</span>
-                      <span>•</span>
-                      <span><strong>{vault.guests}</strong> Guests</span>
-                    </div>
+                  <div className="p-4 pt-0">
+                    <Link
+                      href={`/marriage/${code.toLowerCase()}`}
+                      className="w-full py-2.5 rounded-xl bg-neutral-50 hover:bg-[#C81E38] hover:text-white border border-neutral-200 text-neutral-900 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs"
+                    >
+                      <span>Enter Vault</span>
+                      <AppIcon name="arrow_forward" size={16} />
+                    </Link>
                   </div>
                 </div>
-
-                <div className="p-4 pt-0">
-                  <Link
-                    href={`/marriage/${vault.code.toLowerCase()}`}
-                    className="w-full py-2.5 rounded-xl bg-neutral-50 hover:bg-[#C81E38] hover:text-white border border-neutral-200 text-neutral-900 text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs"
-                  >
-                    <span>Enter Vault</span>
-                    <AppIcon name="arrow_forward" size={16} />
-                  </Link>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

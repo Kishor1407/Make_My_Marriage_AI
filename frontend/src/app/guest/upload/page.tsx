@@ -40,21 +40,21 @@ function GuestUploadPortalContent() {
   const [partnerNames, setPartnerNames] = useState('Raj Malhotra & Simran Singh');
   const [activeCeremony, setActiveCeremony] = useState('Haldi');
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
-  const [syncedPhotosCount, setSyncedPhotosCount] = useState<number>(5);
-  const [contributorsCount, setContributorsCount] = useState<number>(125);
+  const [syncedPhotosCount, setSyncedPhotosCount] = useState<number>(0);
+  const [contributorsCount, setContributorsCount] = useState<number>(0);
 
   // Step 1: Guest Attribution & Identity (PRD 4.4)
-  const [guestName, setGuestName] = useState('Bauji (Baldev Singh)');
-  const [guestEmail, setGuestEmail] = useState('baldev.singh@punjab.local');
+  const [guestName, setGuestName] = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
 
   // Step 2: Ceremony Selector (PRD 4.3 Six Rites)
   const ceremonies = [
-    { key: 'Engagement', name: 'Engagement', memoryCount: '142 Memories', status: 'Completed' },
-    { key: 'Mehndi', name: 'Mehndi', memoryCount: '88 Moments', status: 'Completed' },
-    { key: 'Haldi', name: 'Haldi Lawn', memoryCount: 'Active • 320', status: 'Active Live', isDefault: true },
-    { key: 'Sangeet', name: 'Sangeet Night', memoryCount: 'Pending (7 PM)', status: 'Upcoming' },
-    { key: 'Marriage', name: 'Holy Pheras', memoryCount: 'Tomorrow', status: 'Upcoming' },
-    { key: 'Others', name: 'Candid / Table', memoryCount: 'Curated Vault', status: 'Curated' }
+    { key: 'Engagement', name: 'Engagement', status: 'Rite 01' },
+    { key: 'Mehndi', name: 'Mehndi', status: 'Rite 02' },
+    { key: 'Haldi', name: 'Haldi', status: 'Rite 03', isDefault: true },
+    { key: 'Sangeet', name: 'Sangeet', status: 'Rite 04' },
+    { key: 'Marriage', name: 'Holy Pheras', status: 'Rite 05' },
+    { key: 'Others', name: 'Reception / Candid', status: 'Rite 06' }
   ];
 
   // Step 3 & 4: Upload Queue & Compression State
@@ -63,44 +63,10 @@ function GuestUploadPortalContent() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadSuccessBanner, setUploadSuccessBanner] = useState(false);
-  const [confirmedAuthor, setConfirmedAuthor] = useState('Uncle John');
+  const [confirmedAuthor, setConfirmedAuthor] = useState('');
 
   // Right Column: Live Feed & Reactions
-  const [liveFeed, setLiveFeed] = useState<FeedCardItem[]>([
-    {
-      id: 'feed-1',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAtm2bhCNM2CXP-0DTysfeL0mLmn3hW_JL5sh0moUFIqXzksahCLNtHGeTw9GNEsqXGfWHc4g-Qkfh007Skqs7fEvDCEp6P4tSJBwjEFK8kQZWfCaV7ys-f7kSTqc05YbVM_EbUeJ6o1dtKpSZM-LAihQNHQPreD9OAod4DJ1zJjEu4za-DG3YjFO8ysFmpBr3X02AJ-LseKk4amMB3vxtgnzQ3FoTmD6VMY2bGYOw',
-      stage: 'Haldi Lawn Stage',
-      author: 'Bauji (Baldev Singh)',
-      email: 'baldev.singh@punjab.local',
-      deviceInfo: 'Just now • Canon EOS R5',
-      timeAgo: 'Just now',
-      likes: 18,
-      flowers: 4
-    },
-    {
-      id: 'feed-2',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuARYmudv2I8_HaPYAiB0j8uXFIhb2eWvx7LjfVbfbksRW5bgFlKeffut-uorqvIRzz2j8maeuzNjjtYtVq8G9ltoo3GPK5rd7co2jSDMOu-aHNFbg7eukoOn_AfrClX5DjRp4T2SzSvswIW6SgLuBAWQL-WXMUqsAiYVCbG8gcVnoPcTZmHli9eoJ0A3_1e25yhQp8m-OL-H-8aFRC3ioczAepIgiHrBLTSDiBBMAI',
-      stage: 'Groom Lawn Pavilion',
-      author: 'Chutki (Rajeshwari)',
-      email: 'chutki@london.local',
-      deviceInfo: '4m ago • iPhone 16 Pro',
-      timeAgo: '4m ago',
-      likes: 32,
-      flowers: 0
-    },
-    {
-      id: 'feed-3',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDfERpum8GTxwenz_dTA4ZZXs-UqnZoZgWfe86mb6kEQyDx-6aXfmXAeYZVsT9Q6kPtyWL7AQ_qNsOeuQrPuupahnyTX5PwlN4pZr1fXvJAxOQNdkwOCKd67kXnbah6k-onOQAMVKXpUCinE91S3YwHSBLPN8pZbc2z4HHw23nudcJuoD-6sgZHnmz0n6uNBXiUpmVUiSFhUf1o4xA59KcantMWTK7Ax58eQdZshfM',
-      stage: 'Bridal Cabana',
-      author: 'Lajwanti (Lajjo)',
-      email: 'lajjo@punjab.local',
-      deviceInfo: '12m ago • Fuji X-T5',
-      timeAgo: '12m ago',
-      likes: 45,
-      flowers: 0
-    }
-  ]);
+  const [liveFeed, setLiveFeed] = useState<FeedCardItem[]>([]);
 
   // Modals & Overlays
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
@@ -137,11 +103,7 @@ function GuestUploadPortalContent() {
           flowers: 1
         }));
 
-        setLiveFeed((prev) => {
-          const ids = new Set(realCards.map((c) => c.id));
-          const remaining = prev.filter((p) => !ids.has(p.id));
-          return [...realCards, ...remaining];
-        });
+        setLiveFeed(realCards);
 
         if (res.data.marriage?.totalPhotos) {
           setSyncedPhotosCount(res.data.marriage.totalPhotos);
@@ -665,7 +627,7 @@ function GuestUploadPortalContent() {
                               {c.name}
                             </span>
                             <span className={`text-[10px] ${isActive ? 'text-white/80 uppercase font-semibold' : 'text-neutral-500'}`}>
-                              {c.memoryCount}
+                              {c.status}
                             </span>
                           </div>
                           <AppIcon
@@ -916,7 +878,18 @@ function GuestUploadPortalContent() {
 
                   {/* Candid Cards Stream */}
                   <div className="flex flex-col gap-4">
-                    {liveFeed.map((card, idx) => (
+                    {liveFeed.length === 0 ? (
+                      <div className="p-8 text-center bg-neutral-50 rounded-2xl border border-dashed border-neutral-300 space-y-2">
+                        <div className="w-12 h-12 rounded-2xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center mx-auto">
+                          <AppIcon name="add_a_photo" size={24} />
+                        </div>
+                        <h4 className="font-editorial text-sm font-bold text-[#0A0A0C]">No Photos in Vault Yet</h4>
+                        <p className="text-xs text-neutral-500 max-w-xs mx-auto">
+                          Be the first to upload memories from {activeCeremony} to this couple&apos;s sovereign gallery!
+                        </p>
+                      </div>
+                    ) : (
+                      liveFeed.map((card, idx) => (
                       <div
                         key={card.id}
                         className="group bg-neutral-50 p-4 rounded-2xl border border-neutral-200/70 hover:shadow-md transition-all flex flex-col gap-3"
@@ -968,7 +941,7 @@ function GuestUploadPortalContent() {
                           </div>
                         </div>
                       </div>
-                    ))}
+                    )))}
                   </div>
 
                   {/* Switch to Drone & Stage Cam Feed Action */}
@@ -1002,10 +975,10 @@ function GuestUploadPortalContent() {
                         Table Standee QR Active
                       </span>
                       <h4 className="font-editorial text-base font-bold text-[#0A0A0C]">
-                        Table 4 Guest Sync
+                        Banquet Table Standee Sync
                       </h4>
                       <p className="text-xs text-neutral-500 leading-relaxed">
-                        Guests seated at Table 4 can scan directly to jump to this upload portal without entering passcodes.
+                        Guests seated at banquet tables can scan directly to jump to this upload portal without entering passcodes.
                       </p>
                     </div>
                   </div>

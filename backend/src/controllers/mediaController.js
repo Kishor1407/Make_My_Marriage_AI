@@ -284,7 +284,7 @@ const guestUploadMedia = async (req, res, next) => {
     }
 
     const { passcode, marriageCode, ceremony, uploaderName, uploader, uploaderEmail } = req.body;
-    const code = (passcode || marriageCode || 'RAHUL24').trim().toUpperCase();
+    const code = (passcode || marriageCode || 'RAJSIM24').trim().toUpperCase();
     const guestAuthor = (uploaderName || uploader || 'Wedding Guest').trim();
     const guestMail = (uploaderEmail || 'guest@wedding.local').trim();
     const ceremonyKey = (ceremony || 'HALDI').trim().toUpperCase();
@@ -425,7 +425,7 @@ const getMarriageGallery = async (req, res, next) => {
       title: f.metadata?.title || (f.metadata?.mediaType === 'VIDEO' ? `${f.metadata?.ceremony || 'Ritual'} Master Reel` : f.filename),
       duration: f.metadata?.duration || '02:30',
       posterUrl: f.metadata?.posterUrl || null,
-      plays: f.metadata?.plays || 1240,
+      plays: f.metadata?.plays || 0,
       contentType: f.contentType || (f.metadata?.mediaType === 'VIDEO' ? 'video/mp4' : 'image/png'),
       streamUrl: `/api/v1/media/stream/${f._id.toString()}`
     }));
@@ -517,7 +517,7 @@ const curateVideoReel = async (req, res, next) => {
       title: reelTitle,
       duration,
       posterUrl: posterUrl || null,
-      plays: Math.floor(Math.random() * 2000) + 500,
+      plays: 0,
       uploadDate: new Date()
     };
 

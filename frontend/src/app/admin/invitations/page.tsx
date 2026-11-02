@@ -82,7 +82,7 @@ const RITE_PRESETS: Record<CeremonyRite, RitePreset> = {
 function InvitationStudioContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const rawCode = (searchParams?.get('code') || 'RAHUL24').toUpperCase();
+  const rawCode = (searchParams?.get('code') || 'RAJSIM24').toUpperCase();
 
   // Core State
   const [marriageCode, setMarriageCode] = useState(rawCode);
@@ -98,13 +98,13 @@ function InvitationStudioContent() {
   const [toastMsg, setToastMsg] = useState<{ text: string; type?: 'info' | 'success' | 'crimson' } | null>(null);
 
   // Editable Form Inputs
-  const [coupleNames, setCoupleNames] = useState('Rahul Sharma & Anjali Mehta');
+  const [coupleNames, setCoupleNames] = useState('Raj Malhotra & Simran Singh');
   const [riteTitle, setRiteTitle] = useState(RITE_PRESETS.Haldi.title);
   const [invocation, setInvocation] = useState(RITE_PRESETS.Haldi.invocation);
   const [dateTime, setDateTime] = useState(RITE_PRESETS.Haldi.date);
   const [venue, setVenue] = useState(RITE_PRESETS.Haldi.venue);
   const [blessing, setBlessing] = useState(RITE_PRESETS.Haldi.blessing);
-  const [rsvp, setRsvp] = useState('Sharma & Mehta Families • +91 98765 43210 • passkey: RAHUL24');
+  const [rsvp, setRsvp] = useState('Malhotra & Singh Families • Passkey: RAJSIM24');
 
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -200,13 +200,12 @@ function InvitationStudioContent() {
   // Reset to default preset for active rite
   const handleResetDefaults = () => {
     const preset = RITE_PRESETS[activeRite];
-    setCoupleNames('Rahul Sharma & Anjali Mehta');
     setRiteTitle(preset.title);
     setInvocation(preset.invocation);
     setDateTime(preset.date);
     setVenue(preset.venue);
     setBlessing(preset.blessing);
-    setRsvp(`Sharma & Mehta Families • +91 98765 43210 • passkey: ${marriageCode}`);
+    setRsvp(`Family & Friends • Passkey: ${marriageCode}`);
     setIncludeQr(true);
     showToast('Reset all fields to master atelier defaults', 'info');
   };
