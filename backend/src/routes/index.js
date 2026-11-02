@@ -21,6 +21,7 @@ router.use('/auth', authRoutes);
 router.use('/marriages', marriageRoutes);
 router.use('/events', eventRoutes);
 router.use('/media', mediaRoutes);
+router.use('/photos', mediaRoutes);
 
 module.exports = router;
 

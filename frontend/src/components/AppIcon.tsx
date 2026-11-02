@@ -48,6 +48,10 @@ import {
   Link as LinkIcon,
   Database,
   Sliders,
+  Tv,
+  CheckCheck,
+  Clock,
+  CircleDot,
   LucideProps
 } from 'lucide-react';
 
@@ -177,6 +181,16 @@ export default function AppIcon({ name, className = '', size = 18, ...props }: A
     case 'architecture':
     case 'tune':
       return <Sliders className={className} size={size} {...props} />;
+    case 'live_tv':
+      return <Tv className={className} size={size} {...props} />;
+    case 'done_all':
+      return <CheckCheck className={className} size={size} {...props} />;
+    case 'task_alt':
+      return <CheckCircle2 className={className} size={size} {...props} />;
+    case 'schedule':
+      return <Clock className={className} size={size} {...props} />;
+    case 'radio_button_checked':
+      return <CircleDot className={className} size={size} {...props} />;
     default:
       // Fallback to Material Symbols ligature if not in predefined map
       return (

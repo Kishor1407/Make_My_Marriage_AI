@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { Event } = require('../models/Event');
 const Marriage = require('../models/Marriage');
 
@@ -7,15 +8,24 @@ const Marriage = require('../models/Marriage');
 const getEventsForMarriage = async (req, res, next) => {
   try {
     const { marriageId } = req.params;
+    let targetMarriageId = marriageId;
 
-    // Verify guest access restriction
-    if (req.user.role === 'GUEST' && req.user.assignedMarriageId !== marriageId) {
+    if (!mongoose.Types.ObjectId.isValid(marriageId)) {
+      const m = await Marriage.findOne({ marriageCode: marriageId.toUpperCase() });
+      if (!m) {
+        return res.status(404).json({ error: 'Marriage not found.' });
+      }
+      targetMarriageId = m._id;
+    }
+
+    // Verify guest access restriction if signed in as guest
+    if (req.user && req.user.role === 'GUEST' && req.user.assignedMarriageId !== targetMarriageId.toString()) {
       return res.status(403).json({
         error: 'You do not have permission to access events for this marriage.'
       });
     }
 
-    const events = await Event.find({ marriageId });
+    const events = await Event.find({ marriageId: targetMarriageId });
 
     res.status(200).json({
       success: true,

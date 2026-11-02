@@ -3,6 +3,31 @@ const { Event } = require('../models/Event');
 const Marriage = require('../models/Marriage');
 const { getGridFSBucket } = require('../config/db');
 
+// Helper to pipe in-memory buffer directly into GridFS
+const uploadBufferToGridFS = (bucket, file, metadata) => {
+  return new Promise((resolve, reject) => {
+    const filename = `${Date.now()}-${file.originalname || 'photo.webp'}`;
+    const uploadStream = bucket.openUploadStream(filename, {
+      contentType: file.mimetype || 'image/jpeg',
+      metadata
+    });
+
+    uploadStream.on('error', (err) => reject(err));
+    uploadStream.on('finish', (saved) => {
+      resolve(saved || {
+        _id: uploadStream.id,
+        id: uploadStream.id,
+        filename,
+        contentType: file.mimetype || 'image/jpeg',
+        uploadDate: new Date(),
+        metadata
+      });
+    });
+
+    uploadStream.end(file.buffer);
+  });
+};
+
 // @desc    Batch upload media files directly to GridFS (Max 10 files)
 // @route   POST /api/v1/media/upload/:eventId
 // @access  Admin or Authorized Guest
@@ -25,7 +50,24 @@ const uploadMedia = async (req, res, next) => {
       return res.status(403).json({ error: 'Not authorized to upload to this marriage.' });
     }
 
-    const uploadCount = req.files.length;
+    const bucket = getGridFSBucket();
+    const savedFiles = [];
+
+    for (const file of req.files) {
+      const metadata = {
+        marriageId: event.marriageId.toString(),
+        eventId: event._id.toString(),
+        mediaType,
+        uploaderName: req.user ? req.user.name : (req.body.uploaderName || 'Host Concierge'),
+        uploaderEmail: req.user ? req.user.email : (req.body.uploaderEmail || 'host@makemymarriage.com'),
+        uploadDate: new Date()
+      };
+
+      const saved = await uploadBufferToGridFS(bucket, file, metadata);
+      savedFiles.push(saved);
+    }
+
+    const uploadCount = savedFiles.length;
     const statKey = mediaType === 'VIDEO' ? 'videoCount' : 'photoCount';
     const globalStatKey = mediaType === 'VIDEO' ? 'totalVideos' : 'totalPhotos';
 
@@ -42,12 +84,13 @@ const uploadMedia = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: `Successfully uploaded ${uploadCount} file(s).`,
-      files: req.files.map((file) => ({
-        id: file.id,
+      files: savedFiles.map((file) => ({
+        id: file._id.toString(),
         filename: file.filename,
         contentType: file.contentType,
         uploadDate: file.uploadDate,
-        metadata: file.metadata
+        metadata: file.metadata,
+        streamUrl: `/api/v1/media/stream/${file._id.toString()}`
       }))
     });
   } catch (error) {
@@ -190,9 +233,175 @@ const deleteMedia = async (req, res, next) => {
   }
 };
 
+// @desc    Guest QR Photo Dump upload with Name & Email attribution (PRD 4.4)
+// @route   POST /api/v1/media/guest-upload  AND  POST /api/v1/photos/upload
+// @access  Public (Guest Standee QR Flow)
+const guestUploadMedia = async (req, res, next) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: 'Please attach at least one photo to upload.' });
+    }
+
+    const { passcode, marriageCode, ceremony, uploaderName, uploader, uploaderEmail } = req.body;
+    const code = (passcode || marriageCode || 'RAHUL24').trim().toUpperCase();
+    const guestAuthor = (uploaderName || uploader || 'Wedding Guest').trim();
+    const guestMail = (uploaderEmail || 'guest@wedding.local').trim();
+    const ceremonyKey = (ceremony || 'HALDI').trim().toUpperCase();
+
+    // Find Marriage by passcode
+    let marriage = await Marriage.findOne({ marriageCode: code });
+    if (!marriage && mongoose.Types.ObjectId.isValid(code)) {
+      marriage = await Marriage.findById(code);
+    }
+
+    const uploadCount = req.files.length;
+    const db = mongoose.connection.db;
+
+    let eventId = null;
+    let marriageId = marriage ? marriage._id.toString() : null;
+
+    if (marriage) {
+      // Find or create Event for this ceremony
+      let event = await Event.findOne({ marriageId: marriage._id, eventType: ceremonyKey });
+      if (!event) {
+        try {
+          event = await Event.create({
+            marriageId: marriage._id,
+            eventType: ceremonyKey,
+            eventStats: { photoCount: 0, videoCount: 0 }
+          });
+        } catch {
+          event = await Event.findOne({ marriageId: marriage._id, eventType: ceremonyKey });
+        }
+      }
+
+      if (event) {
+        eventId = event._id.toString();
+        // Increment event photo count
+        await Event.findByIdAndUpdate(event._id, {
+          $inc: { 'eventStats.photoCount': uploadCount }
+        });
+      }
+
+      // Increment marriage total photos & guests engaged
+      await Marriage.findByIdAndUpdate(marriage._id, {
+        $inc: { 'globalStats.totalPhotos': uploadCount, 'globalStats.totalGuestsEngaged': 1 }
+      });
+    }
+
+    const bucket = getGridFSBucket();
+    const savedFiles = [];
+
+    // Save each file buffer directly into GridFS with guest attribution metadata
+    for (const file of req.files) {
+      const metadata = {
+        marriageId,
+        marriageCode: code,
+        eventId,
+        ceremony: ceremonyKey,
+        uploaderName: guestAuthor,
+        uploaderEmail: guestMail,
+        mediaType: 'PHOTO',
+        uploadDate: new Date()
+      };
+
+      const saved = await uploadBufferToGridFS(bucket, file, metadata);
+      savedFiles.push(saved);
+    }
+
+    res.status(201).json({
+      success: true,
+      message: `Successfully uploaded ${savedFiles.length} memory(s) attributed to ${guestAuthor}!`,
+      count: savedFiles.length,
+      files: savedFiles.map((file) => ({
+        id: (file._id || file.id).toString(),
+        filename: file.filename,
+        uploaderName: guestAuthor,
+        uploaderEmail: guestMail,
+        ceremony: ceremonyKey,
+        streamUrl: `/api/v1/media/stream/${(file._id || file.id).toString()}`
+      }))
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get all photos uploaded for a marriage gallery (with attribution badges)
+// @route   GET /api/v1/media/gallery/:marriageCode
+// @access  Public / Guest
+const getMarriageGallery = async (req, res, next) => {
+  try {
+    const { marriageCode } = req.params;
+    const { ceremony, limit = 60 } = req.query;
+
+    let marriage = null;
+    if (mongoose.Types.ObjectId.isValid(marriageCode)) {
+      marriage = await Marriage.findById(marriageCode);
+    }
+    if (!marriage) {
+      marriage = await Marriage.findOne({ marriageCode: marriageCode.toUpperCase() });
+    }
+
+    const db = mongoose.connection.db;
+    const query = {
+      'metadata.mediaType': 'PHOTO'
+    };
+
+    if (marriage) {
+      query.$or = [
+        { 'metadata.marriageCode': marriage.marriageCode },
+        { 'metadata.marriageId': marriage._id.toString() }
+      ];
+    } else {
+      query['metadata.marriageCode'] = marriageCode.toUpperCase();
+    }
+
+    if (ceremony && ceremony.toUpperCase() !== 'ALL') {
+      query['metadata.ceremony'] = ceremony.toUpperCase();
+    }
+
+    const files = await db
+      .collection('uploads.files')
+      .find(query)
+      .sort({ uploadDate: -1, _id: -1 })
+      .limit(Number(limit))
+      .toArray();
+
+    res.status(200).json({
+      success: true,
+      count: files.length,
+      marriage: marriage ? {
+        id: marriage._id,
+        partnerOneName: marriage.partnerOneName,
+        partnerTwoName: marriage.partnerTwoName,
+        code: marriage.marriageCode,
+        qrCodeUrl: marriage.qrCodeUrl,
+        venue: marriage.venue,
+        dates: marriage.dates,
+        status: marriage.status,
+        totalPhotos: marriage.globalStats?.totalPhotos || files.length
+      } : null,
+      photos: files.map((f) => ({
+        id: f._id.toString(),
+        filename: f.filename,
+        uploadDate: f.uploadDate || f.metadata?.uploadDate,
+        uploaderName: f.metadata?.uploaderName || 'Wedding Guest',
+        uploaderEmail: f.metadata?.uploaderEmail || 'guest@wedding.local',
+        ceremony: f.metadata?.ceremony || 'HALDI',
+        streamUrl: `/api/v1/media/stream/${f._id.toString()}`
+      }))
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   uploadMedia,
+  guestUploadMedia,
   getEventMedia,
+  getMarriageGallery,
   streamMedia,
   deleteMedia
 };

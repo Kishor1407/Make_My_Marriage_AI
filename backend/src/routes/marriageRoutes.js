@@ -16,8 +16,8 @@ router.get('/', getAllMarriages);
 // Admin-only creation
 router.post('/', protect, requireAdmin, createMarriage);
 
-// Single wedding dashboard (Admin or authenticated guest)
-router.get('/:marriageId', protect, getMarriageById);
+// Single wedding dashboard (Accessible by passcode or ID)
+router.get('/:marriageId', getMarriageById);
 
 // Admin-only update
 router.put('/:marriageId', protect, requireAdmin, updateMarriage);
@@ -26,6 +26,6 @@ router.put('/:marriageId', protect, requireAdmin, updateMarriage);
 router.delete('/:marriageId', protect, requireAdmin, deleteMarriage);
 
 // Get events for marriage
-router.get('/:marriageId/events', protect, getEventsForMarriage);
+router.get('/:marriageId/events', getEventsForMarriage);
 
 module.exports = router;

@@ -111,6 +111,17 @@ const getMarriageById = async (req, res, next) => {
       return res.status(404).json({ error: 'Marriage not found.' });
     }
 
+    // Ensure QR code URL exists
+    if (!marriage.qrCodeUrl) {
+      try {
+        const frontendBaseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        marriage.qrCodeUrl = await generateQRCodeDataUrl(`${frontendBaseUrl}/guest/upload?code=${marriage.marriageCode}`);
+        await marriage.save();
+      } catch (err) {
+        console.error('Error generating fallback QR code:', err);
+      }
+    }
+
     res.status(200).json({
       success: true,
       data: marriage

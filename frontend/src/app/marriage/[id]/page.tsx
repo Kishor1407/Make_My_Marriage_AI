@@ -434,13 +434,12 @@ export default function GuestDashboardPage() {
       {toastMsg && (
         <div className="fixed top-20 right-5 z-[100] flex flex-col gap-2.5 animate-in slide-in-from-right-4 duration-300">
           <div
-            className={`px-4 py-3 rounded-2xl shadow-xl border text-xs font-semibold flex items-center gap-2.5 ${
-              toastMsg.type === 'success'
-                ? 'bg-white border-emerald-500/40 text-emerald-600'
-                : toastMsg.type === 'crimson'
+            className={`px-4 py-3 rounded-2xl shadow-xl border text-xs font-semibold flex items-center gap-2.5 ${toastMsg.type === 'success'
+              ? 'bg-white border-emerald-500/40 text-emerald-600'
+              : toastMsg.type === 'crimson'
                 ? 'bg-white border-[#C81E38]/50 text-[#C81E38]'
                 : 'bg-white border-neutral-200 text-[#0A0A0C]'
-            }`}
+              }`}
           >
             <AppIcon
               name={toastMsg.type === 'success' ? 'check_circle' : toastMsg.type === 'crimson' ? 'error' : 'info'}
@@ -721,11 +720,10 @@ export default function GuestDashboardPage() {
             <div className="flex items-center gap-2 min-w-max p-1.5 bg-white rounded-2xl border border-neutral-200/80 shadow-xs">
               <button
                 onClick={() => setActiveEvent('engagement')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${
-                  activeEvent === 'engagement'
-                    ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                    : 'text-neutral-600 hover:text-neutral-950'
-                }`}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'engagement'
+                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
+                  : 'text-neutral-600 hover:text-neutral-950'
+                  }`}
               >
                 <AppIcon name="diamond" size={16} />
                 <span>Engagement</span>
@@ -734,11 +732,10 @@ export default function GuestDashboardPage() {
 
               <button
                 onClick={() => setActiveEvent('mehndi')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${
-                  activeEvent === 'mehndi'
-                    ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                    : 'text-neutral-600 hover:text-neutral-950'
-                }`}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'mehndi'
+                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
+                  : 'text-neutral-600 hover:text-neutral-950'
+                  }`}
               >
                 <AppIcon name="spa" size={16} />
                 <span>Mehndi</span>
@@ -747,11 +744,10 @@ export default function GuestDashboardPage() {
 
               <button
                 onClick={() => setActiveEvent('haldi')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs transition-all ${
-                  activeEvent === 'haldi'
-                    ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                    : 'text-neutral-600 hover:text-neutral-950 font-medium'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs transition-all ${activeEvent === 'haldi'
+                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
+                  : 'text-neutral-600 hover:text-neutral-950 font-medium'
+                  }`}
               >
                 <AppIcon name="wb_sunny" size={16} className="text-white" />
                 <span>Haldi</span>
@@ -760,11 +756,10 @@ export default function GuestDashboardPage() {
 
               <button
                 onClick={() => setActiveEvent('sangeet')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${
-                  activeEvent === 'sangeet'
-                    ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                    : 'text-neutral-600 hover:text-neutral-950'
-                }`}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'sangeet'
+                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
+                  : 'text-neutral-600 hover:text-neutral-950'
+                  }`}
               >
                 <AppIcon name="music_note" size={16} />
                 <span>Sangeet</span>
@@ -773,11 +768,10 @@ export default function GuestDashboardPage() {
 
               <button
                 onClick={() => setActiveEvent('marriage')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${
-                  activeEvent === 'marriage'
-                    ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                    : 'text-neutral-600 hover:text-neutral-950'
-                }`}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'marriage'
+                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
+                  : 'text-neutral-600 hover:text-neutral-950'
+                  }`}
               >
                 <AppIcon name="favorite" size={16} fill="currentColor" />
                 <span>Wedding</span>
@@ -786,11 +780,10 @@ export default function GuestDashboardPage() {
 
               <button
                 onClick={() => setActiveEvent('others')}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${
-                  activeEvent === 'others'
-                    ? 'bg-[#c81e38] text-white font-bold shadow-sm'
-                    : 'text-neutral-600 hover:text-neutral-950'
-                }`}
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all ${activeEvent === 'others'
+                  ? 'bg-[#c81e38] text-white font-bold shadow-sm'
+                  : 'text-neutral-600 hover:text-neutral-950'
+                  }`}
               >
                 <AppIcon name="interests" size={16} />
                 <span>Afterparty</span>
@@ -935,22 +928,20 @@ export default function GuestDashboardPage() {
               <div className="flex items-center gap-1 p-1 bg-white rounded-xl border border-neutral-200/80 shadow-xs w-fit">
                 <button
                   onClick={() => setActiveMediaTab('photos')}
-                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeMediaTab === 'photos'
-                      ? 'bg-[#c81e38] text-white shadow-sm'
-                      : 'text-neutral-600 hover:text-neutral-900'
-                  }`}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${activeMediaTab === 'photos'
+                    ? 'bg-[#c81e38] text-white shadow-sm'
+                    : 'text-neutral-600 hover:text-neutral-900'
+                    }`}
                 >
                   <AppIcon name="image" size={16} />
                   <span>Photos ({moments.length * 35})</span>
                 </button>
                 <button
                   onClick={() => setActiveMediaTab('videos')}
-                  className={`px-3.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${
-                    activeMediaTab === 'videos'
-                      ? 'bg-[#c81e38] text-white shadow-sm'
-                      : 'text-neutral-600 hover:text-neutral-900'
-                  }`}
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${activeMediaTab === 'videos'
+                    ? 'bg-[#c81e38] text-white shadow-sm'
+                    : 'text-neutral-600 hover:text-neutral-900'
+                    }`}
                 >
                   <AppIcon name="videocam" size={16} />
                   <span>Videos (3)</span>
@@ -960,41 +951,37 @@ export default function GuestDashboardPage() {
               <div className="flex items-center gap-1.5 flex-wrap">
                 <button
                   onClick={() => setActiveFilter('all')}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                    activeFilter === 'all'
-                      ? 'bg-[#c81e38] text-white shadow-sm'
-                      : 'bg-white text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 border border-neutral-200/80 shadow-xs'
-                  }`}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${activeFilter === 'all'
+                    ? 'bg-[#c81e38] text-white shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 border border-neutral-200/80 shadow-xs'
+                    }`}
                 >
                   All
                 </button>
                 <button
                   onClick={() => setActiveFilter('bride')}
-                  className={`px-3.5 py-1.5 rounded-full text-xs transition-all ${
-                    activeFilter === 'bride'
-                      ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
-                      : 'bg-white text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 border border-neutral-200/80 shadow-xs font-medium'
-                  }`}
+                  className={`px-3.5 py-1.5 rounded-full text-xs transition-all ${activeFilter === 'bride'
+                    ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 border border-neutral-200/80 shadow-xs font-medium'
+                    }`}
                 >
                   Bride Side
                 </button>
                 <button
                   onClick={() => setActiveFilter('groom')}
-                  className={`px-3.5 py-1.5 rounded-full text-xs transition-all ${
-                    activeFilter === 'groom'
-                      ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
-                      : 'bg-white text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 border border-neutral-200/80 shadow-xs font-medium'
-                  }`}
+                  className={`px-3.5 py-1.5 rounded-full text-xs transition-all ${activeFilter === 'groom'
+                    ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 border border-neutral-200/80 shadow-xs font-medium'
+                    }`}
                 >
                   Groom Side
                 </button>
                 <button
                   onClick={() => setActiveFilter('favorites')}
-                  className={`px-3.5 py-1.5 rounded-full text-xs flex items-center gap-1 transition-all ${
-                    activeFilter === 'favorites'
-                      ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
-                      : 'bg-white text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 border border-neutral-200/80 shadow-xs font-medium'
-                  }`}
+                  className={`px-3.5 py-1.5 rounded-full text-xs flex items-center gap-1 transition-all ${activeFilter === 'favorites'
+                    ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 border border-neutral-200/80 shadow-xs font-medium'
+                    }`}
                 >
                   <AppIcon name="star" size={14} className="text-[#c81e38]" />
                   <span>Favorites</span>
@@ -1023,11 +1010,10 @@ export default function GuestDashboardPage() {
                     <div className="flex justify-end gap-1.5">
                       <button
                         onClick={(e) => handleToggleMomentLike(idx, e)}
-                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                          moment.liked
-                            ? 'bg-[#c81e38] text-white'
-                            : 'bg-white/20 backdrop-blur-md text-white hover:bg-[#c81e38]'
-                        }`}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${moment.liked
+                          ? 'bg-[#c81e38] text-white'
+                          : 'bg-white/20 backdrop-blur-md text-white hover:bg-[#c81e38]'
+                          }`}
                       >
                         <AppIcon
                           name="favorite"
@@ -1185,9 +1171,8 @@ export default function GuestDashboardPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={(e) => handleToggleMomentLike(lightboxIndex, e)}
-                  className={`w-9 h-9 rounded-full flex items-center justify-center text-white transition-colors ${
-                    filteredMoments[lightboxIndex]?.liked ? 'bg-[#c81e38]' : 'bg-white/10 hover:bg-[#c81e38]'
-                  }`}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center text-white transition-colors ${filteredMoments[lightboxIndex]?.liked ? 'bg-[#c81e38]' : 'bg-white/10 hover:bg-[#c81e38]'
+                    }`}
                   title="Favorite"
                 >
                   <AppIcon
@@ -1317,21 +1302,29 @@ export default function GuestDashboardPage() {
               )}
             </div>
 
-            <div className="p-4 bg-neutral-50 border-t border-neutral-200 flex justify-end gap-2">
-              <button
-                disabled={isUploading}
-                onClick={() => setIsUploadModalOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-neutral-600 hover:text-black"
+            <div className="p-4 bg-neutral-50 border-t border-neutral-200 flex items-center justify-between gap-2">
+              <Link
+                href={`/guest/upload?code=${passcode}`}
+                className="text-xs text-[#c81e38] font-bold hover:underline flex items-center gap-1"
               >
-                Cancel
-              </button>
-              <button
-                disabled={isUploading}
-                onClick={handleStartUpload}
-                className="px-5 py-2 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-md disabled:opacity-50"
-              >
-                {isUploading ? 'Uploading...' : 'Start Upload'}
-              </button>
+                Full Upload Studio ↗
+              </Link>
+              <div className="flex items-center gap-2">
+                <button
+                  disabled={isUploading}
+                  onClick={() => setIsUploadModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-neutral-600 hover:text-black"
+                >
+                  Cancel
+                </button>
+                <button
+                  disabled={isUploading}
+                  onClick={handleStartUpload}
+                  className="px-5 py-2 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-md disabled:opacity-50"
+                >
+                  {isUploading ? 'Uploading...' : 'Start Upload'}
+                </button>
+              </div>
             </div>
           </div>
         </div>

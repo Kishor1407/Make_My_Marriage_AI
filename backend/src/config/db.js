@@ -10,21 +10,35 @@ try {
 
 let gridfsBucket = null;
 
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/make_my_marriage');
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+const connectDB = async (retries = 5) => {
+  const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/make_my_marriage';
 
-    // Initialize GridFS Bucket for media storage
-    gridfsBucket = new mongoose.mongo.GridFSBucket(conn.connection.db, {
-      bucketName: 'uploads'
-    });
-    console.log('GridFS Bucket initialized for uploads');
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      console.log(`Connecting to MongoDB Atlas (Attempt ${attempt}/${retries})...`);
+      const conn = await mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 30000,
+        socketTimeoutMS: 45000
+      });
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
 
-    return conn;
-  } catch (error) {
-    console.error(`Database Connection Error: ${error.message}`);
-    process.exit(1);
+      // Initialize GridFS Bucket for media storage
+      gridfsBucket = new mongoose.mongo.GridFSBucket(conn.connection.db, {
+        bucketName: 'uploads'
+      });
+      console.log('GridFS Bucket initialized for uploads');
+
+      return conn;
+    } catch (error) {
+      console.error(`Database Connection Attempt ${attempt} Failed: ${error.message}`);
+      if (attempt < retries) {
+        console.log('Retrying in 2 seconds...');
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } else {
+        console.error('All database connection attempts exhausted.');
+        process.exit(1);
+      }
+    }
   }
 };
 
