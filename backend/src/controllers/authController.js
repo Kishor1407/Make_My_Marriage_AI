@@ -89,36 +89,37 @@ const adminLogin = async (req, res, next) => {
   }
 };
 
-// @desc    Guest Unlock (Login via Marriage Code)
+// @desc    Guest Unlock (Instant Zero-Password Login via Name/Email & Marriage Code)
 // @route   POST /api/v1/auth/guest/login
 // @access  Public
 const guestLogin = async (req, res, next) => {
   try {
-    const { marriageCode } = req.body;
+    const { name, email, marriageCode } = req.body;
 
-    if (!marriageCode) {
-      return res.status(400).json({ error: 'Please provide a marriage passcode.' });
+    let marriage = null;
+    if (marriageCode) {
+      marriage = await Marriage.findOne({
+        marriageCode: marriageCode.trim().toUpperCase()
+      });
+
+      if (!marriage && !name && !email) {
+        return res.status(404).json({ error: 'Invalid marriage code. Marriage not found.' });
+      }
+
+      if (marriage) {
+        // Update guest engagement count
+        await Marriage.findByIdAndUpdate(marriage._id, {
+          $inc: { 'globalStats.totalGuestsEngaged': 1 }
+        });
+      }
     }
-
-    const marriage = await Marriage.findOne({
-      marriageCode: marriageCode.trim().toUpperCase()
-    });
-
-    if (!marriage) {
-      return res.status(404).json({ error: 'Invalid marriage code. Marriage not found.' });
-    }
-
-    // Update guest engagement count
-    await Marriage.findByIdAndUpdate(marriage._id, {
-      $inc: { 'globalStats.totalGuestsEngaged': 1 }
-    });
 
     const guestPayload = {
       _id: `guest_${Date.now()}`,
-      name: 'Guest',
-      email: `guest@${marriage.marriageCode.toLowerCase()}.local`,
+      name: name?.trim() || 'Honored Guest',
+      email: email?.trim().toLowerCase() || (marriage ? `guest@${marriage.marriageCode.toLowerCase()}.local` : 'guest@makemymarriage.com'),
       role: 'GUEST',
-      assignedMarriageId: marriage._id
+      assignedMarriageId: marriage ? marriage._id : null
     };
 
     sendTokenResponse(guestPayload, 200, res);

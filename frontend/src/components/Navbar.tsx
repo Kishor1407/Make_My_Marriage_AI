@@ -1,46 +1,87 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-import { logout } from '@/store/slices/authSlice';
+import { setUser, logout } from '@/store/slices/authSlice';
 import api from '@/lib/api';
 import AppIcon from '@/components/AppIcon';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
-  const [isQrScannerOpen, setIsQrScannerOpen] = useState(false);
-  const [scannedCode, setScannedCode] = useState('');
 
-  // Hide the global navbar on the admin dashboard since it has its own bespoke luxury sidebar
+  const [guestSession, setGuestSession] = useState<{ name: string; email: string; marriageCode?: string } | null>(null);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [qrCodeInput, setQrCodeInput] = useState('');
+
+  // Rehydrate guest session from localStorage on mount & listen for storage events
+  useEffect(() => {
+    const updateSession = () => {
+      if (typeof window !== 'undefined') {
+        const storedGuest = localStorage.getItem('mmm_guest');
+        if (storedGuest) {
+          try {
+            setGuestSession(JSON.parse(storedGuest));
+          } catch {
+            setGuestSession(null);
+          }
+        } else {
+          setGuestSession(null);
+        }
+      }
+    };
+
+    updateSession();
+    window.addEventListener('storage', updateSession);
+    return () => window.removeEventListener('storage', updateSession);
+  }, [pathname, user]);
+
+  // Hide the global navbar on the admin dashboard since it has its own bespoke luxury dual-tab workspace
   if (pathname?.startsWith('/admin/dashboard')) {
     return null;
   }
 
-  const handleLogout = async () => {
+  // Handle Exit / Switch Role: Return to Gateway
+  const handleExitRole = async () => {
     try {
       await api.post('/auth/logout');
     } catch {
       // ignore
     }
     if (typeof window !== 'undefined') {
+      localStorage.removeItem('mmm_guest');
       localStorage.removeItem('mmm_token');
     }
+    setGuestSession(null);
     dispatch(logout());
+    router.push('/');
   };
+
+  const handleScanQr = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (qrCodeInput.trim()) {
+      router.push(`/marriage/${qrCodeInput.trim().toLowerCase()}`);
+      setIsQrModalOpen(false);
+    }
+  };
+
+  const isAdmin = user?.role === 'ADMIN';
+  const isGuest = !!guestSession || user?.role === 'GUEST';
+  const guestDisplayName = guestSession?.name || user?.name || 'Honored Guest';
 
   return (
     <>
-      <header className="sticky top-0 left-0 w-full z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200 transition-colors shadow-sm">
+      <header className="sticky top-0 left-0 w-full z-40 bg-white/95 backdrop-blur-md border-b border-neutral-200 transition-colors shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-          {/* Brand */}
+          {/* Brand Presentation */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-lg bg-[#c81e38] flex items-center justify-center text-white font-bold shadow-md shadow-[#c81e38]/20 group-hover:scale-105 transition-transform">
+              <div className="w-8 h-8 rounded-xl bg-[#c81e38] flex items-center justify-center text-white font-bold shadow-md shadow-[#c81e38]/20 group-hover:scale-105 transition-transform">
                 <AppIcon name="diamond" size={18} className="text-white" />
               </div>
               <div className="flex flex-col">
@@ -48,157 +89,149 @@ export default function Navbar() {
                   MAKE MY MARRIAGE
                 </span>
                 <span className="text-[9px] tracking-widest uppercase font-semibold text-[#c81e38]">
-                  Luxury Wedding Cloud
+                  {isAdmin ? 'Sovereign Admin Master' : 'Celebration Access'}
                 </span>
               </div>
             </Link>
-            <span className="hidden sm:inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-[#c81e38]/10 text-[#c81e38] border border-[#c81e38]/30">
-              Guest Access • ₹0 Cloud
-            </span>
           </div>
 
-          {/* Nav links */}
-          <nav className="hidden md:flex items-center gap-1 bg-neutral-100 p-1 rounded-xl border border-neutral-200">
-            <Link
-              href="/"
-              className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
-                pathname === '/'
-                  ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
-                  : 'font-medium text-neutral-600 hover:text-neutral-900'
-              }`}
-            >
-              Explore Marriages
-            </Link>
-            <Link
-              href="/marriage/rajsim24"
-              className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
-                pathname?.startsWith('/marriage')
-                  ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
-                  : 'font-medium text-neutral-600 hover:text-neutral-900'
-              }`}
-            >
-              Guest Experience
-            </Link>
-            <Link
-              href="/guest/upload?code=RAJSIM24"
-              className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
-                pathname?.startsWith('/guest')
-                  ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
-                  : 'font-medium text-neutral-600 hover:text-neutral-900'
-              }`}
-            >
-              QR Photo Dump
-            </Link>
-            <Link
-              href="/marriage/rajsim24/vault"
-              className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
-                pathname?.includes('/vault')
-                  ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
-                  : 'font-medium text-neutral-600 hover:text-neutral-900'
-              }`}
-            >
-              Media Vault
-            </Link>
-            <Link
-              href="/admin/dashboard"
-              className="px-3.5 py-1.5 text-xs font-medium text-neutral-600 hover:text-neutral-900 rounded-lg transition-colors"
-            >
-              Admin Portal
-            </Link>
-          </nav>
-
-          {/* Action buttons */}
-          <div className="flex items-center gap-2.5">
-            <button
-              onClick={() => setIsQrScannerOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-neutral-50 text-xs font-semibold text-neutral-800 border border-neutral-200 transition-colors shadow-xs cursor-pointer"
-              title="Scan Table Standee QR Code"
-            >
-              <AppIcon name="qr_code_scanner" size={16} className="text-[#c81e38]" />
-              <span className="hidden sm:inline">Scan Table QR</span>
-            </button>
-
-            {user?.role === 'ADMIN' ? (
-              <div className="flex items-center gap-2">
+          {/* Center: Simplified Navigation (NO CLUTTER) */}
+          <nav className="flex items-center gap-1 sm:gap-2">
+            {isAdmin ? (
+              /* Admin Dual-View Switch Tabs */
+              <div className="flex items-center gap-1 bg-neutral-100 p-1 rounded-xl border border-neutral-200">
                 <Link
                   href="/admin/dashboard"
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-xs font-bold text-white shadow-sm transition-all"
+                  className="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-black text-white shadow-xs flex items-center gap-1.5"
                 >
-                  <div className="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center text-[10px] font-bold">
-                    {user.name.slice(0, 1).toUpperCase()}
-                  </div>
-                  <span className="hidden sm:inline">{user.name.split(' ')[0]}</span>
-                  <span className="text-[10px] font-normal opacity-90">(Host)</span>
+                  <AppIcon name="admin_panel_settings" size={15} />
+                  <span>Dashboard &amp; Marriages</span>
                 </Link>
-                <button
-                  onClick={handleLogout}
-                  className="w-8 h-8 rounded-xl flex items-center justify-center text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 transition-colors border border-neutral-200 cursor-pointer"
-                  title="Sign Out"
+                <Link
+                  href="/marriage/rajsim24"
+                  className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-neutral-700 hover:text-black transition-colors flex items-center gap-1.5"
                 >
-                  <AppIcon name="logout" size={16} />
+                  <AppIcon name="visibility" size={15} className="text-[#c81e38]" />
+                  <span>Live Guest View</span>
+                </Link>
+              </div>
+            ) : (
+              /* Guest Navigation: Only Celebrations Anchor */
+              <Link
+                href="/"
+                className="relative flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#0A0A0C] hover:text-[#c81e38] transition-colors"
+              >
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#c81e38] animate-pulse"></span>
+                <span>Celebrations</span>
+              </Link>
+            )}
+          </nav>
+
+          {/* Right Corner: Role Status Pill & Action */}
+          <div className="flex items-center gap-2.5">
+            {/* Quick Standee QR Scanner */}
+            <button
+              onClick={() => setIsQrModalOpen(true)}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-50 hover:bg-neutral-100 text-xs font-semibold text-neutral-700 border border-neutral-200 transition-colors shadow-2xs"
+              title="Enter wedding passcode or scan banquet table standee"
+            >
+              <AppIcon name="qr_code_scanner" size={15} className="text-[#c81e38]" />
+              <span>Table Standee</span>
+            </button>
+
+            {isAdmin ? (
+              /* Admin Identity & Logout */
+              <div className="flex items-center gap-2">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-100 border border-neutral-200 text-xs font-bold text-[#0A0A0C]">
+                  <span className="w-2 h-2 rounded-full bg-[#c81e38]"></span>
+                  <span>Master Admin</span>
+                </div>
+                <button
+                  onClick={handleExitRole}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-bold transition-all shadow-xs"
+                  title="Logout and return to Gateway"
+                >
+                  <AppIcon name="logout" size={14} />
+                  <span>Exit to Gateway</span>
+                </button>
+              </div>
+            ) : isGuest ? (
+              /* Guest Identity & Exit / Switch Role Button (STRICTLY NO ADMIN LINK) */
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-50 border border-neutral-200 text-xs text-neutral-800">
+                  <span className="w-2 h-2 rounded-full bg-[#c81e38] animate-pulse"></span>
+                  <span className="font-semibold text-neutral-600 hidden md:inline">Guest:</span>
+                  <span className="font-bold text-[#0A0A0C] truncate max-w-[120px]">{guestDisplayName}</span>
+                </div>
+                <button
+                  onClick={handleExitRole}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-neutral-100 text-neutral-800 hover:text-black border border-neutral-200 text-xs font-semibold transition-all shadow-2xs"
+                  title="Return to Login Gateway to change role or enter as host"
+                >
+                  <AppIcon name="sync_alt" size={14} className="text-[#c81e38]" />
+                  <span className="hidden sm:inline">Exit / Switch Role</span>
+                  <span className="sm:hidden">Exit</span>
                 </button>
               </div>
             ) : (
+              /* Unauthenticated Visitor */
               <Link
-                href="/admin/login"
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-sm transition-all active:scale-95"
+                href="/"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-sm transition-all"
               >
-                <AppIcon name="lock" size={15} />
-                <span>Host Sign In</span>
+                <span>Enter Celebrations</span>
+                <span>🌸</span>
               </Link>
             )}
           </div>
         </div>
       </header>
 
-      {/* Standee QR Scanner Modal */}
-      {isQrScannerOpen && (
+      {/* Standee QR Access Passcode Modal */}
+      {isQrModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md bg-white rounded-2xl border border-neutral-200 p-6 shadow-2xl relative text-[#0a0a0c]">
-            <button
-              onClick={() => setIsQrScannerOpen(false)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center text-neutral-600 hover:text-black cursor-pointer"
-            >
-              <AppIcon name="close" size={16} />
-            </button>
-
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-[#c81e38]/10 text-[#c81e38] flex items-center justify-center border border-[#c81e38]/30">
+          <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl border border-neutral-200 p-6 text-[#0A0A0C]">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
                 <AppIcon name="qr_code_scanner" size={20} className="text-[#c81e38]" />
+                <h3 className="font-editorial font-bold text-base">Banquet Standee Sync</h3>
               </div>
-              <div>
-                <h3 className="font-editorial text-lg font-bold text-[#0a0a0c]">Scan Dining Standee QR</h3>
-                <p className="text-[11px] text-neutral-500">Position camera over your dining table standee card</p>
-              </div>
+              <button
+                onClick={() => setIsQrModalOpen(false)}
+                className="w-7 h-7 rounded-full flex items-center justify-center text-neutral-400 hover:text-black"
+              >
+                <AppIcon name="close" size={18} />
+              </button>
             </div>
-
-            <div className="relative aspect-square max-w-[280px] mx-auto rounded-xl overflow-hidden bg-neutral-900 border-2 border-[#c81e38]/60 flex items-center justify-center my-4 group shadow-inner">
-              <div className="absolute inset-4 border border-dashed border-white/40 rounded-lg pointer-events-none flex items-center justify-center">
-                <div className="w-full h-0.5 bg-gradient-to-r from-transparent via-[#c81e38] to-transparent animate-pulse shadow-[0_0_12px_#c81e38]"></div>
-              </div>
-              <p className="text-xs text-white/60 text-center px-6">Camera Viewfinder Active<br /><span className="text-[10px] text-[#ffb3b3]">Hold steady over table QR code</span></p>
-            </div>
-
-            <div className="space-y-3">
-              <label className="block text-xs font-semibold text-neutral-700">Or type 6-character Passcode manually:</label>
+            <p className="text-xs text-neutral-500 mb-4">
+              Enter the 8-character passcode printed on your Banquet Table Acrylic Standee:
+            </p>
+            <form onSubmit={handleScanQr} className="space-y-4">
+              <input
+                type="text"
+                required
+                maxLength={8}
+                placeholder="e.g. RAJSIM24"
+                value={qrCodeInput}
+                onChange={(e) => setQrCodeInput(e.target.value.toUpperCase())}
+                className="w-full h-12 px-3 bg-neutral-50 border border-neutral-300 rounded-xl text-center text-base font-bold tracking-widest uppercase focus:outline-none focus:border-[#c81e38] focus:bg-white"
+              />
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  maxLength={8}
-                  placeholder="e.g. RAHUL24"
-                  value={scannedCode}
-                  onChange={(e) => setScannedCode(e.target.value.toUpperCase())}
-                  className="flex-1 h-10 px-3 bg-neutral-50 border border-neutral-300 rounded-xl text-center text-sm font-bold tracking-widest text-[#0a0a0c] uppercase focus:outline-none focus:border-[#c81e38] focus:bg-white"
-                />
-                <Link
-                  href={`/marriage/${scannedCode.toLowerCase() || 'rahul24'}`}
-                  onClick={() => setIsQrScannerOpen(false)}
-                  className="px-4 h-10 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold flex items-center justify-center transition-all shadow-sm"
+                <button
+                  type="button"
+                  onClick={() => setIsQrModalOpen(false)}
+                  className="flex-1 h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-xs font-semibold"
                 >
-                  Unlock
-                </Link>
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 h-10 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-sm"
+                >
+                  Enter Vault
+                </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       )}

@@ -63,6 +63,7 @@ export default function GuestDashboardPage() {
   const [isReelModalOpen, setIsReelModalOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+  const [isStandeeModalOpen, setIsStandeeModalOpen] = useState(false);
   const [isSwitchCodeModalOpen, setIsSwitchCodeModalOpen] = useState(false);
   const [newSwitchCode, setNewSwitchCode] = useState('');
   const [toastMsg, setToastMsg] = useState<{ text: string; type?: 'info' | 'success' | 'crimson' } | null>(null);
@@ -81,6 +82,17 @@ export default function GuestDashboardPage() {
   const [customInviteUrl, setCustomInviteUrl] = useState<string | null>(null);
 
   useEffect(() => {
+    // Pre-fill uploader name from guest session if active
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('mmm_guest');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (parsed.name) setUploaderName(parsed.name);
+        } catch {}
+      }
+    }
+
     if (passcode) {
       // 1. Fetch real marriage vault details from MongoDB Atlas
       api.get(`/marriages/${passcode}`)
@@ -436,6 +448,15 @@ export default function GuestDashboardPage() {
               >
                 <AppIcon name="favorite" size={16} className="text-[#c81e38]" fill="currentColor" />
                 <span>Shower Blessings</span>
+              </button>
+
+              <button
+                onClick={() => setIsStandeeModalOpen(true)}
+                className="px-3.5 py-2 rounded-xl bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-semibold flex items-center gap-1.5 border border-neutral-200 transition-colors shadow-xs cursor-pointer"
+                title="View Banquet Table Standee QR"
+              >
+                <AppIcon name="qr_code" size={16} className="text-[#c81e38]" />
+                <span>Table Standee QR</span>
               </button>
 
               <button
@@ -1375,6 +1396,62 @@ export default function GuestDashboardPage() {
         </div>
       )}
 
+      {/* MODAL 7: Banquet Table Standee QR Modal */}
+      {isStandeeModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl border border-neutral-200 overflow-hidden text-[#0A0A0C]">
+            <div className="p-5 bg-neutral-50 flex items-center justify-between border-b border-neutral-200">
+              <div className="flex items-center gap-2">
+                <AppIcon name="qr_code_scanner" size={20} className="text-[#C81E38]" />
+                <h3 className="font-editorial font-bold text-base">Banquet Table Standee</h3>
+              </div>
+              <button
+                onClick={() => setIsStandeeModalOpen(false)}
+                className="w-7 h-7 rounded-full flex items-center justify-center text-neutral-400 hover:text-black"
+              >
+                <AppIcon name="close" size={18} />
+              </button>
+            </div>
+
+            <div className="p-6 flex flex-col items-center text-center space-y-4">
+              <div className="w-48 aspect-square rounded-2xl bg-neutral-50 border-2 border-dashed border-[#C81E38]/30 flex flex-col items-center justify-center p-3 shadow-inner">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://makemymarriage.com/guest/upload?code=${passcode}`}
+                  alt="Standee QR Code"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#C81E38] block">Table Access Code</span>
+                <span className="font-mono text-xl font-bold tracking-widest text-[#0A0A0C]">{passcode}</span>
+                <p className="text-xs text-neutral-500 mt-1">
+                  Placed on every banquet table for guests to instantly dump high-res memories.
+                </p>
+              </div>
+
+              <div className="w-full flex gap-2 pt-2">
+                <Link
+                  href={`/guest/upload?code=${passcode}`}
+                  className="flex-1 py-2.5 rounded-xl bg-[#C81E38] hover:bg-[#9e1b32] text-white text-xs font-bold text-center shadow-sm transition-all"
+                >
+                  Open Upload Studio
+                </Link>
+                <button
+                  onClick={() => {
+                    navigator.clipboard?.writeText(`https://makemymarriage.com/guest/upload?code=${passcode}`);
+                    showToast('Standee QR link copied to clipboard!', 'success');
+                  }}
+                  className="px-3.5 py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-semibold"
+                >
+                  Copy Link
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* FOOTER */}
       <footer className="mt-auto border-t border-neutral-200 bg-[#FAFAFA] py-6 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
@@ -1384,9 +1461,7 @@ export default function GuestDashboardPage() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-[#c81e38] font-medium">₹0 Serverless Architecture • GridFS Streaming</span>
-            <Link href="/admin/login" className="hover:text-black transition-colors font-semibold">
-              Host Concierge
-            </Link>
+            <span className="text-neutral-400 font-semibold">Guest Memoir Vault</span>
           </div>
         </div>
       </footer>

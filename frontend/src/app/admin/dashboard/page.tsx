@@ -31,7 +31,10 @@ export default function AdminDashboardPage() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
 
-  // Active view: 'vaults' (Marriage Management - Edit & Delete Vaults) or 'studio' (Architect new vault)
+  // Master Dual-Tab View: 'dashboard' | 'guestView'
+  const [adminSection, setAdminSection] = useState<'dashboard' | 'guestView'>('dashboard');
+
+  // Active view inside dashboard: 'vaults' (Marriage Management - Edit & Delete Vaults) or 'studio' (Architect new vault)
   const [activeTab, setActiveTab] = useState<'vaults' | 'studio' | 'events' | 'guests' | 'settings'>('vaults');
 
   // Search & Filter State
@@ -550,35 +553,107 @@ export default function AdminDashboardPage() {
 
       {/* MAIN CONTENT AREA */}
       <div className="pl-64 flex-1 flex flex-col min-h-screen">
-        {/* TOP BAR */}
-        <header className="sticky top-0 right-0 h-16 bg-white/95 backdrop-blur-md border-b border-neutral-200 z-40 flex items-center justify-between px-8 shadow-xs">
-          <div className="flex items-center gap-2 text-xs">
-            <span className="uppercase font-bold tracking-widest text-primary">Luxury Executive Vault</span>
-            <span className="text-neutral-300">/</span>
-            <span className="text-neutral-600 font-medium">
-              {activeTab === 'vaults' ? 'Directory & Archival Vaults' : 'Bespoke Wedding Studio'}
-            </span>
+        {/* TOP DUAL-TAB SWITCHER BAR */}
+        <header className="sticky top-0 right-0 h-16 bg-white/95 backdrop-blur-md border-b border-neutral-200 z-40 flex items-center justify-between px-6 lg:px-8 shadow-xs">
+          <div className="flex items-center gap-6">
+            <button
+              onClick={() => setAdminSection('dashboard')}
+              className={`relative flex items-center gap-2 py-5 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                adminSection === 'dashboard'
+                  ? 'text-[#C81E38]'
+                  : 'text-neutral-500 hover:text-black'
+              }`}
+            >
+              <span>👑</span>
+              <span>Dashboard &amp; Marriages</span>
+              {adminSection === 'dashboard' && (
+                <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#C81E38] rounded-t-full"></span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setAdminSection('guestView')}
+              className={`relative flex items-center gap-2 py-5 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                adminSection === 'guestView'
+                  ? 'text-[#C81E38]'
+                  : 'text-neutral-500 hover:text-black'
+              }`}
+            >
+              <span>👁️</span>
+              <span>Live Guest View</span>
+              <span className="px-1.5 py-0.5 rounded bg-neutral-100 text-[#C81E38] text-[9px] font-bold">MIRROR</span>
+              {adminSection === 'guestView' && (
+                <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#C81E38] rounded-t-full"></span>
+              )}
+            </button>
           </div>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-medium text-neutral-700 transition-colors"
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-neutral-50 rounded-xl border border-neutral-200 text-xs font-semibold text-neutral-700">
+              <span className="w-2 h-2 rounded-full bg-[#C81E38] animate-pulse"></span>
+              <span>modi@makemymarriage.com</span>
+            </div>
+
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-xs font-bold text-neutral-800 transition-colors cursor-pointer"
             >
-              Portal Gateway
-            </Link>
-            <Link
-              href={featuredVault?.code ? `/marriage/${featuredVault.code.toLowerCase()}` : '/marriage/rajsim24'}
-              className="px-3.5 py-1.5 rounded-xl bg-primary hover:bg-[#9E1B32] text-white text-xs font-bold shadow-sm shadow-primary/20 transition-all flex items-center gap-1.5"
-            >
-              <span>Guest View</span>
-              <AppIcon name="arrow_forward" size={14} />
-            </Link>
+              <AppIcon name="logout" size={14} />
+              <span>Exit to Gateway</span>
+            </button>
           </div>
         </header>
 
-        {/* VIEW 1: BESPOKE MARRIAGES - EDIT & DELETE VAULTS (Stitch b990b7f778d1416db80c625a32749575) */}
-        {activeTab === 'vaults' ? (
+        {/* CONDITIONALLY RENDER GUEST VIEW MIRROR OR DASHBOARD WORKSPACE */}
+        {adminSection === 'guestView' ? (
+          <div className="flex-1 flex flex-col p-6 lg:p-8 space-y-6 max-w-[1440px] mx-auto w-full animate-in fade-in duration-200">
+            {/* Mirror Banner */}
+            <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#C81E38] text-white flex items-center justify-center font-bold">
+                  👁️
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#C81E38]">
+                      Admin Mirror Environment
+                    </span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C81E38] animate-pulse"></span>
+                    <span className="text-[10px] text-neutral-400 font-semibold uppercase">Live Perspective</span>
+                  </div>
+                  <h3 className="font-editorial font-bold text-base text-[#0A0A0C]">
+                    Viewing as Guest: {featuredVault?.partnerOne || 'Raj'} &amp; {featuredVault?.partnerTwo || 'Simran'} Nuptials ({featuredVault?.code || 'RAJSIM24'})
+                  </h3>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setAdminSection('dashboard')}
+                  className="px-4 py-2 bg-black hover:bg-neutral-800 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                >
+                  <AppIcon name="arrow_back" size={14} />
+                  <span>← Return to Master Dashboard</span>
+                </button>
+                <Link
+                  href={`/marriage/${(featuredVault?.code || 'rajsim24').toLowerCase()}`}
+                  target="_blank"
+                  className="px-3.5 py-2 bg-white hover:bg-neutral-100 text-neutral-800 border border-neutral-200 text-xs font-semibold rounded-xl flex items-center gap-1 cursor-pointer"
+                >
+                  <span>Open in New Tab ↗</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Embedded Live Guest Page Frame */}
+            <div className="w-full rounded-2xl border border-neutral-200 overflow-hidden shadow-sm bg-white" style={{ minHeight: '800px' }}>
+              <iframe
+                src={`/marriage/${(featuredVault?.code || 'rajsim24').toLowerCase()}`}
+                title="Live Guest View Preview"
+                className="w-full h-[850px] border-0"
+              />
+            </div>
+          </div>
+        ) : activeTab === 'vaults' ? (
           <main className="flex-1 p-6 lg:p-8 space-y-8 max-w-[1440px] mx-auto w-full">
             {/* Header & Quick Action */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-neutral-200">

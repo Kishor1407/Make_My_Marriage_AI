@@ -56,33 +56,30 @@ To guarantee that the platform costs **₹0** to host and scale:
 
 ---
 
-## 📸 Visual Walkthrough & UI Gallery
+## 📸 Visual Walkthrough & Streamlined Flow
 
 > Designed in Google Stitch with the **Pure White & Crimson Atelier Edition** design system.
 
-### 1. Global Landing Page & Gated Access System (PRD 4.1)
-The homepage displays an interactive grid of active wedding vaults with private passcode unlocking.
-![Global Landing Page](./docs/screenshots/landing_page.png)
+### 1. Unified Role-Switch Gateway (`/`)
+When visitors arrive at the root domain, they land on a clean, centered Luxury Entry Gateway featuring a seamless toggle between **🌸 Guest Experience** and **👑 Host / Admin Portal**.
+- **Honored Guests:** Zero-friction access! Enter Name and Email to proceed directly without passwords.
+- **Sovereign Admins:** Authenticate securely using Master Custodian credentials (`modi@makemymarriage.com` / `Password@2026`).
 
-### 2. Dual-View Admin Portal (PRD 4.2)
-Host management portal with real-time metrics, global marriage manager, and celebration studio.
-![Admin Portal](./docs/screenshots/admin_portal.png)
+### 2. Guest Celebrations Directory (`/`)
+Logged-in guests see a single-click directory of active sovereign wedding vaults with live broadcast badges, date telemetry, and an instant photo upload trigger. The top navbar is completely streamlined to show only **"Celebrations"**, the guest's identity badge (`Guest: Kabir Malhotra`), and an **"Exit / Switch Role"** button.
 
-### 3. QR-Powered Photo Dump & Guest Attribution (PRD 4.4)
-Table standee QR scan landing page where guests upload candid shots tagged with Name, Email, and Ceremony.
-![Photo Dump QR](./docs/screenshots/photo_dump_qr.png)
+### 3. Unified Wedding Vault Hub (`/marriage/[id]`)
+Entering a wedding brings the guest into a consolidated sanctuary containing:
+- Scannable **Banquet Table Standee QR Code** modal with one-click link export.
+- **6-Ceremony Switcher** (`Engagement`, `Mehndi`, `Haldi`, `Sangeet`, `Wedding / Pheras`, `Reception / Afterparty`).
+- **Live Stream Cinema** with real-time celebratory floating petal bursts (`✨`, `❤️`, `🌹`, `🥂`, `🪔`, `🧿`).
+- Instant **Client-Side Compressed Media Drop Zone** (<500KB per image).
+- Strict **PRD 4.7 Segregated Feed** (Candid Photos vs Official 4K Video Reels).
 
-### 4. Built-in Digital Invitation Studio (PRD 4.5)
-Ceremonial poster generator supporting 6-rite presets, Royal Mandap & Ivory Arch styles, and 300 DPI PNG exports.
-![Invitation Studio](./docs/screenshots/invitation_studio.png)
-
-### 5. Ceremonial Live Stream & Virtual Attendance Cinema (PRD 4.6)
-Virtual attendance theatre featuring 16:9 YouTube live streams, 6-rite channel switcher, and floating cheer reactions (❤️, 🌹, 🪔, 👏, 🎉).
-![Live Stream Cinema](./docs/screenshots/live_stream_cinema.png)
-
-### 6. Media Vault & PRD 4.7 Strict Segregation (PRD 4.7)
-Strict isolation between crowdsourced guest photo dumps and official host-curated 4K video reels with custom Cinema Lightbox.
-![Media Vault Reels](./docs/screenshots/media_vault_reels.png)
+### 4. Host Admin Master Workspace with Dual View Switcher (`/admin/dashboard`)
+Admins enjoy an executive control plane with a persistent top dual-mode switcher:
+- **Tab 1: Dashboard & Marriages:** Executive metrics, GridFS cloud storage monitor, marriage catalog, ceremony timeline managers, and invitations studio.
+- **Tab 2: Live Guest View Preview:** Instant live mirror of the exact guest experience with a floating return-to-dashboard banner.
 
 ---
 
