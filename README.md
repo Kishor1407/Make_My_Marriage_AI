@@ -139,13 +139,15 @@ Every feature defined in [`docs/PRD.md`](./docs/PRD.md) is 100% implemented and 
 
 | PRD Section | Feature | Technical Implementation | Status |
 | :--- | :--- | :--- | :---: |
-| **PRD 4.1** | **Gated Access System** | Homepage renders locked/unlocked wedding cards. Guests must enter unique marriage code (`RAJSIM24`). Validated against MongoDB with client session persistence. | ✅ **100%** |
-| **PRD 4.2** | **Dual-View Admin Portal** | **Dashboard View:** Real-time metrics (Guests logged in, Total Photos, Total Videos). **Marriages View:** Full CRUD management matching Stitch screen `61bfa179`. | ✅ **100%** |
-| **PRD 4.3** | **Six-Part Wedding Timeline** | Every wedding auto-provisions exactly 6 canonical rites: **Engagement, Mehndi, Haldi, Sangeet, Marriage (Vedic Pheras), and Others**. Event stats track media count per ceremony. | ✅ **100%** |
-| **PRD 4.4** | **QR-Powered Photo Dump & Attribution** | Dynamic vector Table Standee QR codes point to `/guest/upload?code=XYZ`. Every uploaded photo is tagged with `Name` & `Email`. Stored directly in GridFS chunks with atomic marriage counters. | ✅ **100%** |
-| **PRD 4.5** | **Built-in Invitation Generator** | In-browser ceremonial card architect (`/invitations` & `/admin/invitations`). Couple names, dates, and venues overlay onto 3 template silhouettes with embedded QR codes. Generates 300 DPI PNGs via `html2canvas` at ₹0 cost. | ✅ **100%** |
-| **PRD 4.6** | **Live Stream Integration** | Ceremonial Live Cinema (`/cinema` & `/marriage/[id]/cinema`). Host Stream Studio API updates YouTube broadcast state (`SCHEDULED`, `LIVE`, `CONCLUDED`). Includes 6-rite channel switcher and floating cheer reaction engine. | ✅ **100%** |
-| **PRD 4.7** | **Media Segregation** | Strict isolation between **Photos Tab** (crowdsourced candid shots with guest attribution) and **Videos Tab** (official admin-curated 4K reels). Includes custom Cinema Player Lightbox with HTTP 206 Range streaming. | ✅ **100%** |
+| **PRD 4.1** | **Clean Role-Switch Gateway** | Homepage renders unified persona gateway (`6588f0d3`). Guests enter only Name & Email (zero wedding select on entry) with zero passwords; Hosts sign in with master email & passkey. | ✅ **100%** |
+| **PRD 4.2** | **Celebrations Directory & Search** | Full directory (`238ca088`) displaying locked cards from MongoDB Atlas. Real-time search by couple, venue, city, or date, plus filter pills (All, Live Now, Upcoming). | ✅ **100%** |
+| **PRD 4.3** | **Secret Passcode Protocol** | Clicking any wedding card opens the confidential Secret Passcode Modal (`7a358ae8`). Validated via `POST /api/v1/auth/guest/verify-passcode` before decrypting the wedding sanctuary. | ✅ **100%** |
+| **PRD 4.4** | **Dual-View Admin Portal** | **Dashboard View:** Real-time metrics (Guests logged in, Total Photos, Total Videos). **Marriages View:** Full CRUD management and embedded live guest preview mirror. | ✅ **100%** |
+| **PRD 4.5** | **Six-Part Wedding Timeline** | Every wedding auto-provisions exactly 6 canonical rites: **Engagement, Mehndi, Haldi, Sangeet, Marriage (Vedic Pheras), and Others**. Event stats track media count per ceremony. | ✅ **100%** |
+| **PRD 4.6** | **QR-Powered Photo Dump & Attribution** | Dynamic vector Table Standee QR codes point to `/guest/upload?code=XYZ`. Every uploaded photo is tagged with `Name` & `Email`. Stored directly in GridFS chunks with atomic marriage counters. | ✅ **100%** |
+| **PRD 4.7** | **Built-in Invitation Generator** | In-browser ceremonial card architect (`/invitations` & `/admin/invitations`). Couple names, dates, and venues overlay onto 3 template silhouettes with embedded QR codes. Generates 300 DPI PNGs via `html2canvas` at ₹0 cost. | ✅ **100%** |
+| **PRD 4.8** | **Live Stream Integration** | Ceremonial Live Cinema (`/cinema` & `/marriage/[id]/cinema`). Host Stream Studio API updates YouTube broadcast state (`SCHEDULED`, `LIVE`, `CONCLUDED`). Includes 6-rite channel switcher and floating cheer reaction engine. | ✅ **100%** |
+| **PRD 4.9** | **Media Segregation** | Strict isolation between **Photos Tab** (crowdsourced candid shots with guest attribution) and **Videos Tab** (official admin-curated 4K reels). Includes custom Cinema Player Lightbox with HTTP 206 Range streaming. | ✅ **100%** |
 
 ---
 

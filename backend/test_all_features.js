@@ -62,6 +62,47 @@ async function testAllFeatures() {
   assert((meData.user || meData.data)?.email === testAdminEmail, 'User identity matches registered email');
   assert((meData.user || meData.data)?.role === 'ADMIN', 'Role is verified as ADMIN');
 
+  // Verify Guest Zero-Password Gateway Login (Name & Email Only)
+  const guestGatewayRes = await fetch(`${BASE_URL}/auth/guest/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: 'Kabir Malhotra',
+      email: 'kabir@malhotra.com'
+    })
+  });
+  const guestGatewayData = await guestGatewayRes.json();
+  assert(guestGatewayRes.status === 200, 'Guest zero-password gateway entry returns HTTP 200');
+  assert(guestGatewayData.user?.role === 'GUEST', 'Gateway assigns GUEST role');
+  assert(guestGatewayData.user?.name === 'Kabir Malhotra', 'Gateway retains guest name attribution');
+
+  // Verify Secret Passcode Rejection for Invalid Code
+  const invalidPasscodeRes = await fetch(`${BASE_URL}/auth/guest/verify-passcode`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      marriageCode: 'INVALID99',
+      name: 'Kabir Malhotra',
+      email: 'kabir@malhotra.com'
+    })
+  });
+  assert(invalidPasscodeRes.status === 404, 'Invalid wedding passcode correctly rejected with HTTP 404');
+
+  // Verify Secret Passcode Unlock for Valid Code (RAJSIM24)
+  const validPasscodeRes = await fetch(`${BASE_URL}/auth/guest/verify-passcode`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      marriageCode: 'RAJSIM24',
+      name: 'Kabir Malhotra',
+      email: 'kabir@malhotra.com'
+    })
+  });
+  const validPasscodeData = await validPasscodeRes.json();
+  assert(validPasscodeRes.status === 200, 'Valid secret passcode returns HTTP 200');
+  assert(validPasscodeData.success === true, 'Sanctuary unlocked successfully');
+  assert(!!validPasscodeData.user?.assignedMarriageId, 'Assigned marriage ID bound to guest session');
+
   // -------------------------------------------------------------
   // SUITE 3: Marriage Management (PRD 4.1 & 4.2)
   // -------------------------------------------------------------

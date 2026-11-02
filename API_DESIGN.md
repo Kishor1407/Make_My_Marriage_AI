@@ -52,13 +52,12 @@ Make My Marriage implements a strict dual-persona separation between **Honored G
 ### 2.1 Instant Guest Access
 - **Endpoint**: `POST /api/v1/auth/guest/login`
 - **Access**: Public
-- **Description**: Generates an instantaneous guest access token and increments vault engagement telemetry.
+- **Description**: Generates an instantaneous guest access token and session rehydration from Name and Email without password or wedding code friction.
 - **Request Body**:
   ```json
   {
     "name": "Kabir Malhotra",
-    "email": "kabir@gmail.com",
-    "marriageCode": "RAJSIM24"
+    "email": "kabir@gmail.com"
   }
   ```
 - **Response (200 OK)**:
@@ -70,13 +69,47 @@ Make My Marriage implements a strict dual-persona separation between **Honored G
       "role": "GUEST",
       "name": "Kabir Malhotra",
       "email": "kabir@gmail.com",
-      "assignedMarriageId": "6724fa1b2e3c4d5e6f7a8b9c"
+      "assignedMarriageId": null
     },
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
   }
   ```
 
-### 2.2 Sovereign Admin Login
+### 2.2 Secret Passcode Verification & Sanctuary Unlock
+- **Endpoint**: `POST /api/v1/auth/guest/verify-passcode`
+- **Access**: Public
+- **Description**: Verifies the confidential 8-character wedding passcode when a guest clicks on a wedding card in the Celebrations Directory. Atomically increments guest engagement telemetry and binds the wedding to the guest session.
+- **Request Body**:
+  ```json
+  {
+    "marriageCode": "RAJSIM24",
+    "name": "Kabir Malhotra",
+    "email": "kabir@gmail.com"
+  }
+  ```
+- **Response (200 OK - Valid Code)**:
+  ```json
+  {
+    "success": true,
+    "user": {
+      "id": "guest_1730592812000",
+      "role": "GUEST",
+      "name": "Kabir Malhotra",
+      "email": "kabir@gmail.com",
+      "assignedMarriageId": "6ae871326b4b9ce81626d95a"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+  ```
+- **Response (404 Not Found - Invalid Code)**:
+  ```json
+  {
+    "success": false,
+    "error": "The code entered does not match this wedding sanctuary. Verify with the host family or physical stationery."
+  }
+  ```
+
+### 2.3 Sovereign Admin Login
 - **Endpoint**: `POST /api/v1/auth/admin/login`
 - **Access**: Public
 - **Description**: Verifies sovereign host credentials and issues a secure 7-day administrative JWT.
@@ -286,3 +319,4 @@ Make My Marriage implements a strict dual-persona separation between **Honored G
 | `/admin/invitations` | Admin Only | Digital Stationery Studio & Poster Designer. |
 | `/marriage/[id]` | Guest & Admin | Unified Wedding Vault: Standee QR, 6 Rites Switcher, Live Broadcast, Photo Dump, 4K Reels. |
 | `/guest/upload` | Guest & Admin | Dedicated Banquet Table Standee QR Photo Dump. |
+

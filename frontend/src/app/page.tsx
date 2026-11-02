@@ -26,7 +26,13 @@ export default function HomePage() {
   // Guest Form State
   const [guestName, setGuestName] = useState('Kabir Malhotra');
   const [guestEmail, setGuestEmail] = useState('kabir@gmail.com');
-  const [guestPasscode, setGuestPasscode] = useState('RAJSIM24');
+
+  // Secret Passcode Unlock Modal State (Stitch Screen 7a358ae8)
+  const [selectedWeddingForUnlock, setSelectedWeddingForUnlock] = useState<any | null>(null);
+  const [unlockPasscode, setUnlockPasscode] = useState('');
+  const [unlockError, setUnlockError] = useState<string | null>(null);
+  const [unlockSuccess, setUnlockSuccess] = useState(false);
+  const [isVerifyingCode, setIsVerifyingCode] = useState(false);
 
   // Admin Form State
   const [adminEmail, setAdminEmail] = useState('modi@makemymarriage.com');
@@ -147,7 +153,7 @@ export default function HomePage() {
       .catch(() => {});
   }, []);
 
-  // Handle Guest Enter Celebrations (Instant Zero-Password Pass)
+  // Handle Guest Enter Celebrations (Instant Zero-Password Pass into Directory)
   const handleGuestSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!guestName.trim() || !guestEmail.trim()) {
@@ -159,14 +165,12 @@ export default function HomePage() {
     try {
       const response = await api.post('/auth/guest/login', {
         name: guestName.trim(),
-        email: guestEmail.trim().toLowerCase(),
-        marriageCode: guestPasscode || undefined
+        email: guestEmail.trim().toLowerCase()
       });
 
       const session: GuestSession = {
         name: guestName.trim(),
-        email: guestEmail.trim().toLowerCase(),
-        marriageCode: guestPasscode
+        email: guestEmail.trim().toLowerCase()
       };
 
       if (typeof window !== 'undefined') {
@@ -184,20 +188,12 @@ export default function HomePage() {
       }));
 
       setGuestSession(session);
-      showToast(`Welcome, Honored Guest ${session.name}! Celebrations unlocked.`, 'success');
-
-      // If user selected a specific wedding code, optionally navigate straight in
-      if (guestPasscode) {
-        setTimeout(() => {
-          router.push(`/marriage/${guestPasscode.toLowerCase()}`);
-        }, 600);
-      }
+      showToast(`Welcome, Honored Guest ${session.name}! Celebrations directory unlocked.`, 'success');
     } catch {
       // Fallback: local session if offline
       const session: GuestSession = {
         name: guestName.trim(),
-        email: guestEmail.trim().toLowerCase(),
-        marriageCode: guestPasscode
+        email: guestEmail.trim().toLowerCase()
       };
       if (typeof window !== 'undefined') {
         localStorage.setItem('mmm_guest', JSON.stringify(session));
@@ -209,9 +205,55 @@ export default function HomePage() {
         email: session.email,
         role: 'GUEST'
       }));
-      showToast(`Welcome, Honored Guest ${session.name}!`, 'success');
+      showToast(`Welcome, Honored Guest ${session.name}! Celebrations directory unlocked.`, 'success');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  // Handle Secret Passcode Verification to Unlock a Specific Wedding Sanctuary (Stitch Screen 7a358ae8)
+  const handleVerifySecretPasscode = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!selectedWeddingForUnlock) return;
+
+    const code = unlockPasscode.trim().toUpperCase();
+    if (!code) {
+      setUnlockError('Please enter the confidential 8-character secret passcode.');
+      return;
+    }
+
+    setIsVerifyingCode(true);
+    setUnlockError(null);
+    setUnlockSuccess(false);
+
+    try {
+      const res = await api.post('/auth/guest/verify-passcode', {
+        marriageCode: code,
+        name: guestSession?.name || guestName,
+        email: guestSession?.email || guestEmail
+      });
+
+      if (res.data?.success) {
+        setUnlockSuccess(true);
+        if (res.data?.token && typeof window !== 'undefined') {
+          localStorage.setItem('mmm_token', res.data.token);
+        }
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem(`mmm_unlocked_${code.toLowerCase()}`, 'true');
+        }
+        showToast(`Passcode Authenticated! Decrypting ${selectedWeddingForUnlock.partnerOneName} & ${selectedWeddingForUnlock.partnerTwoName}'s sanctuary...`, 'success');
+        setTimeout(() => {
+          router.push(`/marriage/${code.toLowerCase()}`);
+        }, 750);
+      }
+    } catch (err: any) {
+      setUnlockError(
+        err.response?.data?.error ||
+        err.message ||
+        'The code entered does not match this wedding sanctuary. Verify with the host family or physical stationery.'
+      );
+    } finally {
+      setIsVerifyingCode(false);
     }
   };
 
@@ -426,54 +468,34 @@ export default function HomePage() {
                       </p>
                     </div>
 
-                    {/* Field 3: Wedding Passcode Dropdown */}
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-                        Wedding Vault Access Code <span className="text-neutral-400 font-normal lowercase">(optional)</span>
-                      </label>
-                      <div className="relative flex items-center">
-                        <span className="material-symbols-outlined absolute left-3.5 text-neutral-400 text-[18px]">
-                          key
-                        </span>
-                        <select
-                          value={guestPasscode}
-                          onChange={(e) => setGuestPasscode(e.target.value)}
-                          className="w-full pl-11 pr-10 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm text-[#0A0A0C] appearance-none focus:bg-white focus:border-[#C81E38] outline-none cursor-pointer"
-                        >
-                          <option value="RAJSIM24">RAJSIM24 • Raj &amp; Simran Nuptials (Agra)</option>
-                          <option value="LAILAM25">LAILAM25 • Laila &amp; Majnu Himalayan Gala (Gulmarg)</option>
-                          <option value="HEERRAN26">HEERRAN26 • Heer &amp; Ranjha Royal Sangeet (Jodhpur)</option>
-                          <option value="BUNNYNA27">BUNNYNA27 • Bunny &amp; Naina Lake Palace (Udaipur)</option>
-                        </select>
-                        <span className="material-symbols-outlined absolute right-3.5 pointer-events-none text-neutral-400 text-[18px]">
-                          expand_more
-                        </span>
+                    {/* Trust Badges Strip (Stitch Screen 6588f0d3) */}
+                    <div className="pt-2 flex flex-wrap items-center justify-center gap-3 bg-neutral-50 p-3.5 rounded-2xl border border-neutral-200/80 text-neutral-600 text-[11px]">
+                      <div className="flex items-center gap-1.5">
+                        <AppIcon name="key_off" size={15} className="text-[#C81E38]" />
+                        <span className="font-semibold text-neutral-800">Zero Passwords</span>
+                      </div>
+                      <span className="text-neutral-300">•</span>
+                      <div className="flex items-center gap-1.5">
+                        <AppIcon name="auto_fix_high" size={15} className="text-[#C81E38]" />
+                        <span className="font-semibold text-neutral-800">Instant Attribution</span>
+                      </div>
+                      <span className="text-neutral-300">•</span>
+                      <div className="flex items-center gap-1.5">
+                        <AppIcon name="lock" size={15} className="text-[#C81E38]" />
+                        <span className="font-semibold text-neutral-800">100% Private Cloud</span>
                       </div>
                     </div>
 
-                    {/* Quick Access Privileges */}
-                    <div className="pt-1 flex flex-wrap items-center gap-1.5">
-                      <span className="text-[10px] font-bold uppercase text-neutral-400 tracking-wider">Access:</span>
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-neutral-100 rounded-lg text-neutral-700 text-[11px] font-medium border border-neutral-200">
-                        <AppIcon name="photo_library" size={12} className="text-[#C81E38]" /> 4K Stream
-                      </span>
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-neutral-100 rounded-lg text-neutral-700 text-[11px] font-medium border border-neutral-200">
-                        <AppIcon name="schedule" size={12} className="text-[#C81E38]" /> Live Itinerary
-                      </span>
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-neutral-100 rounded-lg text-neutral-700 text-[11px] font-medium border border-neutral-200">
-                        <AppIcon name="qr_code" size={12} className="text-[#C81E38]" /> Standee QR
-                      </span>
-                    </div>
-
-                    {/* Big Primary Enter Celebrations Button */}
+                    {/* Big Primary Enter Celebrations Directory Button */}
                     <div className="pt-3">
                       <button
                         disabled={isSubmitting}
                         type="submit"
                         className="w-full py-4 px-6 rounded-2xl bg-[#C81E38] hover:bg-[#9e1b32] text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl shadow-[#C81E38]/25 active:scale-95 transition-all group disabled:opacity-50 cursor-pointer"
                       >
-                        <span>{isSubmitting ? 'Entering Celebrations...' : 'Enter Celebrations'}</span>
+                        <span>{isSubmitting ? 'Entering Directory...' : 'Enter Celebrations Directory'}</span>
                         <span className="text-base group-hover:translate-x-1 transition-transform">🌸</span>
+                        <AppIcon name="arrow_forward" size={16} />
                       </button>
                     </div>
 
@@ -821,14 +843,21 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      {/* Primary Crimson Interactive Anchor */}
-                      <Link
-                        href={`/marriage/${code.toLowerCase()}`}
-                        className="w-full py-3.5 rounded-xl bg-[#C81E38] hover:bg-[#9e1b32] text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-md active:scale-95"
+                      {/* Primary Crimson Interactive Unlock Button (Stitch Screen 7a358ae8) */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedWeddingForUnlock(wedding);
+                          setUnlockPasscode('');
+                          setUnlockError(null);
+                          setUnlockSuccess(false);
+                        }}
+                        className="w-full py-3.5 rounded-xl bg-[#C81E38] hover:bg-[#9e1b32] text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 cursor-pointer"
                       >
-                        <span>Enter Wedding Vault</span>
+                        <span>Unlock Sanctuary</span>
+                        <span className="text-sm">🔒</span>
                         <AppIcon name="arrow_forward" size={16} />
-                      </Link>
+                      </button>
                     </div>
                   </article>
                 );
@@ -863,6 +892,221 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* ========================================================================= */}
+      {/* SCREEN 3: SECRET PASSCODE UNLOCK MODAL (Stitch Screen 7a358ae8c08649a2)   */}
+      {/* ========================================================================= */}
+      {selectedWeddingForUnlock && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6 md:p-8 bg-black/75 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200"
+        >
+          <div className="relative w-full max-w-lg my-auto bg-white rounded-3xl shadow-2xl border border-neutral-200 overflow-hidden transform transition-all duration-300">
+            {/* Top Decorative Gold/Crimson Accent Bar */}
+            <div className="h-1.5 w-full bg-gradient-to-r from-[#C81E38] via-amber-400 to-[#C81E38]" />
+
+            {/* Modal Close Button */}
+            <button
+              type="button"
+              onClick={() => setSelectedWeddingForUnlock(null)}
+              className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-neutral-100 text-neutral-600 hover:bg-[#C81E38] hover:text-white transition-colors flex items-center justify-center cursor-pointer shadow-xs"
+            >
+              <AppIcon name="close" size={18} />
+            </button>
+
+            <div className="p-6 sm:p-8 md:p-9 flex flex-col gap-6">
+              {/* Couple Header & Avatar */}
+              <div className="flex flex-col items-center text-center">
+                <div className="relative mb-3">
+                  <div className="w-20 h-20 rounded-full p-1 bg-gradient-to-tr from-[#C81E38] via-amber-400 to-[#C81E38] shadow-md">
+                    <div className="w-full h-full rounded-full overflow-hidden bg-neutral-100">
+                      <img
+                        alt={selectedWeddingForUnlock.partnerOneName}
+                        src={selectedWeddingForUnlock.coverImage}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#C81E38] text-white flex items-center justify-center shadow-md border-2 border-white">
+                    <AppIcon name="lock" size={12} className="text-white" />
+                  </div>
+                </div>
+
+                {/* Auspicious Inscription Overline */}
+                <div className="flex items-center justify-center gap-2 mb-1.5">
+                  <span className="w-4 h-px bg-[#C81E38]" />
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#C81E38]">
+                    ॥ शुभं भवतु ॥ • Private Access Protocol
+                  </span>
+                  <span className="w-4 h-px bg-[#C81E38]" />
+                </div>
+
+                {/* Main Headline */}
+                <h3 className="font-editorial text-2xl font-bold text-[#0A0A0C] tracking-tight leading-snug mb-1">
+                  Unlock {selectedWeddingForUnlock.partnerOneName} &amp; {selectedWeddingForUnlock.partnerTwoName}&apos;s Sanctuary
+                </h3>
+
+                {/* Meta Date & Venue */}
+                <div className="flex flex-wrap items-center justify-center gap-1.5 text-neutral-500 text-xs tracking-wider uppercase mb-2">
+                  <span className="flex items-center gap-1">
+                    <AppIcon name="calendar_today" size={13} className="text-[#C81E38]" />
+                    <span>{selectedWeddingForUnlock.dates || 'Celebration Schedule'}</span>
+                  </span>
+                  <span className="text-neutral-300">•</span>
+                  <span className="flex items-center gap-1">
+                    <AppIcon name="location_on" size={13} className="text-[#C81E38]" />
+                    <span className="truncate max-w-[200px]">{selectedWeddingForUnlock.venue || 'Private Venue'}</span>
+                  </span>
+                </div>
+
+                <p className="text-xs text-neutral-500 max-w-sm leading-relaxed">
+                  Please enter the confidential 8-character secret passcode printed on your physical stationery, WhatsApp invitation, or banquet table standee.
+                </p>
+              </div>
+
+              {/* Passcode Input Form */}
+              <form onSubmit={handleVerifySecretPasscode} className="space-y-3">
+                <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-neutral-700">
+                  <span>Confidential Passcode</span>
+                  <span className="text-[#C81E38] text-[10px] lowercase font-normal">8-character key</span>
+                </div>
+
+                <div className="relative flex items-center">
+                  <input
+                    autoFocus
+                    type="text"
+                    maxLength={8}
+                    value={unlockPasscode}
+                    onChange={(e) => {
+                      const val = e.target.value.toUpperCase();
+                      setUnlockPasscode(val);
+                      if (unlockError) setUnlockError(null);
+                    }}
+                    placeholder="••••••••"
+                    className="w-full bg-neutral-50 px-4 py-3.5 pr-12 text-center text-[#0A0A0C] font-mono text-2xl font-bold tracking-[0.35em] uppercase rounded-xl border border-neutral-200 focus:bg-white focus:border-[#C81E38] outline-none transition-colors shadow-inner"
+                  />
+                  <div className="absolute right-3.5 flex items-center justify-center pointer-events-none">
+                    <AppIcon
+                      name={unlockSuccess ? 'verified_user' : unlockError ? 'error' : 'key'}
+                      size={20}
+                      className={unlockSuccess ? 'text-emerald-600' : unlockError ? 'text-[#C81E38]' : 'text-neutral-400'}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-[11px] text-neutral-500">
+                  <span>
+                    Case-insensitive (e.g. <span className="font-mono text-neutral-800 font-semibold">{selectedWeddingForUnlock.marriageCode}</span>)
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUnlockPasscode('');
+                      setUnlockError(null);
+                      setUnlockSuccess(false);
+                    }}
+                    className="text-neutral-500 hover:text-[#C81E38] uppercase tracking-wider font-semibold underline underline-offset-2 cursor-pointer"
+                  >
+                    Reset
+                  </button>
+                </div>
+
+                {/* Validation Status Badges */}
+                {unlockSuccess && (
+                  <div className="flex items-center gap-2.5 bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-emerald-800 animate-in fade-in duration-200">
+                    <AppIcon name="check_circle" size={18} className="text-emerald-600 shrink-0" />
+                    <div className="text-xs">
+                      <span className="font-bold uppercase tracking-wider block">Passcode Authenticated</span>
+                      <span className="text-[11px] text-emerald-700">Access granted to Private Matrimonial Archive &amp; Live Ceremonies.</span>
+                    </div>
+                  </div>
+                )}
+
+                {unlockError && (
+                  <div className="flex items-start gap-2.5 bg-rose-50 border border-rose-200 p-3 rounded-xl text-rose-800 animate-in fade-in duration-200">
+                    <AppIcon name="error" size={18} className="text-[#C81E38] shrink-0 mt-0.5" />
+                    <div className="text-xs">
+                      <span className="font-bold uppercase tracking-wider block">Invalid Secret Key</span>
+                      <span className="text-[11px] text-rose-700">{unlockError}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Action CTA Buttons */}
+                <div className="flex flex-col gap-2.5 pt-2">
+                  <button
+                    disabled={isVerifyingCode || unlockSuccess}
+                    type="submit"
+                    className="w-full py-4 px-6 rounded-xl bg-[#C81E38] hover:bg-[#9e1b32] text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg shadow-[#C81E38]/20 active:scale-95 transition-all disabled:opacity-50 cursor-pointer"
+                  >
+                    {isVerifyingCode ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Decrypting Sanctuary...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Enter Sacred Sanctuary</span>
+                        <span className="text-base leading-none">🌸</span>
+                        <AppIcon name="arrow_forward" size={16} />
+                      </>
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedWeddingForUnlock(null)}
+                    className="w-full py-2.5 text-center text-xs font-bold uppercase tracking-wider text-neutral-500 hover:text-black transition-colors cursor-pointer"
+                  >
+                    Cancel &amp; Return to Celebrations
+                  </button>
+                </div>
+              </form>
+
+              {/* Table Standee & Brass QR Notice Card (Stitch Screen 7a358ae8) */}
+              <div className="bg-neutral-50 p-4 rounded-2xl border border-neutral-200/80 flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-[#C81E38]">
+                  <AppIcon name="table_restaurant" size={16} />
+                  <span className="text-[11px] font-bold uppercase tracking-wider">
+                    Banquet Standee &amp; QR Instant Unlock
+                  </span>
+                </div>
+                <p className="text-[11px] text-neutral-600 leading-relaxed">
+                  Don&apos;t have the secret code? Scan the bespoke brass QR code mounted on your dinner table standee for instantaneous biometric zero-code access, or contact the host family concierge.
+                </p>
+
+                {/* Quick Test Demo Key Pill */}
+                <div className="pt-2 border-t border-neutral-200/60 flex items-center justify-between text-xs">
+                  <span className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Need demo key?</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUnlockPasscode(selectedWeddingForUnlock.marriageCode);
+                      setUnlockError(null);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white hover:bg-neutral-100 text-[#0A0A0C] border border-neutral-200 rounded-lg font-mono text-xs font-bold shadow-xs cursor-pointer transition-colors"
+                  >
+                    <AppIcon name="key" size={12} className="text-[#C81E38]" />
+                    <span>{selectedWeddingForUnlock.marriageCode}</span>
+                    <span className="text-[10px] text-[#C81E38] font-sans font-semibold uppercase tracking-wider ml-1">
+                      (Auto-fill)
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Archival Encrypted Stamp */}
+            <div className="bg-neutral-100 px-6 py-2.5 flex items-center justify-between text-neutral-500 text-[10px] uppercase font-semibold tracking-widest border-t border-neutral-200">
+              <span>Vault: {selectedWeddingForUnlock.marriageCode}-2026</span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C81E38]"></span>
+                <span>Encrypted Gateway</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

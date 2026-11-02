@@ -53,23 +53,32 @@ The platform implements strict persona isolation:
 
 ## 4. Core Features & Functional Requirements
 
-### 4.1. Unified Role-Switch Gateway (`/`)
-*   **Feature:** The landing page serves as the single entry gateway with a prominent pill toggle between **🌸 Guest Experience** and **👑 Host / Admin Portal**.
-*   **Guest Mode:** Simple proceed screen where guests enter their Name and Email (with quick wedding passcode selector) and click **"Enter Celebrations 🌸"**. No password required.
+### 4.1. Clean Role-Switch Gateway (`/`)
+*   **Feature:** The landing page serves as the single entry gateway with a prominent pill toggle between **🌸 Guest Experience** and **👑 Host / Admin Portal** (matching Google Stitch screen `6588f0d3`).
+*   **Guest Mode:** Ultra-clean proceed screen where guests enter only their **Full Name** and **Email Address**. Strictly **NO** wedding select dropdown and **NO** passcode prompt at entry. Single primary CTA: **"Enter Celebrations Directory 🌸 →"**.
 *   **Admin Mode:** Credentialed login with email, password visibility toggle, and secure JWT generation.
 
-### 4.2. Guest Celebrations Directory & Universal Navbar Simplification
-*   **Feature:** Once guest mode is active, `/` displays the clean **Celebrations Directory** with real-time wedding cards, live status badges, search console, and filter pills.
-*   **Navbar Simplification:** All confusing legacy tabs (`Explore Marriages`, `Guest Experience`, `QR Photo Dump`, `Media Vault`, `Admin Portal`) are completely removed.
-*   **Guest View:** Only displays the `Celebrations` anchor, guest identity badge (`🌸 Guest: <Name>`), and `Exit / Switch Role` button.
-*   **Strict Invisibility:** Admin portal links are completely hidden from guests.
+### 4.2. Celebrations Directory & Universal Navbar Simplification
+*   **Feature:** Once guest mode is active, `/` displays the **Celebrations Directory** (matching Stitch screen `238ca088`) with real-time wedding cards from MongoDB Atlas, live status badges, search console (by couple, city, venue, year), and filter pills (All, Live Now, Upcoming).
+*   **Locked Sanctuary Cards:** Each wedding card displays the couple cover photo, ceremonial schedule, venue, archived moments counter, attending guest counter, and a prominent **"Unlock Sanctuary 🔒 →"** CTA.
+*   **Navbar Simplification:** All confusing legacy tabs are removed. Guests see only the `Celebrations` anchor, their identity badge (`🌸 Guest: <Name>`), and `Exit / Switch Role`. Admin links are completely invisible.
 
-### 4.3. Admin Dual-Tab Workspace (`/admin/dashboard`)
+### 4.3. Secret Passcode Unlock Modal (Stitch Screen `7a358ae8`)
+*   **Feature:** Clicking on any locked wedding card triggers the confidential **Secret Passcode Unlock Modal**.
+*   **Functionality:**
+    *   Displays couple avatar, `॥ शुभं भवतु ॥ • Private Access Protocol`, date, and venue.
+    *   Prompts guest for the confidential 8-character secret passcode (e.g. `RAJSIM24`).
+    *   Dynamic verification against `POST /api/v1/auth/guest/verify-passcode`.
+    *   If correct: green authenticated state, binds wedding to session, and decrypts the sanctuary.
+    *   If incorrect: red error banner with guidance to check physical stationery or banquet table standees.
+    *   Includes Banquet Standee zero-code scanning advisory and 1-click test demo auto-fill pill.
+
+### 4.4. Admin Dual-Tab Workspace (`/admin/dashboard`)
 *   **Feature:** A dedicated workspace for sovereign hosts with two top-level switch tabs:
     *   **Tab 1: Dashboard & Marriages:** Global metrics (Guests, Photos, Videos, GridFS Storage), wedding portfolio table, action shortcuts, and wedding creation modal.
     *   **Tab 2: Live Guest View:** Embedded live iframe mirror displaying the exact guest experience, accompanied by a banner and `← Return to Master Dashboard` shortcut.
 
-### 4.4. Single Wedding Sanctuary (`/marriage/[id]`)
+### 4.5. Single Wedding Sanctuary (`/marriage/[id]`)
 *   **Feature:** Clicking any wedding card leads to a single, unified sanctuary containing all wedding features:
     *   **Six-Part Timeline:** 6 canonical rites (Engagement, Mehndi, Haldi, Sangeet, Marriage, Others) with date, time, and venue details.
     *   **Table Standee QR Modal:** Instant modal displaying the high-resolution banquet table standee QR code, unique passcode, and copyable upload link.

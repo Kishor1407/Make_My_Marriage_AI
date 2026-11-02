@@ -4,6 +4,7 @@ const {
   adminRegister,
   adminLogin,
   guestLogin,
+  verifyPasscode,
   logout,
   getMe
 } = require('../controllers/authController');
@@ -12,6 +13,7 @@ const { protect } = require('../middlewares/authMiddleware');
 router.post('/admin/register', adminRegister);
 router.post('/admin/login', adminLogin);
 router.post('/guest/login', guestLogin);
+router.post('/guest/verify-passcode', verifyPasscode);
 router.post('/logout', protect, logout);
 router.get('/me', protect, getMe);
 

@@ -128,6 +128,47 @@ const guestLogin = async (req, res, next) => {
   }
 };
 
+// @desc    Verify Secret Passcode & Unlock Marriage Sanctuary
+// @route   POST /api/v1/auth/guest/verify-passcode
+// @access  Public
+const verifyPasscode = async (req, res, next) => {
+  try {
+    const { marriageCode, name, email } = req.body;
+
+    if (!marriageCode) {
+      return res.status(400).json({ success: false, error: 'Please provide a confidential wedding passcode.' });
+    }
+
+    const cleanCode = marriageCode.trim().toUpperCase();
+    const marriage = await Marriage.findOne({ marriageCode: cleanCode });
+
+    if (!marriage) {
+      return res.status(404).json({
+        success: false,
+        error: 'The code entered does not match this wedding sanctuary. Verify with the host family or physical stationery.'
+      });
+    }
+
+    // Atomic increment of guests engaged
+    await Marriage.findByIdAndUpdate(marriage._id, {
+      $inc: { 'globalStats.totalGuestsEngaged': 1 }
+    });
+
+    const guestPayload = {
+      _id: `guest_${Date.now()}`,
+      name: name?.trim() || 'Honored Guest',
+      email: email?.trim().toLowerCase() || `guest@${cleanCode.toLowerCase()}.local`,
+      role: 'GUEST',
+      assignedMarriageId: marriage._id,
+      unlockedCode: cleanCode
+    };
+
+    sendTokenResponse(guestPayload, 200, res);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc    Logout user / clear cookie
 // @route   POST /api/v1/auth/logout
 // @access  Private
@@ -156,6 +197,7 @@ module.exports = {
   adminRegister,
   adminLogin,
   guestLogin,
+  verifyPasscode,
   logout,
   getMe
 };

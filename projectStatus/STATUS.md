@@ -20,8 +20,9 @@
 | **Phase 5: Guest QR Upload** | Attribution (Name/Email), image compression, batch GridFS upload | ✅ Completed | Mobile-friendly upload portal implemented (`/guest/upload`) in Luxury theme. |
 | **Phase 6: Timeline & Media Gallery** | 6-event tabs, photo/video segregation, live stream embed, live wishes | ✅ Completed | Implemented matching Stitch Black & Crimson Guest Dashboard with Live Wishes (`/marriage/[id]`). |
 | **Phase 7: Invitation Generator** | Client-side `html2canvas` poster export | ✅ Completed | In-page interactive invitation download and modal implemented. |
-| **Phase 8: Comprehensive Verification** | 8 Test Suites covering all 59 backend integration tests | ✅ Completed | 59/59 integration tests passing (100% pass rate). |
+| **Phase 8: Comprehensive Verification** | 8 Test Suites covering all 66 backend integration tests | ✅ Completed | 66/66 integration tests passing (100% pass rate). |
 | **Phase 9: Streamlined Flow & Dual-Persona Architecture** | Unified Role-Switch Gateway, Guest Celebrations Directory, Universal Navbar Simplification, Admin Dual-Tab Workspace | ✅ Completed | Google Stitch screens integrated: `ba79c901` (Gateway), `e978ae5b` (Celebrations), `5a170eb0` (Admin Dual-Tab Workspace), and Banquet Standee QR Modal. |
+| **Phase 10: Clean Entry & Secret Passcode Unlock Protocol** | Removed wedding selector from login screen, dynamic Celebrations Directory with live search, Secret Passcode Modal for locked cards | ✅ Completed | Integrated Stitch screens `6588f0d3` (Clean Gateway), `238ca088` (Celebrations Directory), and `7a358ae8` (Secret Passcode Modal). Endpoint `POST /api/v1/auth/guest/verify-passcode` active. |
 
 ---
 
