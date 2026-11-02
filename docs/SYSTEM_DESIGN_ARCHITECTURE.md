@@ -1,138 +1,137 @@
 # System Design & Architecture Document
 
-**Project:** Make My Marriage
-**Architecture Type:** Client-Server Monorepo
-**Budget Strategy:** 100% Free-Tier Dependent (₹0 Cost)
+**Project:** Make My Marriage  
+**Architecture Type:** Client-Server Monorepo  
+**Budget Strategy:** 100% Free-Tier Dependent (₹0 Cost: Vercel, Render, MongoDB Atlas M0)  
+**Version:** 2.0 (Streamlined Dual-Persona Architecture)  
 
 ## 1. High-Level Architecture Overview
 
 "Make My Marriage" utilizes a decoupled frontend and backend operating within a **Monorepo** structure. The architecture is designed to handle heavy media workflows efficiently without incurring cloud hosting costs.
 
-The system relies on client-side heavy lifting (compression, image generation) to reduce server load, while the backend acts strictly as a secure gateway for streaming data directly into the database.
+The system relies on client-side heavy lifting (compression, vector QR generation, DOM-to-canvas rendering) to eliminate server compute expenses, while the backend acts as a secure, streaming gateway directly into MongoDB Atlas GridFS.
 
-## 2. System Architecture Diagram
+## 2. System Architecture & Dual-Persona Routing Diagram
 
-Below is the tree-like structural representation of how data and requests flow through the entire system:
+Below is the structural representation of how users, personas, and requests flow through the entire system:
 
 ```
-[ Client (Mobile/Desktop Browser) ]
-   │
-   ├─ 1. [ UI & Interaction Layer ] (React / Tailwind)
-   ├─ 2. [ Client-Side Processing ]
-   │      ├─ browser-image-compression (Reduces photo size)
-   │      └─ html2canvas (Generates Invitation locally)
-   │
-   ├─ 3. [ State Management ] (Redux Toolkit)
-   │
-   │   (Network Boundary) 
-   │   (REST over HTTPS + HTTP-Only JWT Cookie)
-   ▼
-[ Frontend Serverless Edge ] (Next.js hosted on Vercel)
-   │
-   │   (API Forwarding & Static Serving)
-   ▼
-[ Backend API Gateway ] (Node.js & Express hosted on Render)
-   │
-   ├─ 1. [ Request Interception ]
-   │      ├─ JWT Verification Middleware
-   │      └─ Rate & Batch Limiting (Max 10 files)
-   │
-   ├─ 2. [ Stream Processing ]
-   │      └─ Multer (Handles multipart/form-data)
-   │
-   │   (TCP/IP Connection to Database)
-   ▼
-[ Database & Storage Engine ] (MongoDB Atlas Free Tier)
-   │
-   ├─ [ Core Collections ] (App logic, Users, Marriages)
-   └─ [ GridFS Storage ] (Direct binary chunk streaming for photos/videos)
-
+                            [ User Enters Site: Route / ]
+                                          │
+                  ┌───────────────────────┴───────────────────────┐
+                  ▼                                               ▼
+     ┌────────────────────────┐                     ┌────────────────────────┐
+     │   🌸 GUEST EXPERIENCE  │                     │  👑 HOST ADMIN PORTAL  │
+     │                        │                     │                        │
+     │ • No Password Required │                     │ • Sovereign Email/Pass │
+     │ • Instant Name & Email │                     │ • 7-Day JWT Token      │
+     │ • Clean "Proceed" Form │                     │ • Dual-Tab Workspace   │
+     └───────────┬────────────┘                     └───────────┬────────────┘
+                 │                                              │
+                 ▼                                              ▼
+     ┌────────────────────────┐                     ┌────────────────────────┐
+     │  Celebrations Hub (/)  │                     │ Admin Dashboard (/adm) │
+     │  • Filter pills        │                     │ ┌────────────────────┐ │
+     │  • Wedding cards       │                     │ │ Tab 1: Dashboard   │ │
+     │  • Exit/Switch Role    │                     │ │ Tab 2: Guest Mirror│ │
+     └───────────┬────────────┘                     │ └────────────────────┘ │
+                 │                                  └────────────────────────┘
+                 ▼
+     ┌────────────────────────────────────────────────────────┐
+     │          Single Wedding Sanctuary (/marriage/:id)      │
+     │  • 6-Rite Ceremony Tabs (Engagement -> Holy Pheras)    │
+     │  • Banquet Table Standee QR Modal                      │
+     │  • Live Broadcast YouTube Stream + Reaction Ribbon     │
+     │  • Drop Media Zone with Client-Side Compression        │
+     │  • Segregated Candid Gallery & Official 4K Reels       │
+     └───────────────────────────┬────────────────────────────┘
+                                 │
+                   (Network Boundary - REST over HTTPS)
+                                 ▼
+                     [ Next.js Serverless Edge ]
+                                 │
+                                 ▼
+                 [ Node.js & Express API Gateway ]
+                     (Render Free Tier - Port 5000)
+                     ├─ Auth Controller & JWT Signer
+                     ├─ Multer Memory Stream Pipe
+                     ├─ HTTP 206 Range Streamer
+                     └─ Cascade Deletion Engine
+                                 │
+                                 ▼
+                [ MongoDB Atlas Free Tier (GridFS M0) ]
+                     ├─ collections: users, marriages, events, wishes
+                     └─ buckets: uploads.files, uploads.chunks (255KB chunks)
 ```
 
 ## 3. Monorepo Directory Structure
 
-The project will use a monorepo setup (e.g., managed via standard npm workspaces) to keep frontend and backend code synced in one GitHub repository while allowing independent deployments.
-
 ```
 make-my-marriage-monorepo/
 │
-├── frontend/                 # Next.js Application (Deployed to Vercel)
+├── frontend/                 # Next.js 15 Application (App Router, Vercel)
 │   ├── src/
-│   │   ├── app/              # Routing (Landing, Dashboard, Admin)
-│   │   ├── components/       # Reusable UI (Cards, Modals, Forms)
-│   │   ├── store/            # Redux Slices (Auth, ActiveMarriage)
-│   │   ├── lib/              # Utility functions (html2canvas, compression)
-│   │   └── validations/      # Zod schemas (UI validation)
+│   │   ├── app/              # Routes: /, /admin/dashboard, /marriage/[id], /guest/upload
+│   │   ├── components/       # Reusable UI: Navbar, Standee QR Modal, Cinema Player
+│   │   ├── store/            # Redux Slices: authSlice, marriageSlice
+│   │   ├── lib/              # ₹0 Helpers: compression.ts, api.ts, invitation.ts
+│   │   └── validations/      # Zod validation schemas
 │   ├── package.json
 │   └── tailwind.config.js
 │
-├── backend/                  # Express Server (Deployed to Render)
+├── backend/                  # Express Server (Render Web Service)
 │   ├── src/
-│   │   ├── controllers/      # Business logic handlers
-│   │   ├── middlewares/      # JWT auth, Multer upload limits
-│   │   ├── models/           # Data models
-│   │   ├── routes/           # Route definitions
-│   │   └── utils/            # GridFS stream helpers & utilities
+│   │   ├── controllers/      # auth, marriages, events, media, invitations, wishes
+│   │   ├── middlewares/      # authMiddleware, uploadMiddleware, errorMiddleware
+│   │   ├── models/           # User, Marriage, Event, Wish, Invitation
+│   │   ├── routes/           # REST endpoints (/api/v1/...)
+│   │   └── utils/            # GridFS stream helpers, QR generator, responses
+│   ├── test_all_features.js  # 59-test integration suite
 │   ├── package.json
 │   └── server.js
 │
-└── package.json              # Root workspace manager
-
+├── API_DESIGN.md             # Complete REST API specification
+├── README.md                 # Project showcase and submission documentation
+└── package.json              # Monorepo root workspace manager
 ```
 
 ## 4. Core Sub-Systems & Data Flow
 
-### 4.1. Authentication System
+### 4.1. Dual-Persona Authentication System
 
-* **Mechanism:** JWT (JSON Web Tokens) delivered via **HTTP-Only, Secure, SameSite Cookies**.
-
-* **Flow:**
-
-  1. The user logs in via the Next.js frontend.
-
-  2. The Express backend validates and signs the JWT, attaching it to an HTTP-Only cookie in the response.
-
-  3. The browser automatically attaches this cookie to all subsequent API requests.
-
-  4. The backend middleware verifies the token before allowing access to protected routes.
-
-* **Security:** Prevents client-side scripts from accessing the token, neutralizing XSS risks.
+* **Guest Access:** Zero password required. Guests submit `{ name, email, marriageCode }`. The backend issues a guest JWT with identity payload and rehydrates local storage (`mmm_guest`). The UI displays guest attribution and strips all administrative links.
+* **Admin Access:** Sovereign hosts authenticate with email and password, receiving an administrative JWT stored in HTTP-Only cookies and local bearer token (`mmm_token`).
 
 ### 4.2. Media Upload Pipeline (The ₹0 Storage Strategy)
 
 * **Challenge:** Server RAM limits on Render and a strict 512MB limit on MongoDB Atlas.
-
 * **Flow:**
-
   1. Guest selects photos (Max 10 per batch enforced by UI).
-
-  2. The browser compresses the images via `browser-image-compression` *before* transmission.
-
+  2. The browser aggressively compresses images via `browser-image-compression` (<500KB) *before* transmission.
   3. The Next.js client sends the compressed payload to the Express backend.
+  4. The backend intercepts the request with `multer.memoryStorage()`.
+  5. Instead of saving to disk, the stream pipes directly into MongoDB GridFS in 255KB chunks (`uploads.files` and `uploads.chunks`).
 
-  4. The backend intercepts the request with `multer`.
-
-  5. Instead of saving to the disk or holding in memory, `multer-gridfs-storage` immediately pipes the incoming data stream directly into MongoDB GridFS in 255KB chunks.
-
-### 4.3. Client-Side Asset Generation (Invitations)
+### 4.3. High-Definition 4K Video Streaming (HTTP 206 Partial Content)
 
 * **Flow:**
+  1. Admin curates official video highlights tagged by ceremony.
+  2. The Cinema Player sends `Range: bytes=start-end` requests to `/api/v1/media/stream/:fileId`.
+  3. The backend calculates buffer offsets and streams slices via `bucket.openDownloadStreamByName` or `openDownloadStream(fileId, { start, end })`.
+  4. Enables smooth scrubbing, zero buffering, and seeking across all browser clients.
 
-  1. The Admin inputs event details into the Next.js UI.
+### 4.4. Banquet Table Standee QR Engine
 
-  2. The UI renders a hidden, fully styled DOM element representing the invitation.
-
-  3. The `html2canvas` library captures this DOM node and converts it into a Base64 image.
-
-  4. The browser triggers a local download.
-
-* **Advantage:** Zero backend processing power or third-party APIs are required for image generation.
+* **Flow:**
+  1. The server or client dynamically generates a vector QR code containing the marriage passcode: `${origin}/guest/upload?code=<marriageCode>`.
+  2. Guests at banquet tables scan the QR code to open the mobile-optimized photo dump with their ceremony pre-selected.
 
 ## 5. Constraint Mitigations & System Resilience
 
 | System Constraint | Architectural Solution | 
 | ----- | ----- | 
-| **MongoDB 512MB Total Limit** | Aggressive client-side image compression; strict max-batch limits per upload. | 
-| **MongoDB 16MB Doc Limit** | Utilizing MongoDB GridFS to chunk files across the database rather than storing Base64 strings. | 
-| **Render RAM Limits (Free)** | Using Node.js streams instead of memory buffers for file handling. | 
-| **Render Cold Starts** | The free backend sleeps after inactivity. The Next.js frontend will implement a "Waking Server..." UI skeleton during initial loads to handle the 30-50 second delay gracefully. | 
+| **MongoDB 512MB Total Limit** | Aggressive client-side image compression (<500KB); strict max-batch limits per upload. | 
+| **MongoDB 16MB Doc Limit** | Utilizing MongoDB GridFS to chunk files into 255KB chunks across `uploads.chunks`. | 
+| **Render RAM Limits (Free)** | Memory buffer piped directly to GridFS without disk caching. | 
+| **Render Cold Starts** | `WakingServerBanner.tsx` detects initial wakeups via `/api/v1/health` and informs users. |
+| **Navbar Clutter & Role Confusion** | Stripped multi-tabs into a single Celebrations anchor for guests, dual-tab workspace for admins. |
