@@ -90,6 +90,16 @@ export default function Navbar() {
               QR Photo Dump
             </Link>
             <Link
+              href="/marriage/rajsim24/vault"
+              className={`px-3.5 py-1.5 text-xs rounded-lg transition-colors ${
+                pathname?.includes('/vault')
+                  ? 'bg-[#c81e38] text-white font-semibold shadow-sm'
+                  : 'font-medium text-neutral-600 hover:text-neutral-900'
+              }`}
+            >
+              Media Vault
+            </Link>
+            <Link
               href="/admin/dashboard"
               className="px-3.5 py-1.5 text-xs font-medium text-neutral-600 hover:text-neutral-900 rounded-lg transition-colors"
             >

@@ -478,6 +478,14 @@ export default function AdminDashboardPage() {
               <span>Live Stream Cinema</span>
             </Link>
 
+            <Link
+              href="/marriage/rajsim24/vault"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-neutral-600 hover:bg-neutral-100 hover:text-black transition-all cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[18px] text-[#C81E38]">movie</span>
+              <span>Curated Media Vault</span>
+            </Link>
+
             <button
               onClick={() => showToast('Events & Timeline manager active for registered vaults.', 'info')}
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-neutral-600 hover:bg-neutral-100 hover:text-black transition-all cursor-pointer"
@@ -791,6 +799,14 @@ export default function AdminDashboardPage() {
                       </div>
 
                       <div className="flex items-center gap-3">
+                        <Link
+                          href={`/marriage/${featuredVault.code.toLowerCase()}/vault`}
+                          className="px-4 py-2.5 rounded-xl bg-neutral-100 hover:bg-[#C81E38] hover:text-white text-neutral-800 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer border border-neutral-200"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">movie</span>
+                          <span>Curate Reels (PRD 4.7)</span>
+                        </Link>
+
                         <Link
                           href={`/marriage/${featuredVault.code.toLowerCase()}/cinema?admin=true`}
                           className="px-4 py-2.5 rounded-xl bg-neutral-100 hover:bg-[#C81E38] hover:text-white text-neutral-800 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer border border-neutral-200"

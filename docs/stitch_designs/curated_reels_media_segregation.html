@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Hanken+Grotesk:ital,wght@0,300..900;1,300..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary-fixed-dim":"#ffb3b5","on-primary":"#ffffff","tertiary":"#9a1830","on-primary-fixed-variant":"#920021","inverse-surface":"#2f3037","on-secondary":"#ffffff","error-container":"#ffdad6","surface-container-high":"#e8e7f0","surface-container-low":"#f4f2fc","secondary":"#5f5e60","surface-container-highest":"#e3e1ea","primary-fixed-dim":"#ffb3b3","on-secondary-container":"#656466","primary":"#a20025","secondary-fixed-dim":"#c8c6c8","outline":"#8f6f6f","surface-dim":"#dad9e2","on-tertiary-fixed-variant":"#8f0c28","on-primary-fixed":"#400009","on-primary-container":"#ffdfde","on-surface-variant":"#5b4040","background":"#fbf8ff","on-tertiary-container":"#ffdfdf","secondary-container":"#e5e1e4","surface-bright":"#fbf8ff","surface-container":"#eeedf6","on-secondary-fixed":"#1c1b1d","surface-variant":"#e3e1ea","on-surface":"#1a1b22","surface-tint":"#bc1131","on-secondary-fixed-variant":"#474649","inverse-on-surface":"#f1f0f9","tertiary-fixed":"#ffdada","on-error":"#ffffff","inverse-primary":"#ffb3b3","primary-fixed":"#ffdad9","on-error-container":"#93000a","surface-container-lowest":"#ffffff","tertiary-container":"#bc3345","error":"#ba1a1a","secondary-fixed":"#e5e1e4","on-tertiary":"#ffffff","surface":"#fbf8ff","on-tertiary-fixed":"#40000c","primary-container":"#c81e38","on-background":"#1a1b22","outline-variant":"#e4bdbd"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem",gutter:"1.5rem","space-md":"1rem",margin:"4rem","margin-mobile":"1.25rem","space-sm":"0.5rem","gutter-mobile":"1rem","space-xl":"3rem","space-lg":"1.75rem"},fontFamily:{"body-sm":["Hanken Grotesk"],"headline-sm":["Bodoni Moda"],"headline-md":["Bodoni Moda"],"display-xl-mobile":["Bodoni Moda"],"headline-lg-mobile":["Bodoni Moda"],"label-lg":["Hanken Grotesk"],"body-lg":["Hanken Grotesk"],"display-lg":["Bodoni Moda"],"label-sm":["Hanken Grotesk"],"body-xl":["Hanken Grotesk"],"display-lg-mobile":["Bodoni Moda"],"label-md":["Hanken Grotesk"],"body-md":["Hanken Grotesk"],"display-xl":["Bodoni Moda"],"headline-lg":["Bodoni Moda"]},fontSize:{"body-sm":["12px",{lineHeight:"18px",letterSpacing:"0.01em",fontWeight:"400"}],"headline-sm":["22px",{lineHeight:"30px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-md":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"500"}],"display-xl-mobile":["44px",{lineHeight:"52px",letterSpacing:"-0.02em",fontWeight:"400"}],"headline-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.01em",fontWeight:"500"}],"label-lg":["13px",{lineHeight:"18px",letterSpacing:"0.12em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"26px",letterSpacing:"0em",fontWeight:"400"}],"display-lg":["56px",{lineHeight:"64px",letterSpacing:"-0.025em",fontWeight:"400"}],"label-sm":["10px",{lineHeight:"14px",letterSpacing:"0.18em",fontWeight:"600"}],"body-xl":["18px",{lineHeight:"28px",letterSpacing:"-0.005em",fontWeight:"400"}],"display-lg-mobile":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"400"}],"label-md":["11px",{lineHeight:"16px",letterSpacing:"0.15em",fontWeight:"600"}],"body-md":["14px",{lineHeight:"22px",letterSpacing:"0.005em",fontWeight:"400"}],"display-xl":["72px",{lineHeight:"80px",letterSpacing:"-0.03em",fontWeight:"400"}],"headline-lg":["40px",{lineHeight:"48px",letterSpacing:"-0.02em",fontWeight:"500"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-gutter"><div class="flex items-center gap-space-md"><span class="font-headline-md text-headline-md tracking-tight text-on-surface uppercase">Make My Marriage</span><span class="hidden lg:inline-block font-label-sm text-label-sm uppercase tracking-widest text-primary px-space-xs py-0.5 bg-primary-fixed">Atelier</span></div><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold"><a class="px-space-md py-space-xs font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="explore-marriages" href="#">Explore Marriages</a><a class="px-space-md py-space-xs font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="guest-experience" href="#">Guest Experience</a><a aria-current="page" class="px-space-md py-space-xs uppercase tracking-wider transition-colors bg-primary-container text-on-primary font-bold" data-path="media-vault" href="#">Media Vault</a><a class="px-space-md py-space-xs font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-cinema" href="#">Live Cinema</a><a class="px-space-md py-space-xs font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="admin-portal" href="#">Admin Portal</a></nav><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low"><span class="material-symbols-outlined text-primary text-[16px]">key</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Passkey Active</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Sub-Header Monograph Bar -->
+<div class="w-full bg-surface-container-lowest shadow-[0_1px_0_0_rgba(232,231,240,0.8)]">
+<div class="max-w-7xl mx-auto px-gutter py-space-md flex flex-wrap items-center justify-between gap-space-md">
+<!-- Breadcrumb Hierarchy -->
+<nav class="flex items-center gap-space-xs font-label-md text-label-md uppercase tracking-wider text-secondary">
+<a class="hover:text-primary transition-colors" href="#">Atelier Registry</a>
+<span class="text-outline-variant font-light">/</span>
+<a class="hover:text-primary transition-colors" href="#">Raj &amp; Simran's Nuptials</a>
+<span class="text-outline-variant font-light">/</span>
+<span class="text-on-surface font-semibold">Media Vault [PRD 4.7 Segregation]</span>
+</nav>
+<!-- Protocol Badges & Host Lock -->
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 bg-surface-container-low text-on-surface font-label-sm text-label-sm uppercase tracking-widest">
+<span class="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span>
+          Vault Unlocked <span class="font-mono text-primary font-bold">[RAJSIM24]</span>
+</span>
+<div class="inline-flex items-center gap-1 px-space-sm py-1 bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm uppercase tracking-widest">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+          Strict Segregation Active
+        </div>
+</div>
+</div>
+</div>
+<!-- Hero Monogram & Archival Title Section -->
+<section class="w-full bg-surface-bright py-space-xl">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+<div class="space-y-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-[0.22em] text-primary font-bold">Official Matrimonial Archive</span>
+<span class="w-8 h-[1px] bg-primary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary">October 18â€“20, 2024</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-on-surface uppercase font-normal">
+            Raj Malhotra <span class="font-light italic text-primary">&amp;</span> Simran Singh
+          </h1>
+<div class="flex flex-wrap items-center gap-space-md pt-1">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-secondary uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px] text-primary">location_on</span>
+              The Grand Oberoi Amarvilas, Agra â€¢ Royal Kohinoor Pavilion
+            </span>
+<span class="hidden sm:inline text-outline-variant font-light">â€¢</span>
+<span class="font-label-md text-label-md text-secondary uppercase tracking-wider">
+              Monograph Ledger â„– 884-K
+            </span>
+</div>
+</div>
+<!-- Right Quick Stats & Host Curator CTA -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest p-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+<div class="px-space-md py-space-xs text-center">
+<span class="block font-headline-sm text-headline-sm text-on-surface font-semibold" id="candid-count-pill">420</span>
+<span class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary">Candid Frames</span>
+</div>
+<div class="w-[1px] h-8 bg-surface-container-high"></div>
+<div class="px-space-md py-space-xs text-center bg-primary-fixed/40">
+<span class="block font-headline-sm text-headline-sm text-primary font-bold">4</span>
+<span class="block font-label-sm text-label-sm uppercase tracking-wider text-primary font-semibold">4K Cinema Reels</span>
+</div>
+<div class="w-[1px] h-8 bg-surface-container-high"></div>
+<div class="px-space-md py-space-xs text-center">
+<span class="block font-headline-sm text-headline-sm text-on-surface font-semibold">240</span>
+<span class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary">Guests Engaged</span>
+</div>
+</div>
+<!-- Host Exclusive Button -->
+<button class="group relative px-space-lg py-3.5 bg-primary hover:bg-[#8f001f] text-on-primary font-label-lg text-label-lg uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-md active:translate-y-0.5" id="btn-curate-reel">
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+<span>+ Curate New Reel</span>
+<span class="material-symbols-outlined text-[15px] opacity-75 group-hover:rotate-12 transition-transform">lock</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Strict Media Segregation Bar (PRD 4.7 Core Mechanism) -->
+<section class="w-full bg-surface-container-lowest sticky top-20 z-30 shadow-[0_4px_16px_rgba(0,0,0,0.03)]">
+<div class="max-w-7xl mx-auto px-gutter py-space-md">
+<!-- Primary Segregation Switch -->
+<div class="w-full flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="w-full md:w-auto inline-flex p-1 bg-surface-container-high shadow-inner">
+<!-- Tab 1: Crowdsourced Candid Photos -->
+<button class="flex-1 md:flex-initial px-space-lg py-3 flex items-center gap-space-sm text-left transition-all duration-200 bg-transparent text-secondary hover:text-on-surface" id="tab-candid" onclick="switchMediaVault('candid')">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-lg text-label-lg uppercase tracking-wider font-semibold">Candid Photo Dumps</span>
+<span class="font-mono text-body-sm font-bold bg-surface-container px-1.5 py-0.5 text-secondary">420</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary/80 hidden sm:block">Guest table QR uploads &amp; selfie live streams</p>
+</div>
+</button>
+<!-- Tab 2: Admin-Curated 4K Video Reels (Default Active) -->
+<button class="flex-1 md:flex-initial px-space-lg py-3 flex items-center gap-space-sm text-left transition-all duration-200 bg-primary text-on-primary shadow-sm" id="tab-reels" onclick="switchMediaVault('reels')">
+<span class="material-symbols-outlined text-[20px] text-white">movie</span>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-lg text-label-lg uppercase tracking-wider font-bold">Official Video Reels</span>
+<span class="font-mono text-body-sm font-bold bg-[#7a001a] px-1.5 py-0.5 text-white">4</span>
+<span class="px-1.5 py-0.5 text-[9px] uppercase tracking-widest font-bold bg-[#ffd700] text-black">ðŸ‘‘ Host Curated</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-primary/80 hidden sm:block">4K Master cuts â€¢ Sangeet, Pheras &amp; Teasers</p>
+</div>
+</button>
+</div>
+<!-- Segregation Status Guarantee -->
+<div class="hidden xl:flex items-center gap-space-sm text-right">
+<span class="material-symbols-outlined text-primary text-[20px]">verified_user</span>
+<div class="text-left font-label-sm text-label-sm uppercase tracking-wider text-secondary">
+<span class="block text-on-surface font-bold">Immutable Isolation Tier</span>
+<span>Unverified guest uploads never mix with official reels</span>
+</div>
+</div>
+</div>
+<!-- Ceremony Filter Sub-Bar -->
+<div class="mt-space-md pt-space-sm flex flex-wrap items-center justify-between gap-space-sm" id="filter-bar">
+<div class="flex flex-wrap items-center gap-space-xs font-label-md text-label-md uppercase tracking-wider">
+<span class="text-secondary pr-space-xs text-label-sm">Ritual Filter:</span>
+<button class="filter-btn px-space-md py-1.5 bg-primary text-on-primary font-bold shadow-sm transition-all" data-filter="ALL" onclick="filterCeremony('ALL')">All Ceremonies (4)</button>
+<button class="filter-btn px-space-md py-1.5 bg-surface-container-low text-secondary hover:text-on-surface transition-all" data-filter="HALDI" onclick="filterCeremony('HALDI')">Haldi (1)</button>
+<button class="filter-btn px-space-md py-1.5 bg-surface-container-low text-secondary hover:text-on-surface transition-all" data-filter="MEHNDI" onclick="filterCeremony('MEHNDI')">Mehndi (1)</button>
+<button class="filter-btn px-space-md py-1.5 bg-surface-container-low text-secondary hover:text-on-surface transition-all" data-filter="SANGEET" onclick="filterCeremony('SANGEET')">Sangeet (1)</button>
+<button class="filter-btn px-space-md py-1.5 bg-surface-container-low text-secondary hover:text-on-surface transition-all" data-filter="MARRIAGE" onclick="filterCeremony('MARRIAGE')">Marriage â€¢ Pheras (1)</button>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-1 font-label-sm text-label-sm uppercase tracking-wider text-secondary hover:text-on-surface px-space-sm py-1" onclick="toggleSortOrder()">
+<span class="material-symbols-outlined text-[16px]">swap_vert</span>
+<span>Sort: Chronological Ritual</span>
+</button>
+<button class="flex items-center gap-1 font-label-sm text-label-sm uppercase tracking-wider text-primary hover:text-tertiary px-space-sm py-1 font-bold" onclick="downloadAllVaultReels()">
+<span class="material-symbols-outlined text-[16px]">archive</span>
+<span>Download Reel Folio (4K)</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Architectural PRD 4.7 Notice Banner -->
+<div class="w-full bg-[#fdfbf7]">
+<div class="max-w-7xl mx-auto px-gutter py-space-sm flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">workspace_premium</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="uppercase font-label-sm tracking-wider text-primary">PRD 4.7 Curatorial Mandate:</strong>
+          Official Video Reels are curated exclusively by the host wedding atelier. Guests upload crowdsourced snapshots solely in the Candid Photos tab or via table standee QR codes.
+        </p>
+</div>
+<span class="hidden md:inline-block font-mono text-[11px] text-secondary tracking-widest uppercase">GridFS 4K Stream Engine</span>
+</div>
+</div>
+<!-- Primary Vault Dynamic Canvas -->
+<main class="w-full py-space-xl">
+<div class="max-w-7xl mx-auto px-gutter">
+<!-- VIEW 1: Active Curated Video Reels Gallery Grid (2x2 Widescreen Masterpieces) -->
+<div class="space-y-space-lg" id="view-reels-container">
+<!-- Grid Header Micro-Bar -->
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-sm text-headline-sm uppercase text-on-surface tracking-tight">Curated Master Cinema Reels</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest px-2 py-0.5 bg-surface-container text-secondary">16:9 DCI-P3 Vault</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Click any reel to stream in the high-fidelity Dolby Vision cinema player.</p>
+</div>
+<!-- 2x2 Curated Cinematic Video Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Reel Card 1: Sangeet Finale Dance -->
+<article class="reel-card group bg-surface-container-lowest flex flex-col shadow-sm hover:shadow-xl transition-all duration-300" data-ceremony="SANGEET">
+<!-- 16:9 Thumbnail Canvas -->
+<div class="relative w-full aspect-video bg-black overflow-hidden cursor-pointer" onclick="openCinemaPlayer('reel-sangeet')">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" data-alt="A grand Indian sangeet luxury stage dance celebration. The bride in an intricately embroidered crimson and gold lehenga and groom in a bespoke midnight blue bandhgala laughing mid-choreography. Golden sparklers, dramatic rim lighting, vibrant floral chandeliers at The Oberoi Amarvilas Agra with guest applause." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA55Hy4h3141dkGq_vL33-UITtTVym4N09dB435L9BjwGMwIw7qcGByK20-Lsb-u1AdvBVBotHwhFsD_xZGKn3aKbQ-b_v6gX7Oq384UMS9cyoHkNSiTJDV16jyYXE88p46TpdxVynimUhuHMtJRT3u_w38tGH8CCSOjmkeksIROJ0jOI2J9A-DB_vXZ_r0fS1NbZsl-5D6bSeDQHUE9EZFTXYjyBpQtT1Ka6rOok"/>
+<!-- Gradient Scrim for Readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
+<!-- Top Overlay Badges -->
+<div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest font-bold">
+                    Sangeet Gala
+                  </span>
+<span class="px-2 py-0.5 bg-black/60 backdrop-blur-md text-white font-mono text-[11px] uppercase tracking-wider">
+                    4K Ultra-HD â€¢ 60 FPS
+                  </span>
+</div>
+<span class="px-2 py-1 bg-black/70 backdrop-blur-md text-white font-mono text-[12px] font-medium tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">schedule</span> 02:45
+                </span>
+</div>
+<!-- Centered Glassmorphic Play Trigger -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-primary shadow-2xl group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined text-[36px] ml-1">play_arrow</span>
+</div>
+</div>
+<!-- Bottom Thumbnail Info Strip -->
+<div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white font-label-sm text-label-sm">
+<span class="flex items-center gap-1.5 text-white/90">
+<span class="material-symbols-outlined text-[15px] text-[#ffd700]">music_note</span>
+                  Zara Sa Jhoom Loon â€¢ Live Symphony Remaster
+                </span>
+<span class="font-mono text-white/75 text-[11px]">MASTER_SNG_01.MP4</span>
+</div>
+</div>
+<!-- Metadata & Interactive Action Bar -->
+<div class="p-space-lg flex flex-col justify-between flex-1 gap-space-md">
+<div>
+<div class="flex items-center justify-between text-secondary pb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-widest flex items-center gap-1 text-primary font-bold">
+<span class="material-symbols-outlined text-[14px]">stars</span> Curated by Hosts: Simran &amp; Raj
+                  </span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Stream: 1,840 plays</span>
+</div>
+<h3 class="font-headline-md text-headline-md tracking-tight text-on-surface group-hover:text-primary transition-colors">
+                  Zara Sa Jhoom Loon â€” Sangeet Finale Choreography
+                </h3>
+<p class="font-body-md text-body-md text-secondary mt-1 line-clamp-2">
+                  The grand couple entry and viral stage performance with 18 cousins and royal pyrotechnics under the Agra starlit pavilion.
+                </p>
+</div>
+<div class="pt-space-md shadow-[0_-1px_0_0_rgba(232,231,240,0.8)] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Cinema Master Cut</span>
+<span class="px-2 py-0.5 bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Dolby 5.1</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Reel URL copied to clipboard.')" title="Share Reel Link">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button class="p-2 text-secondary hover:text-primary hover:bg-surface-container-high transition-colors" onclick="toggleFavorite(this)" title="Bookmark in Private Folio">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+<button class="p-2 text-primary hover:bg-primary-fixed transition-colors" onclick="downloadSingleReel('Zara Sa Jhoom Loon')" title="Download 4K Master">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Reel Card 2: Haldi Celebration -->
+<article class="reel-card group bg-surface-container-lowest flex flex-col shadow-sm hover:shadow-xl transition-all duration-300" data-ceremony="HALDI">
+<!-- 16:9 Thumbnail Canvas -->
+<div class="relative w-full aspect-video bg-black overflow-hidden cursor-pointer" onclick="openCinemaPlayer('reel-haldi')">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" data-alt="Intense joyous Haldi morning ceremony at a royal marble terrace courtyard. Family members showering golden yellow marigold flower petals over the laughing couple draped in yellow silk dupattas. Bright sunny morning rays, turmeric pastes, champagne toasts, slow motion water splashes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl4Vx7mJmEXstmCeOn1bUixfHWsEupWLRip3rsJ0bhIcIP2eZstjzJ83o5pG9uHPUAWKYRSqxoIYpd8m61iExk-v93aqLRVMq2x1vYsAcXX4fxKbkn0CSFI9VZBGPwrFn64qGzhTibRO5kB20GnrCjBltv0G8JSpIopkHoNqhplARD8eMVUKsHWDpAHlu7tsshMZzHbHVqniTRFWw0nkgKvWykZlXWgUHGz7kf42k"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
+<div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 bg-[#d97706] text-white font-label-sm text-label-sm uppercase tracking-widest font-bold">
+                    Haldi Ritual
+                  </span>
+<span class="px-2 py-0.5 bg-black/60 backdrop-blur-md text-white font-mono text-[11px] uppercase tracking-wider">
+                    1080p CineLog
+                  </span>
+</div>
+<span class="px-2 py-1 bg-black/70 backdrop-blur-md text-white font-mono text-[12px] font-medium tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">schedule</span> 01:30
+                </span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-primary shadow-2xl group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined text-[36px] ml-1">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white font-label-sm text-label-sm">
+<span class="flex items-center gap-1.5 text-white/90">
+<span class="material-symbols-outlined text-[15px] text-[#ffd700]">music_note</span>
+                  Genda Phool â€¢ Acoustic Folk Mix
+                </span>
+<span class="font-mono text-white/75 text-[11px]">MASTER_HLD_02.MP4</span>
+</div>
+</div>
+<div class="p-space-lg flex flex-col justify-between flex-1 gap-space-md">
+<div>
+<div class="flex items-center justify-between text-secondary pb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-widest flex items-center gap-1 text-on-surface font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#10b981]">verified</span> Curator: Bauji's Patriarch Blessing
+                  </span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Stream: 940 plays</span>
+</div>
+<h3 class="font-headline-md text-headline-md tracking-tight text-on-surface group-hover:text-primary transition-colors">
+                  The Golden Haldi Glow â€” Candid Marigold Shower
+                </h3>
+<p class="font-body-md text-body-md text-secondary mt-1 line-clamp-2">
+                  Unscripted emotional moments as grandparents drench Raj &amp; Simran in yellow marigold rain on the marble fountains terrace.
+                </p>
+</div>
+<div class="pt-space-md shadow-[0_-1px_0_0_rgba(232,231,240,0.8)] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Candid Moments</span>
+<span class="px-2 py-0.5 bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Family Cut</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Reel URL copied to clipboard.')" title="Share Reel Link">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button class="p-2 text-secondary hover:text-primary hover:bg-surface-container-high transition-colors" onclick="toggleFavorite(this)" title="Bookmark in Private Folio">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+<button class="p-2 text-primary hover:bg-primary-fixed transition-colors" onclick="downloadSingleReel('The Golden Haldi Glow')" title="Download 1080p Master">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Reel Card 3: Mehndi Sunset Garden -->
+<article class="reel-card group bg-surface-container-lowest flex flex-col shadow-sm hover:shadow-xl transition-all duration-300" data-ceremony="MEHNDI">
+<!-- 16:9 Thumbnail Canvas -->
+<div class="relative w-full aspect-video bg-black overflow-hidden cursor-pointer" onclick="openCinemaPlayer('reel-mehndi')">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" data-alt="An ethereal sunset Mehndi ritual in a Mughal-inspired garden terrace with the Taj Mahal silhouette in soft background twilight. Bride Simran surrounded by floral canopy having intricate Rajasthani henna applied on palms, warm lanterns, emerald velvet bolsters, smiling bridesmaids in pastel silk." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr8JaetGPE7YDWY2Tkchy9X0cn6zz9VIBwVFNELtgTAqvBkLdRwZSl8kdZZ5QKyZyo98B-q2cVFZldcWeWQlQg8fT0v2FNJL8wdVlPCCuymd4-mu-dIYe1xkGYJSBekNvHOGJ8lvlUODhwx_uULIQOmCMBXiACsZN75CV2f8bA6-wDtgu60O8jPxKDYsq0Mcg6FmClli07FIXMm1O3j109A30cv4GgoIdlfb1xV8U"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
+<div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 bg-[#059669] text-white font-label-sm text-label-sm uppercase tracking-widest font-bold">
+                    Mehndi SoirÃ©e
+                  </span>
+<span class="px-2 py-0.5 bg-black/60 backdrop-blur-md text-white font-mono text-[11px] uppercase tracking-wider">
+                    4K DCI Cinema
+                  </span>
+</div>
+<span class="px-2 py-1 bg-black/70 backdrop-blur-md text-white font-mono text-[12px] font-medium tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">schedule</span> 03:15
+                </span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-primary shadow-2xl group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined text-[36px] ml-1">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white font-label-sm text-label-sm">
+<span class="flex items-center gap-1.5 text-white/90">
+<span class="material-symbols-outlined text-[15px] text-[#ffd700]">music_note</span>
+                  Chenab Flute &amp; Sufi Strings Ensemble
+                </span>
+<span class="font-mono text-white/75 text-[11px]">MASTER_MHN_03.MP4</span>
+</div>
+</div>
+<div class="p-space-lg flex flex-col justify-between flex-1 gap-space-md">
+<div>
+<div class="flex items-center justify-between text-secondary pb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-widest flex items-center gap-1 text-on-surface font-semibold">
+<span class="material-symbols-outlined text-[14px] text-[#10b981]">verified</span> Curator: Host Concierge Protocol
+                  </span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Stream: 1,120 plays</span>
+</div>
+<h3 class="font-headline-md text-headline-md tracking-tight text-on-surface group-hover:text-primary transition-colors">
+                  Chenab Flute &amp; Kashmiri Sunset Ritual
+                </h3>
+<p class="font-body-md text-body-md text-secondary mt-1 line-clamp-2">
+                  Artisanal henna detailing, classical flute improvisations, and intimate banter amongst the bride's closest friends as twilight fell over the Yamuna.
+                </p>
+</div>
+<div class="pt-space-md shadow-[0_-1px_0_0_rgba(232,231,240,0.8)] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Color Master 4K</span>
+<span class="px-2 py-0.5 bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Uncompressed Audio</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Reel URL copied to clipboard.')" title="Share Reel Link">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button class="p-2 text-secondary hover:text-primary hover:bg-surface-container-high transition-colors" onclick="toggleFavorite(this)" title="Bookmark in Private Folio">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+<button class="p-2 text-primary hover:bg-primary-fixed transition-colors" onclick="downloadSingleReel('Chenab Flute &amp; Kashmiri Sunset')" title="Download 4K Master">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Reel Card 4: Sacred Pheras & Sindoor -->
+<article class="reel-card group bg-surface-container-lowest flex flex-col shadow-sm hover:shadow-xl transition-all duration-300" data-ceremony="MARRIAGE">
+<!-- 16:9 Thumbnail Canvas -->
+<div class="relative w-full aspect-video bg-black overflow-hidden cursor-pointer" onclick="openCinemaPlayer('reel-marriage')">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" data-alt="Royal midnight Vedic wedding pheras ceremony under an antique gold floral mandap in Agra. Raj placing vermilion sindoor on Simran's forehead, gentle sacred fire agni flames glowing, Vedic priests chanting, cascading white tuberose garlands and emotional family vows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbSFnFnI5Jpuh7ZvGS3KHTjNtzsxn8QClt8G1aEU_khuiHUXftjAUcu-p9vNEMI-JMpDPb9BN4GRuhajwvB-ztl8XyeKA1qvKfmj5XKAlLIDbe_Me-D9NIu0rO56VD6LfDF0SYO7fuVQZk7xSgh_Sk2mc1JykfqYjlf4hnAGRMBsd1xmlZcO9CfZJE9zN3Pjj88uorqmbaMzrU2tWQb8eRyG45powg3Ql5fZxWlK0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
+<div class="absolute top-4 left-4 right-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest font-bold">
+                    Marriage â€¢ Vedic Rites
+                  </span>
+<span class="px-2 py-0.5 bg-black/60 backdrop-blur-md text-white font-mono text-[11px] uppercase tracking-wider">
+                    4K IMAX Enhanced
+                  </span>
+</div>
+<span class="px-2 py-1 bg-black/70 backdrop-blur-md text-white font-mono text-[12px] font-medium tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">schedule</span> 04:10
+                </span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-16 h-16 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-primary shadow-2xl group-hover:scale-110 group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined text-[36px] ml-1">play_arrow</span>
+</div>
+</div>
+<div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white font-label-sm text-label-sm">
+<span class="flex items-center gap-1.5 text-white/90">
+<span class="material-symbols-outlined text-[15px] text-[#ffd700]">music_note</span>
+                  Kudmai â€¢ Sacred Shlokas &amp; Sitar
+                </span>
+<span class="font-mono text-white/75 text-[11px]">MASTER_VED_04.MP4</span>
+</div>
+</div>
+<div class="p-space-lg flex flex-col justify-between flex-1 gap-space-md">
+<div>
+<div class="flex items-center justify-between text-secondary pb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-widest flex items-center gap-1 text-primary font-bold">
+<span class="material-symbols-outlined text-[14px]">local_police</span> Curator: Official Studio Cinematographer
+                  </span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Stream: 3,490 plays</span>
+</div>
+<h3 class="font-headline-md text-headline-md tracking-tight text-on-surface group-hover:text-primary transition-colors">
+                  Saat Phere &amp; Sindoor Daan â€” Sacred Rites &amp; Vows
+                </h3>
+<p class="font-body-md text-body-md text-secondary mt-1 line-clamp-2">
+                  The timeless circumambulation around the sacred agni fire, promises of eternity, and the tender sindoor ritual witnessed by 240 royal guests.
+                </p>
+</div>
+<div class="pt-space-md shadow-[0_-1px_0_0_rgba(232,231,240,0.8)] flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Vows Monograph</span>
+<span class="px-2 py-0.5 bg-surface-container font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Dolby Atmos</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="triggerToast('Reel URL copied to clipboard.')" title="Share Reel Link">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button class="p-2 text-secondary hover:text-primary hover:bg-surface-container-high transition-colors" onclick="toggleFavorite(this)" title="Bookmark in Private Folio">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+<button class="p-2 text-primary hover:bg-primary-fixed transition-colors" onclick="downloadSingleReel('Saat Phere &amp; Sindoor Daan')" title="Download 4K Master">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Curatorial Ledger Protocol Meta Card -->
+<div class="p-space-lg bg-surface-container-low flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md mt-space-xl">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm uppercase text-on-surface">Host Media Verification Seal</h4>
+<p class="font-body-sm text-body-sm text-secondary">All 4 cinema reels have been color-graded in Apple ProRes 422HQ and cryptographically signed by the Malhotra-Singh family atelier.</p>
+</div>
+</div>
+<button class="px-space-md py-2.5 bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md uppercase tracking-wider shadow-sm transition-all" onclick="triggerVerificationModal()">
+            Inspect Cryptographic Certificate
+          </button>
+</div>
+</div>
+<!-- VIEW 2: Crowdsourced Candid Photos Preview (Initially Hidden for Strict Segregation Demonstration) -->
+<div class="hidden space-y-space-lg" id="view-candid-container">
+<div class="p-space-lg bg-surface-container-lowest shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-[#d97706] font-bold">Unmoderated Guest Sandbox</span>
+<h2 class="font-headline-md text-headline-md tracking-tight uppercase text-on-surface">Crowdsourced Candid Photo Dumps (420)</h2>
+<p class="font-body-md text-body-md text-secondary mt-1">Uploaded via Table Standee QR Codes â€¢ Scanned from 34 Banquet Tables.</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2.5 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider flex items-center gap-1.5 shadow-sm" onclick="triggerToast('Camera scanner open. Point at table QR standee.')">
+<span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+<span>Upload My Table Snaps</span>
+</button>
+<button class="px-space-md py-2.5 bg-surface-container-high text-on-surface font-label-md text-label-md uppercase tracking-wider" onclick="switchMediaVault('reels')">
+              â† Back to Official Reels
+            </button>
+</div>
+</div>
+<!-- Candid Masonry Collage Demo -->
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-space-md">
+<div class="bg-surface-container-lowest p-2 shadow-sm flex flex-col gap-2">
+<div class="w-full aspect-[4/5] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Candid smartphone photo taken by wedding guest at dining table. Close-up of champagne glasses clinking, laughing guests in colorful sherwanis, bokeh lights of the wedding ballroom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASw2DnDJixynsK8h3yFJ6cRS71P0p5w4jT9ivGQVPTnuqo0g45-QUodP6NQZEiGgtLtWnVtEaaWLuLj37OPcC444-Osf9-e_y4NKh1v3HX2jwTwb8bnL2t8NNPHdCxF0JK98LYFj3rIYIrEvwh0Ddi8P3BPFriujx3nNRRz7Vowi78ppMj8HyTDRZwmRjo9OcbFDTm9CS7cDyYnIXmU8Xzq1zGDYogVuS4OuXKazM"/>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>Table 12 â€¢ Rohan K.</span>
+<span class="font-mono">10:42 PM</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-2 shadow-sm flex flex-col gap-2">
+<div class="w-full aspect-[4/5] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Candid guest photo of wedding buffet dessert counter with artisanal jalebi and gold leaf kulfi, blurred guests enjoying midnight feast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVAw8Nl8wXjs9EhserckYCg0oYXJTL0NNUzC3RtDd9R5ERNBDGFAM8ig6BpFWaVgi6cwCPS6UP0DhdEdZ68Jxi8zid8fIcZxe-7cppDVpFlnu2PxDTWhqxHmqmL5V6UvIl9Q2jceDPoJtqcIDTZz7MTr-PEFG1YOnmDR5AkFQf6FvSu_UvTotJTrqn1oObkXC5zKwRpmOuq0yfqUp0EH52dNW2by5bEbesVL6xzx0"/>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>Table 04 â€¢ Aanya M.</span>
+<span class="font-mono">11:15 PM</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-2 shadow-sm flex flex-col gap-2">
+<div class="w-full aspect-[4/5] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Candid guest selfie taken by young wedding attendees dancing spontaneously during sangeet party after-hours with glowing LED sticks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2AzS-lvu5VmbknSo6OFtiZn7jQL1rZ42dr-fpFuQ_rQh-C5Z7KLkCx6iU488YcRSQf1rU1U5WEY3Kh12KPzV9EdHvbaSSTa4iqAHywxUWf6YFQZZWn-sczfFs0YgCEjWSmLJmeC3zamz-b_x8cpoULJSzpfFp1s4mZWZxCjqZ3qer51jbwZlbZwJl-pQi3Vw0md0Vz2A6GPK2dWYSRigTU9XP2Pzw6745ED80ecc"/>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>Table 08 â€¢ Karan V.</span>
+<span class="font-mono">01:05 AM</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-2 shadow-sm flex flex-col gap-2">
+<div class="w-full aspect-[4/5] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Candid Polaroid style guest snapshot showing the couple laughing at the bar pavilion with friends, candid wedding joy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg99tUlDRvj2y6FHHpGIykrtrjpJ_DGKlj5tzAVfVhIfrgZlcj6ieeoDy_Us26GrDD8_-quI58qtCY5C5Nq_By6LSlSKckuBf1VtomfpI4UZjuGVZhbDrONYa_JrXkDpCaDSmSys7n_h2uWUN3fUmsMYnrDLuX8obmeUulatAb8nlrTJ3b36PCeBcPCSxq1UXPJpPbmJT9T8p9UZIVjzBg_fi7M1oZfl_05RqqGwU"/>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>Table 19 â€¢ Priya S.</span>
+<span class="font-mono">01:40 AM</span>
+</div>
+</div>
+</div>
+<div class="p-space-lg text-center bg-surface-container-low text-secondary font-label-md text-label-md uppercase tracking-wider">
+          Displaying 4 of 420 guest-submitted candids â€¢ Admin moderation filters active.
+        </div>
+</div>
+</div>
+</main>
+<!-- Interactive Modal Lightbox: 4K Cinema Player (Card 1 Active Preview) -->
+<div class="fixed inset-0 z-50 hidden flex-col items-center justify-center p-4 sm:p-8 bg-black/90 backdrop-blur-2xl transition-opacity duration-300" id="cinema-modal">
+<div class="relative w-full max-w-5xl bg-[#0a0a0c] shadow-2xl flex flex-col overflow-hidden">
+<!-- Modal Header Strip -->
+<div class="px-space-lg py-space-md bg-[#121216] flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm">
+<span class="px-2 py-0.5 bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-widest font-bold">
+            Dolby Cinema Stream
+          </span>
+<div>
+<h2 class="font-headline-sm text-headline-sm tracking-tight text-white font-medium" id="modal-reel-title">
+              Zara Sa Jhoom Loon â€” Sangeet Finale Dance
+            </h2>
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-secondary flex items-center gap-1.5">
+<span>Host Curated: Simran &amp; Raj</span>
+<span class="text-white/30">â€¢</span>
+<span class="text-[#ffd700]">GridFS 4K Stream</span>
+</p>
+</div>
+</div>
+<!-- Close Trigger -->
+<button class="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors" onclick="closeCinemaPlayer()" title="Close Lightbox (Esc)">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<!-- 16:9 Cinema Canvas Simulator -->
+<div class="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="High-resolution cinematography still frame of a luxurious Indian wedding dance on an opulent stage with golden lighting, floating confetti, and an ecstatic bride and groom embracing mid-song in high fashion royal outfits." id="modal-video-poster" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZynXGy0DuwzOWT3fZFVhVbGTh69lim0kWixJdwxH8MK5U_LSl52WiK1T5QyIkLGBVwqgA8SLZJl_fFlwDsgl8ju2TAZwcW1qNvDjLE3YmWNzdXPP9PehzFX3aFmmmlRfxSiik3e0P860eWpWH9wNsusDPWQxxBkX9A3LDD9INN-D86F0kRgjl2NOUS6SRZaKNsMMscMWH3F8y36G5BqUGvDbgr97kDvSLZBqIZDs"/>
+<!-- Scrim Overlay for Playback HUD -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30"></div>
+<!-- Center Pause/Play Watermark (Simulating playback) -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-20 h-20 rounded-full bg-primary/20 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[48px]">pause</span>
+</div>
+</div>
+<!-- Live Cinema Scrubber & Controls HUD -->
+<div class="absolute bottom-0 left-0 right-0 p-space-md space-y-space-xs">
+<!-- Scrubber Progress Bar -->
+<div class="relative w-full h-1.5 bg-white/30 hover:h-2.5 transition-all cursor-pointer">
+<div class="absolute top-0 left-0 bottom-0 w-[45%] bg-primary"></div>
+<div class="absolute top-1/2 left-[45%] -translate-y-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-white shadow-md"></div>
+</div>
+<!-- Bottom Control Bar -->
+<div class="flex items-center justify-between text-white font-label-sm text-label-sm">
+<div class="flex items-center gap-space-md">
+<button class="hover:text-primary transition-colors flex items-center">
+<span class="material-symbols-outlined text-[24px]">pause</span>
+</button>
+<button class="hover:text-primary transition-colors flex items-center">
+<span class="material-symbols-outlined text-[20px]">replay_10</span>
+</button>
+<button class="hover:text-primary transition-colors flex items-center">
+<span class="material-symbols-outlined text-[20px]">forward_10</span>
+</button>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">volume_up</span>
+<div class="w-16 h-1 bg-white/40">
+<div class="w-[70%] h-full bg-white"></div>
+</div>
+</div>
+<span class="font-mono text-[12px] tracking-wider text-white/80">01:14 / 02:45</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="px-2 py-0.5 bg-white/10 font-mono text-[11px] uppercase tracking-widest text-[#ffd700] font-bold">4K HDR 60fps</span>
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">fullscreen</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Bottom Actions & Meta -->
+<div class="px-space-lg py-space-md bg-[#121216] flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm text-secondary font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[18px]">lock</span>
+<span>Encrypted Host Asset â€¢ SHA-256 Verified</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 bg-white/10 hover:bg-white/20 text-white font-label-md text-label-md uppercase tracking-wider transition-colors flex items-center gap-1.5" onclick="triggerToast('Direct reel link copied to clipboard.')">
+<span class="material-symbols-outlined text-[16px]">link</span>
+<span>Share Link</span>
+</button>
+<button class="px-space-lg py-2 bg-primary hover:bg-[#8f001f] text-on-primary font-label-md text-label-md uppercase tracking-widest transition-colors flex items-center gap-1.5 shadow-md" onclick="downloadSingleReel('Zara Sa Jhoom Loon')">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Download Master (184 MB)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Micro-Toast Alert Pill (Notification) -->
+<div class="fixed bottom-8 right-8 z-50 hidden bg-[#111113] text-white px-space-md py-3 shadow-2xl font-label-md text-label-md uppercase tracking-wider items-center gap-2 border-l-4 border-primary" id="toast-pill">
+<span class="material-symbols-outlined text-primary text-[18px]">info</span>
+<span id="toast-text">Protocol Action Completed</span>
+</div>
+<!-- Host Exclusive Reel Curator Modal (Simulated) -->
+<div class="fixed inset-0 z-50 hidden flex-col items-center justify-center p-4 bg-black/80 backdrop-blur-md" id="curator-modal">
+<div class="w-full max-w-lg bg-surface-container-lowest p-space-xl shadow-2xl space-y-space-md">
+<div class="flex items-center justify-between pb-space-xs shadow-[0_1px_0_0_rgba(232,231,240,0.8)]">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">Host Verification Protocol</span>
+<h3 class="font-headline-sm text-headline-sm uppercase text-on-surface">Curate New 4K Video Reel</h3>
+</div>
+<button class="text-secondary hover:text-on-surface" onclick="closeCuratorModal()">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+        Under PRD 4.7, only passkey-verified wedding hosts and authorized cinematography studios may ingest media into the Official Reels gallery.
+      </p>
+<div class="space-y-space-sm">
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-1">Reel Title</label>
+<input class="w-full px-space-md py-2.5 bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary" placeholder="e.g. Royal Varmala Sunset Cut" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-1">Ceremony Tag</label>
+<select class="w-full px-space-md py-2.5 bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-1 focus:ring-primary">
+<option>SANGEET GALA</option>
+<option>HALDI BLESSINGS</option>
+<option>MEHNDI SOIRÃ‰E</option>
+<option>MARRIAGE â€¢ SACRED PHERAS</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-1">GridFS Video Source (ProRes / MP4)</label>
+<div class="p-space-lg bg-surface-container-low text-center cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary text-[32px]">cloud_upload</span>
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface mt-1">Drag &amp; Drop 4K Master Video or Browse</p>
+<p class="font-mono text-[10px] text-secondary mt-0.5">Maximum ingest stream: 4.5 GB per reel</p>
+</div>
+</div>
+</div>
+<div class="pt-space-sm flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-2 font-label-md text-label-md uppercase tracking-wider text-secondary hover:text-on-surface" onclick="closeCuratorModal()">Cancel</button>
+<button class="px-space-lg py-2.5 bg-primary text-on-primary font-label-md text-label-md uppercase tracking-widest shadow-md hover:bg-[#8f001f]" onclick="submitCuratedReel()">Ingest &amp; Publish Reel</button>
+</div>
+</div>
+</div>
+<!-- Interactive Vanilla Script -->
+<script>
+    // Tab Switching for Strict PRD 4.7 Segregation
+    function switchMediaVault(type) {
+      const tabCandid = document.getElementById('tab-candid');
+      const tabReels = document.getElementById('tab-reels');
+      const viewReels = document.getElementById('view-reels-container');
+      const viewCandid = document.getElementById('view-candid-container');
+      const filterBar = document.getElementById('filter-bar');
+
+      if (type === 'candid') {
+        // Activate Candid
+        tabCandid.className = 'flex-1 md:flex-initial px-space-lg py-3 flex items-center gap-space-sm text-left transition-all duration-200 bg-primary text-on-primary shadow-sm';
+        tabReels.className = 'flex-1 md:flex-initial px-space-lg py-3 flex items-center gap-space-sm text-left transition-all duration-200 bg-transparent text-secondary hover:text-on-surface';
+        viewReels.classList.add('hidden');
+        viewCandid.classList.remove('hidden');
+        filterBar.classList.add('opacity-40', 'pointer-events-none');
+        triggerToast('Browsing Candid Guest Snaps (Strictly Isolated from Official Reels)');
+      } else {
+        // Activate Reels
+        tabReels.className = 'flex-1 md:flex-initial px-space-lg py-3 flex items-center gap-space-sm text-left transition-all duration-200 bg-primary text-on-primary shadow-sm';
+        tabCandid.className = 'flex-1 md:flex-initial px-space-lg py-3 flex items-center gap-space-sm text-left transition-all duration-200 bg-transparent text-secondary hover:text-on-surface';
+        viewCandid.classList.add('hidden');
+        viewReels.classList.remove('hidden');
+        filterBar.classList.remove('opacity-40', 'pointer-events-none');
+        triggerToast('Browsing Host-Curated 4K Cinema Reels');
+      }
+    }
+
+    // Filter by Ceremony
+    function filterCeremony(ceremony) {
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => {
+        if (btn.getAttribute('data-filter') === ceremony) {
+          btn.className = 'filter-btn px-space-md py-1.5 bg-primary text-on-primary font-bold shadow-sm transition-all';
+        } else {
+          btn.className = 'filter-btn px-space-md py-1.5 bg-surface-container-low text-secondary hover:text-on-surface transition-all';
+        }
+      });
+
+      const cards = document.querySelectorAll('.reel-card');
+      cards.forEach(card => {
+        if (ceremony === 'ALL' || card.getAttribute('data-ceremony') === ceremony) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      triggerToast('Filtered: ' + ceremony + ' Reels');
+    }
+
+    // Lightbox Controls
+    const cinemaModal = document.getElementById('cinema-modal');
+
+    const reelData = {
+      'reel-sangeet': {
+        title: 'Zara Sa Jhoom Loon â€” Sangeet Finale Dance',
+        posterAlt: 'A grand Indian sangeet stage celebration with couple mid-spin.'
+      },
+      'reel-haldi': {
+        title: 'The Golden Haldi Glow â€” Candid Marigold Shower',
+        posterAlt: 'Bright morning marigold rain Haldi celebration with laughter.'
+      },
+      'reel-mehndi': {
+        title: 'Chenab Flute & Kashmiri Sunset Ritual',
+        posterAlt: 'Intricate henna application during golden hour terrace soirÃ©e.'
+      },
+      'reel-marriage': {
+        title: 'Saat Phere & Sindoor Daan â€” Sacred Rites & Vows',
+        posterAlt: 'Sacred agni holy fire circumambulation and vermilion vows.'
+      }
+    };
+
+    function openCinemaPlayer(reelKey) {
+      const data = reelData[reelKey] || reelData['reel-sangeet'];
+      document.getElementById('modal-reel-title').textContent = data.title;
+      cinemaModal.classList.remove('hidden');
+      cinemaModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCinemaPlayer() {
+      cinemaModal.classList.add('hidden');
+      cinemaModal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    // Host Curator Ingest Modal
+    const curatorModal = document.getElementById('curator-modal');
+    document.getElementById('btn-curate-reel').addEventListener('click', () => {
+      curatorModal.classList.remove('hidden');
+      curatorModal.classList.add('flex');
+    });
+
+    function closeCuratorModal() {
+      curatorModal.classList.add('hidden');
+      curatorModal.classList.remove('flex');
+    }
+
+    function submitCuratedReel() {
+      closeCuratorModal();
+      triggerToast('Reel Submitted for Cryptographic Ingestion [Queued in GridFS]');
+    }
+
+    // Utility Toasts
+    let toastTimeout;
+    function triggerToast(message) {
+      const toast = document.getElementById('toast-pill');
+      const text = document.getElementById('toast-text');
+      text.textContent = message;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 3200);
+    }
+
+    function toggleFavorite(button) {
+      const icon = button.querySelector('.material-symbols-outlined');
+      if (icon.textContent === 'favorite_border') {
+        icon.textContent = 'favorite';
+        icon.style.color = '#c81e38';
+        triggerToast('Reel saved to Private Couple Keepsake Folio');
+      } else {
+        icon.textContent = 'favorite_border';
+        icon.style.color = '';
+        triggerToast('Reel removed from Keepsake Folio');
+      }
+    }
+
+    function downloadSingleReel(title) {
+      triggerToast('Downloading uncompressed 4K Master: ' + title);
+    }
+
+    function downloadAllVaultReels() {
+      triggerToast('Compiling 4K Reel Folio Archive ZIP (812 MB)...');
+    }
+
+    function toggleSortOrder() {
+      triggerToast('Sorted by: Chronological Nuptial Timeline');
+    }
+
+    function triggerVerificationModal() {
+      triggerToast('Ledger Proof: Monograph 0x884K cryptographically signed.');
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeCinemaPlayer();
+        closeCuratorModal();
+      }
+    });
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest shadow-[0_-1px_8px_rgba(0,0,0,0.02)]"><div class="max-w-7xl mx-auto px-gutter py-space-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg"><div class="flex flex-col gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight uppercase">Make My Marriage</span><p class="font-body-sm text-body-sm text-on-surface-variant max-w-md">The private matrimonial curation atelier for prominent alliances, bespoke nuptial archives, and grand ceremonies.</p></div><div class="flex flex-wrap items-center gap-space-lg"><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="explore-marriages" href="#">Curations</a><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="media-vault" href="#">Archival Vault</a><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="concierge" href="#">Concierge</a><a class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors" data-path="confidentiality" href="#">Confidentiality</a></div></div><div class="max-w-7xl mx-auto px-gutter pb-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-sm text-label-sm uppercase text-on-surface-variant"><p>Â© 2025 Make My Marriage Atelier. Strict Monograph Protocol.</p><p>Encrypted Matrimonial Ledger â€¢ Haute Couture Edition</p></div></footer></body></html>

@@ -6,7 +6,8 @@ const {
   getEventMedia,
   getMarriageGallery,
   streamMedia,
-  deleteMedia
+  deleteMedia,
+  curateVideoReel
 } = require('../controllers/mediaController');
 const { protect, requireAdmin } = require('../middlewares/authMiddleware');
 const { uploadBatch } = require('../middlewares/uploadMiddleware');
@@ -14,6 +15,9 @@ const { uploadBatch } = require('../middlewares/uploadMiddleware');
 // Guest QR Photo Dump upload with Name & Email attribution (PRD 4.4)
 router.post('/guest-upload', uploadBatch, guestUploadMedia);
 router.post('/upload', uploadBatch, guestUploadMedia);
+
+// Host/Admin-only: Curate and publish official 4K/HD video reel (PRD 4.7)
+router.post('/curate-reel', protect, requireAdmin, uploadBatch, curateVideoReel);
 
 // Batch upload directly to GridFS by eventId
 router.post('/upload/:eventId', uploadBatch, uploadMedia);

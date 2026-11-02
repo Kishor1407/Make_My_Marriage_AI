@@ -263,9 +263,71 @@ async function testAllFeatures() {
   assert(haldiEvent?.liveStreamUrl.includes('live_test_broadcast'), 'Guest receives active YouTube live stream URL');
 
   // -------------------------------------------------------------
-  // SUITE 7: Teardown & Cascading Cleanup
+  // SUITE 7: Media Segregation & Official Video Reels (PRD 4.7)
   // -------------------------------------------------------------
-  console.log('\n--- SUITE 7: Teardown & Clean Database State ---');
+  console.log('\n--- SUITE 7: Media Segregation (PRD 4.7) ---');
+
+  // Test 7.1: Videos Tab query returns exclusively official video reels
+  const videoGalleryRes = await fetch(`${BASE_URL}/media/gallery/RAJSIM24?mediaType=VIDEO`);
+  const videoGalleryData = await videoGalleryRes.json();
+  assert(videoGalleryRes.status === 200, 'Video gallery query returns HTTP 200');
+  assert(videoGalleryData.count >= 4, 'RAJSIM24 contains seeded official video reels');
+  const allAreVideos = videoGalleryData.photos.every((item) => item.mediaType === 'VIDEO');
+  assert(allAreVideos, 'Strict Isolation: Videos query returns ONLY mediaType=VIDEO');
+
+  // Test 7.2: Photos Tab query returns exclusively candid photos
+  const photoGalleryRes = await fetch(`${BASE_URL}/media/gallery/RAJSIM24?mediaType=PHOTO`);
+  const photoGalleryData = await photoGalleryRes.json();
+  assert(photoGalleryRes.status === 200, 'Photo gallery query returns HTTP 200');
+  assert(photoGalleryData.count >= 5, 'RAJSIM24 contains seeded candid photos');
+  const allArePhotos = photoGalleryData.photos.every((item) => item.mediaType === 'PHOTO');
+  assert(allArePhotos, 'Strict Isolation: Photos query returns ONLY mediaType=PHOTO');
+
+  // Test 7.3: Admin can curate and publish official 4K video reel into GridFS
+  const curateReelRes = await fetch(`${BASE_URL}/media/curate-reel`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      marriageCode: testCode,
+      ceremony: 'SANGEET',
+      title: 'E2E Royal Dance Choreography 4K',
+      duration: '02:15',
+      curatorName: 'Host Atelier Concierge'
+    })
+  });
+  const curateReelData = await curateReelRes.json();
+  assert(curateReelRes.status === 201, 'Admin curate-reel returns HTTP 201 Created');
+  assert(curateReelData.reel?.title === 'E2E Royal Dance Choreography 4K', 'Curated reel title saved correctly');
+  assert(curateReelData.reel?.ceremony === 'SANGEET', 'Curated reel ceremony tagged as SANGEET');
+  assert(!!curateReelData.reel?.streamUrl, 'Curated reel streamUrl created for GridFS stream');
+
+  // Test 7.4: Video streaming endpoint supports HTTP 206 Range requests
+  const sampleReelId = curateReelData.reel.id;
+  const streamRangeRes = await fetch(`${BASE_URL}/media/stream/${sampleReelId}`, {
+    headers: { Range: 'bytes=0-15' }
+  });
+  assert(streamRangeRes.status === 206, 'GridFS video stream supports HTTP 206 Partial Content');
+  assert(!!streamRangeRes.headers.get('content-range'), 'Content-Range header present in 206 response');
+
+  // Test 7.5: Unauthenticated or Guest cannot curate official video reel (PRD 4.7 Guard)
+  const unauthCurateRes = await fetch(`${BASE_URL}/media/curate-reel`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      marriageCode: testCode,
+      ceremony: 'HALDI',
+      title: 'Unverified Guest Video'
+    })
+  });
+  assert(unauthCurateRes.status === 401, 'Unauthenticated video reel curation is rejected (HTTP 401)');
+
+  // -------------------------------------------------------------
+  // SUITE 8: Teardown & Cascading Cleanup
+  // -------------------------------------------------------------
+  console.log('\n--- SUITE 8: Teardown & Clean Database State ---');
   const delRes = await fetch(`${BASE_URL}/marriages/${marriageId}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` }
