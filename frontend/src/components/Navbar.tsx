@@ -16,8 +16,6 @@ export default function Navbar() {
   const user = useSelector((state: RootState) => state.auth.user);
 
   const [guestSession, setGuestSession] = useState<{ name: string; email: string; marriageCode?: string } | null>(null);
-  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
-  const [qrCodeInput, setQrCodeInput] = useState('');
 
   // Rehydrate guest session from localStorage on mount & listen for storage events
   useEffect(() => {
@@ -60,14 +58,6 @@ export default function Navbar() {
     setGuestSession(null);
     dispatch(logout());
     router.push('/');
-  };
-
-  const handleScanQr = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (qrCodeInput.trim()) {
-      router.push(`/marriage/${qrCodeInput.trim().toLowerCase()}`);
-      setIsQrModalOpen(false);
-    }
   };
 
   const isAdmin = user?.role === 'ADMIN';
@@ -129,16 +119,6 @@ export default function Navbar() {
 
           {/* Right Corner: Role Status Pill & Action */}
           <div className="flex items-center gap-2.5">
-            {/* Quick Standee QR Scanner */}
-            <button
-              onClick={() => setIsQrModalOpen(true)}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-neutral-50 hover:bg-neutral-100 text-xs font-semibold text-neutral-700 border border-neutral-200 transition-colors shadow-2xs"
-              title="Enter wedding passcode or scan banquet table standee"
-            >
-              <AppIcon name="qr_code_scanner" size={15} className="text-[#c81e38]" />
-              <span>Table Standee</span>
-            </button>
-
             {isAdmin ? (
               /* Admin Identity & Logout */
               <div className="flex items-center gap-2">
@@ -180,55 +160,6 @@ export default function Navbar() {
           </div>
         </div>
       </header>
-
-      {/* Standee QR Access Passcode Modal */}
-      {isQrModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl border border-neutral-200 p-6 text-[#0A0A0C]">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <AppIcon name="qr_code_scanner" size={20} className="text-[#c81e38]" />
-                <h3 className="font-editorial font-bold text-base">Banquet Standee Sync</h3>
-              </div>
-              <button
-                onClick={() => setIsQrModalOpen(false)}
-                className="w-7 h-7 rounded-full flex items-center justify-center text-neutral-400 hover:text-black"
-              >
-                <AppIcon name="close" size={18} />
-              </button>
-            </div>
-            <p className="text-xs text-neutral-500 mb-4">
-              Enter the 8-character passcode printed on your Banquet Table Acrylic Standee:
-            </p>
-            <form onSubmit={handleScanQr} className="space-y-4">
-              <input
-                type="text"
-                required
-                maxLength={8}
-                placeholder="e.g. RAJSIM24"
-                value={qrCodeInput}
-                onChange={(e) => setQrCodeInput(e.target.value.toUpperCase())}
-                className="w-full h-12 px-3 bg-neutral-50 border border-neutral-300 rounded-xl text-center text-base font-bold tracking-widest uppercase focus:outline-none focus:border-[#c81e38] focus:bg-white"
-              />
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsQrModalOpen(false)}
-                  className="flex-1 h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-700 text-xs font-semibold"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 h-10 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-sm"
-                >
-                  Enter Vault
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </>
   );
 }

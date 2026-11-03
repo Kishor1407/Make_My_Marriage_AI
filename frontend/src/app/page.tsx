@@ -563,32 +563,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Guest Fast Upload Banner Tray */}
-      <section className="w-full bg-[#FAFAFA] border-t border-neutral-200 py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center shrink-0 border border-[#C81E38]/20">
-              <AppIcon name="photo_camera" size={24} />
-            </div>
-            <div>
-              <h3 className="font-editorial font-bold text-base text-[#0A0A0C]">
-                Have candid photographs from today&apos;s celebrations?
-              </h3>
-              <p className="text-xs text-neutral-500 mt-0.5">
-                Guest uploads are authenticated instantly and delivered directly to the couple&apos;s physical archival album.
-              </p>
-            </div>
-          </div>
-          <Link
-            href={`/guest/upload?code=${guestSession?.marriageCode || 'RAJSIM24'}`}
-            className="px-6 py-3 rounded-xl bg-[#C81E38] hover:bg-[#9e1b32] text-white text-xs font-bold uppercase tracking-widest transition-all shadow-md flex items-center gap-2 shrink-0 active:scale-95"
-          >
-            <AppIcon name="upload_file" size={16} />
-            <span>Fast Guest Upload</span>
-          </Link>
-        </div>
-      </section>
-
       {/* ========================================================================= */}
       {/* SCREEN 3: SECRET PASSCODE UNLOCK MODAL (Stitch Screen 7a358ae8c08649a2)   */}
       {/* ========================================================================= */}
