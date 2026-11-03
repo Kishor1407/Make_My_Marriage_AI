@@ -85,36 +85,15 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Center: Simplified Navigation (NO CLUTTER) */}
-          <nav className="flex items-center gap-1 sm:gap-2">
-            {isAdmin ? (
-              /* Admin Dual-View Switch Tabs */
-              <div className="flex items-center gap-1 bg-neutral-100 p-1 rounded-xl border border-neutral-200">
-                <Link
-                  href="/admin/dashboard"
-                  className="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-black text-white shadow-xs flex items-center gap-1.5"
-                >
-                  <AppIcon name="admin_panel_settings" size={15} />
-                  <span>Dashboard &amp; Marriages</span>
-                </Link>
-                <Link
-                  href="/marriage/rajsim24"
-                  className="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-neutral-700 hover:text-black transition-colors flex items-center gap-1.5"
-                >
-                  <AppIcon name="visibility" size={15} className="text-[#c81e38]" />
-                  <span>Live Guest View</span>
-                </Link>
-              </div>
-            ) : (
-              /* Guest Navigation: Only Celebrations Anchor */
-              <Link
-                href="/"
-                className="relative flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#0A0A0C] hover:text-[#c81e38] transition-colors"
-              >
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#c81e38] animate-pulse"></span>
-                <span>Celebrations</span>
-              </Link>
-            )}
+          {/* Center: Simplified Clean Celebrations Anchor */}
+          <nav className="flex items-center">
+            <Link
+              href="/"
+              className="relative flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#0A0A0C] hover:text-[#c81e38] transition-colors"
+            >
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#c81e38] animate-pulse"></span>
+              <span>Celebrations</span>
+            </Link>
           </nav>
 
           {/* Right Corner: Role Status Pill & Action */}
