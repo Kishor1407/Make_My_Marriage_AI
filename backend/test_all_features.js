@@ -366,9 +366,38 @@ async function testAllFeatures() {
   assert(unauthCurateRes.status === 401, 'Unauthenticated video reel curation is rejected (HTTP 401)');
 
   // -------------------------------------------------------------
-  // SUITE 8: Teardown & Cascading Cleanup
+  // SUITE 8: Instant Blessings Bar & Photo Reactions
   // -------------------------------------------------------------
-  console.log('\n--- SUITE 8: Teardown & Clean Database State ---');
+  console.log('\n--- SUITE 8: Instant Blessings Bar & Photo Reactions ---');
+  // Test 8.1: Send Blessing to Marriage Vault
+  const blessingRes = await fetch(`${BASE_URL}/marriages/${testCode}/blessing`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'prem' })
+  });
+  assert(blessingRes.status === 200, 'Send blessing returns HTTP 200');
+  const blessingData = await blessingRes.json();
+  assert(blessingData.success === true, 'Blessing response reports success');
+  assert(typeof blessingData.blessings?.prem === 'number', 'Prem blessing counter incremented');
+
+  // Test 8.2: Get Blessing Counters
+  const getBlessingsRes = await fetch(`${BASE_URL}/marriages/${testCode}/blessings`);
+  assert(getBlessingsRes.status === 200, 'Get blessings returns HTTP 200');
+  const getBlessingsData = await getBlessingsRes.json();
+  assert(getBlessingsData.blessings?.totalSent >= 1, 'Total blessings tracked accurately');
+
+  // Test 8.3: Photo Like Reaction
+  const likeRes = await fetch(`${BASE_URL}/media/${fileId}/like`, {
+    method: 'POST'
+  });
+  assert(likeRes.status === 200, 'Photo like reaction returns HTTP 200');
+  const likeData = await likeRes.json();
+  assert(likeData.likes >= 1, 'Photo likes counter incremented');
+
+  // -------------------------------------------------------------
+  // SUITE 9: Teardown & Cascading Cleanup
+  // -------------------------------------------------------------
+  console.log('\n--- SUITE 9: Teardown & Clean Database State ---');
   const delRes = await fetch(`${BASE_URL}/marriages/${marriageId}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${token}` }

@@ -148,7 +148,7 @@ const updateMarriage = async (req, res, next) => {
       return res.status(404).json({ error: 'Marriage vault not found.' });
     }
 
-    const { partnerOneName, partnerTwoName, marriageCode, venue, dates, status, coverImage, guestsEngaged, totalPhotos } = req.body;
+    const { partnerOneName, partnerTwoName, marriageCode, venue, dates, status, coverImage, guestsEngaged, totalPhotos, liveStream, blessings } = req.body;
 
     if (partnerOneName) marriage.partnerOneName = partnerOneName.trim();
     if (partnerTwoName) marriage.partnerTwoName = partnerTwoName.trim();
@@ -158,6 +158,12 @@ const updateMarriage = async (req, res, next) => {
     if (coverImage) marriage.coverImage = coverImage;
     if (guestsEngaged !== undefined) marriage.globalStats.totalGuestsEngaged = Number(guestsEngaged);
     if (totalPhotos !== undefined) marriage.globalStats.totalPhotos = Number(totalPhotos);
+    if (liveStream) {
+      marriage.liveStream = { ...marriage.liveStream, ...liveStream };
+    }
+    if (blessings) {
+      marriage.blessings = { ...marriage.blessings, ...blessings };
+    }
 
     if (marriageCode && marriageCode.trim().toUpperCase() !== marriage.marriageCode) {
       const newCode = marriageCode.trim().toUpperCase();
@@ -234,10 +240,92 @@ const deleteMarriage = async (req, res, next) => {
   }
 };
 
+// @desc    Add blessing/reaction to a marriage (Instant Blessings Bar)
+// @route   POST /api/v1/marriages/:marriageId/blessing
+// @access  Public / Guest
+const addBlessing = async (req, res, next) => {
+  try {
+    const { type = 'prem' } = req.body;
+    const validTypes = ['magic', 'prem', 'rose', 'cheers', 'aashirwaad'];
+    const blessingType = validTypes.includes(type.toLowerCase()) ? type.toLowerCase() : 'prem';
+
+    let marriage = null;
+    if (mongoose.Types.ObjectId.isValid(req.params.marriageId)) {
+      marriage = await Marriage.findById(req.params.marriageId);
+    }
+    if (!marriage) {
+      marriage = await Marriage.findOne({ marriageCode: req.params.marriageId.toUpperCase() });
+    }
+
+    if (!marriage) {
+      return res.status(404).json({ error: 'Marriage vault not found.' });
+    }
+
+    if (!marriage.blessings) {
+      marriage.blessings = {
+        magic: 382,
+        prem: 419,
+        rose: 294,
+        cheers: 198,
+        aashirwaad: 136,
+        totalSent: 1429
+      };
+    }
+
+    marriage.blessings[blessingType] = (marriage.blessings[blessingType] || 0) + 1;
+    marriage.blessings.totalSent = (marriage.blessings.totalSent || 0) + 1;
+
+    await marriage.save();
+
+    res.status(200).json({
+      success: true,
+      type: blessingType,
+      blessings: marriage.blessings
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get current blessing counters for a marriage
+// @route   GET /api/v1/marriages/:marriageId/blessings
+// @access  Public / Guest
+const getBlessings = async (req, res, next) => {
+  try {
+    let marriage = null;
+    if (mongoose.Types.ObjectId.isValid(req.params.marriageId)) {
+      marriage = await Marriage.findById(req.params.marriageId);
+    }
+    if (!marriage) {
+      marriage = await Marriage.findOne({ marriageCode: req.params.marriageId.toUpperCase() });
+    }
+
+    if (!marriage) {
+      return res.status(404).json({ error: 'Marriage vault not found.' });
+    }
+
+    res.status(200).json({
+      success: true,
+      blessings: marriage.blessings || {
+        magic: 382,
+        prem: 419,
+        rose: 294,
+        cheers: 198,
+        aashirwaad: 136,
+        totalSent: 1429
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createMarriage,
   getAllMarriages,
   getMarriageById,
   updateMarriage,
-  deleteMarriage
+  deleteMarriage,
+  addBlessing,
+  getBlessings
 };

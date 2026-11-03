@@ -5,7 +5,9 @@ const {
   getAllMarriages,
   getMarriageById,
   updateMarriage,
-  deleteMarriage
+  deleteMarriage,
+  addBlessing,
+  getBlessings
 } = require('../controllers/marriageController');
 const { getEventsForMarriage } = require('../controllers/eventController');
 const { protect, requireAdmin } = require('../middlewares/authMiddleware');
@@ -18,6 +20,10 @@ router.post('/', protect, requireAdmin, createMarriage);
 
 // Single wedding dashboard (Accessible by passcode or ID)
 router.get('/:marriageId', getMarriageById);
+
+// Instant Blessings Bar endpoints
+router.post('/:marriageId/blessing', addBlessing);
+router.get('/:marriageId/blessings', getBlessings);
 
 // Admin-only update
 router.put('/:marriageId', protect, requireAdmin, updateMarriage);

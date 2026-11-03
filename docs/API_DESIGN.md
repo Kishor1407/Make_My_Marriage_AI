@@ -208,11 +208,41 @@ Make My Marriage implements a strict dual-persona separation between **Honored G
   }
   ```
 
-### 3.4 Update Marriage Vault
+### 3.4 Instant Blessings Bar APIs
+- **Endpoint**: `POST /api/v1/marriages/:codeOrId/blessing`
+- **Access**: Public / Guest
+- **Description**: Increments real-time ceremonial blessing counter (`magic`, `prem`, `rose`, `cheers`, `aashirwaad`).
+- **Request Body**:
+  ```json
+  {
+    "type": "prem"
+  }
+  ```
+- **Response (200 OK)**:
+  ```json
+  {
+    "success": true,
+    "type": "prem",
+    "blessings": {
+      "magic": 383,
+      "prem": 420,
+      "rose": 294,
+      "cheers": 198,
+      "aashirwaad": 136,
+      "totalSent": 1431
+    }
+  }
+  ```
+
+- **Endpoint**: `GET /api/v1/marriages/:codeOrId/blessings`
+- **Access**: Public
+- **Description**: Retrieves live blessing counters for real-time tickers and projection displays.
+
+### 3.5 Update Marriage Vault
 - **Endpoint**: `PUT /api/v1/marriages/:id`
 - **Access**: Admin (Protected)
 
-### 3.5 Decommission Marriage Vault
+### 3.6 Decommission Marriage Vault
 - **Endpoint**: `DELETE /api/v1/marriages/:id`
 - **Access**: Admin (Protected)
 
@@ -246,26 +276,42 @@ Make My Marriage implements a strict dual-persona separation between **Honored G
 
 ### 5.1 Guest Media Upload
 - **Endpoint**: `POST /api/v1/media/upload`
-- **Access**: Public (Attributed by Guest Name & Email)
+- **Access**: Public (Attributed by Guest Name, Email, and Banquet Table)
 - **Form Data**:
-  - `photos`: Binary file buffer (auto-compressed client-side to < 500KB)
+  - `files`: Binary file buffer (auto-compressed client-side to < 500KB)
   - `marriageCode`: `RAJSIM24`
   - `ceremony`: `HALDI`
-  - `uploaderName`: `Kabir Malhotra`
+  - `table`: `Table 4 (Groom's College Cohort)`
+  - `uploaderName`: `Kabir Mehta`
   - `uploaderEmail`: `kabir@gmail.com`
 - **Response (201 Created)**:
   ```json
   {
     "success": true,
-    "processed": 1,
-    "media": [
+    "count": 1,
+    "files": [
       {
         "id": "6724fc1234567890abcdef12",
         "filename": "memory-1730592812.jpg",
-        "uploaderName": "Kabir Malhotra",
+        "uploaderName": "Kabir Mehta",
+        "table": "Table 4 (Groom's College Cohort)",
+        "ceremony": "HALDI",
         "streamUrl": "/api/v1/media/stream/6724fc1234567890abcdef12"
       }
     ]
+  }
+  ```
+
+### 5.2 Photo Like Reaction
+- **Endpoint**: `POST /api/v1/media/:fileId/like`
+- **Access**: Public / Guest
+- **Description**: Atomically increments the heart like count on a candid memory photo.
+- **Response (200 OK)**:
+  ```json
+  {
+    "success": true,
+    "fileId": "6724fc1234567890abcdef12",
+    "likes": 49
   }
   ```
 

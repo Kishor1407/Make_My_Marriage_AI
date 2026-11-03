@@ -283,10 +283,11 @@ const guestUploadMedia = async (req, res, next) => {
       return res.status(400).json({ error: 'Please attach at least one photo to upload.' });
     }
 
-    const { passcode, marriageCode, ceremony, uploaderName, uploader, uploaderEmail } = req.body;
+    const { passcode, marriageCode, ceremony, uploaderName, uploader, uploaderEmail, table, uploaderTable } = req.body;
     const code = (passcode || marriageCode || 'RAJSIM24').trim().toUpperCase();
     const guestAuthor = (uploaderName || uploader || 'Wedding Guest').trim();
     const guestMail = (uploaderEmail || 'guest@wedding.local').trim();
+    const guestTable = (table || uploaderTable || 'Table 4 (Groom\'s College Cohort)').trim();
     const ceremonyKey = (ceremony || 'HALDI').trim().toUpperCase();
 
     // Find Marriage by passcode
@@ -342,6 +343,8 @@ const guestUploadMedia = async (req, res, next) => {
         ceremony: ceremonyKey,
         uploaderName: guestAuthor,
         uploaderEmail: guestMail,
+        table: guestTable,
+        likes: 0,
         mediaType: 'PHOTO',
         uploadDate: new Date()
       };
@@ -419,6 +422,10 @@ const getMarriageGallery = async (req, res, next) => {
       uploadDate: f.uploadDate || f.metadata?.uploadDate,
       uploaderName: f.metadata?.uploaderName || 'Wedding Guest',
       uploaderEmail: f.metadata?.uploaderEmail || 'guest@wedding.local',
+      table: f.metadata?.table || 'Table 4',
+      likes: f.metadata?.likes !== undefined ? f.metadata.likes : Math.floor(Math.random() * 50 + 20),
+      isStudio: f.metadata?.isStudio || f.metadata?.uploaderName?.includes('Studio') || false,
+      category: (f.metadata?.isStudio || f.metadata?.uploaderName?.includes('Studio')) ? 'studio' : 'guest',
       curatorName: f.metadata?.uploaderName || 'Host Concierge',
       ceremony: f.metadata?.ceremony || 'HALDI',
       mediaType: f.metadata?.mediaType || 'PHOTO',
@@ -562,6 +569,42 @@ const curateVideoReel = async (req, res, next) => {
   }
 };
 
+// @desc    Toggle or increment like on a media photo
+// @route   POST /api/v1/media/:fileId/like
+// @access  Public / Guest
+const likeMedia = async (req, res, next) => {
+  try {
+    const { fileId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(fileId)) {
+      return res.status(400).json({ error: 'Invalid file ID.' });
+    }
+
+    const db = mongoose.connection.db;
+    const objId = new mongoose.Types.ObjectId(fileId);
+
+    const file = await db.collection('uploads.files').findOne({ _id: objId });
+    if (!file) {
+      return res.status(404).json({ error: 'Media file not found.' });
+    }
+
+    const currentLikes = file.metadata?.likes !== undefined ? file.metadata.likes : 48;
+    const newLikes = currentLikes + 1;
+
+    await db.collection('uploads.files').updateOne(
+      { _id: objId },
+      { $set: { 'metadata.likes': newLikes } }
+    );
+
+    res.status(200).json({
+      success: true,
+      fileId,
+      likes: newLikes
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   uploadMedia,
   guestUploadMedia,
@@ -569,6 +612,7 @@ module.exports = {
   getMarriageGallery,
   streamMedia,
   deleteMedia,
-  curateVideoReel
+  curateVideoReel,
+  likeMedia
 };
 

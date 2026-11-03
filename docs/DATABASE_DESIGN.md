@@ -54,6 +54,19 @@ The core wrapper for a wedding sanctuary.
     * `totalPhotos`: `Number` (Default: 0)
     * `totalVideos`: `Number` (Default: 0)
     * `totalGuestsEngaged`: `Number` (Default: 0)
+  * `blessings`: `Object` (Instant Blessings Bar real-time counters)
+    * `magic`: `Number` (Default: 382)
+    * `prem`: `Number` (Default: 419)
+    * `rose`: `Number` (Default: 294)
+    * `cheers`: `Number` (Default: 198)
+    * `aashirwaad`: `Number` (Default: 136)
+    * `totalSent`: `Number` (Default: 1429)
+  * `liveStream`: `Object` (Autonomous broadcast ingest configuration)
+    * `rtmpUrl`: `String` (Default: `'rtmp://stream.makemymarriage.com/live'`)
+    * `streamKey`: `String` (Encrypted broadcast key for OBS/vMix)
+    * `isActive`: `Boolean` (Default: `true`)
+    * `viewerCount`: `Number` (Default: 842)
+    * `activeCeremony`: `String` (Default: `'Haldi & Sangeet Ceremonies'`)
   * `createdAt`: `Timestamp`
   * `updatedAt`: `Timestamp`
 * **Indexes:**
@@ -128,6 +141,8 @@ Stores candid photos and host-curated 4K reels directly in MongoDB chunks withou
     * `uploaderName`: `String` (Attribution name)
     * `uploaderEmail`: `String` (Attribution email)
     * `uploaderRole`: `String` (`ADMIN` or `GUEST`)
+    * `table`: `String` (Banquet table attribution, e.g. "Table 4 (Groom's College Cohort)")
+    * `likes`: `Number` (Heart reaction counter, default: 0)
     * `ceremony`: `String` (Ceremony tag)
 * **Indexes (on `uploads.files`):**
   * `metadata.marriageId`

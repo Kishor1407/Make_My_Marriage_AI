@@ -73,18 +73,30 @@ The platform implements strict persona isolation:
     *   If incorrect: red error banner with guidance to check physical stationery or banquet table standees.
     *   Includes Banquet Standee zero-code scanning advisory and 1-click test demo auto-fill pill.
 
-### 4.4. Admin Dual-Tab Workspace (`/admin/dashboard`)
-*   **Feature:** A dedicated workspace for sovereign hosts with two top-level switch tabs:
-    *   **Tab 1: Dashboard & Marriages:** Global metrics (Guests, Photos, Videos, GridFS Storage), wedding portfolio table, action shortcuts, and wedding creation modal.
-    *   **Tab 2: Live Guest View:** Embedded live iframe mirror displaying the exact guest experience, accompanied by a banner and `← Return to Master Dashboard` shortcut.
+### 4.4. Clean Admin Workspace (`/admin/dashboard` - Stitch Screen `ac6161cf`)
+*   **Feature:** A bespoke command deck for sovereign hosts featuring:
+    *   **Global Metrics Ticker:** Active Weddings, Total Photos, Live Streams Ready, and ₹0 Infrastructure Cost.
+    *   **Active Wedding Vaults Grid:** Dynamic cards displaying couple monikers, venue, date span, guest passcode with 1-click copy, and photo/reels/guest statistics.
+    *   **Direct Action Command Bar on Each Card:**
+        - **Stream:** Opens the Autonomous Ingest Studio modal with RTMP Ingest URL and OBS/vMix stream key.
+        - **Standee QR:** Opens the Table Standee QR Generator modal with 12-table selector, live vector QR preview, instant print, and PNG/PDF export.
+        - **💌 Invites:** Opens the Bespoke Monogram Suite & Invitation Studio modal with ritual tabs (Haldi, Mehndi, Sangeet, Pheras, Reception), live preview, attire monogram, and instant 1-click publishing.
+        - **Upload & Dump Photos:** Direct bulk media ingestion modal for raw high-res ceremony photos with client-side compression.
+    *   **In-Page Modals:** Provision Wedding Vault (+ Add New Marriage), Edit Vault Details, Standee QR Generator, Invitation Studio, Live Stream Credentials, and Bulk Photo Ingestion.
 
-### 4.5. Single Wedding Sanctuary (`/marriage/[id]`)
-*   **Feature:** Clicking any wedding card leads to a single, unified sanctuary containing all wedding features:
-    *   **Six-Part Timeline:** 6 canonical rites (Engagement, Mehndi, Haldi, Sangeet, Marriage, Others) with date, time, and venue details.
-    *   **Table Standee QR Modal:** Instant modal displaying the high-resolution banquet table standee QR code, unique passcode, and copyable upload link.
-    *   **Drop Media Zone:** In-page upload tray with client-side image compression.
-    *   **Segregated Gallery:** Clear separation between crowdsourced candid photos and official host 4K reels.
-    *   **Live Stream & Wishes:** Responsive YouTube Live player with floating emoji cheer reactions.
+### 4.5. Guest All-in-One Wedding Sanctuary (`/marriage/[id]` - Stitch Screen `caa3fd8e`)
+*   **Feature:** Complete matrimonial sanctuary providing an ultra-high-fidelity guest experience:
+    *   **Header & Mode Switcher:** Brand identity with rotating square diamond, quick toggle between Guest Mode and Admin Workspace.
+    *   **Top Micro-Bar:** Live Ceremonial Feed Active badge (pulsing red dot), Oberoi Amarvilas Vault badge, and Guest Passcode badge.
+    *   **Editorial Header & Welcome Monograph:** Matrimonial Monograph Volume IX, large couple typography, date span, and venue.
+    *   **Instant Blessings Bar:** Real-time counter ticker (e.g. 1,429 Sent) with 5 interactive reaction buttons (✨ Magic, ❤️ Prem, 🌹 Rose, 🥂 Cheers, 🪔 Aashirwaad) rendering upward-floating particle burst animations and atomically updating backend stats (`POST /api/v1/marriages/:id/blessing`).
+    *   **Ceremonial Invitations & Itinerary:** 4 canonical ritual cards (Haldi Rasam, Sangeet Soirée, Royal Pheras & Varmala, Grand Reception) with venue etiquette, dress code monograms, status tags (Completed, Live Now, Tomorrow, Upcoming), and instant card/poster download.
+    *   **Live Stream Cinema Pavilion:** 16:9 cinema stage with 4-rite switcher (`Haldi`, `Mehndi`, `Sangeet`, `Pheras`), live viewer count (e.g. 842 Family & Friends Watching Live), play/pause, mute/unmute, 0.8s latency ticker, fullscreen, and "🌹 Shower Flowers" rose petal particle burst button.
+    *   **Split Section (Drop Candid Photos & Dining Table Standee):**
+        - **Left (Cols 8):** Drop Candid Photos & Clips zone with drag & drop, high-res photo/video upload, progress indicator, and Name & Banquet Table attribution fields.
+        - **Right (Cols 4):** Dining Table Standee QR Acrylic Card with 12-table selector dropdown (Table 01 to Table 12), live vector QR code generated dynamically per table, and "Download Table Card (PDF/PNG)".
+    *   **The Guest Memory Stream:** Live photo gallery with "All Guest Photos" vs "Official Studio Highlights" segregation, table badges (Table 2, Table 4, Studio Archival, etc.), uploader names, time ago, interactive heart like buttons with live counts (`POST /api/v1/media/:id/like`), and an Immersive Photo Lightbox Modal.
+    *   **Live Sync Footnote & Footer:** Projector auto-sync footnote and Haute Couture footer.
 
 ### 4.5. Digital Invitation Studio
 *   **Feature:** Built-in ceremonial card architect (`/admin/invitations` & `/invitations`).

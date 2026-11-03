@@ -10,7 +10,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-v20%2B-green?logo=node.js)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB_Atlas-M0_Free_Tier-brightgreen?logo=mongodb)](https://www.mongodb.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
-[![E2E Tests](https://img.shields.io/badge/E2E_Tests-59%2F59_Passing_(100%25)-success)](#-automated-testing--verification-5959-passing)
+[![E2E Tests](https://img.shields.io/badge/E2E_Tests-73%2F73_Passing_(100%25)-success)](#-automated-testing--verification-7373-passing)
 [![Budget](https://img.shields.io/badge/Operational_Cost-₹0_Strictly_Free_Tier-gold)](#-the-0-cloud-architecture-philosophy)
 
 [Live Architecture](#-system-architecture--data-flow) • [Features](#-features--prd-compliance-matrix) • [Screenshots](#-visual-walkthrough--ui-gallery) • [Bollywood Demo Vaults](#-demo-showcase-4-bollywood-movie-couples) • [API Specs](#-rest-api-gateway-reference) • [Setup Guide](#-local-installation--quick-start)
@@ -376,12 +376,21 @@ node backend/test_all_features.js
   ✅ [PASS] Content-Range header present in 206 response
   ✅ [PASS] Unauthenticated video reel curation is rejected (HTTP 401)
 
---- SUITE 8: Teardown & Clean Database State ---
+--- SUITE 8: Instant Blessings Bar & Photo Reactions ---
+  ✅ [PASS] Send blessing returns HTTP 200
+  ✅ [PASS] Blessing response reports success
+  ✅ [PASS] Prem blessing counter incremented
+  ✅ [PASS] Get blessings returns HTTP 200
+  ✅ [PASS] Total blessings tracked accurately
+  ✅ [PASS] Photo like reaction returns HTTP 200
+  ✅ [PASS] Photo likes counter incremented
+
+--- SUITE 9: Teardown & Clean Database State ---
   ✅ [PASS] Delete test marriage returns HTTP 200
   ✅ [PASS] Deleted marriage is no longer accessible (HTTP 404)
 
 ================================================================
-  🎉 ALL FEATURES VERIFIED! 59 / 59 TESTS PASSED CLEANLY! 
+  🎉 ALL FEATURES VERIFIED! 73 / 73 TESTS PASSED CLEANLY! 
 ================================================================
 ```
 

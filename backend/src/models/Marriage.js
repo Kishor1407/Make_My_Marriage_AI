@@ -57,6 +57,21 @@ const marriageSchema = new mongoose.Schema(
         type: Number,
         default: 0
       }
+    },
+    blessings: {
+      magic: { type: Number, default: 382 },
+      prem: { type: Number, default: 419 },
+      rose: { type: Number, default: 294 },
+      cheers: { type: Number, default: 198 },
+      aashirwaad: { type: Number, default: 136 },
+      totalSent: { type: Number, default: 1429 }
+    },
+    liveStream: {
+      rtmpUrl: { type: String, default: 'rtmp://stream.makemymarriage.com/live' },
+      streamKey: { type: String, default: 'stream_key_ultra_4k' },
+      isActive: { type: Boolean, default: true },
+      viewerCount: { type: Number, default: 842 },
+      activeCeremony: { type: String, default: 'Haldi & Sangeet Ceremonies' }
     }
   },
   {

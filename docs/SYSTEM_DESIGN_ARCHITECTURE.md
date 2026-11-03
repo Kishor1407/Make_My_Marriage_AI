@@ -86,7 +86,7 @@ make-my-marriage-monorepo/
 │   │   ├── models/           # User, Marriage, Event, Wish, Invitation
 │   │   ├── routes/           # REST endpoints (/api/v1/...)
 │   │   └── utils/            # GridFS stream helpers, QR generator, responses
-│   ├── test_all_features.js  # 59-test integration suite
+│   ├── test_all_features.js  # 73-test integration suite
 │   ├── package.json
 │   └── server.js
 │
@@ -97,34 +97,33 @@ make-my-marriage-monorepo/
 
 ## 4. Core Sub-Systems & Data Flow
 
-### 4.1. Dual-Persona Authentication System
+### 4.1. Dual-Persona Authentication & Secret Passcode Unlock
+* **Guest Access:** Zero password required. Guests submit `{ name, email }` on the Role-Switch Gateway (`/`), browse the Celebrations Directory, click on a wedding card, and unlock it via the Secret Passcode Unlock Modal (`POST /api/v1/auth/guest/verify-passcode`).
+* **Admin Access:** Sovereign hosts authenticate with email and password (`POST /api/v1/auth/admin/login`), receiving an administrative JWT stored in HTTP-Only cookies and bearer token (`mmm_token`), routing to the Admin Dashboard (`/admin/dashboard`).
 
-* **Guest Access:** Zero password required. Guests submit `{ name, email, marriageCode }`. The backend issues a guest JWT with identity payload and rehydrates local storage (`mmm_guest`). The UI displays guest attribution and strips all administrative links.
-* **Admin Access:** Sovereign hosts authenticate with email and password, receiving an administrative JWT stored in HTTP-Only cookies and local bearer token (`mmm_token`).
+### 4.2. Instant Blessings Bar Subsystem
+* Real-time live blessing reactions (✨ Magic, ❤️ Prem, 🌹 Rose, 🥂 Cheers, 🪔 Aashirwaad) with optimistic UI updates and atomic increments (`POST /api/v1/marriages/:codeOrId/blessing`), rendering upward-floating particle physics.
 
-### 4.2. Media Upload Pipeline (The ₹0 Storage Strategy)
-
+### 4.3. Media Upload Pipeline (The ₹0 Storage Strategy)
 * **Challenge:** Server RAM limits on Render and a strict 512MB limit on MongoDB Atlas.
 * **Flow:**
   1. Guest selects photos (Max 10 per batch enforced by UI).
   2. The browser aggressively compresses images via `browser-image-compression` (<500KB) *before* transmission.
-  3. The Next.js client sends the compressed payload to the Express backend.
+  3. The Next.js client sends the compressed payload to the Express backend with banquet table attribution (`uploaderTable`).
   4. The backend intercepts the request with `multer.memoryStorage()`.
   5. Instead of saving to disk, the stream pipes directly into MongoDB GridFS in 255KB chunks (`uploads.files` and `uploads.chunks`).
 
-### 4.3. High-Definition 4K Video Streaming (HTTP 206 Partial Content)
-
+### 4.4. High-Definition 4K Video Streaming (HTTP 206 Partial Content)
 * **Flow:**
   1. Admin curates official video highlights tagged by ceremony.
   2. The Cinema Player sends `Range: bytes=start-end` requests to `/api/v1/media/stream/:fileId`.
   3. The backend calculates buffer offsets and streams slices via `bucket.openDownloadStreamByName` or `openDownloadStream(fileId, { start, end })`.
-  4. Enables smooth scrubbing, zero buffering, and seeking across all browser clients.
+  4. Enables smooth scrubbing, zero buffering, seeking, and interactive rose petal shower particle animations.
 
-### 4.4. Banquet Table Standee QR Engine
-
+### 4.5. 12-Table Banquet Standee QR Engine
 * **Flow:**
-  1. The server or client dynamically generates a vector QR code containing the marriage passcode: `${origin}/guest/upload?code=<marriageCode>`.
-  2. Guests at banquet tables scan the QR code to open the mobile-optimized photo dump with their ceremony pre-selected.
+  1. Generates live vector QR codes for 12 distinct banquet tables (e.g. Table 01 — Bride's Immediate Family to Table 12 — Creative & Design Atelier).
+  2. Scanning dynamically auto-populates the guest's upload table attribution.
 
 ## 5. Constraint Mitigations & System Resilience
 
