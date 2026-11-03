@@ -4,6 +4,8 @@
 **Updated:** November 2026  
 **Architecture:** MERN Monorepo (Next.js 15 + Express + MongoDB Atlas GridFS)  
 **Budget Constraint:** Strictly ₹0 (MongoDB Atlas M0 Free Tier, Zero Paid Cloud APIs)  
+**Google Stitch Design Project:** [Stitch Project ID: 9312812799714425334](https://stitch.withgoogle.com/projects/9312812799714425334)  
+**Production Deployment:** Frontend on Vercel Serverless Edge, Backend on Render Cloud  
 **Active Ports:**  
 - **Frontend:** `http://localhost:5173` (Next.js 15 App Router)
 - **Backend API Gateway:** `http://localhost:5000` (`/api/v1`)
