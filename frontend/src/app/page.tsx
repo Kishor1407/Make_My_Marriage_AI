@@ -540,7 +540,7 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      {/* Primary Crimson Interactive Unlock Button (Stitch Screen 7a358ae8) */}
+                      {/* Primary Crimson Interactive Unlock Button (Stitch Screen e978ae5b & 7a358ae8) */}
                       <button
                         type="button"
                         onClick={() => {
@@ -549,10 +549,9 @@ export default function HomePage() {
                           setUnlockError(null);
                           setUnlockSuccess(false);
                         }}
-                        className="w-full py-3.5 rounded-xl bg-[#C81E38] hover:bg-[#9e1b32] text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 cursor-pointer"
+                        className="w-full py-3.5 bg-[#a20025] hover:bg-[#9a1830] text-white text-xs font-semibold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors duration-200 shadow-sm active:scale-95 cursor-pointer"
                       >
-                        <span>Unlock Sanctuary</span>
-                        <span className="text-sm">🔒</span>
+                        <span>Enter Wedding Vault</span>
                         <AppIcon name="arrow_forward" size={16} />
                       </button>
                     </div>

@@ -68,6 +68,50 @@ export default function GuestExperiencePage() {
   const [lightboxPhoto, setLightboxPhoto] = useState<PhotoItem | null>(null);
   const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
+  // Real Ceremonial Events State from MongoDB Atlas
+  const [ceremonialEvents, setCeremonialEvents] = useState<any[]>([]);
+
+  // Attire & Status Helpers for Ceremonial Rites
+  const getAttireForCeremony = (type: string) => {
+    const t = (type || '').toUpperCase();
+    if (t.includes('HALDI')) return 'Attire: Ivory & Sunlit Marigold';
+    if (t.includes('MEHNDI')) return 'Attire: Sage Green & Botanical Silks';
+    if (t.includes('SANGEET')) return 'Attire: Jewel Tones & Midnight Velvet';
+    if (t.includes('MARRIAGE') || t.includes('PHERA')) return 'Attire: Royal Crimson & Heritage Raw Silk';
+    if (t.includes('ENGAGE')) return 'Attire: Pastel Couture & Rose Gold';
+    if (t.includes('RECEPT') || t.includes('GALA')) return 'Attire: Black Tie & Haute Indian Couture';
+    return 'Attire: Regal Matrimonial Splendor';
+  };
+
+  const getStatusBadgeForCeremony = (event: any, idx: number) => {
+    if (event.streamStatus === 'LIVE') {
+      return (
+        <span className="text-[10px] uppercase px-2 py-0.5 bg-[#ffdada] text-[#9a1830] font-semibold animate-pulse">
+          Live Now
+        </span>
+      );
+    }
+    if (idx === 0) {
+      return (
+        <span className="text-[10px] uppercase px-2 py-0.5 bg-[#ffdada] text-[#9a1830] font-semibold">
+          Completed
+        </span>
+      );
+    }
+    if (idx === 1 && !event.streamStatus?.includes('LIVE')) {
+      return (
+        <span className="text-[10px] uppercase px-2 py-0.5 bg-[#ffdada] text-[#9a1830] font-semibold animate-pulse">
+          Today
+        </span>
+      );
+    }
+    return (
+      <span className="text-[10px] uppercase px-2 py-0.5 bg-[#eeedf6] text-[#5b4040] font-semibold">
+        Upcoming
+      </span>
+    );
+  };
+
   // Toast Notification
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -209,6 +253,22 @@ export default function GuestExperiencePage() {
           if (m.dates) setDateSpan(m.dates);
           if (m.blessings) {
             setBlessings(m.blessings);
+          }
+        }
+      })
+      .catch(() => {});
+
+    // 2b. Fetch Real Ceremonial Events from MongoDB Atlas
+    api.get(`/marriages/${passcode}/events`)
+      .then((res) => {
+        if (res.data?.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
+          setCeremonialEvents(res.data.data);
+          const liveEvent = res.data.data.find((e: any) => e.streamStatus === 'LIVE');
+          if (liveEvent) {
+            setActiveStreamRite(liveEvent.customTitle || liveEvent.eventType);
+            if (liveEvent.viewerCount) {
+              setViewerCount(`${liveEvent.viewerCount} Family & Friends Watching Live`);
+            }
           }
         }
       })
@@ -610,123 +670,87 @@ export default function GuestExperiencePage() {
               </div>
             </div>
 
-            {/* 4 Ritual Monograph Cards */}
+            {/* 4 Ritual Monograph Cards (Dynamic Real MongoDB Atlas Events) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* RITUAL 01: HALDI */}
-              <div className="bg-white p-6 shadow-sm border border-[#e4bdbd] flex flex-col justify-between group hover:shadow-md transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#eeedf6] pb-2">
-                    <span className="text-[10px] uppercase tracking-widest text-[#a20025] font-bold">Ritual 01 • Day 1</span>
-                    <span className="text-[10px] uppercase px-2 py-0.5 bg-[#ffdada] text-[#9a1830] font-semibold">Completed</span>
-                  </div>
-                  <div className="text-center py-2">
-                    <div className="w-8 h-1 bg-[#a20025] mx-auto mb-2"></div>
-                    <h3 className="font-serif text-xl uppercase text-[#1a1b22] font-semibold">Haldi Rasam</h3>
-                    <p className="text-[11px] uppercase tracking-wider text-[#5f5e60] font-medium">Oct 18 • 10:00 AM</p>
-                  </div>
-                  <div className="bg-[#f4f2fc] p-3 space-y-1 text-center">
-                    <p className="text-[10px] uppercase tracking-widest text-[#5b4040]">Venue &amp; Etiquette</p>
-                    <p className="text-xs font-semibold text-[#1a1b22]">The Amarvilas Courtyard</p>
-                    <p className="text-[10px] italic text-[#a20025]">Attire: Ivory &amp; Sunlit Marigold</p>
-                  </div>
-                </div>
-                <div className="pt-6">
-                  <button
-                    onClick={() => downloadInviteCard('Haldi Rasam')}
-                    className="w-full py-2 bg-[#eeedf6] hover:bg-[#a20025] hover:text-white text-[10px] uppercase tracking-widest font-semibold flex items-center justify-center gap-1 transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">download</span>
-                    Download Official Invite
-                  </button>
-                </div>
-              </div>
+              {(ceremonialEvents.length > 0
+                ? ceremonialEvents.slice(0, 4)
+                : [
+                    {
+                      eventType: 'HALDI',
+                      customTitle: 'Haldi Rasam',
+                      date: 'Oct 18 • 10:00 AM',
+                      venueAddress: 'The Amarvilas Courtyard',
+                      attire: 'Attire: Ivory & Sunlit Marigold',
+                      streamStatus: 'COMPLETED'
+                    },
+                    {
+                      eventType: 'SANGEET',
+                      customTitle: 'Sangeet Soirée',
+                      date: 'Oct 18 • 07:30 PM',
+                      venueAddress: 'Mughal Diwan Ballroom',
+                      attire: 'Attire: Jewel Tones & Midnight Velvet',
+                      streamStatus: 'LIVE'
+                    },
+                    {
+                      eventType: 'MARRIAGE',
+                      customTitle: 'Royal Pheras & Varmala',
+                      date: 'Oct 19 • 04:30 PM',
+                      venueAddress: 'Sunset Taj Pavilion',
+                      attire: 'Attire: Royal Crimson & Heritage Raw Silk',
+                      streamStatus: 'SCHEDULED'
+                    },
+                    {
+                      eventType: 'RECEPTION',
+                      customTitle: 'Grand Reception',
+                      date: 'Oct 20 • 08:00 PM',
+                      venueAddress: 'The Amarvilas Regal Lawns',
+                      attire: 'Attire: Black Tie & Haute Indian Couture',
+                      streamStatus: 'SCHEDULED'
+                    }
+                  ]
+              ).map((event: any, idx: number) => {
+                const title = event.customTitle || event.eventType;
+                const dateStr = event.eventDate
+                  ? `${new Date(event.eventDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} • ${event.eventTime || 'TBD'}`
+                  : event.date || 'Oct 18 • 10:00 AM';
+                const venueStr = event.venueAddress || venueName;
+                const attireStr = event.attire || getAttireForCeremony(event.eventType || title);
 
-              {/* RITUAL 02: SANGEET */}
-              <div className="bg-white p-6 shadow-sm border border-[#e4bdbd] flex flex-col justify-between group hover:shadow-md transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#eeedf6] pb-2">
-                    <span className="text-[10px] uppercase tracking-widest text-[#a20025] font-bold">Ritual 02 • Day 1</span>
-                    <span className="text-[10px] uppercase px-2 py-0.5 bg-[#ffdada] text-[#9a1830] font-semibold animate-pulse">Live Now</span>
-                  </div>
-                  <div className="text-center py-2">
-                    <div className="w-8 h-1 bg-[#a20025] mx-auto mb-2"></div>
-                    <h3 className="font-serif text-xl uppercase text-[#1a1b22] font-semibold">Sangeet Soirée</h3>
-                    <p className="text-[11px] uppercase tracking-wider text-[#5f5e60] font-medium">Oct 18 • 07:30 PM</p>
-                  </div>
-                  <div className="bg-[#f4f2fc] p-3 space-y-1 text-center">
-                    <p className="text-[10px] uppercase tracking-widest text-[#5b4040]">Venue &amp; Etiquette</p>
-                    <p className="text-xs font-semibold text-[#1a1b22]">Mughal Diwan Ballroom</p>
-                    <p className="text-[10px] italic text-[#a20025]">Attire: Jewel Tones &amp; Midnight Velvet</p>
-                  </div>
-                </div>
-                <div className="pt-6">
-                  <button
-                    onClick={() => downloadInviteCard('Sangeet Soirée')}
-                    className="w-full py-2 bg-[#eeedf6] hover:bg-[#a20025] hover:text-white text-[10px] uppercase tracking-widest font-semibold flex items-center justify-center gap-1 transition-colors"
+                return (
+                  <div
+                    key={event._id || idx}
+                    className="bg-white p-6 shadow-sm border border-[#e4bdbd] flex flex-col justify-between group hover:shadow-md transition-all"
                   >
-                    <span className="material-symbols-outlined text-[16px]">download</span>
-                    Download Official Invite
-                  </button>
-                </div>
-              </div>
-
-              {/* RITUAL 03: ROYAL PHERAS */}
-              <div className="bg-white p-6 shadow-sm border border-[#e4bdbd] flex flex-col justify-between group hover:shadow-md transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#eeedf6] pb-2">
-                    <span className="text-[10px] uppercase tracking-widest text-[#a20025] font-bold">Ritual 03 • Day 2</span>
-                    <span className="text-[10px] uppercase px-2 py-0.5 bg-[#eeedf6] text-[#5b4040] font-semibold">Tomorrow</span>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between border-b border-[#eeedf6] pb-2">
+                        <span className="text-[10px] uppercase tracking-widest text-[#a20025] font-bold">
+                          Ritual 0{idx + 1} • Day {Math.min(idx + 1, 3)}
+                        </span>
+                        {getStatusBadgeForCeremony(event, idx)}
+                      </div>
+                      <div className="text-center py-2">
+                        <div className="w-8 h-1 bg-[#a20025] mx-auto mb-2"></div>
+                        <h3 className="font-serif text-xl uppercase text-[#1a1b22] font-semibold">{title}</h3>
+                        <p className="text-[11px] uppercase tracking-wider text-[#5f5e60] font-medium">{dateStr}</p>
+                      </div>
+                      <div className="bg-[#f4f2fc] p-3 space-y-1 text-center">
+                        <p className="text-[10px] uppercase tracking-widest text-[#5b4040]">Venue &amp; Etiquette</p>
+                        <p className="text-xs font-semibold text-[#1a1b22]">{venueStr}</p>
+                        <p className="text-[10px] italic text-[#a20025]">{attireStr}</p>
+                      </div>
+                    </div>
+                    <div className="pt-6">
+                      <button
+                        onClick={() => downloadInviteCard(title)}
+                        className="w-full py-2 bg-[#eeedf6] hover:bg-[#a20025] hover:text-white text-[10px] uppercase tracking-widest font-semibold flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                      >
+                        <span className="material-symbols-outlined text-[16px]">download</span>
+                        Download Official Invite
+                      </button>
+                    </div>
                   </div>
-                  <div className="text-center py-2">
-                    <div className="w-8 h-1 bg-[#a20025] mx-auto mb-2"></div>
-                    <h3 className="font-serif text-xl uppercase text-[#1a1b22] font-semibold">Royal Pheras &amp; Varmala</h3>
-                    <p className="text-[11px] uppercase tracking-wider text-[#5f5e60] font-medium">Oct 19 • 04:30 PM</p>
-                  </div>
-                  <div className="bg-[#f4f2fc] p-3 space-y-1 text-center">
-                    <p className="text-[10px] uppercase tracking-widest text-[#5b4040]">Venue &amp; Etiquette</p>
-                    <p className="text-xs font-semibold text-[#1a1b22]">Sunset Taj Pavilion</p>
-                    <p className="text-[10px] italic text-[#a20025]">Attire: Royal Crimson &amp; Heritage Raw Silk</p>
-                  </div>
-                </div>
-                <div className="pt-6">
-                  <button
-                    onClick={() => downloadInviteCard('Royal Pheras')}
-                    className="w-full py-2 bg-[#eeedf6] hover:bg-[#a20025] hover:text-white text-[10px] uppercase tracking-widest font-semibold flex items-center justify-center gap-1 transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">download</span>
-                    Download Official Invite
-                  </button>
-                </div>
-              </div>
-
-              {/* RITUAL 04: GRAND RECEPTION */}
-              <div className="bg-white p-6 shadow-sm border border-[#e4bdbd] flex flex-col justify-between group hover:shadow-md transition-all">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between border-b border-[#eeedf6] pb-2">
-                    <span className="text-[10px] uppercase tracking-widest text-[#a20025] font-bold">Ritual 04 • Day 3</span>
-                    <span className="text-[10px] uppercase px-2 py-0.5 bg-[#eeedf6] text-[#5b4040] font-semibold">Upcoming</span>
-                  </div>
-                  <div className="text-center py-2">
-                    <div className="w-8 h-1 bg-[#a20025] mx-auto mb-2"></div>
-                    <h3 className="font-serif text-xl uppercase text-[#1a1b22] font-semibold">Grand Reception</h3>
-                    <p className="text-[11px] uppercase tracking-wider text-[#5f5e60] font-medium">Oct 20 • 08:00 PM</p>
-                  </div>
-                  <div className="bg-[#f4f2fc] p-3 space-y-1 text-center">
-                    <p className="text-[10px] uppercase tracking-widest text-[#5b4040]">Venue &amp; Etiquette</p>
-                    <p className="text-xs font-semibold text-[#1a1b22]">The Amarvilas Regal Lawns</p>
-                    <p className="text-[10px] italic text-[#a20025]">Attire: Black Tie &amp; Haute Indian Couture</p>
-                  </div>
-                </div>
-                <div className="pt-6">
-                  <button
-                    onClick={() => downloadInviteCard('Grand Reception')}
-                    className="w-full py-2 bg-[#eeedf6] hover:bg-[#a20025] hover:text-white text-[10px] uppercase tracking-widest font-semibold flex items-center justify-center gap-1 transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">download</span>
-                    Download Official Invite
-                  </button>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -737,38 +761,36 @@ export default function GuestExperiencePage() {
             {/* Ceremony Switcher Tabs */}
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-1 bg-[#eeedf6] p-1 overflow-x-auto">
-                <button
-                  onClick={() => handleStreamSwitch('Haldi & Sangeet Ceremonies', '842')}
-                  className={`px-4 py-2 text-xs uppercase tracking-wider font-semibold transition-all ${
-                    activeStreamRite.includes('Haldi') ? 'bg-[#a20025] text-white shadow-sm' : 'bg-white text-[#1a1b22] hover:text-[#a20025]'
-                  }`}
-                >
-                  Haldi (Live Now)
-                </button>
-                <button
-                  onClick={() => handleStreamSwitch('Royal Mehndi Soirée', '412')}
-                  className={`px-4 py-2 text-xs uppercase tracking-wider font-semibold transition-all ${
-                    activeStreamRite.includes('Mehndi') ? 'bg-[#a20025] text-white shadow-sm' : 'bg-white text-[#1a1b22] hover:text-[#a20025]'
-                  }`}
-                >
-                  Mehndi
-                </button>
-                <button
-                  onClick={() => handleStreamSwitch('Sangeet Symphony & Dance', '980')}
-                  className={`px-4 py-2 text-xs uppercase tracking-wider font-semibold transition-all ${
-                    activeStreamRite.includes('Sangeet Symphony') ? 'bg-[#a20025] text-white shadow-sm' : 'bg-white text-[#1a1b22] hover:text-[#a20025]'
-                  }`}
-                >
-                  Sangeet
-                </button>
-                <button
-                  onClick={() => handleStreamSwitch('Vedic Pheras & Sunset Muhurat', 'Upcoming')}
-                  className={`px-4 py-2 text-xs uppercase tracking-wider font-semibold transition-all ${
-                    activeStreamRite.includes('Pheras') ? 'bg-[#a20025] text-white shadow-sm' : 'bg-white text-[#1a1b22] hover:text-[#a20025]'
-                  }`}
-                >
-                  Pheras
-                </button>
+                {(ceremonialEvents.length > 0
+                  ? ceremonialEvents
+                  : [
+                      { eventType: 'HALDI', customTitle: 'Haldi & Sangeet Ceremonies', streamStatus: 'LIVE', viewerCount: 842 },
+                      { eventType: 'MEHNDI', customTitle: 'Royal Mehndi Soirée', streamStatus: 'SCHEDULED', viewerCount: 412 },
+                      { eventType: 'SANGEET', customTitle: 'Sangeet Symphony & Dance', streamStatus: 'SCHEDULED', viewerCount: 980 },
+                      { eventType: 'MARRIAGE', customTitle: 'Vedic Pheras & Sunset Muhurat', streamStatus: 'SCHEDULED', viewerCount: 'Upcoming' }
+                    ]
+                ).map((evt: any) => {
+                  const title = evt.customTitle || evt.eventType;
+                  const isActive =
+                    activeStreamRite.toLowerCase().includes((evt.eventType || '').toLowerCase()) ||
+                    activeStreamRite === title;
+                  const label = evt.eventType
+                    ? evt.eventType.charAt(0) + evt.eventType.slice(1).toLowerCase()
+                    : title;
+                  const isLive = evt.streamStatus === 'LIVE';
+
+                  return (
+                    <button
+                      key={evt._id || evt.eventType || title}
+                      onClick={() => handleStreamSwitch(title, evt.viewerCount ? `${evt.viewerCount}` : '842')}
+                      className={`px-4 py-2 text-xs uppercase tracking-wider font-semibold transition-all whitespace-nowrap cursor-pointer ${
+                        isActive ? 'bg-[#a20025] text-white shadow-sm' : 'bg-white text-[#1a1b22] hover:text-[#a20025]'
+                      }`}
+                    >
+                      {label} {isLive ? '(Live Now)' : ''}
+                    </button>
+                  );
+                })}
               </div>
 
               <div className="flex items-center gap-2 bg-white px-4 py-2 shadow-sm border border-black/5">

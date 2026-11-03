@@ -48,6 +48,7 @@ export default function AdminDashboardPage() {
   const [isInviteStudioOpen, setIsInviteStudioOpen] = useState(false);
   const [isStreamDrawerOpen, setIsStreamDrawerOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   // Active Context for Modals
   const [activeVault, setActiveVault] = useState<WeddingVault | null>(null);
@@ -497,30 +498,33 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Mode Switcher */}
-            <div className="flex items-center bg-[#f4f2fc] p-1 rounded-full shadow-[inset_0_1px_2px_rgba(0,0,0,0.03)]">
-              <nav className="flex items-center">
-                <Link
-                  href="/"
-                  className="text-[11px] uppercase tracking-wider font-semibold px-4 py-1.5 rounded-full text-[#5b4040] hover:text-[#1a1b22] transition-colors"
-                >
-                  Guest Mode
-                </Link>
-                <span className="text-[11px] uppercase tracking-wider font-semibold px-4 py-1.5 rounded-full bg-white text-[#a20025] shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
-                  Admin Workspace
+            {/* Admin Profile Pill (Stitch Screen ac6161cff69d4988bf92751afbe9c66c) */}
+            <div className="flex items-center gap-2.5 bg-[#f4f2fc] py-1 px-3 rounded-full border border-[#e4bdbd]/40">
+              <div className="w-7 h-7 rounded-full bg-[#a20025] flex items-center justify-center text-white font-bold text-[10px]">
+                AD
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="text-[11px] font-semibold text-[#1a1b22] tracking-wider uppercase leading-tight">
+                  Admin Custodian
                 </span>
-              </nav>
+                <span className="text-[10px] text-[#5f5e60]">
+                  curator@makemymarriage.com
+                </span>
+              </div>
             </div>
 
             <div className="h-5 w-px bg-[#e3e1ea]"></div>
 
-            <Link
-              href="/"
-              title="Return to Celebrations Directory"
-              className="w-8 h-8 rounded-full bg-[#a20025] flex items-center justify-center text-white shadow-sm"
+            {/* Dedicated Log Out Button */}
+            <button
+              type="button"
+              onClick={() => setIsLogoutModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#eeedf6] hover:bg-[#e8e7f0] text-[#1a1b22] hover:text-[#ba1a1a] transition-all cursor-pointer text-[11px] uppercase tracking-wider font-semibold"
+              title="Log Out Custodian Session"
             >
-              <span className="material-symbols-outlined text-[18px]">person</span>
-            </Link>
+              <span className="material-symbols-outlined text-[18px]">logout</span>
+              <span>Log Out</span>
+            </button>
           </div>
         </div>
       </header>
@@ -1437,6 +1441,75 @@ export default function AdminDashboardPage() {
                   Start Direct Dump
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 7. MODAL: LOGOUT CONFIRMATION (Stitch Screen ac6161cff69d4988bf92751afbe9c66c) */}
+      {isLogoutModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-md">
+          <div className="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl relative border border-black/5">
+            <div className="flex items-center justify-between pb-3 border-b border-black/5">
+              <div>
+                <span className="text-xs uppercase tracking-widest text-[#a20025] font-semibold">
+                  Custodian Authentication
+                </span>
+                <h3 className="font-serif text-2xl text-[#1a1b22] font-semibold mt-0.5">
+                  Host Sign Out
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsLogoutModalOpen(false)}
+                className="text-[#5f5e60] hover:text-[#1a1b22] p-1 rounded-full cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[24px]">close</span>
+              </button>
+            </div>
+            <div className="py-4">
+              <p className="text-sm text-[#5f5e60] leading-relaxed">
+                Are you sure you want to end your custodian session? You will be returned to the Welcome Gateway.
+              </p>
+              <div className="mt-4 p-3 bg-[#f4f2fc] rounded-lg flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#a20025]/10 text-[#a20025] flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[20px]">lock</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs uppercase text-[#1a1b22] font-semibold">
+                    Security Assurance
+                  </span>
+                  <span className="text-xs text-[#5f5e60]">
+                    All current vault changes and credentials remain safely encrypted.
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="pt-4 flex items-center justify-end gap-3 border-t border-black/5">
+              <button
+                type="button"
+                onClick={() => setIsLogoutModalOpen(false)}
+                className="px-4 py-2.5 text-[#5f5e60] hover:text-[#1a1b22] text-xs uppercase font-bold cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsLogoutModalOpen(false);
+                  if (typeof window !== 'undefined') {
+                    localStorage.removeItem('mmm_token');
+                    localStorage.removeItem('mmm_user');
+                    localStorage.removeItem('mmm_role');
+                  }
+                  showToast('Host custodian session ended safely');
+                  router.push('/');
+                }}
+                className="bg-[#a20025] hover:bg-[#9a1830] text-white px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider font-bold flex items-center gap-1.5 cursor-pointer shadow-sm transition-all"
+              >
+                <span className="material-symbols-outlined text-[18px]">logout</span>
+                <span>Confirm Log Out</span>
+              </button>
             </div>
           </div>
         </div>
