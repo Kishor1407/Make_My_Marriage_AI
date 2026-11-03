@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
@@ -98,9 +99,11 @@ const guestLogin = async (req, res, next) => {
 
     let marriage = null;
     if (marriageCode) {
-      marriage = await Marriage.findOne({
-        marriageCode: marriageCode.trim().toUpperCase()
-      });
+      const cleanCode = marriageCode.trim().toUpperCase();
+      marriage = await Marriage.findOne({ marriageCode: cleanCode });
+      if (!marriage && mongoose.Types.ObjectId.isValid(cleanCode)) {
+        marriage = await Marriage.findById(cleanCode);
+      }
 
       if (!marriage && !name && !email) {
         return res.status(404).json({ error: 'Invalid marriage code. Marriage not found.' });
@@ -140,7 +143,10 @@ const verifyPasscode = async (req, res, next) => {
     }
 
     const cleanCode = marriageCode.trim().toUpperCase();
-    const marriage = await Marriage.findOne({ marriageCode: cleanCode });
+    let marriage = await Marriage.findOne({ marriageCode: cleanCode });
+    if (!marriage && mongoose.Types.ObjectId.isValid(cleanCode)) {
+      marriage = await Marriage.findById(cleanCode);
+    }
 
     if (!marriage) {
       return res.status(404).json({

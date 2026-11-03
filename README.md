@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 [![Google Stitch](https://img.shields.io/badge/Google_Stitch-Project_9312812799714425334-blue?logo=google)](https://stitch.withgoogle.com/projects/9312812799714425334)
 [![Deployed on Vercel](https://img.shields.io/badge/Vercel-Serverless_Edge-black?logo=vercel)](https://vercel.com/)
-[![E2E Tests](https://img.shields.io/badge/E2E_Tests-84%2F84_Passing_(100%25)-success)](#-automated-testing--verification-8484-passing)
+[![E2E Tests](https://img.shields.io/badge/E2E_Tests-104%2F104_Passing_(100%25)-success)](#-automated-testing--verification-104104-passing)
 [![Budget](https://img.shields.io/badge/Operational_Cost-₹0_Strictly_Free_Tier-gold)](#-the-0-cloud-architecture-philosophy)
 
 [Google Stitch UI](#-google-stitch-official-ui-design-system) • [Architecture](#-simple--comprehensive-system-architecture) • [Features](#-features--prd-compliance-matrix) • [Vercel Deployment](#-step-by-step-0-cloud-deployment-guide) • [Bollywood Vaults](#-demo-showcase-4-bollywood-movie-couples) • [API Specs](#-rest-api-gateway-reference) • [Quick Start](#-local-installation--quick-start)
@@ -327,7 +327,7 @@ Base URL: `http://localhost:5000/api/v1`
 
 ---
 
-## 🧪 Automated Testing & Verification (84/84 Passing)
+## 🧪 Automated Testing & Verification (104/104 Passing)
 
 The project includes an end-to-end regression test suite verifying all 9 functional areas against a live MongoDB Atlas cluster:
 
@@ -355,12 +355,17 @@ node backend/test_all_features.js
   ✅ [PASS] Guest zero-password gateway entry returns HTTP 200
   ✅ [PASS] Gateway assigns GUEST role
   ✅ [PASS] Gateway retains guest name attribution
+  ✅ [PASS] Aliased /auth/login endpoint returns HTTP 200
+  ✅ [PASS] Aliased /auth/guest-session endpoint returns HTTP 200
   ✅ [PASS] Invalid wedding passcode correctly rejected with HTTP 404
   ✅ [PASS] Valid secret passcode returns HTTP 200
   ✅ [PASS] Sanctuary unlocked successfully
   ✅ [PASS] Assigned marriage ID bound to guest session
+  ✅ [PASS] Aliased /auth/verify-passcode endpoint returns HTTP 200
 
 --- SUITE 3: Marriage Vault Management (PRD 4.1 & 4.2) ---
+  ✅ [PASS] Browse all marriage vaults returns HTTP 200
+  ✅ [PASS] Celebrations directory returns array of vaults
   ✅ [PASS] Create Marriage returns HTTP 201 for code TESTXXXX
   ✅ [PASS] Marriage code correctly assigned
   ✅ [PASS] Standee QR Code data URL automatically generated
@@ -369,6 +374,10 @@ node backend/test_all_features.js
   ✅ [PASS] All 6 canonical rites present (Engagement, Mehndi, Haldi, Sangeet, Marriage, Others)
   ✅ [PASS] Update Marriage returns HTTP 200
   ✅ [PASS] Venue successfully updated
+  ✅ [PASS] Fetch Marriage by MongoDB ObjectId returns HTTP 200
+  ✅ [PASS] Retrieved marriageCode matches testCode
+  ✅ [PASS] Fetch Events by MongoDB ObjectId returns HTTP 200
+  ✅ [PASS] Exactly 6 events returned when queried by MongoDB ObjectId
 
 --- SUITE 4: QR-Powered Photo Dump & Attribution (PRD 4.4) ---
   ✅ [PASS] Guest photo upload returns HTTP 201 Created
@@ -395,6 +404,8 @@ node backend/test_all_features.js
   ✅ [PASS] Retrieved custom blessing matches
   ✅ [PASS] Rendered card upload returns HTTP 201 Created
   ✅ [PASS] Rendered card streamUrl created
+  ✅ [PASS] Fetch invitations by MongoDB ObjectId returns HTTP 200
+  ✅ [PASS] All 6 invitations returned when queried by MongoDB ObjectId
 
 --- SUITE 6: Live Stream Integration (PRD 4.6) ---
   ✅ [PASS] Update stream config returns HTTP 200
@@ -403,6 +414,8 @@ node backend/test_all_features.js
   ✅ [PASS] Fetch events for marriage returns HTTP 200
   ✅ [PASS] Guest receives LIVE broadcast status
   ✅ [PASS] Guest receives active YouTube live stream URL
+  ✅ [PASS] Update individual event by eventId returns HTTP 200
+  ✅ [PASS] Update individual event by eventType string returns HTTP 200
 
 --- SUITE 7: Media Segregation (PRD 4.7) ---
   ✅ [PASS] Video gallery query returns HTTP 200
@@ -427,24 +440,31 @@ node backend/test_all_features.js
   ✅ [PASS] Total blessings tracked accurately
   ✅ [PASS] Photo like reaction returns HTTP 200
   ✅ [PASS] Photo likes counter incremented
+  ✅ [PASS] Client demo photo ID p1 like returns HTTP 200 without rejection
+  ✅ [PASS] Client demo reaction recorded successfully
   ✅ [PASS] Stream signal telemetry returns HTTP 200
   ✅ [PASS] Stream signal reports success
   ✅ [PASS] Telemetry tracks ping latency
   ✅ [PASS] Telemetry confirms 1080p60 Full HD resolution
+  ✅ [PASS] Stream signal query by MongoDB ObjectId returns HTTP 200
   ✅ [PASS] Audit seal certificate returns HTTP 200
   ✅ [PASS] Audit seal reports success
   ✅ [PASS] Generated valid 64-char SHA-256 digest
   ✅ [PASS] Cryptographic integrity verified
+  ✅ [PASS] Audit seal query by MongoDB ObjectId returns HTTP 200
   ✅ [PASS] Guest roster metrics returns HTTP 200
   ✅ [PASS] Guest roster reports success
   ✅ [PASS] Roster confirms attendee count
+  ✅ [PASS] Guest roster query by MongoDB ObjectId returns HTTP 200
+  ✅ [PASS] Direct media stream on missing file gracefully returns HTTP 404 (zero crash)
+  ✅ [PASS] Media deletion on missing file gracefully returns HTTP 404
 
 --- SUITE 9: Teardown & Clean Database State ---
   ✅ [PASS] Delete test marriage returns HTTP 200
   ✅ [PASS] Deleted marriage is no longer accessible (HTTP 404)
 
 ================================================================
-  🎉 ALL FEATURES VERIFIED! 84 / 84 TESTS PASSED CLEANLY! 
+  🎉 ALL FEATURES VERIFIED! 104 / 104 TESTS PASSED CLEANLY! 
 ================================================================
 ```
 
@@ -522,7 +542,7 @@ Make_My_Marriage_AI/
 │   │   ├── routes/              # Express REST router definitions
 │   │   ├── scripts/             # Database seeders (clean_db, curated_reels)
 │   │   └── utils/               # QR code generator, response helpers
-│   ├── test_all_features.js     # 84-test end-to-end regression suite
+│   ├── test_all_features.js     # 104-test end-to-end regression suite
 │   ├── package.json
 │   └── .env
 ├── frontend/
@@ -562,7 +582,7 @@ Make_My_Marriage_AI/
 This project satisfies all requirements set forth in the Product Requirements Document:
 1. **100% PRD Functional Compliance:** Gated Access, Dual-View Admin Portal, 6-Part Timeline, QR Photo Dump with Name/Email Attribution, Built-in Invitation Generator, Live Stream Cinema, Media Segregation, Stream Signal Telemetry, and Cryptographic SHA-256 Seal.
 2. **Strictly ₹0 Cloud Cost Execution:** Zero paid cloud APIs (no AWS S3, no Cloudinary, no paid live stream transcoding, no external Canvas render APIs).
-3. **Verified Quality:** 84/84 automated tests passing, 0 TypeScript errors, 100% Next.js 15 production build pass, and a live MongoDB Atlas database.
+3. **Verified Quality:** 104/104 automated tests passing, 0 TypeScript errors, 100% Next.js 15 production build pass, and a live MongoDB Atlas database.
 
 ***
 

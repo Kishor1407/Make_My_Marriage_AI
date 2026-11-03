@@ -76,6 +76,21 @@ async function testAllFeatures() {
   assert(guestGatewayData.user?.role === 'GUEST', 'Gateway assigns GUEST role');
   assert(guestGatewayData.user?.name === 'Kabir Malhotra', 'Gateway retains guest name attribution');
 
+  // Verify Aliased Auth Routes for Robust Frontend Integration
+  const aliasLoginRes = await fetch(`${BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: testAdminEmail, password: testPassword })
+  });
+  assert(aliasLoginRes.status === 200, 'Aliased /auth/login endpoint returns HTTP 200');
+
+  const aliasGuestRes = await fetch(`${BASE_URL}/auth/guest-session`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Aliased Guest', email: 'alias@guest.local' })
+  });
+  assert(aliasGuestRes.status === 200, 'Aliased /auth/guest-session endpoint returns HTTP 200');
+
   // Verify Secret Passcode Rejection for Invalid Code
   const invalidPasscodeRes = await fetch(`${BASE_URL}/auth/guest/verify-passcode`, {
     method: 'POST',
@@ -103,10 +118,25 @@ async function testAllFeatures() {
   assert(validPasscodeData.success === true, 'Sanctuary unlocked successfully');
   assert(!!validPasscodeData.user?.assignedMarriageId, 'Assigned marriage ID bound to guest session');
 
+  // Verify Aliased /auth/verify-passcode route
+  const aliasVerifyRes = await fetch(`${BASE_URL}/auth/verify-passcode`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ marriageCode: 'RAJSIM24' })
+  });
+  assert(aliasVerifyRes.status === 200, 'Aliased /auth/verify-passcode endpoint returns HTTP 200');
+
   // -------------------------------------------------------------
   // SUITE 3: Marriage Management (PRD 4.1 & 4.2)
   // -------------------------------------------------------------
   console.log('\n--- SUITE 3: Marriage Vault Management (PRD 4.1 & 4.2) ---');
+
+  // Test 3.0: List All Hosted Marriages (Celebrations Directory)
+  const listMarriagesRes = await fetch(`${BASE_URL}/marriages`);
+  assert(listMarriagesRes.status === 200, 'Browse all marriage vaults returns HTTP 200');
+  const listMarriagesData = await listMarriagesRes.json();
+  assert(Array.isArray(listMarriagesData.data || listMarriagesData), 'Celebrations directory returns array of vaults');
+
   const testCode = `TEST${uniqueSuffix}`;
 
   const createRes = await fetch(`${BASE_URL}/marriages`, {
@@ -161,6 +191,18 @@ async function testAllFeatures() {
   const updateData = await updateRes.json();
   assert(updateRes.status === 200, 'Update Marriage returns HTTP 200');
   assert(updateData.data?.venue.includes('Pavilion'), 'Venue successfully updated');
+
+  // Query Marriage by MongoDB ObjectId
+  const getByIdRes = await fetch(`${BASE_URL}/marriages/${marriageId}`);
+  assert(getByIdRes.status === 200, 'Fetch Marriage by MongoDB ObjectId returns HTTP 200');
+  const getByIdData = await getByIdRes.json();
+  assert(getByIdData.data?.marriageCode === testCode, 'Retrieved marriageCode matches testCode');
+
+  // Query Events by MongoDB ObjectId
+  const getEventsByIdRes = await fetch(`${BASE_URL}/events/marriage/${marriageId}`);
+  assert(getEventsByIdRes.status === 200, 'Fetch Events by MongoDB ObjectId returns HTTP 200');
+  const getEventsByIdData = await getEventsByIdRes.json();
+  assert(getEventsByIdData.count === 6, 'Exactly 6 events returned when queried by MongoDB ObjectId');
 
   // -------------------------------------------------------------
   // SUITE 4: QR Photo Dump & Guest Attribution (PRD 4.4)
@@ -271,6 +313,12 @@ async function testAllFeatures() {
   assert(renderUploadRes.status === 201, 'Rendered card upload returns HTTP 201 Created');
   assert(!!renderUploadData.streamUrl, 'Rendered card streamUrl created');
 
+  // Fetch invitations by MongoDB ObjectId
+  const getInvitesByIdRes = await fetch(`${BASE_URL}/invitations/${marriageId}`);
+  assert(getInvitesByIdRes.status === 200, 'Fetch invitations by MongoDB ObjectId returns HTTP 200');
+  const getInvitesByIdData = await getInvitesByIdRes.json();
+  assert(getInvitesByIdData.count === 6, 'All 6 invitations returned when queried by MongoDB ObjectId');
+
   // -------------------------------------------------------------
   // SUITE 6: Live Stream Integration & Virtual Cinema (PRD 4.6)
   // -------------------------------------------------------------
@@ -302,6 +350,33 @@ async function testAllFeatures() {
   const haldiEvent = guestEventsData.data.find((e) => e.eventType === 'HALDI');
   assert(haldiEvent?.streamStatus === 'LIVE', 'Guest receives LIVE broadcast status');
   assert(haldiEvent?.liveStreamUrl.includes('live_test_broadcast'), 'Guest receives active YouTube live stream URL');
+
+  // Update Individual Event details by eventId
+  const updateEventRes = await fetch(`${BASE_URL}/events/${haldiEvent._id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      customTitle: 'The Regal Golden Haldi Ceremony',
+      venueAddress: 'Palace Seaside Lawn'
+    })
+  });
+  assert(updateEventRes.status === 200, 'Update individual event by eventId returns HTTP 200');
+
+  // Update Individual Event details by eventType string (HALDI)
+  const updateEventByTypeRes = await fetch(`${BASE_URL}/events/HALDI`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      customTitle: 'The Imperial Golden Haldi Rite'
+    })
+  });
+  assert(updateEventByTypeRes.status === 200, 'Update individual event by eventType string returns HTTP 200');
 
   // -------------------------------------------------------------
   // SUITE 7: Media Segregation & Official Video Reels (PRD 4.7)
@@ -394,6 +469,14 @@ async function testAllFeatures() {
   const likeData = await likeRes.json();
   assert(likeData.likes >= 1, 'Photo likes counter incremented');
 
+  // Test 8.3b: Client Demo Photo ID Graceful Reaction (e.g. p1, p2)
+  const clientLikeRes = await fetch(`${BASE_URL}/media/p1/like`, {
+    method: 'POST'
+  });
+  assert(clientLikeRes.status === 200, 'Client demo photo ID p1 like returns HTTP 200 without rejection');
+  const clientLikeData = await clientLikeRes.json();
+  assert(clientLikeData.success === true, 'Client demo reaction recorded successfully');
+
   // Test 8.4: Live Stream Signal Telemetry
   const signalRes = await fetch(`${BASE_URL}/events/stream-signal/${testCode}`);
   assert(signalRes.status === 200, 'Stream signal telemetry returns HTTP 200');
@@ -401,6 +484,10 @@ async function testAllFeatures() {
   assert(signalData.success === true, 'Stream signal reports success');
   assert(typeof signalData.data?.latencyMs === 'number', 'Telemetry tracks ping latency');
   assert(signalData.data?.resolution === '1080p60 Full HD', 'Telemetry confirms 1080p60 Full HD resolution');
+
+  // Test 8.4b: Stream Signal Telemetry using MongoDB ObjectId
+  const signalByIdRes = await fetch(`${BASE_URL}/events/stream-signal/${marriageId}`);
+  assert(signalByIdRes.status === 200, 'Stream signal query by MongoDB ObjectId returns HTTP 200');
 
   // Test 8.5: Cryptographic SHA-256 Integrity Seal
   const auditRes = await fetch(`${BASE_URL}/marriages/${testCode}/audit-seal`);
@@ -410,12 +497,31 @@ async function testAllFeatures() {
   assert(typeof auditData.data?.sha256Hash === 'string' && auditData.data.sha256Hash.length === 64, 'Generated valid 64-char SHA-256 digest');
   assert(auditData.data?.integrityStatus === 'AUTHENTIC_UNMODIFIED', 'Cryptographic integrity verified');
 
+  // Test 8.5b: Cryptographic Audit Seal using MongoDB ObjectId
+  const auditByIdRes = await fetch(`${BASE_URL}/marriages/${marriageId}/audit-seal`);
+  assert(auditByIdRes.status === 200, 'Audit seal query by MongoDB ObjectId returns HTTP 200');
+
   // Test 8.6: Guest Roster Live Attendance
   const rosterRes = await fetch(`${BASE_URL}/invitations/${testCode}/roster`);
   assert(rosterRes.status === 200, 'Guest roster metrics returns HTTP 200');
   const rosterData = await rosterRes.json();
   assert(rosterData.success === true, 'Guest roster reports success');
   assert(rosterData.data?.confirmedGuestsCount >= 1, 'Roster confirms attendee count');
+
+  // Test 8.6b: Guest Roster Query using MongoDB ObjectId
+  const rosterByIdRes = await fetch(`${BASE_URL}/invitations/${marriageId}/roster`);
+  assert(rosterByIdRes.status === 200, 'Guest roster query by MongoDB ObjectId returns HTTP 200');
+
+  // Test 8.7: Direct Media Stream Graceful 404 on Missing File (Zero Server Crash)
+  const stream404Res = await fetch(`${BASE_URL}/media/stream/nonexistent_file_alpha`);
+  assert(stream404Res.status === 404, 'Direct media stream on missing file gracefully returns HTTP 404 (zero crash)');
+
+  // Test 8.8: Media Deletion Graceful 404 on Missing File
+  const delete404Res = await fetch(`${BASE_URL}/media/nonexistent_file_alpha`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  assert(delete404Res.status === 404, 'Media deletion on missing file gracefully returns HTTP 404');
 
   // -------------------------------------------------------------
   // SUITE 9: Teardown & Cascading Cleanup

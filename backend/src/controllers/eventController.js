@@ -8,14 +8,22 @@ const Marriage = require('../models/Marriage');
 const getEventsForMarriage = async (req, res, next) => {
   try {
     const { marriageId } = req.params;
-    let targetMarriageId = marriageId;
+    let targetMarriageId = null;
 
-    if (!mongoose.Types.ObjectId.isValid(marriageId)) {
-      const m = await Marriage.findOne({ marriageCode: marriageId.toUpperCase() });
-      if (!m) {
-        return res.status(404).json({ error: 'Marriage not found.' });
+    if (mongoose.Types.ObjectId.isValid(marriageId)) {
+      const m = await Marriage.findById(marriageId);
+      if (m) {
+        targetMarriageId = m._id;
       }
-      targetMarriageId = m._id;
+    }
+    if (!targetMarriageId) {
+      const m = await Marriage.findOne({ marriageCode: marriageId.toUpperCase() });
+      if (m) {
+        targetMarriageId = m._id;
+      }
+    }
+    if (!targetMarriageId) {
+      return res.status(404).json({ error: 'Marriage not found.' });
     }
 
     // Verify guest access restriction if signed in as guest
@@ -44,7 +52,13 @@ const updateEventDetails = async (req, res, next) => {
   try {
     const { eventDate, eventTime, venueAddress, liveStreamUrl, customTitle, streamStatus, viewerCount } = req.body;
 
-    const event = await Event.findById(req.params.eventId);
+    let event = null;
+    if (mongoose.Types.ObjectId.isValid(req.params.eventId)) {
+      event = await Event.findById(req.params.eventId);
+    }
+    if (!event) {
+      event = await Event.findOne({ eventType: req.params.eventId.toUpperCase() });
+    }
     if (!event) {
       return res.status(404).json({ error: 'Event not found.' });
     }
@@ -138,7 +152,14 @@ const updateStreamConfig = async (req, res, next) => {
 const getStreamSignal = async (req, res, next) => {
   try {
     const code = (req.params.marriageCode || '').trim().toUpperCase();
-    const marriage = await Marriage.findOne({ marriageCode: code });
+    let marriage = null;
+
+    if (mongoose.Types.ObjectId.isValid(code)) {
+      marriage = await Marriage.findById(code);
+    }
+    if (!marriage) {
+      marriage = await Marriage.findOne({ marriageCode: code });
+    }
     if (!marriage) {
       return res.status(404).json({ success: false, error: 'Marriage vault not found.' });
     }

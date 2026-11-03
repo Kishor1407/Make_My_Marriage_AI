@@ -1,6 +1,6 @@
 # Make My Marriage — Project Status & Roadmap
 
-**Current Version:** 2.3.0 (Zero-Dummy Real Backend API Integration & 84/84 Tests Passed)  
+**Current Version:** 2.4.0 (Robust Query Casting, Full Aliased Routing & 104/104 Tests Passed)  
 **Updated:** November 2026  
 **Architecture:** MERN Monorepo (Next.js 15 + Express + MongoDB Atlas GridFS)  
 **Budget Constraint:** Strictly ₹0 (MongoDB Atlas M0 Free Tier, Zero Paid Cloud APIs)  
@@ -64,7 +64,7 @@
 
 ---
 
-## 3. Verified End-to-End Test Flows (9 Suites, 84/84 Passed)
+## 3. Verified End-to-End Test Flows (9 Suites, 104/104 Passed)
 
 1. **Suite 1: API Gateway & Health Check** (HTTP 200, uptime tracking).
 2. **Suite 2: Host Authentication & Passcode Verification** (Login with `modi@makemymarriage.com`, JWT verification, Admin role check, Guest zero-password login, invalid passcode 404 rejection, valid passcode unlock).

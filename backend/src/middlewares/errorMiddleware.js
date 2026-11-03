@@ -14,6 +14,12 @@ const errorHandler = (err, req, res, next) => {
     message = 'Upload limit exceeded. Maximum 10 files allowed per batch.';
   }
 
+  // Handle Mongoose CastError (e.g., invalid ObjectId)
+  if (err.name === 'CastError') {
+    statusCode = 404;
+    message = `Resource not found with identifier of ${err.value}.`;
+  }
+
   // Handle Mongoose validation errors
   if (err.name === 'ValidationError') {
     statusCode = 400;
