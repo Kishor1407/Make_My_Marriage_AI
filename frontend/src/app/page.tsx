@@ -34,7 +34,8 @@ export default function HomePage() {
   const [unlockSuccess, setUnlockSuccess] = useState(false);
   const [isVerifyingCode, setIsVerifyingCode] = useState(false);
 
-  // Admin Form State
+  // Admin Modal & Form State
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [adminEmail, setAdminEmail] = useState('modi@makemymarriage.com');
   const [adminPassword, setAdminPassword] = useState('Password@2026');
   const [showPassword, setShowPassword] = useState(false);
@@ -311,332 +312,10 @@ export default function HomePage() {
     return matchesQuery;
   });
 
-  if (isInitializing) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-[#c81e38] border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
+
 
   // =========================================================================
-  // SCREEN 1: UNIFIED ROLE-SWITCH GATEWAY (When no session is active)
-  // =========================================================================
-  if (!guestSession && user?.role !== 'ADMIN') {
-    return (
-      <div className="min-h-screen bg-[#FFFFFF] text-[#0A0A0C] font-sans antialiased flex flex-col selection:bg-[#C81E38] selection:text-white relative overflow-hidden">
-        {/* Toast Alert */}
-        {toastMsg && (
-          <div className="fixed top-6 right-6 z-[100] px-4 py-3 rounded-2xl bg-white border border-neutral-200 text-[#0A0A0C] text-xs font-semibold shadow-2xl flex items-center gap-2.5 animate-in slide-in-from-right-4">
-            <AppIcon
-              name={toastMsg.type === 'success' ? 'check_circle' : toastMsg.type === 'crimson' ? 'error' : 'info'}
-              size={18}
-              className={toastMsg.type === 'success' ? 'text-emerald-600' : toastMsg.type === 'crimson' ? 'text-[#C81E38]' : 'text-neutral-700'}
-            />
-            <span>{toastMsg.text}</span>
-          </div>
-        )}
-
-        {/* Ambient Decorative Luxury Glow */}
-        <div className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-[#C81E38]/10 via-neutral-100/40 to-transparent blur-3xl pointer-events-none -top-40 -left-20" />
-        <div className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-bl from-amber-100/30 via-[#C81E38]/5 to-transparent blur-3xl pointer-events-none -bottom-32 -right-20" />
-
-        {/* Main Gateway Center Panel */}
-        <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-12 relative z-10">
-          <div className="w-full max-w-xl mx-auto flex flex-col items-center">
-            {/* Brand Presentation */}
-            <div className="flex flex-col items-center text-center mb-8">
-              <div className="w-14 h-14 rounded-2xl bg-[#C81E38] text-white flex items-center justify-center mb-4 shadow-xl shadow-[#C81E38]/20 transition-transform duration-300 hover:scale-105">
-                <AppIcon name="diamond" size={28} className="text-white" />
-              </div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-100 rounded-full border border-neutral-200 mb-3 shadow-xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#C81E38] animate-pulse"></span>
-                <span className="text-[11px] font-bold uppercase tracking-widest text-[#0A0A0C]">
-                  India&apos;s ₹0 Cloud Sovereign Wedding Vault
-                </span>
-              </div>
-              <h1 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0A0A0C] tracking-tight mb-2">
-                Make My Marriage
-              </h1>
-              <p className="text-sm text-neutral-600 max-w-md mx-auto leading-relaxed">
-                Bespoke Matrimonial Archives &amp; Guest Experience Atelier
-              </p>
-            </div>
-
-            {/* Master Role Switcher Segmented Capsule */}
-            <div className="w-full bg-neutral-100 p-1.5 rounded-2xl border border-neutral-200 mb-6 shadow-xs flex items-center justify-between gap-1.5">
-              <button
-                type="button"
-                onClick={() => setGatewayRole('guest')}
-                className={`flex-1 py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 text-xs font-bold uppercase tracking-wider ${
-                  gatewayRole === 'guest'
-                    ? 'text-[#C81E38] bg-white shadow-md border border-neutral-200/80'
-                    : 'text-neutral-600 hover:text-black'
-                }`}
-              >
-                <span className="text-base leading-none">🌸</span>
-                <span>Guest Experience</span>
-                {gatewayRole === 'guest' && <span className="w-1.5 h-1.5 rounded-full bg-[#C81E38] ml-0.5"></span>}
-              </button>
-              <button
-                type="button"
-                onClick={() => setGatewayRole('admin')}
-                className={`flex-1 py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 text-xs font-bold uppercase tracking-wider ${
-                  gatewayRole === 'admin'
-                    ? 'text-black bg-white shadow-md border border-neutral-200/80'
-                    : 'text-neutral-600 hover:text-black'
-                }`}
-              >
-                <span className="text-base leading-none">👑</span>
-                <span>Host / Admin Portal</span>
-                {gatewayRole === 'admin' && <span className="w-1.5 h-1.5 rounded-full bg-black ml-0.5"></span>}
-              </button>
-            </div>
-
-            {/* Main Interactive Card */}
-            <div className="w-full bg-white rounded-3xl border border-neutral-200 shadow-2xl overflow-hidden relative">
-              {/* Top Decorative Line */}
-              <div className="h-1.5 w-full bg-gradient-to-r from-[#C81E38] via-[#9e1b32] to-amber-400" />
-
-              {/* ---------------------------------------------------- */}
-              {/* GUEST MODE: ZERO-PASSWORD PROCEED SCREEN             */}
-              {/* ---------------------------------------------------- */}
-              {gatewayRole === 'guest' ? (
-                <div className="p-7 sm:p-9 flex flex-col animate-in fade-in duration-300">
-                  <div className="flex items-start justify-between gap-4 mb-6">
-                    <div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#C81E38] block mb-1">
-                        Direct Invitation Entry
-                      </span>
-                      <h2 className="font-editorial font-bold text-2xl text-[#0A0A0C]">
-                        Welcome, Honored Guest
-                      </h2>
-                      <p className="text-xs text-neutral-500 mt-1">
-                        Join the royal celebrations as an honored guest and preserve live memoirs.
-                      </p>
-                    </div>
-                    <div className="w-10 h-10 rounded-2xl bg-[#C81E38]/10 text-[#C81E38] flex items-center justify-center shrink-0 border border-[#C81E38]/20">
-                      <AppIcon name="celebration" size={20} />
-                    </div>
-                  </div>
-
-                  <form onSubmit={handleGuestSubmit} className="space-y-4">
-                    {/* Field 1: Full Name */}
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-                        Your Full Name <span className="text-[#C81E38]">*</span>
-                      </label>
-                      <div className="relative flex items-center">
-                        <span className="material-symbols-outlined absolute left-3.5 text-neutral-400 text-[18px]">
-                          badge
-                        </span>
-                        <input
-                          required
-                          type="text"
-                          placeholder="e.g. Kabir Malhotra"
-                          value={guestName}
-                          onChange={(e) => setGuestName(e.target.value)}
-                          className="w-full pl-11 pr-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm text-[#0A0A0C] placeholder:text-neutral-400 focus:bg-white focus:border-[#C81E38] outline-none transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Field 2: Email Address */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700">
-                          Your Email Address <span className="text-[#C81E38]">*</span>
-                        </label>
-                        <span className="text-[10px] text-neutral-400">Photo Attribution</span>
-                      </div>
-                      <div className="relative flex items-center">
-                        <span className="material-symbols-outlined absolute left-3.5 text-neutral-400 text-[18px]">
-                          mail
-                        </span>
-                        <input
-                          required
-                          type="email"
-                          placeholder="e.g. kabir@gmail.com"
-                          value={guestEmail}
-                          onChange={(e) => setGuestEmail(e.target.value)}
-                          className="w-full pl-11 pr-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm text-[#0A0A0C] placeholder:text-neutral-400 focus:bg-white focus:border-[#C81E38] outline-none transition-colors"
-                        />
-                      </div>
-                      <p className="text-[11px] text-neutral-500 flex items-center gap-1.5 mt-1">
-                        <AppIcon name="verified" size={13} className="text-[#C81E38]" />
-                        <span>Attribution for all archival photos and blessings you upload.</span>
-                      </p>
-                    </div>
-
-                    {/* Trust Badges Strip (Stitch Screen 6588f0d3) */}
-                    <div className="pt-2 flex flex-wrap items-center justify-center gap-3 bg-neutral-50 p-3.5 rounded-2xl border border-neutral-200/80 text-neutral-600 text-[11px]">
-                      <div className="flex items-center gap-1.5">
-                        <AppIcon name="key_off" size={15} className="text-[#C81E38]" />
-                        <span className="font-semibold text-neutral-800">Zero Passwords</span>
-                      </div>
-                      <span className="text-neutral-300">•</span>
-                      <div className="flex items-center gap-1.5">
-                        <AppIcon name="auto_fix_high" size={15} className="text-[#C81E38]" />
-                        <span className="font-semibold text-neutral-800">Instant Attribution</span>
-                      </div>
-                      <span className="text-neutral-300">•</span>
-                      <div className="flex items-center gap-1.5">
-                        <AppIcon name="lock" size={15} className="text-[#C81E38]" />
-                        <span className="font-semibold text-neutral-800">100% Private Cloud</span>
-                      </div>
-                    </div>
-
-                    {/* Big Primary Enter Celebrations Directory Button */}
-                    <div className="pt-3">
-                      <button
-                        disabled={isSubmitting}
-                        type="submit"
-                        className="w-full py-4 px-6 rounded-2xl bg-[#C81E38] hover:bg-[#9e1b32] text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl shadow-[#C81E38]/25 active:scale-95 transition-all group disabled:opacity-50 cursor-pointer"
-                      >
-                        <span>{isSubmitting ? 'Entering Directory...' : 'Enter Celebrations Directory'}</span>
-                        <span className="text-base group-hover:translate-x-1 transition-transform">🌸</span>
-                        <AppIcon name="arrow_forward" size={16} />
-                      </button>
-                    </div>
-
-                    <div className="pt-2 text-center flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-neutral-500 text-[10px] uppercase font-semibold tracking-wider">
-                      <span className="flex items-center gap-1">
-                        <AppIcon name="bolt" size={13} className="text-[#C81E38]" /> Instant Zero-Login Pass
-                      </span>
-                      <span className="hidden sm:inline text-neutral-300">•</span>
-                      <span className="flex items-center gap-1">
-                        <AppIcon name="lock" size={13} className="text-[#C81E38]" /> Encrypted Sovereign Vault
-                      </span>
-                    </div>
-                  </form>
-                </div>
-              ) : (
-                /* ---------------------------------------------------- */
-                /* ADMIN MODE: SOVEREIGN HOST CREDENTIALS LOGIN        */
-                /* ---------------------------------------------------- */
-                <div className="p-7 sm:p-9 flex flex-col animate-in fade-in duration-300">
-                  <div className="flex items-start justify-between gap-4 mb-6">
-                    <div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#0A0A0C] block mb-1">
-                        Vault Administration
-                      </span>
-                      <h2 className="font-editorial font-bold text-2xl text-[#0A0A0C]">
-                        Host Concierge &amp; Governance
-                      </h2>
-                      <p className="text-xs text-neutral-500 mt-1">
-                        Sovereign wedding control plane, rites scheduling, and cloud media orchestration.
-                      </p>
-                    </div>
-                    <div className="w-10 h-10 rounded-2xl bg-black text-white flex items-center justify-center shrink-0">
-                      <AppIcon name="admin_panel_settings" size={20} />
-                    </div>
-                  </div>
-
-                  <form onSubmit={handleAdminSubmit} className="space-y-4">
-                    {/* Admin Email */}
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-                        Master Custodian Email <span className="text-[#C81E38]">*</span>
-                      </label>
-                      <div className="relative flex items-center">
-                        <span className="material-symbols-outlined absolute left-3.5 text-neutral-400 text-[18px]">
-                          shield_person
-                        </span>
-                        <input
-                          required
-                          type="email"
-                          placeholder="modi@makemymarriage.com"
-                          value={adminEmail}
-                          onChange={(e) => setAdminEmail(e.target.value)}
-                          className="w-full pl-11 pr-4 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm text-[#0A0A0C] focus:bg-white focus:border-black outline-none transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Admin Password */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700">
-                          Master Sovereign Passkey <span className="text-[#C81E38]">*</span>
-                        </label>
-                        <span className="text-[10px] text-[#C81E38] font-bold">Encrypted 256-Bit</span>
-                      </div>
-                      <div className="relative flex items-center">
-                        <span className="material-symbols-outlined absolute left-3.5 text-neutral-400 text-[18px]">
-                          lock
-                        </span>
-                        <input
-                          required
-                          type={showPassword ? 'text' : 'password'}
-                          placeholder="••••••••••••"
-                          value={adminPassword}
-                          onChange={(e) => setAdminPassword(e.target.value)}
-                          className="w-full pl-11 pr-11 py-3 bg-neutral-50 border border-neutral-200 rounded-xl text-sm text-[#0A0A0C] focus:bg-white focus:border-black outline-none tracking-widest transition-colors font-mono"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3.5 text-neutral-400 hover:text-black transition-colors"
-                        >
-                          <AppIcon name={showPassword ? 'visibility_off' : 'visibility'} size={18} />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Domain Identifier Badge */}
-                    <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <AppIcon name="domain_verification" size={16} className="text-neutral-500" />
-                        <span className="text-xs font-semibold text-neutral-700">raj-simran.makemymarriage.com</span>
-                      </div>
-                      <span className="px-2 py-0.5 rounded bg-white text-[#C81E38] text-[10px] font-bold uppercase border border-neutral-200">
-                        Cloud ₹0 Tier Active
-                      </span>
-                    </div>
-
-                    {/* Primary Admin Sign In Button */}
-                    <div className="pt-2">
-                      <button
-                        disabled={isSubmitting}
-                        type="submit"
-                        className="w-full py-4 px-6 rounded-2xl bg-[#0A0A0C] hover:bg-[#1a1a20] text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-all group disabled:opacity-50 cursor-pointer"
-                      >
-                        <span>{isSubmitting ? 'Authenticating Sovereign Vault...' : 'Sign In to Master Vault'}</span>
-                        <span className="text-base group-hover:scale-110 transition-transform">👑</span>
-                      </button>
-                    </div>
-
-                    <div className="pt-1 text-center text-neutral-500 text-[10px] uppercase font-semibold tracking-wider">
-                      Protected by Sovereign Host Multi-Zone Encryption
-                    </div>
-                  </form>
-                </div>
-              )}
-            </div>
-
-            {/* Quick Switcher Help Footer */}
-            <div className="w-full mt-6 flex flex-col sm:flex-row items-center justify-between text-neutral-500 gap-4 px-2 text-xs">
-              <div className="flex items-center gap-2">
-                <AppIcon name="hotel_class" size={16} className="text-[#C81E38]" />
-                <span>Need a royal concierge pass?</span>
-                <a href="mailto:concierge@makemymarriage.com" className="font-bold text-[#C81E38] hover:underline">
-                  Contact Host Helpdesk
-                </a>
-              </div>
-              <div className="flex items-center gap-3 font-semibold uppercase tracking-widest text-[10px]">
-                <span>© 2026 Make My Marriage</span>
-                <span>•</span>
-                <span>Zero-Cost Sovereign Cloud</span>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  // =========================================================================
-  // SCREEN 2: GUEST CELEBRATIONS DIRECTORY (When guest is logged in)
+  // GUEST CELEBRATIONS DIRECTORY (Permanent Sovereign Screen • Zero Toggling)
   // =========================================================================
   return (
     <div className="min-h-screen bg-white text-[#0A0A0C] font-sans antialiased flex flex-col selection:bg-[#C81E38] selection:text-white">
@@ -685,9 +364,27 @@ export default function HomePage() {
                 <div className="mt-2 text-xl font-bold font-editorial text-[#0A0A0C]">
                   {marriages.length} Sovereign Invitations
                 </div>
-                <p className="mt-0.5 text-xs text-neutral-500">
-                  Ceremonial permissions synchronized for {guestSession?.email}
-                </p>
+                <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
+                  {user?.role === 'ADMIN' ? (
+                    <Link
+                      href="/admin/dashboard"
+                      className="text-xs font-bold text-[#C81E38] hover:underline flex items-center gap-1"
+                    >
+                      <span>Admin Workspace</span>
+                      <AppIcon name="arrow_forward" size={14} />
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setIsAdminModalOpen(true)}
+                      className="text-[11px] font-bold text-neutral-600 hover:text-[#C81E38] flex items-center gap-1 cursor-pointer transition-colors"
+                    >
+                      <AppIcon name="admin_panel_settings" size={14} className="text-[#C81E38]" />
+                      <span>Host Admin Sign In</span>
+                    </button>
+                  )}
+                  <span className="text-[10px] uppercase font-bold text-neutral-400">₹0 Cloud Cost</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1104,6 +801,92 @@ export default function HomePage() {
                 <span>Encrypted Gateway</span>
               </span>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* HOST ADMIN LOGIN MODAL */}
+      {isAdminModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-md bg-white rounded-3xl border border-neutral-200 shadow-2xl p-6 sm:p-8 text-[#0A0A0C]">
+            <button
+              onClick={() => setIsAdminModalOpen(false)}
+              className="absolute top-5 right-5 text-neutral-400 hover:text-black cursor-pointer"
+            >
+              <AppIcon name="close" size={20} />
+            </button>
+
+            <div className="space-y-1 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-black text-white flex items-center justify-center mb-3 shadow-md">
+                <AppIcon name="admin_panel_settings" size={20} className="text-amber-400" />
+              </div>
+              <span className="text-[10px] uppercase font-bold tracking-widest text-neutral-500">
+                Host Sovereign Clearance
+              </span>
+              <h2 className="font-editorial text-2xl font-bold text-[#0A0A0C]">
+                Admin Workspace Sign In
+              </h2>
+              <p className="text-xs text-neutral-500">
+                Enter sovereign credentials to orchestrate wedding vaults, stream keys & digital invitations.
+              </p>
+            </div>
+
+            <form onSubmit={handleAdminSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700">
+                  Admin Email
+                </label>
+                <div className="relative flex items-center">
+                  <AppIcon name="mail" size={18} className="absolute left-3.5 text-neutral-400 pointer-events-none" />
+                  <input
+                    type="email"
+                    required
+                    value={adminEmail}
+                    onChange={(e) => setAdminEmail(e.target.value)}
+                    placeholder="modi@makemymarriage.com"
+                    className="w-full pl-10 pr-4 py-3 bg-neutral-50 rounded-xl border border-neutral-200 text-xs text-[#0A0A0C] font-semibold focus:bg-white focus:border-black outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700">
+                    Password
+                  </label>
+                  <span className="text-[10px] font-mono text-neutral-400">Default: Password@2026</span>
+                </div>
+                <div className="relative flex items-center">
+                  <AppIcon name="lock" size={18} className="absolute left-3.5 text-neutral-400 pointer-events-none" />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={adminPassword}
+                    onChange={(e) => setAdminPassword(e.target.value)}
+                    placeholder="••••••••••••"
+                    className="w-full pl-10 pr-10 py-3 bg-neutral-50 rounded-xl border border-neutral-200 text-xs text-[#0A0A0C] font-semibold focus:bg-white focus:border-black outline-none transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 text-neutral-400 hover:text-black cursor-pointer"
+                  >
+                    <AppIcon name={showPassword ? 'visibility_off' : 'visibility'} size={18} />
+                  </button>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  disabled={isSubmitting}
+                  type="submit"
+                  className="w-full py-3.5 px-6 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all disabled:opacity-50 cursor-pointer"
+                >
+                  <span>{isSubmitting ? 'Authenticating...' : 'Sign In to Workspace'}</span>
+                  <span>👑</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

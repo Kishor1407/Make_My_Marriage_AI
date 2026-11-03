@@ -41,12 +41,12 @@ export default function Navbar() {
     return () => window.removeEventListener('storage', updateSession);
   }, [pathname, user]);
 
-  // Hide the global navbar on the admin dashboard since it has its own bespoke luxury dual-tab workspace
-  if (pathname?.startsWith('/admin/dashboard')) {
+  // Hide the global navbar on admin dashboard & marriage sanctuary since they have bespoke Stitch headers
+  if (pathname?.startsWith('/admin/dashboard') || pathname?.startsWith('/marriage/')) {
     return null;
   }
 
-  // Handle Exit / Switch Role: Return to Gateway
+  // Handle Exit / Logout
   const handleExitRole = async () => {
     try {
       await api.post('/auth/logout');
@@ -142,46 +142,40 @@ export default function Navbar() {
             {isAdmin ? (
               /* Admin Identity & Logout */
               <div className="flex items-center gap-2">
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-100 border border-neutral-200 text-xs font-bold text-[#0A0A0C]">
+                <Link
+                  href="/admin/dashboard"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 text-xs font-bold text-[#0A0A0C] transition-colors"
+                >
                   <span className="w-2 h-2 rounded-full bg-[#c81e38]"></span>
                   <span>Master Admin</span>
-                </div>
+                </Link>
                 <button
                   onClick={handleExitRole}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-bold transition-all shadow-xs"
-                  title="Logout and return to Gateway"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black hover:bg-neutral-800 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+                  title="Logout from Admin"
                 >
                   <AppIcon name="logout" size={14} />
-                  <span>Exit to Gateway</span>
+                  <span>Logout</span>
                 </button>
               </div>
-            ) : isGuest ? (
-              /* Guest Identity & Exit / Switch Role Button (STRICTLY NO ADMIN LINK) */
+            ) : (
+              /* Guest / Visitor View: Name pill + Host Admin Link (NO screen toggle) */
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neutral-50 border border-neutral-200 text-xs text-neutral-800">
                   <span className="w-2 h-2 rounded-full bg-[#c81e38] animate-pulse"></span>
                   <span className="font-semibold text-neutral-600 hidden md:inline">Guest:</span>
                   <span className="font-bold text-[#0A0A0C] truncate max-w-[120px]">{guestDisplayName}</span>
                 </div>
-                <button
-                  onClick={handleExitRole}
+                <Link
+                  href="/admin/login"
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-neutral-100 text-neutral-800 hover:text-black border border-neutral-200 text-xs font-semibold transition-all shadow-2xs"
-                  title="Return to Login Gateway to change role or enter as host"
+                  title="Host Admin Portal Sign In"
                 >
-                  <AppIcon name="sync_alt" size={14} className="text-[#c81e38]" />
-                  <span className="hidden sm:inline">Exit / Switch Role</span>
-                  <span className="sm:hidden">Exit</span>
-                </button>
+                  <AppIcon name="admin_panel_settings" size={14} className="text-[#c81e38]" />
+                  <span className="hidden sm:inline">Host Admin</span>
+                  <span className="sm:hidden">Admin</span>
+                </Link>
               </div>
-            ) : (
-              /* Unauthenticated Visitor */
-              <Link
-                href="/"
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#c81e38] hover:bg-[#9e1b32] text-white text-xs font-bold shadow-sm transition-all"
-              >
-                <span>Enter Celebrations</span>
-                <span>🌸</span>
-              </Link>
             )}
           </div>
         </div>

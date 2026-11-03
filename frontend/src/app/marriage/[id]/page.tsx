@@ -66,6 +66,7 @@ export default function GuestExperiencePage() {
   const [galleryTab, setGalleryTab] = useState<'all' | 'studio'>('all');
   const [galleryPhotos, setGalleryPhotos] = useState<PhotoItem[]>([]);
   const [lightboxPhoto, setLightboxPhoto] = useState<PhotoItem | null>(null);
+  const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
   // Toast Notification
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -458,7 +459,7 @@ export default function GuestExperiencePage() {
         ))}
       </div>
 
-      {/* FIXED LUXURY HEADER */}
+      {/* FIXED LUXURY HEADER (Stitch Screen caa3fd8e) */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-black/5 shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
         <div className="h-20 max-w-[1440px] mx-auto px-4 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-6">
@@ -468,33 +469,19 @@ export default function GuestExperiencePage() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-4">
-            {/* Mode Switcher */}
-            <div className="flex items-center bg-[#f4f2fc] p-1 rounded-full shadow-[inset_0_1px_2px_rgba(0,0,0,0.03)]">
-              <nav className="flex items-center">
-                <span className="text-[11px] uppercase tracking-wider font-semibold px-4 py-1.5 rounded-full bg-white text-[#a20025] shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
-                  Guest Mode
-                </span>
-                <Link
-                  href="/admin/dashboard"
-                  className="text-[11px] uppercase tracking-wider font-semibold px-4 py-1.5 rounded-full text-[#5b4040] hover:text-[#1a1b22] transition-colors"
-                >
-                  Admin Workspace
-                </Link>
-              </nav>
-            </div>
-
-            <div className="h-5 w-px bg-[#e3e1ea]"></div>
-
-            <Link
-              href="/"
-              title="Return to Directory"
-              className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#5b4040] hover:text-[#a20025] transition-colors"
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsExitModalOpen(true)}
+              className="group flex items-center gap-2 px-4 py-2 border border-[#e4bdbd] bg-white hover:bg-[#a20025] hover:border-[#a20025] transition-all text-[#1a1b22] hover:text-white shadow-xs cursor-pointer rounded-lg"
+              title="Return to Celebrations Directory"
             >
-              <div className="w-8 h-8 rounded-full bg-[#a20025] flex items-center justify-center text-white">
-                <span className="material-symbols-outlined text-[18px]">person</span>
-              </div>
-            </Link>
+              <span className="material-symbols-outlined text-[18px] text-[#a20025] group-hover:text-white transition-colors">
+                logout
+              </span>
+              <span className="text-xs uppercase tracking-wider font-semibold">
+                Exit Sanctuary
+              </span>
+            </button>
           </div>
         </div>
       </header>
@@ -1213,6 +1200,43 @@ export default function GuestExperiencePage() {
                   Send Love to This Photo
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* IMMERSIVE EXIT CONFIRMATION MODAL (Stitch Screen caa3fd8e) */}
+      {isExitModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="relative bg-white max-w-md w-full p-8 shadow-2xl border border-neutral-200 text-center space-y-5 rounded-2xl">
+            <div className="w-12 h-1 bg-[#a20025] mx-auto rounded-full"></div>
+            <div className="space-y-1.5">
+              <span className="text-[11px] uppercase tracking-widest text-[#a20025] font-bold">
+                Leaving Matrimonial Sanctuary
+              </span>
+              <h3 className="font-serif text-2xl uppercase text-[#1a1b22] font-semibold">
+                Depart Wedding Monograph?
+              </h3>
+              <p className="text-xs text-neutral-600 leading-relaxed">
+                Return to celebrations directory? You can rejoin anytime with passcode <strong className="font-mono text-[#a20025]">{passcode}</strong>.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <button
+                onClick={() => setIsExitModalOpen(false)}
+                className="flex-1 py-3 bg-neutral-100 hover:bg-neutral-200 text-[#1a1b22] text-xs uppercase tracking-wider font-bold rounded-xl transition-colors cursor-pointer"
+              >
+                Stay Here
+              </button>
+              <button
+                onClick={() => {
+                  setIsExitModalOpen(false);
+                  router.push('/');
+                }}
+                className="flex-1 py-3 bg-[#a20025] hover:bg-[#80001d] text-white text-xs uppercase tracking-wider font-bold rounded-xl transition-colors shadow-md cursor-pointer"
+              >
+                Exit to Directory
+              </button>
             </div>
           </div>
         </div>
