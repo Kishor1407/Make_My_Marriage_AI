@@ -394,6 +394,29 @@ async function testAllFeatures() {
   const likeData = await likeRes.json();
   assert(likeData.likes >= 1, 'Photo likes counter incremented');
 
+  // Test 8.4: Live Stream Signal Telemetry
+  const signalRes = await fetch(`${BASE_URL}/events/stream-signal/${testCode}`);
+  assert(signalRes.status === 200, 'Stream signal telemetry returns HTTP 200');
+  const signalData = await signalRes.json();
+  assert(signalData.success === true, 'Stream signal reports success');
+  assert(typeof signalData.data?.latencyMs === 'number', 'Telemetry tracks ping latency');
+  assert(signalData.data?.resolution === '1080p60 Full HD', 'Telemetry confirms 1080p60 Full HD resolution');
+
+  // Test 8.5: Cryptographic SHA-256 Integrity Seal
+  const auditRes = await fetch(`${BASE_URL}/marriages/${testCode}/audit-seal`);
+  assert(auditRes.status === 200, 'Audit seal certificate returns HTTP 200');
+  const auditData = await auditRes.json();
+  assert(auditData.success === true, 'Audit seal reports success');
+  assert(typeof auditData.data?.sha256Hash === 'string' && auditData.data.sha256Hash.length === 64, 'Generated valid 64-char SHA-256 digest');
+  assert(auditData.data?.integrityStatus === 'AUTHENTIC_UNMODIFIED', 'Cryptographic integrity verified');
+
+  // Test 8.6: Guest Roster Live Attendance
+  const rosterRes = await fetch(`${BASE_URL}/invitations/${testCode}/roster`);
+  assert(rosterRes.status === 200, 'Guest roster metrics returns HTTP 200');
+  const rosterData = await rosterRes.json();
+  assert(rosterData.success === true, 'Guest roster reports success');
+  assert(rosterData.data?.confirmedGuestsCount >= 1, 'Roster confirms attendee count');
+
   // -------------------------------------------------------------
   // SUITE 9: Teardown & Cascading Cleanup
   // -------------------------------------------------------------

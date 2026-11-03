@@ -3,9 +3,13 @@ const router = express.Router();
 const {
   getEventsForMarriage,
   updateEventDetails,
-  updateStreamConfig
+  updateStreamConfig,
+  getStreamSignal
 } = require('../controllers/eventController');
 const { protect, requireAdmin } = require('../middlewares/authMiddleware');
+
+// Get real-time stream signal telemetry for a marriage
+router.get('/stream-signal/:marriageCode', getStreamSignal);
 
 // Get all events for a marriage code or ID
 router.get('/marriage/:marriageId', getEventsForMarriage);

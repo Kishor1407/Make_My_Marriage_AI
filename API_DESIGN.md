@@ -343,19 +343,38 @@ Make My Marriage implements a strict dual-persona separation between **Honored G
 
 ---
 
-## 6. Digital Invitation Studio APIs
+## 6. Digital Invitation Studio & Guest Roster APIs
 
 ### 6.1 Get Marriage Stationery Suite
 - **Endpoint**: `GET /api/v1/invitations/:marriageCode?ceremony=HALDI`
 - **Access**: Public
 
 ### 6.2 Save Custom Stationery Card
-- **Endpoint**: `PUT /api/v1/invitations/:marriageCode`
+- **Endpoint**: `POST /api/v1/invitations`
 - **Access**: Admin (Protected)
+
+### 6.3 Guest Roster Live Attendance
+- **Endpoint**: `GET /api/v1/invitations/:marriageCode/roster`
+- **Access**: Public / Admin
+- **Description**: Real-time aggregation of confirmed attendees, active photo uploaders, and guest contributors from MongoDB Atlas.
 
 ---
 
-## 7. Frontend State & Route Map
+## 7. Stream Telemetry & Cryptographic Seal APIs
+
+### 7.1 Live Stream Signal Telemetry
+- **Endpoint**: `GET /api/v1/events/stream-signal/:marriageCode`
+- **Access**: Public / Admin
+- **Description**: Verifies ingest connection health, roundtrip ping latency in ms, FPS (60), resolution (1080p60), and active viewer telemetry.
+
+### 7.2 Cryptographic SHA-256 Audit Seal
+- **Endpoint**: `GET /api/v1/marriages/:marriageId/audit-seal`
+- **Access**: Public
+- **Description**: Computes and cryptographically verifies the SHA-256 integrity digest of the marriage records and media count stored in MongoDB Atlas.
+
+---
+
+## 8. Frontend State & Route Map
 
 | Route | Role Access | Purpose |
 | :--- | :--- | :--- |

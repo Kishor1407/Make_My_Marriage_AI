@@ -7,13 +7,17 @@ const {
   updateMarriage,
   deleteMarriage,
   addBlessing,
-  getBlessings
+  getBlessings,
+  getAuditSeal
 } = require('../controllers/marriageController');
 const { getEventsForMarriage } = require('../controllers/eventController');
 const { protect, requireAdmin } = require('../middlewares/authMiddleware');
 
 // Public route to browse wedding grid
 router.get('/', getAllMarriages);
+
+// Cryptographic SHA-256 certificate and integrity seal for a marriage
+router.get('/:marriageId/audit-seal', getAuditSeal);
 
 // Admin-only creation
 router.post('/', protect, requireAdmin, createMarriage);

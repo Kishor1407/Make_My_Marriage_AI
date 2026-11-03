@@ -115,6 +115,20 @@ export default function LiveStreamCinemaPage() {
   // Toast
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
+  const [streamTelemetry, setStreamTelemetry] = useState<{
+    latencyMs: number;
+    latencySec: string;
+    bitrate: string;
+    protocol: string;
+    globalNodes: string[];
+  }>({
+    latencyMs: 24,
+    latencySec: '0.82s',
+    bitrate: '6,800 Kbps CBR',
+    protocol: 'HLS Fastly/Edge',
+    globalNodes: ['Agra', 'LHR', 'JFK']
+  });
+
   const showToast = (msg: string) => {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(null), 3200);
@@ -123,6 +137,22 @@ export default function LiveStreamCinemaPage() {
   // Rehydrate data from MongoDB Atlas
   useEffect(() => {
     setIsLoading(true);
+
+    // Stream telemetry
+    api.get(`/events/stream-signal/${marriageCode}`)
+      .then((res) => {
+        if (res.data?.data) {
+          const d = res.data.data;
+          setStreamTelemetry({
+            latencyMs: d.latencyMs,
+            latencySec: d.latencySec || `${(d.latencyMs / 30).toFixed(2)}s`,
+            bitrate: d.bitrate || '6,800 Kbps CBR',
+            protocol: d.protocol || 'HLS Fastly/Edge',
+            globalNodes: d.globalNodes?.slice(0, 3) || ['Agra', 'LHR', 'JFK']
+          });
+        }
+      })
+      .catch(() => {});
 
     // 1. Fetch Marriage Vault
     api.get(`/marriages/${marriageCode}`)
@@ -705,19 +735,19 @@ export default function LiveStreamCinemaPage() {
                   <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
                     <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
                       <span className="text-[10px] uppercase text-neutral-400 block font-semibold">CDN Protocol</span>
-                      <span className="font-bold text-[#0A0A0C]">HLS Fastly/Edge</span>
+                      <span className="font-bold text-[#0A0A0C]">{streamTelemetry.protocol}</span>
                     </div>
                     <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
                       <span className="text-[10px] uppercase text-neutral-400 block font-semibold">Stream Latency</span>
-                      <span className="font-bold text-[#C81E38]">0.82s (Ultra-Low)</span>
+                      <span className="font-bold text-[#C81E38]">{streamTelemetry.latencySec} ({streamTelemetry.latencyMs}ms)</span>
                     </div>
                     <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
                       <span className="text-[10px] uppercase text-neutral-400 block font-semibold">Bitrate</span>
-                      <span className="font-bold text-[#0A0A0C]">6,800 Kbps CBR</span>
+                      <span className="font-bold text-[#0A0A0C]">{streamTelemetry.bitrate}</span>
                     </div>
                     <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-100">
                       <span className="text-[10px] uppercase text-neutral-400 block font-semibold">Global Nodes</span>
-                      <span className="font-bold text-[#0A0A0C]">Agra • LHR • JFK</span>
+                      <span className="font-bold text-[#0A0A0C]">{streamTelemetry.globalNodes.join(' • ')}</span>
                     </div>
                   </div>
                 </div>

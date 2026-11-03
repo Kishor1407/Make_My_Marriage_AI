@@ -10,7 +10,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-v20%2B-green?logo=node.js)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB_Atlas-M0_Free_Tier-brightgreen?logo=mongodb)](https://www.mongodb.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
-[![E2E Tests](https://img.shields.io/badge/E2E_Tests-73%2F73_Passing_(100%25)-success)](#-automated-testing--verification-7373-passing)
+[![E2E Tests](https://img.shields.io/badge/E2E_Tests-84%2F84_Passing_(100%25)-success)](#-automated-testing--verification-8484-passing)
 [![Budget](https://img.shields.io/badge/Operational_Cost-₹0_Strictly_Free_Tier-gold)](#-the-0-cloud-architecture-philosophy)
 
 [Live Architecture](#-system-architecture--data-flow) • [Features](#-features--prd-compliance-matrix) • [Screenshots](#-visual-walkthrough--ui-gallery) • [Bollywood Demo Vaults](#-demo-showcase-4-bollywood-movie-couples) • [API Specs](#-rest-api-gateway-reference) • [Setup Guide](#-local-installation--quick-start)
@@ -262,38 +262,46 @@ Base URL: `http://localhost:5000/api/v1`
 ### 1. Authentication
 * `POST /auth/admin/login` — Host admin authentication (issues JWT cookie & bearer token).
 * `POST /auth/guest/login` — Guest passcode unlock authentication.
+* `POST /auth/guest/verify-passcode` — Secret passcode verification for individual wedding vaults.
 * `GET /auth/me` — Authenticated session identity & role verification.
 * `POST /auth/logout` — Clear session tokens.
 
-### 2. Marriage Vaults
+### 2. Marriage Vaults & Integrity Audit
 * `GET /marriages` — List all hosted marriage vaults with public summaries.
 * `GET /marriages/:codeOrId` — Get full marriage details and global stats.
 * `POST /marriages` — [Protected] Create new wedding vault with auto-provisioned 6 rites and vector QR code.
 * `PUT /marriages/:id` — [Protected] Update couple names, dates, venue, or regenerate QR codes.
 * `DELETE /marriages/:id` — [Protected] Cascade delete marriage, events, invitations, and GridFS media.
+* `GET /marriages/:marriageId/audit-seal` — Cryptographic SHA-256 certificate & integrity seal verified against MongoDB Atlas cluster.
+* `POST /marriages/:marriageId/blessing` — Send real-time blessings (`prem`, `magic`, `rose`, `cheers`, `aashirwaad`).
+* `GET /marriages/:marriageId/blessings` — Aggregate live blessing counters from MongoDB Atlas.
 
 ### 3. Events & Timeline
 * `GET /events/marriage/:codeOrId` — Retrieve all 6 canonical rites with live stream status and viewer counts.
 * `PUT /events/config/stream` — [Protected] Host Stream Studio endpoint: configure YouTube Live URL and broadcast state (`SCHEDULED`, `LIVE`, `CONCLUDED`).
+* `GET /events/stream-signal/:marriageCode` — Real-time stream signal telemetry (ping latency, FPS, bitrate, HLS protocol, active viewers).
+* `PUT /events/:eventId` — [Protected] Update individual ceremony date, time, and venue details.
 
-### 4. Invitations
+### 4. Invitations & Guest Roster
 * `GET /invitations/:code` — Retrieve customized digital invitations for all 6 rites.
 * `POST /invitations` — [Protected] Persist customized ceremonial card typography, invocations, and RSVP.
 * `POST /invitations/render-upload` — [Protected] Ingest client-rendered 300 DPI card image into GridFS.
+* `GET /invitations/:marriageCode/roster` — Live guest roster attendance and photo uploader metrics from MongoDB Atlas.
 
 ### 5. Media Vault & PRD 4.7 Segregation
 * `GET /media/gallery/:marriageCode?mediaType=VIDEO` — Retrieve exclusively official host-curated video reels.
 * `GET /media/gallery/:marriageCode?mediaType=PHOTO` — Retrieve exclusively crowdsourced candid photo dumps with guest author attribution.
 * `GET /media/stream/:fileId` — Stream media binary directly from GridFS chunks with HTTP 206 Range seeking.
-* `POST /media/guest-upload` — Guest table QR photo dump tagged with Name, Email, and Ceremony.
+* `POST /media/guest-upload` — Guest table QR photo dump tagged with Name, Email, Table, and Ceremony.
 * `POST /media/curate-reel` — [Protected: Admin Only] Ingest and publish official 4K/HD video reel with duration and curator credits.
+* `POST /media/:fileId/like` — Photo heart/like reaction increment with atomic database update.
 * `DELETE /media/:fileId` — [Protected: Admin Only] Moderate and delete media file with atomic counter decrement.
 
 ---
 
-## 🧪 Automated Testing & Verification (59/59 Passing)
+## 🧪 Automated Testing & Verification (84/84 Passing)
 
-The project includes an end-to-end regression test suite verifying all 8 functional areas against a live MongoDB Atlas cluster:
+The project includes an end-to-end regression test suite verifying all 9 functional areas against a live MongoDB Atlas cluster:
 
 ```bash
 node backend/test_all_features.js
@@ -316,6 +324,13 @@ node backend/test_all_features.js
   ✅ [PASS] Protected /auth/me profile returns HTTP 200
   ✅ [PASS] User identity matches registered email
   ✅ [PASS] Role is verified as ADMIN
+  ✅ [PASS] Guest zero-password gateway entry returns HTTP 200
+  ✅ [PASS] Gateway assigns GUEST role
+  ✅ [PASS] Gateway retains guest name attribution
+  ✅ [PASS] Invalid wedding passcode correctly rejected with HTTP 404
+  ✅ [PASS] Valid secret passcode returns HTTP 200
+  ✅ [PASS] Sanctuary unlocked successfully
+  ✅ [PASS] Assigned marriage ID bound to guest session
 
 --- SUITE 3: Marriage Vault Management (PRD 4.1 & 4.2) ---
   ✅ [PASS] Create Marriage returns HTTP 201 for code TESTXXXX
@@ -384,13 +399,24 @@ node backend/test_all_features.js
   ✅ [PASS] Total blessings tracked accurately
   ✅ [PASS] Photo like reaction returns HTTP 200
   ✅ [PASS] Photo likes counter incremented
+  ✅ [PASS] Stream signal telemetry returns HTTP 200
+  ✅ [PASS] Stream signal reports success
+  ✅ [PASS] Telemetry tracks ping latency
+  ✅ [PASS] Telemetry confirms 1080p60 Full HD resolution
+  ✅ [PASS] Audit seal certificate returns HTTP 200
+  ✅ [PASS] Audit seal reports success
+  ✅ [PASS] Generated valid 64-char SHA-256 digest
+  ✅ [PASS] Cryptographic integrity verified
+  ✅ [PASS] Guest roster metrics returns HTTP 200
+  ✅ [PASS] Guest roster reports success
+  ✅ [PASS] Roster confirms attendee count
 
 --- SUITE 9: Teardown & Clean Database State ---
   ✅ [PASS] Delete test marriage returns HTTP 200
   ✅ [PASS] Deleted marriage is no longer accessible (HTTP 404)
 
 ================================================================
-  🎉 ALL FEATURES VERIFIED! 73 / 73 TESTS PASSED CLEANLY! 
+  🎉 ALL FEATURES VERIFIED! 84 / 84 TESTS PASSED CLEANLY! 
 ================================================================
 ```
 

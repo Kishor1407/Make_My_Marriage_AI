@@ -3,8 +3,12 @@ const router = express.Router();
 const {
   getInvitations,
   saveInvitation,
-  uploadRenderedCard
+  uploadRenderedCard,
+  getGuestRoster
 } = require('../controllers/invitationController');
+
+// Get guest roster attendance metrics for a marriage
+router.get('/:marriageCode/roster', getGuestRoster);
 
 // Get invitations for a marriage (e.g. GET /api/v1/invitations/RAHUL24 or ?ceremony=HALDI)
 router.get('/:marriageCode', getInvitations);
