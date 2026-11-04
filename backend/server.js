@@ -2,12 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
+const path = require('path');
 const { connectDB } = require('./src/config/db');
 const routes = require('./src/routes');
 const { notFound, errorHandler } = require('./src/middlewares/errorMiddleware');
 
-// Load environment variables
+// Load environment variables (from root or backend directory)
 dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
@@ -37,6 +39,11 @@ app.use(
 
       // In development, allow any localhost or 127.0.0.1 port
       if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        return callback(null, true);
+      }
+
+      // Allow any Vercel deployment (production, preview, branch)
+      if (/^https:\/\/.*\.vercel\.app$/.test(origin)) {
         return callback(null, true);
       }
 
