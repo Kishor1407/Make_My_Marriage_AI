@@ -230,56 +230,63 @@ The database comes pre-seeded with 4 Bollywood weddings across past, live, and f
 | **Dido Ranjha & Heer Sial** | *Heer Ranjha* | `HEERRAN26` | Dec 18–20, 2026 • **Live Realtime** | Umaid Bhawan Palace, Jodhpur | 3 Official 4K Reels, 4 Candid Photos, 6 Invitations |
 | **Kabir (Bunny) & Naina Talwar** | *YJHD* | `BUNNYNA27` | Mar 24–26, 2027 • **Scheduled** | The Oberoi Udaivilas, Udaipur | 3 Official 4K Reels, 5 Candid Photos, 6 Invitations |
 
-### Sovereign Admin Credentials
+### 👑 Sovereign Host Admin Credentials
 * **Email:** `modi@makemymarriage.com`
-* **Password:** `Password@2026`
+* **Password:** `Modi@123`
 * **Role:** `ADMIN` (Full host privileges: marriage creation, timeline configuration, invitation generation, and official reel curation)
+
+---
+
+## 🌐 Live Production Deployments & Unified Portal
+
+The application is deployed live on Vercel with automatic rewrites, delivering both the Next.js frontend and the Express backend under a single unified domain without cross-origin friction:
+
+* **Unified Portal:** [https://make-my-marriage-two-gamma.vercel.app](https://make-my-marriage-two-gamma.vercel.app)
+* **Backend API Gateway:** [https://make-my-marriage-backend.vercel.app](https://make-my-marriage-backend.vercel.app)
+* **Host Admin Master Workspace:** [https://make-my-marriage-two-gamma.vercel.app/admin/dashboard](https://make-my-marriage-two-gamma.vercel.app/admin/dashboard)
+* **Sample Live Wedding Vault (Nobita & Shizuka):** [https://make-my-marriage-two-gamma.vercel.app/marriage/NOBSIZ14](https://make-my-marriage-two-gamma.vercel.app/marriage/NOBSIZ14)
+* **Dedicated Media Vault (4K Reels & Candids):** [https://make-my-marriage-two-gamma.vercel.app/marriage/NOBSIZ14/vault](https://make-my-marriage-two-gamma.vercel.app/marriage/NOBSIZ14/vault)
+* **Ceremonial Live Cinema:** [https://make-my-marriage-two-gamma.vercel.app/marriage/NOBSIZ14/cinema](https://make-my-marriage-two-gamma.vercel.app/marriage/NOBSIZ14/cinema)
+
+---
+
+## 🛡️ Zero Dummy Data Policy & Pure Database Integrity
+
+Every single number, image, title, and media item in the portal originates strictly from the live **MongoDB Atlas** cluster:
+* **No Hardcoded Mock Numbers:** Counters dynamically resolve to `0` instead of mock fallbacks (`420`, `180`, `240`).
+* **No AI-Generated Placeholders:** Uncovered weddings render pure luxury typography monogram banners (`N & S`) instead of generic Google AI images.
+* **Strict Empty States:** Vaults with 0 photos or 0 reels display high-fashion empty state cards with 1-click calls-to-action for guests and hosts to dump and curate memories.
 
 ---
 
 ## 🌐 Step-by-Step ₹0 Cloud Deployment Guide
 
-You can deploy the complete platform to the web for free in under 10 minutes:
+You can deploy the complete platform to Vercel for free in under 5 minutes:
 
-### Step 1: Deploy Backend to Render (₹0 Web Service)
-1. Push your repository to GitHub.
-2. Sign in to [Render](https://render.com) and click **New > Web Service**.
-3. Connect your GitHub repository `Make_My_Marriage_AI`.
-4. Configure the service settings:
-   * **Name:** `make-my-marriage-api`
-   * **Root Directory:** `backend`
-   * **Environment:** `Node`
-   * **Build Command:** `npm install`
-   * **Start Command:** `npm start`
-   * **Plan Type:** `Free`
-5. Under **Environment Variables**, add:
-   ```env
-   PORT=5000
-   NODE_ENV=production
-   MONGO_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/make_my_marriage?retryWrites=true&w=majority
-   JWT_SECRET=mmm_super_secret_jwt_key_2026_secure
-   JWT_EXPIRES_IN=7d
-   FRONTEND_URL=https://your-app.vercel.app
+### Step 1: Deploy Backend to Vercel (₹0 Serverless Node.js API)
+1. Link and deploy the `backend` folder via Vercel CLI:
+   ```bash
+   cd backend
+   vercel link --yes
+   vercel env add MONGO_URI production
+   vercel env add JWT_SECRET production
+   vercel env add JWT_EXPIRES_IN production
+   vercel env add FRONTEND_URL production
+   vercel deploy --prod --yes
    ```
-6. Click **Create Web Service**. Note your deployed backend URL (e.g. `https://make-my-marriage-api.onrender.com`).
+2. Note your deployed backend URL: `https://make-my-marriage-backend.vercel.app`.
 
 ---
 
 ### Step 2: Deploy Frontend to Vercel (₹0 Serverless Edge)
-1. Sign in to [Vercel](https://vercel.com) using your GitHub account.
-2. Click **Add New > Project** and import `Make_My_Marriage_AI`.
-3. The project includes pre-configured [`vercel.json`](file:///C:/Users/LENOVO/Desktop/Make_My_Marriage_AI/vercel.json) files.
-4. If prompted for project configuration:
-   * **Framework Preset:** `Next.js`
-   * **Root Directory:** `./` (or `frontend`)
-   * **Build Command:** `npm run build --workspace=frontend`
-   * **Output Directory:** `frontend/.next`
-5. Under **Environment Variables**, add:
-   ```env
-   NEXT_PUBLIC_API_URL=https://make-my-marriage-api.onrender.com/api/v1
+1. In `frontend/next.config.js`, configure Next.js rewrites to transparently proxy all `/api/v1/:path*` requests to your backend production URL.
+2. Link and deploy the `frontend` folder:
+   ```bash
+   cd frontend
+   vercel link --yes
+   vercel deploy --prod --yes
    ```
-6. Click **Deploy**. Vercel will build and assign you a global production URL (e.g. `https://make-my-marriage.vercel.app`).
-7. Update `FRONTEND_URL` in your Render backend settings to your new Vercel domain to ensure CORS requests are authenticated.
+3. Your single unified portal is immediately available at `https://make-my-marriage-two-gamma.vercel.app`.
 
 ---
 
