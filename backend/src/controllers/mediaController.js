@@ -337,10 +337,13 @@ const guestUploadMedia = async (req, res, next) => {
     }
 
     const { passcode, marriageCode, ceremony, uploaderName, uploader, uploaderEmail, table, uploaderTable } = req.body;
-    const code = (passcode || marriageCode || 'RAJSIM24').trim().toUpperCase();
+    const code = (passcode || marriageCode || '').trim().toUpperCase();
+    if (!code) {
+      return res.status(400).json({ error: 'Marriage code or passcode is required.' });
+    }
     const guestAuthor = (uploaderName || uploader || 'Wedding Guest').trim();
-    const guestMail = (uploaderEmail || 'guest@wedding.local').trim();
-    const guestTable = (table || uploaderTable || 'Table 4 (Groom\'s College Cohort)').trim();
+    const guestMail = (uploaderEmail || '').trim();
+    const guestTable = (table || uploaderTable || 'Guest').trim();
     const ceremonyKey = (ceremony || 'HALDI').trim().toUpperCase();
 
     // Find Marriage by passcode
@@ -529,7 +532,7 @@ const curateVideoReel = async (req, res, next) => {
       posterUrl
     } = req.body;
 
-    const code = (marriageCode || 'RAJSIM24').trim().toUpperCase();
+    const code = (marriageCode || '').trim().toUpperCase();
     let marriage = null;
 
     if (marriageId && mongoose.Types.ObjectId.isValid(marriageId)) {

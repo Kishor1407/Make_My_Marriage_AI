@@ -99,59 +99,15 @@ export default function HomePage() {
   useEffect(() => {
     api.get('/marriages')
       .then((res) => {
-        if (res.data?.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
+        if (res.data?.data && Array.isArray(res.data.data)) {
           setMarriages(res.data.data);
         } else {
-          // Fallback to Bollywood marriages
-          setMarriages([
-            {
-              id: 'm1',
-              partnerOneName: 'Raj Malhotra',
-              partnerTwoName: 'Simran Singh',
-              marriageCode: 'RAJSIM24',
-              venue: 'The Grand Oberoi Amarvilas, Agra',
-              dates: 'October 18–20, 2026',
-              status: 'LIVE',
-              coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk',
-              globalStats: { totalPhotos: 420, totalGuestsEngaged: 240 }
-            },
-            {
-              id: 'm2',
-              partnerOneName: 'Qais Bhatt (Majnu)',
-              partnerTwoName: 'Laila Sharma',
-              marriageCode: 'LAILAM25',
-              venue: 'The Khyber Himalayan Resort, Gulmarg',
-              dates: 'November 14–16, 2026',
-              status: 'Scheduled',
-              coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBc9C1voRVWDpitAXvHixh6nqQ4Fr79mnyuw9Xe3IcAQgZAd-Uv3awiaBCqPc9wnryGg6K_YtjvXw33aS0iPw333R8nNhGrxKssGs9kAEFQutT4sDRp5swxSF4PKKzpyne6cjdxSMvTeL4C-gEgct3msqLoQmVt6GrsyBYVuNDf8XOEWyRE8h2qqZjSVu1Q0NDPzcE68G9R3cAcloU2HG0DmHfapfJmWYtk0quRUrg',
-              globalStats: { totalPhotos: 520, totalGuestsEngaged: 360 }
-            },
-            {
-              id: 'm3',
-              partnerOneName: 'Dido Ranjha',
-              partnerTwoName: 'Heer Sial',
-              marriageCode: 'HEERRAN26',
-              venue: 'Umaid Bhawan Palace, Jodhpur',
-              dates: 'December 18–20, 2026',
-              status: 'Upcoming',
-              coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDSFCd_cy05beANlWSREfxP3NXg8ctYEY9AVrp-_XUcFVt_w_abbeTJoNmpWgcl8BVyWp4mMIEKmkoQCot9EjdJ8Qctuj_og0TdF89uVPf1ArAbEHmfMvwAjzk11O8dlquI1hLl94jYCQPEmyWg6L3oF39f_dnAAHfgwtKtVrHHwXAxAnTWY3rVge3SuEwTHGpMbYt9YVQpN3S6n00H5ow31iMzhlMSaFkbEID1-jQ',
-              globalStats: { totalPhotos: 310, totalGuestsEngaged: 180 }
-            },
-            {
-              id: 'm4',
-              partnerOneName: 'Kabir Thapar (Bunny)',
-              partnerTwoName: 'Naina Talwar',
-              marriageCode: 'BUNNYNA27',
-              venue: 'The Oberoi Udaivilas, Udaipur',
-              dates: 'March 24–26, 2027',
-              status: 'Upcoming',
-              coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBEVot-vS2GnsXbBB4zTZwgLOQZB44-F2CG2MJSbPBtnVFreWoYfeD19x6LsJdusK1z85b04V5SN9gQUWXAc6BiSrYM0oFgaDXn21SfNJKacDmjRPBfA8J2uCGvJ_Vf0XUQ5yTK7l7_-K1pQZkT8obSKKqtgrKob3W-kGwf2SKx3J1nvu0cxTfto7MEgYv8z70KQeVsPOmfJ9wy3ttfuoJONcP1bn-FY2P_ur4J0bk',
-              globalStats: { totalPhotos: 195, totalGuestsEngaged: 140 }
-            }
-          ]);
+          setMarriages([]);
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        setMarriages([]);
+      });
   }, []);
 
   // Handle Guest Enter Celebrations (Instant Zero-Password Pass into Directory)
@@ -466,7 +422,7 @@ export default function HomePage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredMarriages.map((wedding) => {
-                const code = wedding.marriageCode || 'RAJSIM24';
+                const code = wedding.marriageCode || wedding._id || wedding.id || '';
                 const couple = `${wedding.partnerOneName} & ${wedding.partnerTwoName}`;
                 const isLive = wedding.status?.toUpperCase() === 'LIVE' || wedding.status?.toLowerCase() === 'live';
 
@@ -477,11 +433,25 @@ export default function HomePage() {
                   >
                     {/* Portrait Ratio Cover */}
                     <div className="relative w-full aspect-[4/5] overflow-hidden bg-neutral-100">
-                      <img
-                        alt={couple}
-                        src={wedding.coverImage}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                      />
+                      {wedding.coverImage && !wedding.coverImage.includes('aida-public') ? (
+                        <img
+                          alt={couple}
+                          src={wedding.coverImage}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-[#1a1b22] via-[#2a1118] to-[#c81e38] flex flex-col items-center justify-center p-6 text-center select-none">
+                          <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white mb-3 shadow-inner">
+                            <span className="material-symbols-outlined text-[32px] text-[#ffdada]">favorite</span>
+                          </div>
+                          <div className="text-white/40 font-serif text-4xl tracking-widest uppercase font-bold">
+                            {(wedding.partnerOneName?.[0] || 'W')}&amp;{(wedding.partnerTwoName?.[0] || 'W')}
+                          </div>
+                          <div className="text-white/80 font-editorial text-sm mt-3 uppercase tracking-wider font-semibold">
+                            {couple}
+                          </div>
+                        </div>
+                      )}
 
                       {/* Top Status Badges */}
                       <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2">

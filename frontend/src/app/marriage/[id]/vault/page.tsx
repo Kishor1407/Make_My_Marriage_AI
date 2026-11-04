@@ -44,30 +44,20 @@ interface MarriageData {
   totalGuestsEngaged: number;
 }
 
-// Fallback high-resolution editorial poster images for reels
-const DEFAULT_REEL_POSTERS: Record<string, string> = {
-  SANGEET: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCA55Hy4h3141dkGq_vL33-UITtTVym4N09dB435L9BjwGMwIw7qcGByK20-Lsb-u1AdvBVBotHwhFsD_xZGKn3aKbQ-b_v6gX7Oq384UMS9cyoHkNSiTJDV16jyYXE88p46TpdxVynimUhuHMtJRT3u_w38tGH8CCSOjmkeksIROJ0jOI2J9A-DB_vXZ_r0fS1NbZsl-5D6bSeDQHUE9EZFTXYjyBpQtT1Ka6rOok',
-  HALDI: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAl4Vx7mJmEXstmCeOn1bUixfHWsEupWLRip3rsJ0bhIcIP2eZstjzJ83o5pG9uHPUAWKYRSqxoIYpd8m61iExk-v93aqLRVMq2x1vYsAcXX4fxKbkn0CSFI9VZBGPwrFn64qGzhTibRO5kB20GnrCjBltv0G8JSpIopkHoNqhplARD8eMVUKsHWDpAHlu7tsshMZzHbHVqniTRFWw0nkgKvWykZlXWgUHGz7kf42k',
-  MEHNDI: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCr8JaetGPE7YDWY2Tkchy9X0cn6zz9VIBwVFNELtgTAqvBkLdRwZSl8kdZZ5QKyZyo98B-q2cVFZldcWeWQlQg8fT0v2FNJL8wdVlPCCuymd4-mu-dIYe1xkGYJSBekNvHOGJ8lvlUODhwx_uULIQOmCMBXiACsZN75CV2f8bA6-wDtgu60O8jPxKDYsq0Mcg6FmClli07FIXMm1O3j109A30cv4GgoIdlfb1xV8U',
-  MARRIAGE: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAbSFnFnI5Jpuh7ZvGS3KHTjNtzsxn8QClt8G1aEU_khuiHUXftjAUcu-p9vNEMI-JMpDPb9BN4GRuhajwvB-ztl8XyeKA1qvKfmj5XKAlLIDbe_Me-D9NIu0rO56VD6LfDF0SYO7fuVQZk7xSgh_Sk2mc1JykfqYjlf4hnAGRMBsd1xmlZcO9CfZJE9zN3Pjj88uorqmbaMzrU2tWQb8eRyG45powg3Ql5fZxWlK0',
-  ENGAGEMENT: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk',
-  OTHERS: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk'
-};
-
 export default function MediaVaultPage() {
   const params = useParams();
   const router = useRouter();
-  const marriageIdParam = (params?.id as string) || 'RAJSIM24';
+  const marriageIdParam = (params?.id as string) || '';
 
   // Navigation & Data States
   const [marriage, setMarriage] = useState<MarriageData>({
     id: marriageIdParam,
-    partnerOneName: 'Raj Malhotra',
-    partnerTwoName: 'Simran Singh',
-    marriageCode: 'RAJSIM24',
-    dates: 'October 18–20, 2024',
-    venue: 'The Grand Oberoi Amarvilas & Mustard Meadows, Agra',
-    status: 'Completed (Celebrated)',
+    partnerOneName: '',
+    partnerTwoName: '',
+    marriageCode: marriageIdParam,
+    dates: '',
+    venue: '',
+    status: '',
     totalPhotos: 0,
     totalVideos: 0,
     totalGuestsEngaged: 0
@@ -98,7 +88,7 @@ export default function MediaVaultPage() {
   const [curateTitle, setCurateTitle] = useState('');
   const [curateCeremony, setCurateCeremony] = useState('SANGEET');
   const [curateDuration, setCurateDuration] = useState('02:45');
-  const [curateCurator, setCurateCurator] = useState('Simran & Raj');
+  const [curateCurator, setCurateCurator] = useState('');
   const [isSubmittingReel, setIsSubmittingReel] = useState(false);
 
   // Toast State
@@ -121,21 +111,19 @@ export default function MediaVaultPage() {
           const m = res.data.marriage;
           setMarriage({
             id: m._id || m.id,
-            partnerOneName: m.partnerOneName || 'Raj Malhotra',
-            partnerTwoName: m.partnerTwoName || 'Simran Singh',
+            partnerOneName: m.partnerOneName || '',
+            partnerTwoName: m.partnerTwoName || '',
             marriageCode: m.marriageCode || codeOrId,
-            dates: m.dates || 'October 18–20, 2024',
-            venue: m.venue || 'The Grand Oberoi Amarvilas, Agra',
-            status: m.status || 'Completed (Celebrated)',
-            totalPhotos: m.globalStats?.totalPhotos || 420,
-            totalVideos: m.globalStats?.totalVideos || 4,
-            totalGuestsEngaged: m.globalStats?.totalGuestsEngaged || 240
+            dates: m.dates || '',
+            venue: m.venue || '',
+            status: m.status || 'Active',
+            totalPhotos: m.globalStats?.totalPhotos ?? 0,
+            totalVideos: m.globalStats?.totalVideos ?? 0,
+            totalGuestsEngaged: m.globalStats?.totalGuestsEngaged ?? 0
           });
         }
       })
-      .catch(() => {
-        // Fallback to default state for RAJSIM24 or movie couples
-      });
+      .catch(() => {});
 
     // Fetch official video reels
     api.get(`/media/gallery/${codeOrId}?mediaType=VIDEO`)
@@ -148,9 +136,9 @@ export default function MediaVaultPage() {
             title: v.title || `${v.ceremony || 'Celebration'} Official Highlight Reel`,
             ceremony: v.ceremony || 'SANGEET',
             duration: v.duration || '02:45',
-            curatorName: v.curatorName || v.uploaderName || 'Simran & Raj',
-            posterUrl: v.posterUrl || DEFAULT_REEL_POSTERS[v.ceremony] || DEFAULT_REEL_POSTERS.SANGEET,
-            plays: v.plays || Math.floor(Math.random() * 2000) + 800,
+            curatorName: v.curatorName || v.uploaderName || 'Curator',
+            posterUrl: (v.posterUrl && !v.posterUrl.includes('aida-public')) ? v.posterUrl : '',
+            plays: v.plays || 0,
             streamUrl: v.streamUrl?.startsWith('http')
               ? v.streamUrl
               : `${API_BASE_URL.replace('/api/v1', '')}${v.streamUrl}`,
@@ -286,8 +274,8 @@ export default function MediaVaultPage() {
         ceremony: curateCeremony,
         title: curateTitle,
         duration: curateDuration,
-        curatorName: curateCurator,
-        posterUrl: DEFAULT_REEL_POSTERS[curateCeremony] || DEFAULT_REEL_POSTERS.SANGEET
+        curatorName: curateCurator || 'Host Atelier',
+        posterUrl: ''
       });
 
       if (res.data?.reel) {
@@ -298,8 +286,8 @@ export default function MediaVaultPage() {
           ceremony: res.data.reel.ceremony,
           duration: res.data.reel.duration,
           curatorName: res.data.reel.curatorName,
-          posterUrl: res.data.reel.posterUrl || DEFAULT_REEL_POSTERS[curateCeremony],
-          plays: res.data.reel.plays || 1200,
+          posterUrl: (res.data.reel.posterUrl && !res.data.reel.posterUrl.includes('aida-public')) ? res.data.reel.posterUrl : '',
+          plays: res.data.reel.plays || 0,
           streamUrl: res.data.reel.streamUrl?.startsWith('http')
             ? res.data.reel.streamUrl
             : `${API_BASE_URL.replace('/api/v1', '')}${res.data.reel.streamUrl}`,
@@ -390,7 +378,7 @@ export default function MediaVaultPage() {
               <div className="flex items-center bg-[#faf8ff] border border-neutral-200/80 rounded-xl p-1 shadow-xs">
                 <div className="px-4 py-2 text-center">
                   <span className="block text-xl font-bold text-neutral-900">
-                    {candids.length > 0 ? candids.length : 420}
+                    {candids.length}
                   </span>
                   <span className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                     Candid Frames
@@ -399,7 +387,7 @@ export default function MediaVaultPage() {
                 <div className="w-[1px] h-8 bg-neutral-200"></div>
                 <div className="px-4 py-2 text-center bg-rose-50/80 rounded-lg">
                   <span className="block text-xl font-bold text-[#a20025]">
-                    {reels.length > 0 ? reels.length : 4}
+                    {reels.length}
                   </span>
                   <span className="block text-[10px] uppercase tracking-wider text-[#a20025] font-bold">
                     4K Cinema Reels
@@ -408,7 +396,7 @@ export default function MediaVaultPage() {
                 <div className="w-[1px] h-8 bg-neutral-200"></div>
                 <div className="px-4 py-2 text-center">
                   <span className="block text-xl font-bold text-neutral-900">
-                    {marriage.totalGuestsEngaged || 240}
+                    {marriage.totalGuestsEngaged || 0}
                   </span>
                   <span className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                     Guests Engaged
@@ -459,7 +447,7 @@ export default function MediaVaultPage() {
                         activeTab === 'candid' ? 'bg-white/20 text-white' : 'bg-neutral-200 text-neutral-700'
                       }`}
                     >
-                      {candids.length > 0 ? candids.length : 420}
+                      {candids.length}
                     </span>
                   </div>
                   <p
@@ -601,24 +589,40 @@ export default function MediaVaultPage() {
               </div>
 
               {/* 2x2 Curated Cinematic Video Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredReels.map((reel) => (
-                  <article
-                    key={reel.id}
-                    className="group bg-white rounded-2xl overflow-hidden border border-neutral-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col"
-                  >
-                    {/* 16:9 Thumbnail Canvas */}
-                    <div
-                      onClick={() => handleOpenReel(reel)}
-                      className="relative w-full aspect-video bg-black overflow-hidden cursor-pointer"
+              {filteredReels.length === 0 ? (
+                <div className="py-20 text-center border border-dashed border-neutral-300 rounded-2xl bg-white p-8">
+                  <span className="material-symbols-outlined text-4xl text-neutral-400 mb-2">videocam_off</span>
+                  <p className="font-serif text-lg text-neutral-800">No Cinema Reels Curated Yet</p>
+                  <p className="text-xs text-neutral-500 mt-1">The host atelier will publish 4K highlights here as celebrations unfold.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {filteredReels.map((reel) => (
+                    <article
+                      key={reel.id}
+                      className="group bg-white rounded-2xl overflow-hidden border border-neutral-200/80 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col"
                     >
-                      <img
-                        alt={reel.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                        src={reel.posterUrl || DEFAULT_REEL_POSTERS[reel.ceremony] || DEFAULT_REEL_POSTERS.SANGEET}
-                      />
-                      {/* Gradient Scrim */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35"></div>
+                      {/* 16:9 Thumbnail Canvas */}
+                      <div
+                        onClick={() => handleOpenReel(reel)}
+                        className="relative w-full aspect-video bg-black overflow-hidden cursor-pointer"
+                      >
+                        {reel.posterUrl && !reel.posterUrl.includes('aida-public') ? (
+                          <img
+                            alt={reel.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                            src={reel.posterUrl}
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-neutral-900 via-[#1f1b24] to-[#2d000f] flex items-center justify-center">
+                            <div className="text-center p-4">
+                              <span className="material-symbols-outlined text-4xl text-[#a20025]/50">movie</span>
+                              <p className="text-xs uppercase tracking-widest text-neutral-400 mt-1 font-serif">{reel.ceremony} REEL</p>
+                            </div>
+                          </div>
+                        )}
+                        {/* Gradient Scrim */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35"></div>
 
                       {/* Top Overlay Badges */}
                       <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
@@ -721,6 +725,7 @@ export default function MediaVaultPage() {
                   </article>
                 ))}
               </div>
+            )}
 
               {/* Host Verification Protocol Seal Card */}
               <div className="p-5 bg-neutral-50 rounded-2xl border border-neutral-200/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mt-8">
@@ -733,7 +738,7 @@ export default function MediaVaultPage() {
                       Host Media Verification Seal
                     </h4>
                     <p className="text-xs text-neutral-500">
-                      All {reels.length} cinema reels have been color-graded in Apple ProRes 422HQ and cryptographically signed by the {marriage.partnerOneName.split(' ')[0]}-{marriage.partnerTwoName.split(' ')[0]} family atelier.
+                      All {reels.length} cinema reels have been color-graded in Apple ProRes 422HQ and cryptographically signed in the ceremonial vault.
                     </p>
                   </div>
                 </div>
@@ -888,7 +893,7 @@ export default function MediaVaultPage() {
               <video
                 ref={videoRef}
                 src={activeReel.streamUrl}
-                poster={activeReel.posterUrl || DEFAULT_REEL_POSTERS[activeReel.ceremony]}
+                poster={(activeReel.posterUrl && !activeReel.posterUrl.includes('aida-public')) ? activeReel.posterUrl : undefined}
                 autoPlay
                 playsInline
                 onTimeUpdate={handleTimeUpdate}
@@ -1151,7 +1156,7 @@ export default function MediaVaultPage() {
                   type="text"
                   value={curateCurator}
                   onChange={(e) => setCurateCurator(e.target.value)}
-                  placeholder="e.g. Simran & Raj or Official Studio"
+                  placeholder="e.g. Wedding Atelier or Official Studio"
                   className="w-full px-3.5 py-2.5 bg-neutral-50 border border-neutral-200 rounded-lg text-xs text-neutral-900 focus:outline-none focus:ring-1 focus:ring-[#a20025]"
                 />
               </div>

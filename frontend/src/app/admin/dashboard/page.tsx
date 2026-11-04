@@ -101,67 +101,6 @@ export default function AdminDashboardPage() {
     setTimeout(() => setToastMsg(null), 3500);
   };
 
-  // Seed default luxury matrimonial vaults matching Stitch Screen ac6161cff69d4988bf92751afbe9c66c
-  const defaultVaults: WeddingVault[] = [
-    {
-      id: 'rajsim24',
-      partnerOneName: 'Raj',
-      partnerTwoName: 'Simran',
-      coupleName: 'Raj & Simran',
-      venue: 'Agra • The Oberoi Amarvilas',
-      dates: 'Oct 18 – 20, 2025',
-      marriageCode: 'RAJSIM24',
-      status: 'LIVE ACTIVE NOW',
-      coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBr0KgGP2s6wsFS9s7yNmRUS4fms0tGDDZw5-q94JNN0cITEox3SIRbljp60rGiUY23nD3Mai3DkUCohp2HOP1RZ4o8iO6Jkkz2c6KqNuk2p9hsffwzXtpFz6lfnpLjZeJOZeCB528jIM-bkmR2edvM7-By3GpKS_1ELxfXyt_BMVIvt5Sei6nk-SWPWSH-W3BCfjwHIs3W15mbob0aS8fXLbo4A-dXkqq9ZDaHUKY',
-      totalPhotos: 420,
-      totalReels: 4,
-      totalGuests: 240,
-      liveStream: {
-        rtmpUrl: 'rtmp://stream.makemymarriage.com/live/raj-simran-live',
-        streamKey: 'stream_key_raj24_ultra_4k',
-        isActive: true
-      }
-    },
-    {
-      id: 'rahanj25',
-      partnerOneName: 'Rahul',
-      partnerTwoName: 'Anjali',
-      coupleName: 'Rahul & Anjali',
-      venue: 'Goa • The St. Regis Resort',
-      dates: 'Dec 02 – 05, 2025',
-      marriageCode: 'RAHANJ25',
-      status: 'STREAM STANDBY',
-      coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAoKmVlbmPOjT-Ju47qChn7TsRBThaTPgBEnM_I0zWBo5Ez-EHcYQ2UUzztc0vtuTmOfrcybx5BEKoP3ymUkLkLmcrY95XAcR25vcbvmRTKIu5GJThrQ_ak4MKy-BdleZv7P8dkVAzREZREK0A1DSmDJ5ivXUWkzz_2rITP3ny1BTeN8mkechuUZK0vwWmWPvzWCOC0L3CaX5USr2A6DLIEQYybttBJ4AGM41U6WBA',
-      totalPhotos: 520,
-      totalReels: 1,
-      totalGuests: 360,
-      liveStream: {
-        rtmpUrl: 'rtmp://stream.makemymarriage.com/live/rahul-anjali-goa',
-        streamKey: 'stream_key_rahul25_live_hd',
-        isActive: false
-      }
-    },
-    {
-      id: 'kabtar26',
-      partnerOneName: 'Kabir',
-      partnerTwoName: 'Tara',
-      coupleName: 'Kabir & Tara',
-      venue: 'Jaipur • Rambagh Palace',
-      dates: 'Jan 18 – 21, 2026',
-      marriageCode: 'KABTAR26',
-      status: 'STANDBY STREAM',
-      coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAgVceYZRyQq8iJLKPsSDoZpxPIzRE0attQnDrXbIBDH_t8NKGLh5lIaDNkOOi89Wqrlh9yNSzks-w7MuYi_bg0G9lWm35tt9RfAud1FDQRsfEt2xr3Iqor4otK840IsvSG411eKNqu5lnRKUBOz1dy-5Ji2UFfCIKM-czsfAMeNJ9JAFLHs80gzZ-epzEnJRAECVdqEuyEJtg8UzMTjVRbGK-AbTk-nlGdv1lSx0Q',
-      totalPhotos: 180,
-      totalReels: 0,
-      totalGuests: 480,
-      liveStream: {
-        rtmpUrl: 'rtmp://stream.makemymarriage.com/live/kabir-tara-jaipur',
-        streamKey: 'stream_key_kabtar26_jaipur_main',
-        isActive: false
-      }
-    }
-  ];
-
   // Fetch Live Marriage Vaults from MongoDB Atlas
   useEffect(() => {
     fetchMarriages();
@@ -181,10 +120,10 @@ export default function AdminDashboardPage() {
           dates: m.dates || 'Upcoming 2026',
           marriageCode: m.marriageCode,
           status: m.status?.toUpperCase().includes('LIVE') ? 'LIVE ACTIVE NOW' : (m.status || 'STREAM STANDBY'),
-          coverImage: m.coverImage || defaultVaults[0].coverImage,
-          totalPhotos: m.globalStats?.totalPhotos || 420,
-          totalReels: m.globalStats?.totalVideos || 2,
-          totalGuests: m.globalStats?.totalGuestsEngaged || 180,
+          coverImage: (m.coverImage && !m.coverImage.includes('aida-public')) ? m.coverImage : '',
+          totalPhotos: m.globalStats?.totalPhotos ?? 0,
+          totalReels: m.globalStats?.totalVideos ?? 0,
+          totalGuests: m.globalStats?.totalGuestsEngaged ?? 0,
           liveStream: m.liveStream || {
             rtmpUrl: `rtmp://stream.makemymarriage.com/live/${m.marriageCode.toLowerCase()}`,
             streamKey: `stream_key_${m.marriageCode.toLowerCase()}_ultra_4k`,
@@ -198,15 +137,15 @@ export default function AdminDashboardPage() {
         const totalP = loaded.reduce((acc, v) => acc + (v.totalPhotos || 0), 0);
         setMetrics({
           activeWeddings: loaded.length,
-          totalPhotos: totalP > 0 ? totalP : 1840,
-          liveStreamsReady: loaded.filter(v => v.status.includes('LIVE') || v.liveStream?.isActive).length || 3,
+          totalPhotos: totalP,
+          liveStreamsReady: loaded.filter(v => v.status?.includes('LIVE') || v.liveStream?.isActive).length,
           infrastructureCost: '₹0'
         });
       } else {
-        setVaults(defaultVaults);
+        setVaults([]);
       }
     } catch {
-      setVaults(defaultVaults);
+      setVaults([]);
     } finally {
       setIsLoading(false);
     }
@@ -638,20 +577,48 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Grid Cards */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {vaults.map(vault => (
-                <article
-                  key={vault.id}
-                  className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group border border-black/5"
+            {vaults.length === 0 ? (
+              <div className="bg-white rounded-xl p-12 text-center border border-black/5 shadow-xs">
+                <div className="w-16 h-16 rounded-full bg-rose-50 text-[#c81e38] flex items-center justify-center mx-auto mb-4">
+                  <span className="material-symbols-outlined text-[32px]">celebration</span>
+                </div>
+                <h3 className="font-serif text-2xl text-[#1a1b22] font-semibold mb-2">No Wedding Vaults Yet</h3>
+                <p className="text-sm text-[#5f5e60] max-w-md mx-auto mb-6">
+                  Create your first wedding vault to generate guest QR codes, stream ceremonies, and dump photos directly from the mandap.
+                </p>
+                <button
+                  onClick={() => setIsNewVaultOpen(true)}
+                  className="px-6 py-2.5 bg-[#c81e38] hover:bg-[#a20025] text-white text-xs uppercase tracking-widest font-bold rounded-lg transition-all shadow-sm"
                 >
-                  {/* Cover & Badge Header */}
-                  <div className="relative h-64 w-full overflow-hidden bg-[#eeedf6]">
-                    <img
-                      src={vault.coverImage}
-                      alt={vault.coupleName}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                  + Create First Wedding
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {vaults.map(vault => (
+                  <article
+                    key={vault.id}
+                    className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group border border-black/5"
+                  >
+                    {/* Cover & Badge Header */}
+                    <div className="relative h-64 w-full overflow-hidden bg-[#eeedf6]">
+                      {vault.coverImage && !vault.coverImage.includes('aida-public') ? (
+                        <img
+                          src={vault.coverImage}
+                          alt={vault.coupleName}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-[#1a1b22] via-[#2a1118] to-[#c81e38] flex flex-col items-center justify-center p-6 text-center select-none">
+                          <div className="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white mb-2 shadow-inner">
+                            <span className="material-symbols-outlined text-[28px] text-[#ffdada]">favorite</span>
+                          </div>
+                          <div className="text-white/40 font-serif text-3xl tracking-widest uppercase font-bold">
+                            {(vault.partnerOneName?.[0] || 'W')}&amp;{(vault.partnerTwoName?.[0] || 'W')}
+                          </div>
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
 
                     {/* Live Stream Status Badge */}
                     <div className="absolute top-4 left-4 flex items-center gap-1.5 bg-[#c81e38] text-white px-3 py-1 rounded-full text-[10px] font-bold tracking-widest shadow-md">
@@ -771,6 +738,7 @@ export default function AdminDashboardPage() {
                 </article>
               ))}
             </div>
+            )}
           </div>
         </section>
       </main>

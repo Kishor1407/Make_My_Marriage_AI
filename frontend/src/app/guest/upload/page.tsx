@@ -33,11 +33,11 @@ interface FeedCardItem {
 function GuestUploadPortalContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const rawCode = (searchParams?.get('code') || 'RAJSIM24').toUpperCase();
+  const rawCode = (searchParams?.get('code') || '').toUpperCase();
 
   // Core State
   const [marriageCode, setMarriageCode] = useState(rawCode);
-  const [partnerNames, setPartnerNames] = useState('Raj Malhotra & Simran Singh');
+  const [partnerNames, setPartnerNames] = useState('');
   const [activeCeremony, setActiveCeremony] = useState('Haldi');
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
   const [syncedPhotosCount, setSyncedPhotosCount] = useState<number>(0);
@@ -1070,7 +1070,7 @@ function GuestUploadPortalContent() {
                 <span className="font-editorial font-bold text-base">
                   {activeCeremony} Ceremony Live Feed
                 </span>
-                <span className="text-xs text-neutral-500 hidden sm:inline">• 118 Guests Watching</span>
+                <span className="text-xs text-neutral-500 hidden sm:inline">• Live Feed</span>
               </div>
               <button
                 onClick={() => setIsPlayerModalOpen(false)}
@@ -1080,12 +1080,14 @@ function GuestUploadPortalContent() {
               </button>
             </div>
 
-            <div className="relative w-full aspect-video bg-black overflow-hidden flex items-center justify-center">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXToPktDIvWBZh-n4fPZKZRABxtpV9HSwbb3fpd5yxYMWWT7HNp6PG_wH1MFu4tXzaAsdmpPiUPbdrA5OVKioECHzexLD9HPWasiD9q4RYSFsbeRjwtqRfcpZYoXjzDzW5T5UXK01-6XZYT7hvlDPWadWI3j36Nu1_VmlDudf3Upvv-C4y1DuJ5g7Xvc-xRR-ODdXr5WMJ9BcR_m7H6fsOxMfU5Fz6tmegARyfZMw"
-                alt="Live Broadcast"
-                className="w-full h-full object-cover"
-              />
+            <div className="relative w-full aspect-video bg-neutral-900 overflow-hidden flex items-center justify-center">
+              <div className="text-center p-6 space-y-2">
+                <div className="w-12 h-12 rounded-full bg-[#C81E38]/20 text-[#C81E38] flex items-center justify-center mx-auto animate-pulse">
+                  <span className="material-symbols-outlined text-[24px]">videocam</span>
+                </div>
+                <p className="font-serif text-sm uppercase tracking-wider text-white">Live Broadcast Standby</p>
+                <p className="text-xs text-neutral-400">Stream will commence shortly from the ceremonial mandap.</p>
+              </div>
 
               {/* Reaction bubbles floating up the video */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">

@@ -24,39 +24,39 @@ export default function GuestExperiencePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const rawId = (params?.id as string) || 'RAJSIM24';
+  const rawId = (params?.id as string) || '';
   const passcode = rawId.toUpperCase();
 
   // Dynamic Vault Details
-  const [coupleName, setCoupleName] = useState('Raj & Simran');
-  const [venueName, setVenueName] = useState('The Grand Oberoi Amarvilas, Agra, India');
-  const [dateSpan, setDateSpan] = useState('October 18–20, 2026');
-  const [volumeMonograph, setVolumeMonograph] = useState('Volume IX');
-  const [isLiveActive, setIsLiveActive] = useState(true);
+  const [coupleName, setCoupleName] = useState('Wedding Celebration');
+  const [venueName, setVenueName] = useState('');
+  const [dateSpan, setDateSpan] = useState('');
+  const [volumeMonograph, setVolumeMonograph] = useState('Volume I');
+  const [isLiveActive, setIsLiveActive] = useState(false);
 
   // Blessings State
   const [blessings, setBlessings] = useState({
-    magic: 382,
-    prem: 419,
-    rose: 294,
-    cheers: 198,
-    aashirwaad: 136,
-    totalSent: 1429
+    magic: 0,
+    prem: 0,
+    rose: 0,
+    cheers: 0,
+    aashirwaad: 0,
+    totalSent: 0
   });
 
   // Floating Emoji Particles
   const [particles, setParticles] = useState<Array<{ id: number; emoji: string; left: number; bottom: number }>>([]);
 
   // Stream Pavilion State
-  const [activeStreamRite, setActiveStreamRite] = useState('Haldi & Sangeet Ceremonies');
-  const [viewerCount, setViewerCount] = useState('842 Family & Friends Watching Live');
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [activeStreamRite, setActiveStreamRite] = useState('Ceremony Pavilion');
+  const [viewerCount, setViewerCount] = useState('Stream Standby');
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
   // Split Section: Upload & Table Standee
-  const [uploaderName, setUploaderName] = useState('Kabir Mehta');
-  const [uploaderTable, setUploaderTable] = useState('Table 4 (Groom\'s College Cohort)');
-  const [selectedTableNumber, setSelectedTableNumber] = useState('4');
+  const [uploaderName, setUploaderName] = useState('Guest');
+  const [uploaderTable, setUploaderTable] = useState('Table 01');
+  const [selectedTableNumber, setSelectedTableNumber] = useState('1');
   const [tableQrDataUrl, setTableQrDataUrl] = useState<string>('');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -137,90 +137,6 @@ export default function GuestExperiencePage() {
     { value: '12', label: "Table 12 — Creative & Design Atelier", name: "Creative & Design Atelier" },
   ];
 
-  // Default seeded photos matching Stitch Screen caa3fd8e516b472f900c7ab1882b9613
-  const defaultPhotos: PhotoItem[] = [
-    {
-      id: 'p1',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBDmn-P9NFUs8toN0_yNkiuNk6yT8NNCFv7BJL_-rnC6w7s1jau5-iDz5swyrmKZo1lQKCbmZSQGNyMIO3NtFAUOcf3m14E3cKWTRzhlmIChz2LZwVkHzetUdY_d8k2birse8YMUyqOmsuu4ySgPBgIrYPr5-UnqnIxnTxJr6ndPosKTex0Yk7ATN6jDPuA8A6hY1W8cmfsXZieiPNcwLCC6uPVKqi8BiRGu6JCVaM',
-      author: 'Priya M.',
-      table: 'Table 2',
-      timeAgo: '4m ago',
-      category: 'guest',
-      likes: 48,
-      quote: 'Sending endless love to Raj & Simran from Table 2! Truly an unforgettable, majestic afternoon.'
-    },
-    {
-      id: 'p2',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAXU79lgimmwhHj_RXAfzNXhaBcaJfn-r2m-nwfckLDyuomxU7H3AncSZO0SMfIui-6t9cg8rqjBcJEHbnM1Sxk-F-dwU8nZ1dGA-qnt9QyyWa0VSggn6jFKH4M6FxvGgwJkm-NmfsmusKkODlD5XkdsoFOcq8Ygx3qomEGUgWYH2MGQ_tMM0u4uyhXj5tOHxMqf5NebZ6tgh65LiWkvqmh1sxJ_vB_DFELdXRaHgY',
-      author: 'Stories by Joseph Radhik',
-      table: 'Studio Archival',
-      timeAgo: 'Official Studio • Haldi',
-      category: 'studio',
-      likes: 214,
-      quote: 'Fine-art monochromatic archival capture of groom Raj tying heirloom silk turban under morning sun.'
-    },
-    {
-      id: 'p3',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBa3qR_ONAuUgL2gCfibGUBt5-H5mFrEhl2LRz0-NZk_8pt8r95IRrkx8VOhPnxMaK9QOVRvVhn0r0c2T-Y8qKLougHIG-3h48n2XSrY_bic8nJUmmhOgXb5mtWr_AjhGczNzCvhwkkR52QUXLrUhWv2CPDVmTIeNBu6A7xAey-o4Rqmz7YSgYz9SlaevnEBcd6g1oDkO9m1DgTyJWSjfFlvlmlYPFK1l7mdtz6b4g',
-      author: 'Uncle John',
-      table: 'Table 4',
-      timeAgo: '12m ago',
-      category: 'guest',
-      likes: 36,
-      quote: 'Toasting champagne flutes under starlit Amarvilas fairy lights with the college cohort!'
-    },
-    {
-      id: 'p4',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA8Z2Htct8mtutWQtXp8reYRvRjT7mShRI4PeepLt6Us0lae5zmrUubtRJHhWJHLM-9MzYweHgIJW-iJPmLaNTbcmaRmDLLGIBFpIfLWupE4vKIH4AunRxal0QU6BX09E-hxSpMivFeuKWELlfyhXH5OLyk9oSpMaKpnpQ9YMe8EpnBTTDC0HIpjJiN_kwH_zdr75O0YHPLHamz2RTHdn0cR6UiHEJJrrbEMSLyACQ',
-      author: 'Kabir',
-      table: 'Table 4',
-      timeAgo: 'Just now',
-      category: 'guest',
-      likes: 89,
-      quote: 'Bride Simran laughing wildly during the Haldi floral turmeric ceremony!'
-    },
-    {
-      id: 'p5',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBsLWim9knVaEusUYiPxc0wElGlXgB5n8NcznNaTPPFOlpckSex47w8UuP4xJY5MHij8VOG7h0nBsiFjyxLzx1Jh11EWX5P99K3vP6Xq3MP5gP5J454U5PqdPWb9ilBcOT0FkWed1OhBayMVkMe9Q6kCkbB_6v6lDi0u1syYZNYxMMqhnVSKAoGAU0ImB23B6Euy7G5zvdpZ-pHOkEsTLuHPUgScLhz3vQ83ZDZU08',
-      author: 'House on the Clouds',
-      table: 'Studio Archival',
-      timeAgo: 'Official Studio • Bridal',
-      category: 'studio',
-      likes: 350,
-      quote: 'Haute couture bridal Simran draped in crimson and gold looking out Amarvilas jharokha.'
-    },
-    {
-      id: 'p6',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBEPhCglTLVtqNNRiflI4_1QNhRk8UfB5HRiK98lPZo9_iaeVwqVpVZ-uoPS_wzGPOVE6Be95VNoRa5k6NLoZz0_z_safgJXQ_yMMJHlckGfB4aSgc_NABcpcZ-izLYrQxbrWdAPYzmsRDzXFQNJ1qz4_rx7WI_516RpghJ3da_Hip0FsAgFnYcl7dN4kjR8g0T4w2ZVdSOIA7WUWP1WBc5jvoD1Lz10-E59NBkBhE',
-      author: 'Rohan V.',
-      table: 'Table 7',
-      timeAgo: '18m ago',
-      category: 'guest',
-      likes: 62,
-      quote: 'Dancing vigorously to live dhol drummers on marble courtyard with marigold shower!'
-    },
-    {
-      id: 'p7',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCkE_0dIVwbjaILnEcgxOS5Cfim3hRZ-8NI5YqUomqCVQhXwrId_43qb1etzOKFJNFmoZCv6pRX1Is7054X_JhuAMUhy0iRfNN2M9L69CFfBeQCbjPf1vDdDvj-2uIzT_hWhtlfLjH4MMRafAZ3ZKt1POJueBj07pbeZlLAd5y5ja6VEcECkuBHCjzy9Ep7DCjQAaVK2pybFIfTQ6AYM_kw8PMll2p3Edeb3iJ9jLk',
-      author: 'Ananya Sharma',
-      table: 'Table 1',
-      timeAgo: '25m ago',
-      category: 'guest',
-      likes: 77,
-      quote: 'Intricate royal bridal mehndi on hands with heirloom family motifs.'
-    },
-    {
-      id: 'p8',
-      src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDOmT0VYFylz0oxL5dGUdOIV2vfBTisbKfwgDb5dotNoXcqEP79Cbt5i0fYM4RWp7LjD-84328NRHzHu1wtIR1N8yD2sdGysnxBPuJ9jQqvaFduTo2fxBPenMDduHfn2lRENk0O87GY7D5o87tzBKhd6trn4EyTNLHepjT1prxGEP5oxaSkba2n6_Lf7465cSsVCYfUrpKaSjsQN1sXjRxOW8lsIqOjq9NjCXozlxc',
-      author: 'Stories by Joseph Radhik',
-      table: 'Studio Archival',
-      timeAgo: 'Official Studio • Fireworks',
-      category: 'studio',
-      likes: 512,
-      quote: 'Wide cinematic twilight view of couple on torch-lit terrace with fireworks over Mughal arches.'
-    }
-  ];
-
   // Initialize Page & Dynamic Data from MongoDB Atlas
   useEffect(() => {
     // 1. Check for logged in guest info
@@ -278,26 +194,25 @@ export default function GuestExperiencePage() {
     // 3. Fetch Gallery Photos from GridFS
     api.get(`/media/gallery/${passcode}?mediaType=PHOTO`)
       .then((res) => {
-        if (res.data?.photos && Array.isArray(res.data.photos) && res.data.photos.length > 0) {
-          const backendBase = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || 'http://localhost:5000';
+        if (res.data?.photos && Array.isArray(res.data.photos)) {
+          const backendBase = process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '') || '';
           const loaded: PhotoItem[] = res.data.photos.map((p: any, idx: number) => ({
-            id: p.id,
-            src: p.streamUrl.startsWith('http') ? p.streamUrl : `${backendBase}${p.streamUrl}`,
+            id: p.id || p._id || `photo-${idx}`,
+            src: p.streamUrl?.startsWith('http') ? p.streamUrl : `${backendBase}${p.streamUrl}`,
             author: p.uploaderName || 'Wedding Guest',
             table: p.table || `Table ${(idx % 12) + 1}`,
             timeAgo: p.uploadDate ? new Date(p.uploadDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Recently',
             category: (p.isStudio || p.uploaderName?.includes('Studio')) ? 'studio' : 'guest',
-            likes: p.likes || Math.floor(Math.random() * 80 + 20),
-            quote: `Capturing pure matrimonial joy with ${coupleName}!`
+            likes: p.likes || 0,
+            quote: p.caption || ''
           }));
-          // Combine loaded with high-fashion defaults to guarantee editorial grandeur
-          setGalleryPhotos([...loaded, ...defaultPhotos]);
+          setGalleryPhotos(loaded);
         } else {
-          setGalleryPhotos(defaultPhotos);
+          setGalleryPhotos([]);
         }
       })
       .catch(() => {
-        setGalleryPhotos(defaultPhotos);
+        setGalleryPhotos([]);
       });
 
     // 4. Generate dynamic Table QR code
@@ -721,87 +636,61 @@ export default function GuestExperiencePage() {
             </div>
 
             {/* 4 Ritual Monograph Cards (Dynamic Real MongoDB Atlas Events) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {(ceremonialEvents.length > 0
-                ? ceremonialEvents.slice(0, 4)
-                : [
-                    {
-                      eventType: 'HALDI',
-                      customTitle: 'Haldi Rasam',
-                      date: 'Oct 18 • 10:00 AM',
-                      venueAddress: 'The Amarvilas Courtyard',
-                      attire: 'Attire: Ivory & Sunlit Marigold',
-                      streamStatus: 'COMPLETED'
-                    },
-                    {
-                      eventType: 'SANGEET',
-                      customTitle: 'Sangeet Soirée',
-                      date: 'Oct 18 • 07:30 PM',
-                      venueAddress: 'Mughal Diwan Ballroom',
-                      attire: 'Attire: Jewel Tones & Midnight Velvet',
-                      streamStatus: 'LIVE'
-                    },
-                    {
-                      eventType: 'MARRIAGE',
-                      customTitle: 'Royal Pheras & Varmala',
-                      date: 'Oct 19 • 04:30 PM',
-                      venueAddress: 'Sunset Taj Pavilion',
-                      attire: 'Attire: Royal Crimson & Heritage Raw Silk',
-                      streamStatus: 'SCHEDULED'
-                    },
-                    {
-                      eventType: 'RECEPTION',
-                      customTitle: 'Grand Reception',
-                      date: 'Oct 20 • 08:00 PM',
-                      venueAddress: 'The Amarvilas Regal Lawns',
-                      attire: 'Attire: Black Tie & Haute Indian Couture',
-                      streamStatus: 'SCHEDULED'
-                    }
-                  ]
-              ).map((event: any, idx: number) => {
-                const title = event.customTitle || event.eventType;
-                const dateStr = event.eventDate
-                  ? `${new Date(event.eventDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} • ${event.eventTime || 'TBD'}`
-                  : event.date || 'Oct 18 • 10:00 AM';
-                const venueStr = event.venueAddress || venueName;
-                const attireStr = event.attire || getAttireForCeremony(event.eventType || title);
+            {ceremonialEvents.length === 0 ? (
+              <div className="bg-white p-10 text-center border border-[#e4bdbd]">
+                <span className="material-symbols-outlined text-[36px] text-[#a20025] mb-2 inline-block">event_upcoming</span>
+                <h3 className="font-serif text-xl uppercase text-[#1a1b22] font-semibold mb-1">Itinerary in Preparation</h3>
+                <p className="text-xs text-[#5b4040] max-w-md mx-auto">
+                  The host family has not published ceremonial rites for this wedding yet. Check back soon for the verified schedule and dress codes.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {ceremonialEvents.slice(0, 4).map((event: any, idx: number) => {
+                  const title = event.customTitle || event.eventType;
+                  const dateStr = event.eventDate
+                    ? `${new Date(event.eventDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} • ${event.eventTime || 'TBD'}`
+                    : event.date || 'TBD';
+                  const venueStr = event.venueAddress || venueName;
+                  const attireStr = event.attire || getAttireForCeremony(event.eventType || title);
 
-                return (
-                  <div
-                    key={event._id || idx}
-                    className="bg-white p-6 shadow-sm border border-[#e4bdbd] flex flex-col justify-between group hover:shadow-md transition-all"
-                  >
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between border-b border-[#eeedf6] pb-2">
-                        <span className="text-[10px] uppercase tracking-widest text-[#a20025] font-bold">
-                          Ritual 0{idx + 1} • Day {Math.min(idx + 1, 3)}
-                        </span>
-                        {getStatusBadgeForCeremony(event, idx)}
+                  return (
+                    <div
+                      key={event._id || idx}
+                      className="bg-white p-6 shadow-sm border border-[#e4bdbd] flex flex-col justify-between group hover:shadow-md transition-all"
+                    >
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between border-b border-[#eeedf6] pb-2">
+                          <span className="text-[10px] uppercase tracking-widest text-[#a20025] font-bold">
+                            Ritual 0{idx + 1} • Day {Math.min(idx + 1, 3)}
+                          </span>
+                          {getStatusBadgeForCeremony(event, idx)}
+                        </div>
+                        <div className="text-center py-2">
+                          <div className="w-8 h-1 bg-[#a20025] mx-auto mb-2"></div>
+                          <h3 className="font-serif text-xl uppercase text-[#1a1b22] font-semibold">{title}</h3>
+                          <p className="text-[11px] uppercase tracking-wider text-[#5f5e60] font-medium">{dateStr}</p>
+                        </div>
+                        <div className="bg-[#f4f2fc] p-3 space-y-1 text-center">
+                          <p className="text-[10px] uppercase tracking-widest text-[#5b4040]">Venue &amp; Etiquette</p>
+                          <p className="text-xs font-semibold text-[#1a1b22]">{venueStr}</p>
+                          <p className="text-[10px] italic text-[#a20025]">{attireStr}</p>
+                        </div>
                       </div>
-                      <div className="text-center py-2">
-                        <div className="w-8 h-1 bg-[#a20025] mx-auto mb-2"></div>
-                        <h3 className="font-serif text-xl uppercase text-[#1a1b22] font-semibold">{title}</h3>
-                        <p className="text-[11px] uppercase tracking-wider text-[#5f5e60] font-medium">{dateStr}</p>
-                      </div>
-                      <div className="bg-[#f4f2fc] p-3 space-y-1 text-center">
-                        <p className="text-[10px] uppercase tracking-widest text-[#5b4040]">Venue &amp; Etiquette</p>
-                        <p className="text-xs font-semibold text-[#1a1b22]">{venueStr}</p>
-                        <p className="text-[10px] italic text-[#a20025]">{attireStr}</p>
+                      <div className="pt-6">
+                        <button
+                          onClick={() => downloadInviteCard(title)}
+                          className="w-full py-2 bg-[#eeedf6] hover:bg-[#a20025] hover:text-white text-[10px] uppercase tracking-widest font-semibold flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">download</span>
+                          Download Official Invite
+                        </button>
                       </div>
                     </div>
-                    <div className="pt-6">
-                      <button
-                        onClick={() => downloadInviteCard(title)}
-                        className="w-full py-2 bg-[#eeedf6] hover:bg-[#a20025] hover:text-white text-[10px] uppercase tracking-widest font-semibold flex items-center justify-center gap-1 transition-colors cursor-pointer"
-                      >
-                        <span className="material-symbols-outlined text-[16px]">download</span>
-                        Download Official Invite
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </section>
 
@@ -814,10 +703,7 @@ export default function GuestExperiencePage() {
                 {(ceremonialEvents.length > 0
                   ? ceremonialEvents
                   : [
-                      { eventType: 'HALDI', customTitle: 'Haldi & Sangeet Ceremonies', streamStatus: 'LIVE', viewerCount: 842 },
-                      { eventType: 'MEHNDI', customTitle: 'Royal Mehndi Soirée', streamStatus: 'SCHEDULED', viewerCount: 412 },
-                      { eventType: 'SANGEET', customTitle: 'Sangeet Symphony & Dance', streamStatus: 'SCHEDULED', viewerCount: 980 },
-                      { eventType: 'MARRIAGE', customTitle: 'Vedic Pheras & Sunset Muhurat', streamStatus: 'SCHEDULED', viewerCount: 'Upcoming' }
+                      { eventType: 'CEREMONY', customTitle: 'Ceremony Pavilion', streamStatus: 'SCHEDULED', viewerCount: 0 }
                     ]
                 ).map((evt: any) => {
                   const title = evt.customTitle || evt.eventType;
@@ -832,7 +718,7 @@ export default function GuestExperiencePage() {
                   return (
                     <button
                       key={evt._id || evt.eventType || title}
-                      onClick={() => handleStreamSwitch(title, evt.viewerCount ? `${evt.viewerCount}` : '842')}
+                      onClick={() => handleStreamSwitch(title, evt.viewerCount ? `${evt.viewerCount}` : '0')}
                       className={`px-4 py-2 text-xs uppercase tracking-wider font-semibold transition-all whitespace-nowrap cursor-pointer ${
                         isActive ? 'bg-[#a20025] text-white shadow-sm' : 'bg-white text-[#1a1b22] hover:text-[#a20025]'
                       }`}
@@ -853,14 +739,20 @@ export default function GuestExperiencePage() {
 
             {/* 16:9 Live Cinema Stage */}
             <div className="relative w-full aspect-video bg-[#1a1b22] overflow-hidden shadow-2xl group border border-black/10">
-              {/* Live Video Image Placeholder */}
-              <div
-                className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{
-                  backgroundImage:
-                    "url('https://lh3.googleusercontent.com/aida-public/AB6AXuDTpzZbzwujfgMEbYFP_ayd-liLO4d_VPpgcTHNPc-29T-m_5k3GfEcT91s6U057umS-BO2hTalZFNziG8VCCdXugzUGgzzfe2DpnSyTlVNBDnLA7-yWFx8p2mQ0xzH4sfEcztHKeKwFa5wuKHjgrP_PYuw8W1qftRIsY7OnK0snAfh9nCEsJLbIEyqWj2u7gjAdSriRvhGsGcVUlrrflYKY1Lm4if2VQaKi8RkbYA')"
-                }}
-              />
+              {/* Live Video Stage Background */}
+              <div className="w-full h-full bg-gradient-to-br from-[#1a1b22] via-[#241417] to-[#12080a] flex items-center justify-center text-center p-8 transition-transform duration-700 group-hover:scale-105 select-none">
+                <div className="space-y-3 max-w-md">
+                  <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-[#ffdada] mx-auto shadow-inner">
+                    <span className="material-symbols-outlined text-[36px]">live_tv</span>
+                  </div>
+                  <h3 className="font-serif text-2xl text-white uppercase font-light tracking-wide">
+                    {activeStreamRite}
+                  </h3>
+                  <p className="text-xs text-white/60 uppercase tracking-widest">
+                    Live Broadcast Standby • Stream will begin during ceremony
+                  </p>
+                </div>
+              </div>
 
               {/* Translucent Overlay Details */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 flex flex-col justify-between p-4 md:p-8 pointer-events-none">
@@ -1145,56 +1037,64 @@ export default function GuestExperiencePage() {
             </div>
 
             {/* Live Photo Grid (Asymmetric Editorial Layout) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {filteredPhotos.map(photo => (
-                <div
-                  key={photo.id}
-                  className="group relative bg-white shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-xl transition-all duration-300"
-                >
+            {filteredPhotos.length === 0 ? (
+              <div className="py-20 text-center border border-dashed border-[#d8c3b7]/60 bg-white/60 p-8 my-4">
+                <span className="material-symbols-outlined text-4xl text-[#5b4040]/40 mb-2">photo_camera</span>
+                <p className="font-serif text-lg text-[#1a1b22]">No Memories Uploaded Yet</p>
+                <p className="text-xs text-[#5b4040] mt-1">Be the first guest to capture and dump moments into this vault.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {filteredPhotos.map(photo => (
                   <div
-                    onClick={() => setLightboxPhoto(photo)}
-                    className="relative aspect-[3/4] overflow-hidden bg-[#f4f2fc] cursor-pointer"
+                    key={photo.id}
+                    className="group relative bg-white shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-xl transition-all duration-300"
                   >
-                    <img
-                      src={photo.src}
-                      alt={photo.author}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <span
-                      className={`absolute top-2 right-2 px-2.5 py-0.5 text-[10px] uppercase tracking-wider font-bold ${
-                        photo.category === 'studio'
-                          ? 'bg-[#a20025] text-white shadow-md'
-                          : 'bg-white/90 text-[#1a1b22] backdrop-blur-sm shadow-sm'
-                      }`}
+                    <div
+                      onClick={() => setLightboxPhoto(photo)}
+                      className="relative aspect-[3/4] overflow-hidden bg-[#f4f2fc] cursor-pointer"
                     >
-                      {photo.table}
-                    </span>
-                  </div>
-
-                  <div className="p-4 flex items-center justify-between">
-                    <div>
-                      <p className="text-xs text-[#1a1b22] uppercase font-bold">{photo.author}</p>
-                      <p className="text-[11px] text-[#5b4040]">
-                        {photo.table} • {photo.timeAgo}
-                      </p>
+                      <img
+                        src={photo.src}
+                        alt={photo.author}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <span
+                        className={`absolute top-2 right-2 px-2.5 py-0.5 text-[10px] uppercase tracking-wider font-bold ${
+                          photo.category === 'studio'
+                            ? 'bg-[#a20025] text-white shadow-md'
+                            : 'bg-white/90 text-[#1a1b22] backdrop-blur-sm shadow-sm'
+                        }`}
+                      >
+                        {photo.table}
+                      </span>
                     </div>
 
-                    <button
-                      onClick={e => toggleLike(photo.id, e)}
-                      className={`flex items-center gap-1 transition-colors ${
-                        photo.liked ? 'text-[#a20025]' : 'text-[#5b4040] hover:text-[#a20025]'
-                      }`}
-                      title="Heart this memory"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">
-                        {photo.liked ? 'favorite' : 'favorite_border'}
-                      </span>
-                      <span className="text-[11px] font-bold">{photo.likes}</span>
-                    </button>
+                    <div className="p-4 flex items-center justify-between">
+                      <div>
+                        <p className="text-xs text-[#1a1b22] uppercase font-bold">{photo.author}</p>
+                        <p className="text-[11px] text-[#5b4040]">
+                          {photo.table} • {photo.timeAgo}
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={e => toggleLike(photo.id, e)}
+                        className={`flex items-center gap-1 transition-colors ${
+                          photo.liked ? 'text-[#a20025]' : 'text-[#5b4040] hover:text-[#a20025]'
+                        }`}
+                        title="Heart this memory"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">
+                          {photo.liked ? 'favorite' : 'favorite_border'}
+                        </span>
+                        <span className="text-[11px] font-bold">{photo.likes}</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
             {/* Live Sync Footnote */}
             <div className="p-4 bg-[#f4f2fc] shadow-sm border border-black/5 flex flex-wrap items-center justify-between gap-2">
@@ -1205,7 +1105,7 @@ export default function GuestExperiencePage() {
                 </span>
               </div>
               <span className="text-[10px] uppercase tracking-widest text-[#5b4040]">
-                {galleryPhotos.length + 420} Archival Memories Preserved • Agra Archive
+                {galleryPhotos.length} Archival Memories Preserved • {venueName || 'Wedding Archive'}
               </span>
             </div>
           </div>

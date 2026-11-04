@@ -82,7 +82,7 @@ const RITE_PRESETS: Record<CeremonyRite, RitePreset> = {
 function InvitationStudioContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const rawCode = (searchParams?.get('code') || 'RAJSIM24').toUpperCase();
+  const rawCode = (searchParams?.get('code') || '').toUpperCase();
 
   // Core State
   const [marriageCode, setMarriageCode] = useState(rawCode);
@@ -98,13 +98,13 @@ function InvitationStudioContent() {
   const [toastMsg, setToastMsg] = useState<{ text: string; type?: 'info' | 'success' | 'crimson' } | null>(null);
 
   // Editable Form Inputs
-  const [coupleNames, setCoupleNames] = useState('Raj Malhotra & Simran Singh');
+  const [coupleNames, setCoupleNames] = useState('');
   const [riteTitle, setRiteTitle] = useState(RITE_PRESETS.Haldi.title);
   const [invocation, setInvocation] = useState(RITE_PRESETS.Haldi.invocation);
   const [dateTime, setDateTime] = useState(RITE_PRESETS.Haldi.date);
   const [venue, setVenue] = useState(RITE_PRESETS.Haldi.venue);
   const [blessing, setBlessing] = useState(RITE_PRESETS.Haldi.blessing);
-  const [rsvp, setRsvp] = useState('Malhotra & Singh Families • Passkey: RAJSIM24');
+  const [rsvp, setRsvp] = useState(rawCode ? `Family & Friends • Passkey: ${rawCode}` : '');
 
   const cardRef = useRef<HTMLDivElement>(null);
 

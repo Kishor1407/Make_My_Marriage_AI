@@ -83,14 +83,14 @@ export default function LiveStreamCinemaPage() {
   const router = useRouter();
 
   const user = useSelector((state: RootState) => state.auth.user);
-  const rawId = (params?.id as string) || searchParams?.get('code') || 'rajsim24';
+  const rawId = (params?.id as string) || searchParams?.get('code') || '';
   const marriageCode = rawId.toUpperCase();
 
   // Marriage metadata
-  const [partnerNames, setPartnerNames] = useState('Raj Malhotra & Simran Singh');
-  const [monogram, setMonogram] = useState('R&S');
-  const [venue, setVenue] = useState('The Grand Oberoi Amarvilas, Agra');
-  const [dates, setDates] = useState('October 18–20, 2024');
+  const [partnerNames, setPartnerNames] = useState('');
+  const [monogram, setMonogram] = useState('');
+  const [venue, setVenue] = useState('');
+  const [dates, setDates] = useState('');
 
   // Events & Channel state
   const [events, setEvents] = useState<TimelineEvent[]>([]);
@@ -195,16 +195,16 @@ export default function LiveStreamCinemaPage() {
   }, [marriageCode]);
 
   // Active Event
-  const activeEvent: TimelineEvent | undefined = events[activeRiteIndex] || {
-    _id: 'default',
-    eventType: CANONICAL_ORDER[activeRiteIndex] || 'HALDI',
-    customTitle: 'Haldi & Marigold Shower of Blessings',
-    eventTime: '10:30 AM IST',
-    venueAddress: 'Mustard Courtyard Lawn, Amarvilas',
+  const activeEvent: TimelineEvent = events[activeRiteIndex] || (events.length > 0 ? events[0] : {
+    _id: 'standby',
+    eventType: CANONICAL_ORDER[activeRiteIndex] || 'MARRIAGE',
+    customTitle: 'Ceremonial Live Stream',
+    eventTime: 'Scheduled',
+    venueAddress: venue || '',
     liveStreamUrl: '',
-    streamStatus: 'LIVE',
+    streamStatus: 'SCHEDULED',
     viewerCount: 0
-  };
+  });
 
   const activeRitualInfo = RITUAL_DETAILS[activeEvent.eventType] || RITUAL_DETAILS.HALDI;
   const embedUrl = getYouTubeEmbedUrl(activeEvent.liveStreamUrl);
@@ -462,7 +462,7 @@ export default function LiveStreamCinemaPage() {
                   </div>
                   <div className="flex items-center gap-1.5 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-white shadow-lg text-[11px] font-semibold border border-white/10">
                     <AppIcon name="group" size={14} className="text-[#FFB3B3]" />
-                    <span>{activeEvent.viewerCount || 142} Remote Guests</span>
+                    <span>{activeEvent.viewerCount ?? 0} Remote Guests</span>
                   </div>
                 </div>
 
@@ -716,10 +716,10 @@ export default function LiveStreamCinemaPage() {
                       <AppIcon name="pin_drop" size={16} />
                       <span>Concierge Notice</span>
                     </div>
-                    <span className="font-mono text-neutral-400">Oberoi Pavilion</span>
+                    <span className="font-mono text-neutral-400">{venue || 'Main Pavilion'}</span>
                   </div>
                   <p className="text-xs text-neutral-700 leading-relaxed">
-                    &ldquo;Sacred Pheras will begin promptly at 11:30 AM on the Heritage Mandap Pavilion. Remote guests may submit virtual blessings and video toasts via the concierge desk.&rdquo;
+                    &ldquo;Sacred ceremonies are live streamed for remote family &amp; friends. Remote guests may submit virtual blessings and interactive cheers in real time.&rdquo;
                   </p>
                   <div className="pt-2 border-t border-neutral-100 flex items-center justify-between text-xs text-neutral-500">
                     <span>Protocol Officer: Host Concierge</span>

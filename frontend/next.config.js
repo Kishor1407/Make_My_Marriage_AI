@@ -12,6 +12,14 @@ const nextConfig = {
         hostname: '**'
       }
     ]
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/v1/:path*',
+        destination: `${process.env.BACKEND_API_URL || 'https://make-my-marriage-backend.vercel.app'}/api/v1/:path*`
+      }
+    ];
   }
 };
 

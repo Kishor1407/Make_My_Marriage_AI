@@ -41,10 +41,10 @@ const createMarriage = async (req, res, next) => {
       marriageCode: code,
       adminId: req.user.id,
       qrCodeUrl,
-      venue: venue || 'The Leela Palace Seaside, South Goa',
-      dates: dates || 'December 14–16, 2026',
+      venue: venue ? venue.trim() : '',
+      dates: dates ? dates.trim() : '',
       status: status || 'Scheduled',
-      coverImage: coverImage || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk',
+      coverImage: coverImage ? coverImage.trim() : '',
       globalStats: {
         totalPhotos: 0,
         totalVideos: 0,

@@ -30,19 +30,19 @@ const marriageSchema = new mongoose.Schema(
     },
     venue: {
       type: String,
-      default: 'The Leela Palace Seaside, South Goa'
+      default: ''
     },
     dates: {
       type: String,
-      default: 'December 14–16, 2026'
+      default: ''
     },
     status: {
       type: String,
-      default: 'Live Realtime'
+      default: 'Scheduled'
     },
     coverImage: {
       type: String,
-      default: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAwZlcHb_KVUMvBiZhacxOUxbjv9rYLP52FrP0hNeO5AuTcxEUpEnjINTU_47yEacFb_9IlmAslUSaFNBYVtJ3uTPDgVQRMVRh-nJlO3WnRTF9ebW2trgiHhtykoYA8O7bM5PNbzgeS8HBzOwYuFSXJmuaYXjz8rUBRBjcBXe58Yor5miYy_VkclG4OdFRA2SoWL4_6DHNwLl5-z6ziJgt7_w_0DU7nns2FViIwomk'
+      default: ''
     },
     globalStats: {
       totalPhotos: {
