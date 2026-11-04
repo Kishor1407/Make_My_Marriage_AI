@@ -74,9 +74,12 @@ app.use('/api/v1', routes);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+module.exports = app;
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Make My Marriage API running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-});
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Make My Marriage API running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  });
+}
 

@@ -11,6 +11,16 @@ try {
 let gridfsBucket = null;
 
 const connectDB = async (retries = 5) => {
+  // Reuse existing connection in serverless (e.g. Vercel) environments
+  if (mongoose.connection.readyState >= 1) {
+    if (!gridfsBucket && mongoose.connection.db) {
+      gridfsBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+        bucketName: 'uploads'
+      });
+    }
+    return mongoose.connection;
+  }
+
   const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/make_my_marriage';
 
   for (let attempt = 1; attempt <= retries; attempt++) {
