@@ -495,15 +495,31 @@ export default function GuestExperiencePage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <Link
+              href={`/marriage/${passcode}/vault`}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-[#a20025] hover:bg-[#85001e] text-white text-xs uppercase tracking-wider font-bold rounded-lg shadow-sm transition-all"
+              title="Browse 4K Master Reels & Candid Archive"
+            >
+              <span className="material-symbols-outlined text-[18px]">movie</span>
+              <span className="hidden sm:inline">Media Vault</span>
+            </Link>
+            <Link
+              href={`/marriage/${passcode}/cinema`}
+              className="flex items-center gap-1.5 px-3.5 py-2 border border-[#a20025] text-[#a20025] hover:bg-rose-50 text-xs uppercase tracking-wider font-bold rounded-lg transition-all"
+              title="Watch Live Stream Cinema"
+            >
+              <span className="material-symbols-outlined text-[18px]">videocam</span>
+              <span className="hidden sm:inline">Live Cinema</span>
+            </Link>
             <button
               onClick={() => setIsExitModalOpen(true)}
-              className="group flex items-center gap-2 px-4 py-2 border border-[#e4bdbd] bg-white hover:bg-[#a20025] hover:border-[#a20025] transition-all text-[#1a1b22] hover:text-white shadow-xs cursor-pointer rounded-lg"
+              className="group flex items-center gap-2 px-3.5 py-2 border border-[#e4bdbd] bg-white hover:bg-[#a20025] hover:border-[#a20025] transition-all text-[#1a1b22] hover:text-white shadow-xs cursor-pointer rounded-lg"
               title="Return to Celebrations Directory"
             >
               <span className="material-symbols-outlined text-[18px] text-[#a20025] group-hover:text-white transition-colors">
                 logout
               </span>
-              <span className="text-xs uppercase tracking-wider font-semibold">
+              <span className="text-xs uppercase tracking-wider font-semibold hidden md:inline">
                 Exit Sanctuary
               </span>
             </button>

@@ -646,15 +646,16 @@ export default function AdminDashboardPage() {
 
                     {/* Couple Name & Details Overlay */}
                     <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                      <div>
+                      <Link href={`/marriage/${vault.marriageCode}/vault`} className="group/title">
                         <span className="text-white/80 text-[11px] uppercase tracking-wider block font-medium">
                           {vault.venue}
                         </span>
-                        <h2 className="text-white font-serif text-2xl tracking-tight font-normal">
-                          {vault.coupleName}
+                        <h2 className="text-white font-serif text-2xl tracking-tight font-normal group-hover/title:text-rose-200 transition-colors flex items-center gap-1.5">
+                          <span>{vault.coupleName}</span>
+                          <span className="material-symbols-outlined text-[18px] opacity-0 group-hover/title:opacity-100 transition-opacity">open_in_new</span>
                         </h2>
                         <span className="text-white/90 text-xs">{vault.dates}</span>
-                      </div>
+                      </Link>
                     </div>
                   </div>
 
@@ -684,18 +685,30 @@ export default function AdminDashboardPage() {
 
                       {/* Quick Stats Ticker */}
                       <div className="grid grid-cols-3 gap-2 py-2 mb-4 text-center bg-white">
-                        <div className="bg-[#f4f2fc] p-2.5 rounded border border-black/5">
-                          <div className="font-serif text-lg text-[#1a1b22] font-semibold">{vault.totalPhotos}</div>
+                        <Link
+                          href={`/marriage/${vault.marriageCode}/vault`}
+                          title="Open Media Vault (All Photos)"
+                          className="bg-[#f4f2fc] hover:bg-[#ece8f8] p-2.5 rounded border border-black/5 transition-colors block cursor-pointer group/stat"
+                        >
+                          <div className="font-serif text-lg text-[#1a1b22] group-hover/stat:text-[#c81e38] font-semibold">{vault.totalPhotos}</div>
                           <div className="text-[10px] text-[#5f5e60] uppercase font-bold">Photos</div>
-                        </div>
-                        <div className="bg-[#f4f2fc] p-2.5 rounded border border-black/5">
-                          <div className="font-serif text-lg text-[#1a1b22] font-semibold">{vault.totalReels}</div>
+                        </Link>
+                        <Link
+                          href={`/marriage/${vault.marriageCode}/vault`}
+                          title="Open Media Vault (4K Cinema Reels)"
+                          className="bg-[#f4f2fc] hover:bg-[#ece8f8] p-2.5 rounded border border-black/5 transition-colors block cursor-pointer group/stat"
+                        >
+                          <div className="font-serif text-lg text-[#c81e38] font-semibold">{vault.totalReels}</div>
                           <div className="text-[10px] text-[#5f5e60] uppercase font-bold">Reels</div>
-                        </div>
-                        <div className="bg-[#f4f2fc] p-2.5 rounded border border-black/5">
-                          <div className="font-serif text-lg text-[#1a1b22] font-semibold">{vault.totalGuests}</div>
+                        </Link>
+                        <Link
+                          href={`/marriage/${vault.marriageCode}`}
+                          title="View Guest Experience"
+                          className="bg-[#f4f2fc] hover:bg-[#ece8f8] p-2.5 rounded border border-black/5 transition-colors block cursor-pointer group/stat"
+                        >
+                          <div className="font-serif text-lg text-[#1a1b22] group-hover/stat:text-[#c81e38] font-semibold">{vault.totalGuests}</div>
                           <div className="text-[10px] text-[#5f5e60] uppercase font-bold">Guests</div>
-                        </div>
+                        </Link>
                       </div>
                     </div>
 
@@ -725,14 +738,23 @@ export default function AdminDashboardPage() {
                         </button>
                       </div>
 
-                      {/* Admin Instant Photo Dump */}
-                      <button
-                        onClick={() => openUploadModal(vault)}
-                        className="w-full py-3 bg-[#c81e38] hover:bg-[#9a1830] text-white text-xs uppercase tracking-wider font-bold rounded flex items-center justify-center gap-2 shadow-sm hover:shadow transition-all cursor-pointer"
-                      >
-                        <span className="material-symbols-outlined text-[18px]">cloud_upload</span>
-                        <span>Upload &amp; Dump Photos</span>
-                      </button>
+                      {/* Direct Media Vault & Photo Dump Actions */}
+                      <div className="grid grid-cols-2 gap-2">
+                        <Link
+                          href={`/marriage/${vault.marriageCode}/vault`}
+                          className="w-full py-2.5 bg-[#1a1b22] hover:bg-black text-white text-xs uppercase tracking-wider font-bold rounded flex items-center justify-center gap-1.5 shadow-sm transition-all text-center"
+                        >
+                          <span className="material-symbols-outlined text-[16px] text-rose-300">movie</span>
+                          <span>Media Vault</span>
+                        </Link>
+                        <button
+                          onClick={() => openUploadModal(vault)}
+                          className="w-full py-2.5 bg-[#c81e38] hover:bg-[#9a1830] text-white text-xs uppercase tracking-wider font-bold rounded flex items-center justify-center gap-1.5 shadow-sm hover:shadow transition-all cursor-pointer"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">cloud_upload</span>
+                          <span>Dump Photos</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </article>
